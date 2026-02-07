@@ -27,3 +27,4 @@ Thumbs.db
 
 # Debug
 npm-debug.log*
+venv2/
