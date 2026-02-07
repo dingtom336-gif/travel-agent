@@ -4,9 +4,8 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-import anthropic
-
 from agent.config.settings import get_settings
+from agent.llm import llm_chat
 
 logger = logging.getLogger(__name__)
 
@@ -28,21 +27,18 @@ async def classify_complexity(
 ) -> str:
   """Return 'simple' or 'complex' for the given message.
 
-  Falls back to keyword heuristic when Claude is unavailable.
+  Falls back to keyword heuristic when LLM is unavailable.
   """
-  settings = get_settings()
-  if not settings.ANTHROPIC_API_KEY:
-    return _heuristic_classify(user_message)
-
   try:
-    client = anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
-    response = await client.messages.create(
-      model=settings.CLAUDE_MODEL,
-      max_tokens=16,
+    text = await llm_chat(
       system=ROUTER_SYSTEM_PROMPT,
       messages=[{"role": "user", "content": user_message}],
+      max_tokens=16,
+      temperature=0.1,
     )
-    result = response.content[0].text.strip().lower()
+    if text is None:
+      return _heuristic_classify(user_message)
+    result = text.strip().lower()
     if result in ("simple", "complex"):
       return result
     return "complex"  # default to complex if unclear

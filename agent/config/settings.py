@@ -1,8 +1,13 @@
 # Application settings powered by pydantic-settings
 from functools import lru_cache
+from pathlib import Path
 from typing import List
 
 from pydantic_settings import BaseSettings
+
+# Resolve .env relative to project root (two levels up from this file)
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+_ENV_FILE = _PROJECT_ROOT / ".env"
 
 
 class Settings(BaseSettings):
@@ -13,10 +18,14 @@ class Settings(BaseSettings):
   APP_VERSION: str = "0.1.0"
   DEBUG: bool = True
 
-  # --- AI ---
+  # --- AI (DeepSeek – OpenAI-compatible API) ---
+  DEEPSEEK_API_KEY: str = ""
+  DEEPSEEK_BASE_URL: str = "https://api.deepseek.com"
+  DEEPSEEK_MODEL: str = "deepseek-chat"
+  LLM_MAX_TOKENS: int = 4096
+
+  # Legacy – kept for compatibility checks
   ANTHROPIC_API_KEY: str = ""
-  CLAUDE_MODEL: str = "claude-sonnet-4-20250514"
-  CLAUDE_MAX_TOKENS: int = 4096
 
   # --- Infra (not used yet, placeholders) ---
   REDIS_URL: str = "redis://localhost:6379/0"
@@ -29,7 +38,7 @@ class Settings(BaseSettings):
   MAX_SESSION_TURNS: int = 20
 
   model_config = {
-    "env_file": ".env",
+    "env_file": str(_ENV_FILE),
     "env_file_encoding": "utf-8",
     "extra": "ignore",
   }

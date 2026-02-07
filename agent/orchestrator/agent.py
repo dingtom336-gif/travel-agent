@@ -8,9 +8,8 @@ import uuid
 from collections.abc import AsyncGenerator
 from typing import Any
 
-import anthropic
-
 from agent.config.settings import get_settings
+from agent.llm import llm_chat
 from agent.memory.profile import profile_manager
 from agent.memory.session import session_memory
 from agent.memory.state_pool import state_pool
@@ -364,14 +363,7 @@ class OrchestratorAgent:
     history: list[dict[str, Any]],
     personalization_ctx: str = "",
   ) -> str:
-    """Quick Claude call for simple messages."""
-    settings = get_settings()
-    if not settings.ANTHROPIC_API_KEY:
-      return (
-        "[MOCK] Hi! I'm TravelMind, your AI travel planning assistant. "
-        "I can help you plan trips, find flights, hotels, attractions, and more. "
-        "Where would you like to go?"
-      )
+    """Quick LLM call for simple messages."""
     try:
       # Inject personalization context into system prompt
       system_prompt = ORCHESTRATOR_SYSTEM_PROMPT
@@ -382,16 +374,20 @@ class OrchestratorAgent:
         )
 
       messages = self._build_messages(history)
-      client = anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
-      response = await client.messages.create(
-        model=settings.CLAUDE_MODEL,
-        max_tokens=1024,
+      result = await llm_chat(
         system=system_prompt,
         messages=messages,
+        max_tokens=1024,
       )
-      return response.content[0].text
+      if result is None:
+        return (
+          "[MOCK] Hi! I'm TravelMind, your AI travel planning assistant. "
+          "I can help you plan trips, find flights, hotels, attractions, and more. "
+          "Where would you like to go?"
+        )
+      return result
     except Exception as exc:
-      logger.warning("Simple Claude call failed: %s", exc)
+      logger.warning("Simple LLM call failed: %s", exc)
       return (
         "[MOCK] Hi! I'm TravelMind. I'm here to help you plan your perfect trip. "
         "What destination are you considering?"
@@ -424,39 +420,32 @@ class OrchestratorAgent:
       "Use markdown. Respond in the same language as the user."
     )
 
-    if not settings.ANTHROPIC_API_KEY:
-      return f"[MOCK] Here is your travel plan based on our analysis:\n\n{combined}"
-
     try:
-      client = anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
-      response = await client.messages.create(
-        model=settings.CLAUDE_MODEL,
-        max_tokens=settings.CLAUDE_MAX_TOKENS,
+      result = await llm_chat(
         system=ORCHESTRATOR_SYSTEM_PROMPT,
         messages=[{"role": "user", "content": synthesis_prompt}],
+        max_tokens=settings.LLM_MAX_TOKENS,
       )
-      return response.content[0].text
+      if result is None:
+        return f"[MOCK] Here is your travel plan based on our analysis:\n\n{combined}"
+      return result
     except Exception as exc:
-      logger.warning("Synthesis Claude call failed: %s", exc)
+      logger.warning("Synthesis LLM call failed: %s", exc)
       return f"[MOCK] Here is your travel plan:\n\n{combined}"
 
   async def _extract_state(self, session_id: str, message: str) -> None:
     """Try to extract travel parameters from the user message."""
-    settings = get_settings()
-    if not settings.ANTHROPIC_API_KEY:
-      # Keyword-based fallback extraction
-      self._heuristic_extract(session_id, message)
-      return
-
     try:
-      client = anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
-      response = await client.messages.create(
-        model=settings.CLAUDE_MODEL,
-        max_tokens=512,
+      text = await llm_chat(
         system=STATE_EXTRACTION_PROMPT,
         messages=[{"role": "user", "content": message}],
+        max_tokens=512,
+        temperature=0.1,
       )
-      text = response.content[0].text.strip()
+      if text is None:
+        self._heuristic_extract(session_id, message)
+        return
+      text = text.strip()
       if text.startswith("```"):
         text = text.split("\n", 1)[1].rsplit("```", 1)[0].strip()
       data = json.loads(text)

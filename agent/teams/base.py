@@ -6,9 +6,8 @@ import time
 from abc import ABC, abstractmethod
 from typing import Any, Callable, Dict
 
-import anthropic
-
 from agent.config.settings import get_settings
+from agent.llm import llm_chat
 from agent.models import AgentName, AgentResult, AgentTask, TaskStatus
 
 logger = logging.getLogger(__name__)
@@ -83,20 +82,17 @@ class BaseAgent(ABC):
     user_message: str,
     max_tokens: int | None = None,
   ) -> str:
-    """Call Claude API. Falls back to a mock response when key is missing."""
+    """Call LLM API. Falls back to a mock response when key is missing."""
     settings = get_settings()
-    if not settings.ANTHROPIC_API_KEY:
-      return self._mock_response(user_message)
-
     try:
-      client = anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
-      response = await client.messages.create(
-        model=settings.CLAUDE_MODEL,
-        max_tokens=max_tokens or settings.CLAUDE_MAX_TOKENS,
+      result = await llm_chat(
         system=system_prompt,
         messages=[{"role": "user", "content": user_message}],
+        max_tokens=max_tokens or settings.LLM_MAX_TOKENS,
       )
-      return response.content[0].text
+      if result is None:
+        return self._mock_response(user_message)
+      return result
     except Exception as exc:
       return self._mock_response(user_message, error=str(exc))
 

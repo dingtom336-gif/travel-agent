@@ -5,9 +5,8 @@ import json
 import logging
 from typing import Any
 
-import anthropic
-
 from agent.config.settings import get_settings
+from agent.llm import llm_chat
 from agent.models import AgentName, AgentTask
 
 logger = logging.getLogger(__name__)
@@ -91,11 +90,7 @@ async def _call_planner(
   state_context: str,
   conversation_history: list[dict[str, Any]] | None,
 ) -> list[dict[str, Any]]:
-  """Invoke Claude or return mock plan."""
-  if not settings.ANTHROPIC_API_KEY:
-    logger.info("No API key – returning mock plan")
-    return MOCK_PLAN
-
+  """Invoke LLM or return mock plan."""
   try:
     prompt_parts = []
     if state_context:
@@ -109,20 +104,22 @@ async def _call_planner(
     prompt_parts.append(f"User message: {user_message}")
     full_prompt = "\n\n".join(prompt_parts)
 
-    client = anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
-    response = await client.messages.create(
-      model=settings.CLAUDE_MODEL,
-      max_tokens=2048,
+    text = await llm_chat(
       system=PLANNER_SYSTEM_PROMPT,
       messages=[{"role": "user", "content": full_prompt}],
+      max_tokens=2048,
+      temperature=0.3,
     )
-    text = response.content[0].text.strip()
+    if text is None:
+      logger.info("No API key – returning mock plan")
+      return MOCK_PLAN
+    text = text.strip()
     # Extract JSON from possible markdown fences
     if text.startswith("```"):
       text = text.split("\n", 1)[1].rsplit("```", 1)[0].strip()
     return json.loads(text)
   except Exception as exc:
-    logger.warning("Planner Claude call failed: %s – using mock plan", exc)
+    logger.warning("Planner LLM call failed: %s – using mock plan", exc)
     return MOCK_PLAN
 
 
