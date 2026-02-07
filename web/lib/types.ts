@@ -1,6 +1,21 @@
 // Message roles
 export type MessageRole = "user" | "assistant" | "system";
 
+// UI component payload types for Generative UI cards
+export type UIComponentType =
+  | "flight_card"
+  | "hotel_card"
+  | "poi_card"
+  | "weather_card"
+  | "timeline_card";
+
+// A single UI payload item attached to a message
+export interface UIPayload {
+  type: UIComponentType;
+  data: Record<string, unknown>;
+  status?: "loading" | "loaded" | "error";
+}
+
 // Single chat message
 export interface ChatMessage {
   id: string;
@@ -8,6 +23,7 @@ export interface ChatMessage {
   content: string;
   timestamp: Date;
   isStreaming?: boolean;
+  uiPayloads?: UIPayload[];
 }
 
 // Agent status during processing
@@ -17,11 +33,11 @@ export interface AgentStatus {
   status: "running" | "done" | "error";
 }
 
-// SSE event types from backend
+// SSE event types from backend (aligned with agent/models.py SSEEventType)
 export type SSEEventType =
   | "thinking"
   | "agent_start"
-  | "agent_done"
+  | "agent_result"
   | "text"
   | "ui_component"
   | "error"
@@ -108,4 +124,46 @@ export interface TimelineDayData {
   date: string;
   title: string;
   items: TimelineItem[];
+}
+
+// Budget expense category
+export type BudgetCategory =
+  | "transport"
+  | "accommodation"
+  | "food"
+  | "ticket"
+  | "other";
+
+// Single budget item
+export interface BudgetItem {
+  id: string;
+  category: BudgetCategory;
+  name: string;
+  amount: number;
+  currency: string;
+  day?: number;
+  note?: string;
+}
+
+// Budget summary data
+export interface BudgetSummary {
+  totalBudget: number;
+  totalSpent: number;
+  currency: string;
+  items: BudgetItem[];
+}
+
+// Full itinerary data
+export interface ItineraryData {
+  id: string;
+  title: string;
+  destination: string;
+  startDate: string;
+  endDate: string;
+  travelers: number;
+  totalBudget: number;
+  currency: string;
+  status: "draft" | "confirmed" | "in_progress" | "completed";
+  days: TimelineDayData[];
+  budget: BudgetSummary;
 }

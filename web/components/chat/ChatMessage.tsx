@@ -1,6 +1,19 @@
 "use client";
 
-import { ChatMessage as ChatMessageType } from "@/lib/types";
+import {
+  ChatMessage as ChatMessageType,
+  UIPayload,
+  FlightData,
+  HotelData,
+  POIData,
+  WeatherData,
+  TimelineDayData,
+} from "@/lib/types";
+import FlightCard from "@/components/cards/FlightCard";
+import HotelCard from "@/components/cards/HotelCard";
+import POICard from "@/components/cards/POICard";
+import WeatherCard from "@/components/cards/WeatherCard";
+import TimelineCard from "@/components/cards/TimelineCard";
 
 interface ChatMessageProps {
   message: ChatMessageType;
@@ -32,25 +45,63 @@ export default function ChatMessage({ message }: ChatMessageProps) {
           {isUser ? "你" : "AI"}
         </div>
 
-        {/* Message bubble */}
-        <div
-          className={`rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-            isUser
-              ? "bg-bubble-user text-white"
-              : "bg-bubble-ai text-card-foreground"
-          } ${message.isStreaming ? "cursor-blink" : ""}`}
-        >
-          {isUser ? (
-            <p className="whitespace-pre-wrap">{message.content}</p>
-          ) : (
-            <div className="prose-sm">
-              <SimpleMarkdown content={message.content} />
+        {/* Message bubble + optional UI cards */}
+        <div className="flex flex-col gap-3">
+          <div
+            className={`rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+              isUser
+                ? "bg-bubble-user text-white"
+                : "bg-bubble-ai text-card-foreground"
+            } ${message.isStreaming ? "cursor-blink" : ""}`}
+          >
+            {isUser ? (
+              <p className="whitespace-pre-wrap">{message.content}</p>
+            ) : (
+              <div className="prose-sm">
+                <SimpleMarkdown content={message.content} />
+              </div>
+            )}
+          </div>
+
+          {/* Render UI component cards after the text bubble */}
+          {!isUser && message.uiPayloads && message.uiPayloads.length > 0 && (
+            <div className="flex flex-col gap-3">
+              {message.uiPayloads.map((payload, idx) => (
+                <UICard key={`ui-${idx}`} payload={payload} />
+              ))}
             </div>
           )}
         </div>
       </div>
     </div>
   );
+}
+
+/**
+ * Render a single UI card based on payload type.
+ */
+function UICard({ payload }: { payload: UIPayload }) {
+  // Show loading skeleton if status is loading
+  if (payload.status === "loading") {
+    return (
+      <div className="h-32 w-full animate-pulse rounded-xl bg-muted" />
+    );
+  }
+
+  switch (payload.type) {
+    case "flight_card":
+      return <FlightCard data={payload.data as unknown as FlightData} />;
+    case "hotel_card":
+      return <HotelCard data={payload.data as unknown as HotelData} />;
+    case "poi_card":
+      return <POICard data={payload.data as unknown as POIData} />;
+    case "weather_card":
+      return <WeatherCard data={payload.data as unknown as WeatherData} />;
+    case "timeline_card":
+      return <TimelineCard data={payload.data as unknown as TimelineDayData} />;
+    default:
+      return null;
+  }
 }
 
 /**

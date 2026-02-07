@@ -3,8 +3,29 @@ import { ChatRequest, SSEEvent, SSEEventType } from "./types";
 // Backend agent service base URL
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
+// Connection timeout for SSE requests (ms)
+const STREAM_TIMEOUT_MS = 120_000;
+
 // Callback for handling SSE events
 export type SSECallback = (event: SSEEvent) => void;
+
+/**
+ * Check if the backend service is reachable.
+ * Returns true if /health responds within 3s, false otherwise.
+ */
+export async function checkBackendHealth(): Promise<boolean> {
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 3000);
+    const res = await fetch(`${API_BASE_URL}/health`, {
+      signal: controller.signal,
+    });
+    clearTimeout(timer);
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Send a chat message and handle streaming SSE response.
@@ -16,14 +37,28 @@ export async function chatStream(
   signal?: AbortSignal
 ): Promise<void> {
   try {
+    // Combine user-provided abort signal with a timeout signal
+    const timeoutController = new AbortController();
+    const timeoutId = setTimeout(
+      () => timeoutController.abort(),
+      STREAM_TIMEOUT_MS
+    );
+
+    const combinedSignal = signal
+      ? combineAbortSignals(signal, timeoutController.signal)
+      : timeoutController.signal;
+
     const response = await fetch(`${API_BASE_URL}/api/chat/stream`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(request),
-      signal,
+      signal: combinedSignal,
     });
+
+    // Clear timeout once we get a response header
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`HTTP error: ${response.status} ${response.statusText}`);
@@ -121,4 +156,22 @@ export async function getItinerary(id: string): Promise<unknown | null> {
     console.error("Failed to fetch itinerary:", error);
     return null;
   }
+}
+
+/**
+ * Combine multiple AbortSignals into one.
+ * The combined signal aborts when any of the input signals aborts.
+ */
+function combineAbortSignals(...signals: AbortSignal[]): AbortSignal {
+  const controller = new AbortController();
+  for (const sig of signals) {
+    if (sig.aborted) {
+      controller.abort(sig.reason);
+      return controller.signal;
+    }
+    sig.addEventListener("abort", () => controller.abort(sig.reason), {
+      once: true,
+    });
+  }
+  return controller.signal;
 }
