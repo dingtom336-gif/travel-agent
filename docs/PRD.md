@@ -296,6 +296,8 @@ travel-agent/
 │   ├── main.py                   # FastAPI 入口
 │   ├── orchestrator/             # 主控 Agent
 │   │   ├── agent.py              # Orchestrator 核心逻辑
+│   │   ├── context.py            # 记忆压缩（近2轮原文+旧对话摘要）
+│   │   ├── state_extractor.py    # 旅行参数提取（LLM+启发式）
 │   │   ├── planner.py            # 任务拆解 (Decomposition)
 │   │   ├── reflector.py          # 自我反思 (Reflection)
 │   │   └── router.py             # 模型路由策略

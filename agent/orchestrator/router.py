@@ -30,9 +30,19 @@ async def classify_complexity(
   Falls back to keyword heuristic when LLM is unavailable.
   """
   try:
+    # Include recent history so the LLM can tell follow-ups from new requests
+    if conversation_history:
+      recent = conversation_history[-4:]
+      context = "\n".join(
+        f'{m["role"]}: {m["content"][:150]}' for m in recent
+      )
+      prompt = f"Context:\n{context}\n\nLatest message: {user_message}"
+    else:
+      prompt = user_message
+
     text = await llm_chat(
       system=ROUTER_SYSTEM_PROMPT,
-      messages=[{"role": "user", "content": user_message}],
+      messages=[{"role": "user", "content": prompt}],
       max_tokens=16,
       temperature=0.1,
     )

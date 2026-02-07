@@ -32,6 +32,7 @@ Rules:
 3. Tasks without dependencies can run in parallel.
 4. The "itinerary" agent usually depends on transport, poi, hotel results.
 5. If the user's message is a simple greeting or chit-chat, return an empty array [].
+6. If the user's message is a follow-up adding new info (e.g., "from Shanghai"), only plan tasks for the new/changed aspects. Reuse previous results where possible. Do NOT re-plan everything from scratch.
 
 Respond ONLY with the JSON array, no extra text."""
 

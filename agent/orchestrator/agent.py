@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import asyncio
-import json
 import logging
 import uuid
 from collections.abc import AsyncGenerator
@@ -21,8 +20,10 @@ from agent.models import (
   SSEMessage,
   TaskStatus,
 )
+from agent.orchestrator.context import build_context_with_summary, build_messages
 from agent.orchestrator.planner import decompose_tasks
 from agent.orchestrator.router import classify_complexity
+from agent.orchestrator.state_extractor import extract_state
 from agent.teams.base import BaseAgent
 from agent.teams.budget import BudgetAgent
 from agent.teams.customer_service import CustomerServiceAgent
@@ -56,13 +57,9 @@ When responding:
 - If the user greets you, respond naturally and ask how you can help with travel planning.
 - If you receive results from specialist agents, synthesize them into a coherent, well-structured response.
 - Use markdown formatting for readability.
-- Always be encouraging and proactive in gathering travel preferences."""
-
-STATE_EXTRACTION_PROMPT = """Extract travel parameters from the user message into a JSON object.
-Only include fields that are explicitly mentioned. Use null for unmentioned fields.
-Fields: destination, origin, start_date, end_date, duration_days, travelers, budget, preferences (object), constraints (array of strings).
-Return ONLY valid JSON, no other text."""
-
+- Always be encouraging and proactive in gathering travel preferences.
+- **Conversation continuity**: Treat each message as a continuation of the conversation. If the user provides new info (like "from Shanghai"), UPDATE your previous advice rather than starting over. Reference what was discussed before.
+- **Smart clarification**: If the user's request lacks critical info that you cannot reasonably infer from context, naturally weave 1-2 clarifying questions into your response. But if you can make reasonable assumptions (e.g., budget range, travel style), just proceed and mention your assumptions. Never ask more than 2 questions at once. Never ask about things you can figure out yourself."""
 
 class OrchestratorAgent:
   """Central agent that drives the ReAct loop and coordinates specialist agents."""
@@ -92,7 +89,7 @@ class OrchestratorAgent:
         data={"agent": "orchestrator", "thought": "Analyzing your request..."},
       ).format()
 
-      await self._extract_state(session_id, message)
+      await extract_state(session_id, message)
 
       # Step 2: Route – simple or complex?
       history = session_memory.get_history(session_id)
@@ -384,7 +381,12 @@ class OrchestratorAgent:
           "Use the above user preferences to personalize your response."
         )
 
-      messages = self._build_messages(history)
+      # Build messages with compressed history for context continuity
+      context_summary = await build_context_with_summary(history)
+      if context_summary and len(history) > 4:
+        system_prompt += f"\n\n--- Conversation Context ---\n{context_summary}"
+
+      messages = build_messages(history)
       result = await llm_chat(
         system=system_prompt,
         messages=messages,
@@ -423,12 +425,21 @@ class OrchestratorAgent:
       )
     combined = "\n\n".join(result_summaries)
 
+    # Inject conversation context for continuity
+    context_summary = await build_context_with_summary(history)
+    context_block = ""
+    if context_summary:
+      context_block = f"Conversation context:\n{context_summary}\n\n"
+
     synthesis_prompt = (
-      f"User request: {user_message}\n\n"
-      f"Travel state:\n{state_ctx}\n\n"
+      f"{context_block}"
+      f"Latest user message: {user_message}\n\n"
+      f"Current travel parameters:\n{state_ctx}\n\n"
       f"Agent results:\n{combined}\n\n"
-      "Synthesize these results into a coherent, well-structured travel plan. "
-      "Use markdown. Respond in the same language as the user."
+      "Synthesize a coherent, well-structured response. "
+      "If this is a follow-up, UPDATE the plan with new info, don't restart. "
+      "If critical info is missing and cannot be inferred, naturally ask 1-2 questions in your response. "
+      "Use markdown. Respond in the user's language."
     )
 
     try:
@@ -444,61 +455,6 @@ class OrchestratorAgent:
       logger.warning("Synthesis LLM call failed: %s", exc)
       return f"[MOCK] Here is your travel plan:\n\n{combined}"
 
-  async def _extract_state(self, session_id: str, message: str) -> None:
-    """Try to extract travel parameters from the user message."""
-    try:
-      text = await llm_chat(
-        system=STATE_EXTRACTION_PROMPT,
-        messages=[{"role": "user", "content": message}],
-        max_tokens=512,
-        temperature=0.1,
-      )
-      if text is None:
-        self._heuristic_extract(session_id, message)
-        return
-      text = text.strip()
-      if text.startswith("```"):
-        text = text.split("\n", 1)[1].rsplit("```", 1)[0].strip()
-      data = json.loads(text)
-      # Remove null values
-      clean = {k: v for k, v in data.items() if v is not None}
-      if clean:
-        state_pool.update_from_dict(session_id, clean)
-    except Exception as exc:
-      logger.warning("State extraction failed: %s – using heuristic", exc)
-      self._heuristic_extract(session_id, message)
-
-  def _heuristic_extract(self, session_id: str, message: str) -> None:
-    """Fallback keyword extraction for state slots."""
-    # Very basic extraction for demo purposes
-    updates: dict[str, Any] = {}
-    # Destination patterns (Chinese cities / countries)
-    destinations = [
-      "日本", "东京", "大阪", "京都", "泰国", "曼谷", "韩国", "首尔",
-      "新加坡", "马来西亚", "北京", "上海", "广州", "深圳", "成都",
-      "三亚", "丽江", "西安", "杭州", "重庆",
-    ]
-    for dest in destinations:
-      if dest in message:
-        updates["destination"] = dest
-        break
-    # Duration
-    for i in range(1, 31):
-      if f"{i}天" in message or f"{i}日" in message:
-        updates["duration_days"] = i
-        break
-    # Budget
-    import re
-    budget_match = re.search(r"(\d+)[万元块]", message)
-    if budget_match:
-      num = int(budget_match.group(1))
-      if "万" in message[budget_match.start():budget_match.end() + 1]:
-        num *= 10000
-      updates["budget"] = f"{num}元"
-
-    if updates:
-      state_pool.update_from_dict(session_id, updates)
-
   def _learn_from_session_safe(
     self,
     user_id: str,
@@ -510,20 +466,6 @@ class OrchestratorAgent:
     except Exception as exc:
       logger.warning("Profile learning failed (non-fatal): %s", exc)
 
-  def _build_messages(
-    self,
-    history: list[dict[str, Any]],
-  ) -> list[dict[str, str]]:
-    """Convert session history to Claude message format."""
-    messages: list[dict[str, str]] = []
-    for msg in history[-10:]:  # last 5 turns
-      role = msg["role"]
-      if role in ("user", "assistant"):
-        messages.append({"role": role, "content": msg["content"]})
-    # Ensure messages start with user
-    if messages and messages[0]["role"] != "user":
-      messages = messages[1:]
-    return messages if messages else [{"role": "user", "content": "hello"}]
 
 
 # Singleton

@@ -18,5 +18,7 @@ def mock_llm(monkeypatch):
     monkeypatch.setattr("agent.orchestrator.agent.llm_chat", fake)
     monkeypatch.setattr("agent.orchestrator.planner.llm_chat", fake, raising=False)
     monkeypatch.setattr("agent.orchestrator.router.llm_chat", fake, raising=False)
+    monkeypatch.setattr("agent.orchestrator.context.llm_chat", fake, raising=False)
+    monkeypatch.setattr("agent.orchestrator.state_extractor.llm_chat", fake, raising=False)
     monkeypatch.setattr("agent.teams.base.llm_chat", fake, raising=False)
     return fake

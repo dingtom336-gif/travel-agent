@@ -15,7 +15,7 @@ if [ -z "$FILE_PATH" ]; then
 fi
 
 # SSE-related files → run protocol + pipeline tests
-if echo "$FILE_PATH" | grep -qE "(models|main|orchestrator/agent)\.py$"; then
+if echo "$FILE_PATH" | grep -qE "(models|main|orchestrator/(agent|context|state_extractor))\.py$"; then
   echo "🧪 SSE file changed → running protocol tests..."
   cd "$PROJECT_ROOT"
   $VENV_PYTEST tests/test_sse_format.py tests/test_sse_pipeline.py -q --tb=short 2>&1 | tail -5
