@@ -1,5 +1,5 @@
 ## 当前状态
-**项目 MVP 完成。** Wave 1-8 全部完成。前端 4 个页面 + 17 个组件，后端 Orchestrator + 8 Agent + 12 工具 + 记忆系统 + 模拟演练。端到端自测通过（next build ✓ / uvicorn ✓ / 20 模块 ✓ / 6 API ✓）。
+**项目 MVP 完成 + DeepSeek 集成。** Wave 1-8 全部完成。前端 4 个页面 + 17 个组件，后端 Orchestrator + 8 Agent + 12 工具 + 记忆系统 + 模拟演练。已集成 DeepSeek API（OpenAI 兼容协议），真实对话验证通过。
 
 ## 最近操作记录
 | # | 时间 | 操作摘要 | 类型 |
@@ -21,6 +21,7 @@
 | 15 | 2026-02-07 | 交互式地图组件：Leaflet+OpenStreetMap，26个POI坐标，日期筛选，路线连线，点击弹窗 | 🖥️终端 |
 | 16 | 2026-02-07 | UI审查修复：暗色模式(StatusBadge/WeatherCard/FlightCard) + 无障碍(aria-live/aria-hidden/focus-visible) + 响应式地图 | 🖥️终端 |
 | 17 | 2026-02-07 | 端到端自测：next build ✓ / uvicorn启动 ✓ / 20模块导入 ✓ / 6 API端点 ✓ | 🖥️终端 |
+| 18 | 2026-02-07 | 集成 DeepSeek API：统一 LLM 客户端 + 替换 6 个 Anthropic 调用点 + 真实对话验证通过 | 🖥️终端 |
 
 ## 未完成事项
 - [x] 前端首页 + 对话页开发
@@ -43,7 +44,8 @@
 - 前端：Next.js 16.1.6 (App Router) + TypeScript + Tailwind CSS v4
 - Agent 服务：Python 3.9.6 + FastAPI
 - Python 虚拟环境：`agent/venv2/`（venv 已废弃，路径不对）
-- AI 引擎：Claude API（需在 .env 配置 ANTHROPIC_API_KEY）
+- AI 引擎：DeepSeek API（OpenAI 兼容协议，.env 配置 DEEPSEEK_API_KEY）
+- LLM 客户端：`agent/llm/client.py`（统一封装，支持任意 OpenAI 兼容服务）
 - 数据库：PostgreSQL + Redis（待部署）
 - 前端启动：`cd web && npm run dev`
 - Agent 启动：`./agent/venv2/bin/uvicorn agent.main:app --reload --port 8000`
