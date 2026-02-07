@@ -109,6 +109,13 @@ export interface WeatherData {
   suggestion: string;
 }
 
+// Geographic coordinates
+export interface GeoLocation {
+  lat: number;
+  lng: number;
+  label?: string;
+}
+
 // Timeline item data
 export interface TimelineItem {
   time: string;
@@ -116,6 +123,7 @@ export interface TimelineItem {
   description: string;
   type: "transport" | "attraction" | "hotel" | "food" | "activity";
   duration?: string;
+  location?: GeoLocation;
 }
 
 // Timeline day data

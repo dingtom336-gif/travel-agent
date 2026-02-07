@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import TimelineCard from "@/components/cards/TimelineCard";
 import BudgetChart from "@/components/cards/BudgetChart";
+import MapWrapper from "@/components/map/MapWrapper";
 import { mockItinerary } from "@/lib/mock-itinerary";
 import { TimelineDayData } from "@/lib/types";
 
@@ -186,7 +187,7 @@ export default function ItineraryPage() {
             onCollapseAll={collapseAll}
           />
         )}
-        {activeTab === "map" && <MapPlaceholder />}
+        {activeTab === "map" && <MapWrapper days={itinerary.days} />}
         {activeTab === "budget" && <BudgetChart data={itinerary.budget} />}
       </div>
 
@@ -324,35 +325,6 @@ function TimelineView({
           </div>
         );
       })}
-    </div>
-  );
-}
-
-/** Map placeholder view */
-function MapPlaceholder() {
-  return (
-    <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-muted/30 px-6 py-20">
-      <svg
-        className="mb-4 h-16 w-16 text-muted-foreground/50"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth="1"
-        stroke="currentColor"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"
-        />
-      </svg>
-      <h3 className="mb-2 text-lg font-semibold text-card-foreground">
-        地图功能开发中
-      </h3>
-      <p className="max-w-md text-center text-sm text-muted-foreground">
-        地图视图将展示全行程路线、POI 标注和交通连线。
-        <br />
-        敬请期待后续版本更新。
-      </p>
     </div>
   );
 }

@@ -25,6 +25,7 @@ export const mockItinerary: ItineraryData = {
           description: "春秋航空 9C8515，飞行约3小时",
           type: "transport",
           duration: "3h",
+          location: { lat: 35.7647, lng: 140.3864, label: "成田国际机场" },
         },
         {
           time: "12:00",
@@ -32,12 +33,14 @@ export const mockItinerary: ItineraryData = {
           description: "乘坐成田特快 N'EX 前往新宿站",
           type: "transport",
           duration: "1.5h",
+          location: { lat: 35.6896, lng: 139.7006, label: "新宿站" },
         },
         {
           time: "14:00",
           title: "入住新宿华盛顿酒店",
           description: "标准双床房，步行5分钟到新宿站",
           type: "hotel",
+          location: { lat: 35.6878, lng: 139.6977, label: "新宿华盛顿酒店" },
         },
         {
           time: "15:30",
@@ -45,6 +48,7 @@ export const mockItinerary: ItineraryData = {
           description: "日本代表性庭院，樱花季节绝佳观赏地",
           type: "attraction",
           duration: "2h",
+          location: { lat: 35.6852, lng: 139.7100, label: "新宿御苑" },
         },
         {
           time: "18:00",
@@ -52,6 +56,7 @@ export const mockItinerary: ItineraryData = {
           description: "一蘭拉面新宿店，体验正宗豚骨拉面",
           type: "food",
           duration: "1h",
+          location: { lat: 35.6938, lng: 139.7034, label: "歌舞伎町" },
         },
       ],
     },
@@ -66,6 +71,7 @@ export const mockItinerary: ItineraryData = {
           description: "新鲜海鲜丼饭和玉子烧",
           type: "food",
           duration: "1h",
+          location: { lat: 35.6654, lng: 139.7707, label: "筑地场外市场" },
         },
         {
           time: "09:30",
@@ -73,6 +79,7 @@ export const mockItinerary: ItineraryData = {
           description: "东京最古老的寺庙，雷门打卡必到",
           type: "attraction",
           duration: "2h",
+          location: { lat: 35.7148, lng: 139.7967, label: "浅草寺" },
         },
         {
           time: "12:00",
@@ -80,6 +87,7 @@ export const mockItinerary: ItineraryData = {
           description: "634米高塔，远眺东京全景",
           type: "attraction",
           duration: "1.5h",
+          location: { lat: 35.7101, lng: 139.8107, label: "东京晴空塔" },
         },
         {
           time: "14:00",
@@ -87,6 +95,7 @@ export const mockItinerary: ItineraryData = {
           description: "二次元圣地，电子产品和动漫周边",
           type: "activity",
           duration: "2h",
+          location: { lat: 35.7023, lng: 139.7745, label: "秋叶原" },
         },
         {
           time: "17:00",
@@ -94,6 +103,7 @@ export const mockItinerary: ItineraryData = {
           description: "世界最繁忙路口，体验东京脉搏",
           type: "attraction",
           duration: "1h",
+          location: { lat: 35.6580, lng: 139.7016, label: "涩谷十字路口" },
         },
         {
           time: "18:30",
@@ -101,6 +111,7 @@ export const mockItinerary: ItineraryData = {
           description: "叙叙苑烤肉，黑毛和牛套餐",
           type: "food",
           duration: "1.5h",
+          location: { lat: 35.6595, lng: 139.6983, label: "叙叙苑涩谷店" },
         },
       ],
     },
@@ -115,6 +126,7 @@ export const mockItinerary: ItineraryData = {
           description: "新宿华盛顿酒店自助早餐",
           type: "food",
           duration: "1h",
+          location: { lat: 35.6878, lng: 139.6977, label: "新宿华盛顿酒店" },
         },
         {
           time: "09:00",
@@ -122,12 +134,14 @@ export const mockItinerary: ItineraryData = {
           description: "新干线 Nozomi 号，东海道新干线",
           type: "transport",
           duration: "2.5h",
+          location: { lat: 34.7334, lng: 135.5001, label: "新大阪站" },
         },
         {
           time: "12:00",
           title: "入住大阪难波东方酒店",
           description: "步行3分钟到道顿堀，地理位置绝佳",
           type: "hotel",
+          location: { lat: 34.6672, lng: 135.5013, label: "难波东方酒店" },
         },
         {
           time: "13:00",
@@ -135,6 +149,7 @@ export const mockItinerary: ItineraryData = {
           description: "章鱼小丸子、大阪烧、串炸，一网打尽",
           type: "food",
           duration: "2h",
+          location: { lat: 34.6687, lng: 135.5025, label: "道顿堀" },
         },
         {
           time: "15:30",
@@ -142,6 +157,7 @@ export const mockItinerary: ItineraryData = {
           description: "大阪最大的购物区，药妆店集中地",
           type: "activity",
           duration: "2.5h",
+          location: { lat: 34.6733, lng: 135.5008, label: "心斋桥" },
         },
         {
           time: "19:00",
@@ -149,6 +165,7 @@ export const mockItinerary: ItineraryData = {
           description: "怀旧小巷中的地道日式居酒屋",
           type: "food",
           duration: "1.5h",
+          location: { lat: 34.6693, lng: 135.5042, label: "法善寺横丁" },
         },
       ],
     },
@@ -163,6 +180,7 @@ export const mockItinerary: ItineraryData = {
           description: "大阪的厨房，新鲜刺身和烤海鲜",
           type: "food",
           duration: "1h",
+          location: { lat: 34.6652, lng: 135.5066, label: "黑门市场" },
         },
         {
           time: "10:00",
@@ -170,6 +188,7 @@ export const mockItinerary: ItineraryData = {
           description: "丰臣秀吉建造的名城，登顶俯瞰大阪",
           type: "attraction",
           duration: "2h",
+          location: { lat: 34.6873, lng: 135.5259, label: "大阪城天守阁" },
         },
         {
           time: "13:00",
@@ -177,6 +196,7 @@ export const mockItinerary: ItineraryData = {
           description: "大阪地标塔，品尝炸串名店",
           type: "attraction",
           duration: "2h",
+          location: { lat: 34.6522, lng: 135.5064, label: "通天阁" },
         },
         {
           time: "15:30",
@@ -184,6 +204,7 @@ export const mockItinerary: ItineraryData = {
           description: "日本第三古老的动物园，亲子好去处",
           type: "attraction",
           duration: "1.5h",
+          location: { lat: 34.6487, lng: 135.5081, label: "天王寺动物园" },
         },
         {
           time: "18:00",
@@ -191,6 +212,7 @@ export const mockItinerary: ItineraryData = {
           description: "173米高空看大阪夜景，浪漫约会圣地",
           type: "attraction",
           duration: "1.5h",
+          location: { lat: 34.7053, lng: 135.4903, label: "梅田空中庭园" },
         },
       ],
     },
@@ -205,6 +227,7 @@ export const mockItinerary: ItineraryData = {
           description: "酒店自助早餐后退房",
           type: "food",
           duration: "1h",
+          location: { lat: 34.6672, lng: 135.5013, label: "难波东方酒店" },
         },
         {
           time: "09:30",
@@ -212,6 +235,7 @@ export const mockItinerary: ItineraryData = {
           description: "大阪版秋叶原，购买伴手礼",
           type: "activity",
           duration: "1.5h",
+          location: { lat: 34.6598, lng: 135.5055, label: "日本桥电器街" },
         },
         {
           time: "11:30",
@@ -219,6 +243,7 @@ export const mockItinerary: ItineraryData = {
           description: "乘坐南海电铁 Rapi:t 特急",
           type: "transport",
           duration: "40min",
+          location: { lat: 34.4320, lng: 135.2304, label: "关西国际机场" },
         },
         {
           time: "14:00",
@@ -226,6 +251,7 @@ export const mockItinerary: ItineraryData = {
           description: "最后的购物机会，白色恋人、ROYCE巧克力",
           type: "activity",
           duration: "1.5h",
+          location: { lat: 34.4320, lng: 135.2304, label: "关西机场免税店" },
         },
         {
           time: "16:30",
@@ -233,6 +259,7 @@ export const mockItinerary: ItineraryData = {
           description: "吉祥航空 HO1338，飞行约2.5小时",
           type: "transport",
           duration: "2.5h",
+          location: { lat: 34.4320, lng: 135.2304, label: "关西国际机场" },
         },
       ],
     },
