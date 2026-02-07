@@ -8,8 +8,8 @@ import { usePathname } from "next/navigation";
 const navLinks = [
   { href: "/", label: "首页" },
   { href: "/chat", label: "AI 对话" },
-  { href: "#", label: "我的行程" },
-  { href: "#", label: "个人中心" },
+  { href: "/profile", label: "我的行程" },
+  { href: "/profile", label: "个人中心" },
 ];
 
 export default function Navbar() {
