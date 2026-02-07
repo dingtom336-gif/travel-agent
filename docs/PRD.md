@@ -257,13 +257,13 @@ Orchestrator 拆解：
 | **前端** | Next.js 14 (App Router) + TypeScript | RSC 流式渲染，契合 Generative UI |
 | **UI** | Tailwind CSS + shadcn/ui | 原子化组件，响应式，移动端适配 |
 | **Agent 服务** | Python FastAPI | AI 生态成熟，LangChain/LangGraph 支持 Agent Teams 编排 |
-| **Agent 框架** | LangGraph | 原生支持多 Agent 协作、状态图、并行执行 |
-| **AI 引擎** | Claude API（主模型）+ 轻量模型（路由/简单问答） | 混合模型路由 |
-| **短期记忆** | Redis | 会话上下文缓存，高速读写 |
-| **长期存储** | PostgreSQL | 用户画像、行程数据、对话历史 |
-| **知识库** | PostgreSQL pgvector / Pinecone | 向量检索，签证政策/旅行攻略等 RAG |
-| **消息队列** | Redis Streams | Agent 间异步通信、任务分发 |
-| **部署** | Vercel（前端）+ Docker Compose（Agent 服务集群） | 前后端分离 |
+| **Agent 框架** | 自研 Orchestrator + ReAct Loop | 轻量、可控，无外部框架依赖 |
+| **AI 引擎** | DeepSeek API（OpenAI 兼容） | 性价比高，中文能力强 |
+| **短期记忆** | 内存 Session + LLM 压缩摘要 | MVP 阶段，后续可换 Redis |
+| **长期存储** | 内存 Profile（MVP） | 后续迁移 PostgreSQL |
+| **知识库** | 内存 RAG（MVP） | 后续迁移 pgvector |
+| **消息队列** | asyncio.gather 并行 | MVP 阶段，后续可换 Redis Streams |
+| **部署** | PM2 + Nginx（LightNode Tokyo） | 前后端同机，nginx 反向代理 |
 | **未来 App** | Capacitor | Web → 原生 App，最低成本 |
 
 ### 5.2 项目结构
