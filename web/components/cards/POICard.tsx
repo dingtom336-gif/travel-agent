@@ -22,8 +22,9 @@ const typeLabels: Record<string, string> = {
  */
 export default function POICard({ data, onSelect }: POICardProps) {
   return (
-    <div
-      className="group cursor-pointer overflow-hidden rounded-xl border border-border bg-card transition-all hover:border-primary/30 hover:shadow-md"
+    <button
+      type="button"
+      className="group w-full cursor-pointer overflow-hidden rounded-xl border border-border bg-card text-left transition-all hover:border-primary/30 hover:shadow-md"
       onClick={onSelect}
     >
       {/* Image placeholder */}
@@ -80,6 +81,6 @@ export default function POICard({ data, onSelect }: POICardProps) {
           )}
         </div>
       </div>
-    </div>
+    </button>
   );
 }

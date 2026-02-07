@@ -12,8 +12,9 @@ interface HotelCardProps {
  */
 export default function HotelCard({ data, onSelect }: HotelCardProps) {
   return (
-    <div
-      className="group cursor-pointer overflow-hidden rounded-xl border border-border bg-card transition-all hover:border-primary/30 hover:shadow-md"
+    <button
+      type="button"
+      className="group w-full cursor-pointer overflow-hidden rounded-xl border border-border bg-card text-left transition-all hover:border-primary/30 hover:shadow-md"
       onClick={onSelect}
     >
       {/* Image placeholder */}
@@ -32,8 +33,8 @@ export default function HotelCard({ data, onSelect }: HotelCardProps) {
           </div>
         )}
         {/* Star badge */}
-        <div className="absolute right-2 top-2 rounded-lg bg-white/90 px-2 py-0.5 text-xs font-medium text-yellow-600 backdrop-blur-sm">
-          {"*".repeat(data.stars)} {data.stars}星
+        <div className="absolute right-2 top-2 rounded-lg bg-white/90 px-2 py-0.5 text-xs font-medium text-yellow-600 backdrop-blur-sm" aria-label={`${data.stars}星级`}>
+          {"★".repeat(data.stars)} {data.stars}星
         </div>
       </div>
 
@@ -72,6 +73,6 @@ export default function HotelCard({ data, onSelect }: HotelCardProps) {
           <span className="text-xs text-muted-foreground">/晚</span>
         </div>
       </div>
-    </div>
+    </button>
   );
 }

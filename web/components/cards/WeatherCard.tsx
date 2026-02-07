@@ -6,6 +6,14 @@ interface WeatherCardProps {
   data: WeatherData;
 }
 
+const conditionLabels: Record<string, string> = {
+  sunny: "晴",
+  cloudy: "多云",
+  rainy: "雨",
+  snowy: "雪",
+  overcast: "阴",
+};
+
 // Map weather condition to icon and color
 const weatherIcons: Record<string, { icon: string; color: string; bg: string }> = {
   sunny: { icon: "sun", color: "text-yellow-500", bg: "from-yellow-50 to-orange-50" },
@@ -47,12 +55,12 @@ export default function WeatherCard({ data }: WeatherCardProps) {
       {/* Details */}
       <div className="flex items-center justify-between text-xs text-muted-foreground">
         <span>湿度 {data.humidity}%</span>
-        <span>{data.condition === "sunny" ? "晴" : data.condition === "cloudy" ? "多云" : data.condition === "rainy" ? "雨" : data.condition === "snowy" ? "雪" : "阴"}</span>
+        <span>{conditionLabels[data.condition] || "阴"}</span>
       </div>
 
       {/* Suggestion */}
       {data.suggestion && (
-        <div className="mt-2 rounded-lg bg-white/60 p-2 text-xs text-muted-foreground">
+        <div className="mt-2 rounded-lg bg-card/60 p-2 text-xs text-muted-foreground">
           {data.suggestion}
         </div>
       )}

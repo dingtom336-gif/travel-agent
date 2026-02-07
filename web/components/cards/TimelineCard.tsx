@@ -7,12 +7,12 @@ interface TimelineCardProps {
 }
 
 // Map item type to icon and color
-const typeStyles: Record<TimelineItem["type"], { color: string; bgColor: string }> = {
-  transport: { color: "text-sky-500", bgColor: "bg-sky-100" },
-  attraction: { color: "text-green-500", bgColor: "bg-green-100" },
-  hotel: { color: "text-purple-500", bgColor: "bg-purple-100" },
-  food: { color: "text-orange-500", bgColor: "bg-orange-100" },
-  activity: { color: "text-pink-500", bgColor: "bg-pink-100" },
+const typeStyles: Record<TimelineItem["type"], { color: string; bgColor: string; dotColor: string }> = {
+  transport: { color: "text-sky-500", bgColor: "bg-sky-100", dotColor: "bg-sky-500" },
+  attraction: { color: "text-green-500", bgColor: "bg-green-100", dotColor: "bg-green-500" },
+  hotel: { color: "text-purple-500", bgColor: "bg-purple-100", dotColor: "bg-purple-500" },
+  food: { color: "text-orange-500", bgColor: "bg-orange-100", dotColor: "bg-orange-500" },
+  activity: { color: "text-pink-500", bgColor: "bg-pink-100", dotColor: "bg-pink-500" },
 };
 
 /**
@@ -43,7 +43,7 @@ export default function TimelineCard({ data }: TimelineCardProps) {
             <div key={`${item.time}-${index}`} className="relative flex gap-3 pb-4 last:pb-0">
               {/* Dot on timeline */}
               <div className={`relative z-10 mt-1 flex h-5 w-5 -translate-x-[10px] items-center justify-center rounded-full ${style.bgColor}`}>
-                <div className={`h-2 w-2 rounded-full ${style.color.replace("text-", "bg-")}`} />
+                <div className={`h-2 w-2 rounded-full ${style.dotColor}`} />
               </div>
 
               {/* Content */}

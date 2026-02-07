@@ -12,8 +12,9 @@ interface FlightCardProps {
  */
 export default function FlightCard({ data, onSelect }: FlightCardProps) {
   return (
-    <div
-      className="group cursor-pointer rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/30 hover:shadow-md"
+    <button
+      type="button"
+      className="group w-full cursor-pointer rounded-xl border border-border bg-card p-4 text-left transition-all hover:border-primary/30 hover:shadow-md"
       onClick={onSelect}
     >
       {/* Header: airline + flight number */}
@@ -68,6 +69,6 @@ export default function FlightCard({ data, onSelect }: FlightCardProps) {
           <p className="text-xs text-muted-foreground">{data.arrival}</p>
         </div>
       </div>
-    </div>
+    </button>
   );
 }

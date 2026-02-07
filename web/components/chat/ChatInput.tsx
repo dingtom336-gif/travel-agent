@@ -58,6 +58,7 @@ export default function ChatInput({
             placeholder={placeholder}
             disabled={disabled}
             rows={1}
+            aria-label="输入你的旅行需求"
             className="max-h-[150px] w-full resize-none bg-transparent py-1 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none disabled:opacity-50"
           />
         </div>
