@@ -1,5 +1,5 @@
 ## 当前状态
-Wave 7 进行中：地图组件 + 端到端自测 + UI 质量审查。前6波开发全部完成。
+Wave 7 完成：交互式地图组件（Leaflet + OpenStreetMap）已实现。UI 质量审查完成并修复 6 项问题（暗色模式/无障碍/响应式）。
 
 ## 最近操作记录
 | # | 时间 | 操作摘要 | 类型 |
@@ -17,6 +17,9 @@ Wave 7 进行中：地图组件 + 端到端自测 + UI 质量审查。前6波开
 | 11 | 2026-02-07 | 个人中心页面：行程列表(搜索) + 偏好设置(5项) + 收藏夹 + Navbar 导航更新 | 🖥️终端 |
 | 12 | 2026-02-07 | 工具层开发：6个MCP原子工具 + 3个Skills组合技能 + registry注册中心 + 6个Agent对接工具 | 🖥️终端 |
 | 13 | 2026-02-07 | 模拟演练系统：用户模拟器(5画像) + 环境模拟器(5故障+3场景) + AI裁判评估(6维度) + 5调试API | 🖥️终端 |
+| 14 | 2026-02-07 | 长期记忆：用户画像管理(ProfileManager) + 知识库 RAG(20+条目) + Agent对接 | 🖥️终端 |
+| 15 | 2026-02-07 | 交互式地图组件：Leaflet+OpenStreetMap，26个POI坐标，日期筛选，路线连线，点击弹窗 | 🖥️终端 |
+| 16 | 2026-02-07 | UI审查修复：暗色模式(StatusBadge/WeatherCard/FlightCard) + 无障碍(aria-live/aria-hidden/focus-visible) + 响应式地图 | 🖥️终端 |
 
 ## 未完成事项
 - [x] 前端首页 + 对话页开发
@@ -29,10 +32,10 @@ Wave 7 进行中：地图组件 + 端到端自测 + UI 质量审查。前6波开
 - [x] 工具层开发（MCP / Skills）
 - [x] 个人中心页面
 - [x] 长期记忆 + 知识库 RAG
-- [ ] 地图组件
+- [x] 地图组件
 - [x] 模拟演练系统
-- [ ] 端到端测试
-- [ ] UI 质量审查
+- [ ] 端到端测试（需配置 ANTHROPIC_API_KEY）
+- [x] UI 质量审查
 
 ## 环境备忘
 - 项目路径：`~/Desktop/claude-test/travel-agent/`
@@ -77,6 +80,25 @@ web/
     ├── types.ts              # TypeScript 类型定义（含 ItineraryData 等）
     ├── api-client.ts         # 后端 SSE 通信客户端
     └── mock-itinerary.ts     # Mock 行程数据（东京+大阪 5 日游）
+```
+
+## 地图组件文件清单
+```
+web/components/map/
+├── ItineraryMap.tsx          # Leaflet 交互式地图（标注+路线+弹窗+日期筛选）
+└── MapWrapper.tsx            # 动态导入包装器（SSR bypass）
+
+依赖：leaflet + react-leaflet + @types/leaflet
+瓦片：OpenStreetMap（免费，无需 API Key）
+数据：mock-itinerary.ts 中 26 个 POI 均含 GeoLocation 坐标
+```
+
+## 长期记忆文件清单
+```
+agent/memory/
+├── profile.py                # ProfileManager：用户画像管理 + 偏好学习 + 个性化上下文
+├── knowledge.py              # KnowledgeBase：关键词匹配检索 + 旅行知识库
+└── knowledge_data.py         # 知识数据条目（20+条：日本签证/泰国攻略/通用建议等）
 ```
 
 ## 工具层文件清单
