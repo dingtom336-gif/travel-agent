@@ -4,6 +4,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
+import httpx
 from openai import AsyncOpenAI
 
 from agent.config.settings import get_settings
@@ -25,6 +26,7 @@ def _get_client() -> AsyncOpenAI | None:
   _client = AsyncOpenAI(
     api_key=settings.DEEPSEEK_API_KEY,
     base_url=settings.DEEPSEEK_BASE_URL,
+    timeout=httpx.Timeout(settings.LLM_TIMEOUT, connect=10.0),
   )
   return _client
 

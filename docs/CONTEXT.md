@@ -1,145 +1,41 @@
 ## 当前状态
-**项目 MVP 完成 + DeepSeek 集成。** Wave 1-8 全部完成。前端 4 个页面 + 17 个组件，后端 Orchestrator + 8 Agent + 12 工具 + 记忆系统 + 模拟演练。已集成 DeepSeek API（OpenAI 兼容协议），真实对话验证通过。
+**SSE + 超时 bug 已修复，自动化测试防护已建立。** MVP 功能完整，待真实 E2E 用户测试。
 
 ## 最近操作记录
 | # | 时间 | 操作摘要 | 类型 |
 |---|------|---------|------|
-| 1 | 2026-02-07 | 基于小飞大脑策略规划，完成 TravelMind PRD 撰写（Agent Teams 架构） | 📋决策 |
-| 2 | 2026-02-07 | 初始化项目骨架：Next.js 前端 + Python FastAPI Agent 服务 | ⚙️配置 |
-| 3 | 2026-02-07 | 项目目录移至 ~/Desktop/claude-test/travel-agent/ | 🖥️终端 |
-| 4 | 2026-02-07 | Wave 2 前端：首页、对话页、原子化卡片（5种）、API 客户端、mock 流式响应 | 🖥️终端 |
-| 5 | 2026-02-07 | Wave 2 后端：Orchestrator + 8个专业Agent + 记忆系统 + 模型路由 | 🖥️终端 |
-| 6 | 2026-02-07 | 修复 Python 3.9 兼容性（typing 导入 + __future__ annotations） | 🖥️终端 |
-| 7 | 2026-02-07 | 前后端验证通过：next build 成功，uvicorn 启动成功 | 🖥️终端 |
-| 8 | 2026-02-07 | Git 提交：前端 UI 第一版 + 后端 Agent 服务第一版 | 🖥️终端 |
-| 9 | 2026-02-07 | 前后端 SSE 联调：ChatContainer 对接 chatStream，ChatMessage 支持 uiPayloads 动态卡片渲染，types 与后端对齐 | 🖥️终端 |
-| 10 | 2026-02-07 | 行程结果页开发：/itinerary/[id] 页面 + BudgetChart 组件 + mock-itinerary 数据，三 Tab 视图 + 底部操作栏 | 🖥️终端 |
-| 11 | 2026-02-07 | 个人中心页面：行程列表(搜索) + 偏好设置(5项) + 收藏夹 + Navbar 导航更新 | 🖥️终端 |
-| 12 | 2026-02-07 | 工具层开发：6个MCP原子工具 + 3个Skills组合技能 + registry注册中心 + 6个Agent对接工具 | 🖥️终端 |
-| 13 | 2026-02-07 | 模拟演练系统：用户模拟器(5画像) + 环境模拟器(5故障+3场景) + AI裁判评估(6维度) + 5调试API | 🖥️终端 |
-| 14 | 2026-02-07 | 长期记忆：用户画像管理(ProfileManager) + 知识库 RAG(20+条目) + Agent对接 | 🖥️终端 |
-| 15 | 2026-02-07 | 交互式地图组件：Leaflet+OpenStreetMap，26个POI坐标，日期筛选，路线连线，点击弹窗 | 🖥️终端 |
-| 16 | 2026-02-07 | UI审查修复：暗色模式(StatusBadge/WeatherCard/FlightCard) + 无障碍(aria-live/aria-hidden/focus-visible) + 响应式地图 | 🖥️终端 |
-| 17 | 2026-02-07 | 端到端自测：next build ✓ / uvicorn启动 ✓ / 20模块导入 ✓ / 6 API端点 ✓ | 🖥️终端 |
-| 18 | 2026-02-07 | 集成 DeepSeek API：统一 LLM 客户端 + 替换 6 个 Anthropic 调用点 + 真实对话验证通过 | 🖥️终端 |
+| 1 | 2026-02-08 | 修复 SSE 双重包装：format()返回dict、main.py/orchestrator类型同步改 | 🖥️终端 |
+| 2 | 2026-02-08 | 加 LLM 超时保护：client.py 60s + orchestrator 任务级 120s | 🖥️终端 |
+| 3 | 2026-02-08 | 建立零Token自动化测试：8个pytest（SSE格式+管道+超时），全mock | 🖥️终端 |
+| 4 | 2026-02-08 | 配置 Claude hook：编辑SSE文件自动跑测试（scripts/auto-test.sh） | ⚙️配置 |
+| 5 | 2026-02-08 | 更新 self-test 规则：必须跑自动化测试或声明无覆盖 | ⚙️配置 |
 
 ## 未完成事项
-- [x] 前端首页 + 对话页开发
-- [x] Generative UI 原子组件库
-- [x] API 客户端封装
-- [x] Agent 服务开发（Orchestrator + 8 个专业 Agent）
-- [x] 记忆系统（短期会话 + 状态池）
-- [x] 前后端联调（替换 mock 为真实 SSE 流）
-- [x] 行程结果页（/itinerary/[id]）
-- [x] 工具层开发（MCP / Skills）
-- [x] 个人中心页面
-- [x] 长期记忆 + 知识库 RAG
-- [x] 地图组件
-- [x] 模拟演练系统
-- [x] 端到端测试（构建/启动/模块/API 全通过，真实对话需配置 API Key）
-- [x] UI 质量审查
+- [x] SSE 双重包装 bug 修复
+- [x] LLM 超时保护
+- [x] 自动化测试防护
+- [ ] 真实 E2E 用户测试
+- [ ] 部署上线
 
 ## 环境备忘
 - 项目路径：`~/Desktop/claude-test/travel-agent/`
-- 前端：Next.js 16.1.6 (App Router) + TypeScript + Tailwind CSS v4
-- Agent 服务：Python 3.9.6 + FastAPI
-- Python 虚拟环境：`agent/venv2/`（venv 已废弃，路径不对）
-- AI 引擎：DeepSeek API（OpenAI 兼容协议，.env 配置 DEEPSEEK_API_KEY）
-- LLM 客户端：`agent/llm/client.py`（统一封装，支持任意 OpenAI 兼容服务）
-- 数据库：PostgreSQL + Redis（待部署）
-- 前端启动：`cd web && npm run dev`
-- Agent 启动：`./agent/venv2/bin/uvicorn agent.main:app --reload --port 8000`
-- 后端 API 地址：`http://localhost:8000`
+- 前端：Next.js (App Router) + TypeScript + Tailwind CSS v4，端口 3001
+- Agent 服务：Python 3.9.6 + FastAPI，端口 8000
+- Python 虚拟环境：`agent/venv2/`
+- AI 引擎：DeepSeek API（`.env` 配 `DEEPSEEK_API_KEY`）
+- 测试：`./agent/venv2/bin/python -m pytest tests/ -v`（8个测试，零token）
+- Claude hook：`.claude/settings.json`（PostToolUse 自动跑测试）
 
-## 前端文件清单
-```
-web/
-├── app/
-│   ├── globals.css          # 全局样式 + 主题变量 + 动画
-│   ├── layout.tsx           # 全局布局（Navbar）
-│   ├── page.tsx             # 首页（Hero + 引导卡片）
-│   └── chat/page.tsx        # 对话页（左右布局 + mock 流式响应）
-├── components/
-│   ├── ui/
-│   │   ├── Navbar.tsx       # 顶部导航栏（响应式）
-│   │   └── Footer.tsx       # 底部页脚
-│   ├── chat/
-│   │   ├── ChatContainer.tsx # 对话容器（SSE 流式通信 + USE_MOCK 开关）
-│   │   ├── ChatMessage.tsx   # 消息气泡（Markdown + UI 卡片渲染）
-│   │   ├── ChatInput.tsx     # 输入框（自动高度 + 快捷键）
-│   │   ├── AgentStatus.tsx   # Agent 思考状态指示器
-│   │   └── mockStream.ts     # Mock 流式响应（后端不可用时回退）
-│   └── cards/
-│       ├── FlightCard.tsx    # 机票卡片
-│       ├── HotelCard.tsx     # 酒店卡片
-│       ├── POICard.tsx       # 景点卡片
-│       ├── WeatherCard.tsx   # 天气卡片
-│       ├── TimelineCard.tsx  # 时间线卡片
-│       └── BudgetChart.tsx   # 预算图表（纯 CSS 条形图 + 明细表）
-├── app/
-│   └── itinerary/
-│       └── [id]/page.tsx     # 行程结果页（Tab: 时间线/地图/预算）
-└── lib/
-    ├── types.ts              # TypeScript 类型定义（含 ItineraryData 等）
-    ├── api-client.ts         # 后端 SSE 通信客户端
-    └── mock-itinerary.ts     # Mock 行程数据（东京+大阪 5 日游）
-```
-
-## 地图组件文件清单
-```
-web/components/map/
-├── ItineraryMap.tsx          # Leaflet 交互式地图（标注+路线+弹窗+日期筛选）
-└── MapWrapper.tsx            # 动态导入包装器（SSR bypass）
-
-依赖：leaflet + react-leaflet + @types/leaflet
-瓦片：OpenStreetMap（免费，无需 API Key）
-数据：mock-itinerary.ts 中 26 个 POI 均含 GeoLocation 坐标
-```
-
-## 长期记忆文件清单
-```
-agent/memory/
-├── profile.py                # ProfileManager：用户画像管理 + 偏好学习 + 个性化上下文
-├── knowledge.py              # KnowledgeBase：关键词匹配检索 + 旅行知识库
-└── knowledge_data.py         # 知识数据条目（20+条：日本签证/泰国攻略/通用建议等）
-```
-
-## 工具层文件清单
-```
-agent/tools/
-├── __init__.py
-├── registry.py              # 工具注册中心（get_tool / list_tools / get_tools_for_agent）
-├── mcp/                     # MCP 原子工具（mock 实现，接口正规）
-│   ├── flight_search.py     # search_flights() - 机票搜索
-│   ├── hotel_search.py      # search_hotels() - 酒店搜索
-│   ├── poi_search.py        # search_pois() - 景点/餐厅/购物搜索
-│   ├── weather_api.py       # get_weather() / get_weather_forecast() - 天气查询
-│   ├── map_service.py       # get_distance() / plan_route() - 地图路线
-│   └── currency.py          # convert_currency() / list_supported_currencies() - 汇率
-└── skills/                  # 组合技能（调用多个 MCP 工具）
-    ├── transit_optimizer.py  # optimize_transit() - 交通最优方案
-    ├── budget_allocator.py   # allocate_budget() - 预算分配
-    └── itinerary_optimizer.py # optimize_itinerary() - 行程优化
-
-共 12 个工具（9 MCP + 3 Skills），覆盖 6 个 Agent。
-```
-
-## 模拟演练系统文件清单
-```
-agent/simulator/
-├── __init__.py               # 包导出
-├── user_simulator.py         # 用户模拟器：5种画像 + 对话生成
-├── env_simulator.py          # 环境模拟器：故障注入 + 场景模拟
-├── evaluator.py              # AI裁判：6维度评估报告
-└── scoring_rules.py          # 评分规则引擎（从evaluator拆分）
-
-调试 API 端点（agent/main.py）：
-- GET  /api/debug/personas      # 列出所有模拟用户画像
-- POST /api/debug/simulate      # 运行模拟对话
-- POST /api/debug/evaluate      # 评估对话质量
-- GET  /api/debug/scenarios     # 列出所有模拟场景
-- POST /api/debug/inject-fault  # 注入故障
-```
+## 核心文件索引
+| 模块 | 关键文件 |
+|------|---------|
+| SSE 模型 | `agent/models.py` (SSEMessage.format→dict) |
+| SSE 端点 | `agent/main.py` (chat_stream + EventSourceResponse) |
+| LLM 客户端 | `agent/llm/client.py`（含 60s timeout） |
+| Orchestrator | `agent/orchestrator/agent.py`（含任务级 120s timeout） |
+| 自动化测试 | `tests/test_sse_format.py` + `test_sse_pipeline.py` + `test_timeout.py` |
+| 智能触发 | `scripts/auto-test.sh` + `.claude/settings.json` |
 
 ## 历史归档
-（暂无）
+- Wave 1-8 (2026-02-07)：PRD → 前端4页面+17组件 → 后端Orchestrator+8Agent+12工具+记忆+模拟演练 → 地图 → UI审查 → DeepSeek集成
+- SSE bug 发现 (2026-02-07)：定位 format() 返回 str 被 EventSourceResponse 双重包装

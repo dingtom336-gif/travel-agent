@@ -71,7 +71,7 @@ class OrchestratorAgent:
     self,
     session_id: str | None,
     message: str,
-  ) -> AsyncGenerator[str, None]:
+  ) -> AsyncGenerator[dict, None]:
     """Main entry point – yields SSE-formatted strings."""
     try:
       # Ensure session
@@ -138,7 +138,7 @@ class OrchestratorAgent:
     message: str,
     history: list[dict[str, Any]],
     personalization_ctx: str = "",
-  ) -> AsyncGenerator[str, None]:
+  ) -> AsyncGenerator[dict, None]:
     """Handle simple messages with a direct Claude call."""
     try:
       response = await self._call_claude_simple(
@@ -170,7 +170,7 @@ class OrchestratorAgent:
     message: str,
     history: list[dict[str, Any]],
     personalization_ctx: str = "",
-  ) -> AsyncGenerator[str, None]:
+  ) -> AsyncGenerator[dict, None]:
     """Thought -> Action -> Observe -> Reflect cycle."""
     try:
       state_ctx = state_pool.to_prompt_context(session_id)
@@ -289,9 +289,9 @@ class OrchestratorAgent:
     tasks: list[AgentTask],
     session_id: str,
     state_ctx: str,
-  ) -> tuple[list[str], dict[str, AgentResult]]:
+  ) -> tuple[list[dict], dict[str, AgentResult]]:
     """Run independent tasks concurrently; return SSE messages and results."""
-    sse_messages: list[str] = []
+    sse_messages: list[dict] = []
     for t in tasks:
       sse_messages.append(
         SSEMessage(
@@ -334,7 +334,7 @@ class OrchestratorAgent:
     task: AgentTask,
     context: dict[str, Any],
   ) -> AgentResult:
-    """Dispatch a single task to the appropriate agent."""
+    """Dispatch a single task to the appropriate agent with timeout."""
     agent = AGENT_REGISTRY.get(task.agent)
     if not agent:
       return AgentResult(
@@ -344,7 +344,18 @@ class OrchestratorAgent:
         error=f"No agent registered for {task.agent.value}",
       )
     try:
-      return await agent.execute(task, context)
+      settings = get_settings()
+      return await asyncio.wait_for(
+        agent.execute(task, context),
+        timeout=settings.LLM_TASK_TIMEOUT,
+      )
+    except asyncio.TimeoutError:
+      return AgentResult(
+        task_id=task.task_id,
+        agent=task.agent,
+        status=TaskStatus.FAILED,
+        error=f"Agent {task.agent.value} timed out after {get_settings().LLM_TASK_TIMEOUT}s",
+      )
     except Exception as exc:
       return AgentResult(
         task_id=task.task_id,

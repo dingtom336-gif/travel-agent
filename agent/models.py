@@ -104,7 +104,7 @@ class SSEMessage(BaseModel):
   event: SSEEventType
   data: Dict[str, Any] = Field(default_factory=dict)
 
-  def format(self) -> str:
-    """Format as SSE text line."""
+  def format(self) -> dict:
+    """Return dict for sse-starlette EventSourceResponse."""
     import json
-    return f"event: {self.event.value}\ndata: {json.dumps(self.data, ensure_ascii=False)}\n\n"
+    return {"event": self.event.value, "data": json.dumps(self.data, ensure_ascii=False)}

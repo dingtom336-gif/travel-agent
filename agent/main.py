@@ -105,7 +105,7 @@ async def chat_stream(request: ChatRequest):
     done       – stream finished
   """
   try:
-    async def event_generator() -> AsyncGenerator[str, None]:
+    async def event_generator() -> AsyncGenerator[dict, None]:
       try:
         async for sse_chunk in orchestrator.handle_message(
           session_id=request.session_id,
@@ -115,8 +115,8 @@ async def chat_stream(request: ChatRequest):
       except Exception as exc:
         logger.exception("Stream generator error")
         import json
-        yield f"event: error\ndata: {json.dumps({'error': str(exc)})}\n\n"
-        yield f"event: done\ndata: {json.dumps({'session_id': request.session_id or ''})}\n\n"
+        yield {"event": "error", "data": json.dumps({"error": str(exc)})}
+        yield {"event": "done", "data": json.dumps({"session_id": request.session_id or ""})}
 
     return EventSourceResponse(
       event_generator(),
@@ -143,26 +143,22 @@ async def chat(request: ChatRequest):
     ):
       chunks.append(sse_chunk)
 
-    # Extract the text content from SSE chunks
+    # Extract the text content from SSE chunks (each chunk is a dict)
+    import json
     text_parts: list[str] = []
     final_session_id = session_id or ""
     for chunk in chunks:
-      if "event: text" in chunk:
-        import json
-        data_line = chunk.split("data: ", 1)[-1].strip()
+      if isinstance(chunk, dict):
+        evt = chunk.get("event", "")
+        data_str = chunk.get("data", "{}")
         try:
-          payload = json.loads(data_line)
+          payload = json.loads(data_str)
+        except (json.JSONDecodeError, TypeError):
+          continue
+        if evt == "text":
           text_parts.append(payload.get("content", ""))
-        except json.JSONDecodeError:
-          pass
-      if "event: done" in chunk:
-        import json
-        data_line = chunk.split("data: ", 1)[-1].strip()
-        try:
-          payload = json.loads(data_line)
+        elif evt == "done":
           final_session_id = payload.get("session_id", final_session_id)
-        except json.JSONDecodeError:
-          pass
 
     return {
       "session_id": final_session_id,

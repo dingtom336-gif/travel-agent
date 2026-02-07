@@ -23,6 +23,8 @@ class Settings(BaseSettings):
   DEEPSEEK_BASE_URL: str = "https://api.deepseek.com"
   DEEPSEEK_MODEL: str = "deepseek-chat"
   LLM_MAX_TOKENS: int = 4096
+  LLM_TIMEOUT: float = 60.0
+  LLM_TASK_TIMEOUT: float = 120.0
 
   # Legacy – kept for compatibility checks
   ANTHROPIC_API_KEY: str = ""
