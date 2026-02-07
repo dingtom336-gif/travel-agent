@@ -39,10 +39,10 @@ export default function AgentStatus({ statuses }: AgentStatusProps) {
   if (statuses.length === 0) return null;
 
   return (
-    <div className="flex w-full justify-start animate-fade-in">
+    <div className="flex w-full justify-start animate-fade-in" role="status" aria-live="polite">
       <div className="flex max-w-[85%] gap-3 sm:max-w-[75%]">
         {/* AI Avatar */}
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 text-sm font-medium text-white">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 text-sm font-medium text-white" aria-hidden="true">
           AI
         </div>
 
@@ -59,6 +59,7 @@ export default function AgentStatus({ statuses }: AgentStatusProps) {
                   className={`h-4 w-4 animate-spin ${agentColors[status.agent] || "text-primary"}`}
                   fill="none"
                   viewBox="0 0 24 24"
+                  aria-hidden="true"
                 >
                   <circle
                     className="opacity-25"
@@ -81,6 +82,7 @@ export default function AgentStatus({ statuses }: AgentStatusProps) {
                   viewBox="0 0 24 24"
                   strokeWidth="2"
                   stroke="currentColor"
+                  aria-hidden="true"
                 >
                   <path
                     strokeLinecap="round"
@@ -95,6 +97,7 @@ export default function AgentStatus({ statuses }: AgentStatusProps) {
                   viewBox="0 0 24 24"
                   strokeWidth="2"
                   stroke="currentColor"
+                  aria-hidden="true"
                 >
                   <path
                     strokeLinecap="round"

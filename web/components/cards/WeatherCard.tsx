@@ -16,11 +16,11 @@ const conditionLabels: Record<string, string> = {
 
 // Map weather condition to icon and color
 const weatherIcons: Record<string, { icon: string; color: string; bg: string }> = {
-  sunny: { icon: "sun", color: "text-yellow-500", bg: "from-yellow-50 to-orange-50" },
-  cloudy: { icon: "cloud", color: "text-gray-400", bg: "from-gray-50 to-slate-50" },
-  rainy: { icon: "rain", color: "text-blue-400", bg: "from-blue-50 to-cyan-50" },
-  snowy: { icon: "snow", color: "text-blue-200", bg: "from-blue-50 to-indigo-50" },
-  overcast: { icon: "cloud", color: "text-gray-500", bg: "from-gray-100 to-slate-100" },
+  sunny: { icon: "sun", color: "text-yellow-500", bg: "from-yellow-50 to-orange-50 dark:from-yellow-950/30 dark:to-orange-950/20" },
+  cloudy: { icon: "cloud", color: "text-gray-400", bg: "from-gray-50 to-slate-50 dark:from-gray-900/30 dark:to-slate-900/20" },
+  rainy: { icon: "rain", color: "text-blue-400", bg: "from-blue-50 to-cyan-50 dark:from-blue-950/30 dark:to-cyan-950/20" },
+  snowy: { icon: "snow", color: "text-blue-200", bg: "from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/20" },
+  overcast: { icon: "cloud", color: "text-gray-500", bg: "from-gray-100 to-slate-100 dark:from-gray-900/30 dark:to-slate-800/20" },
 };
 
 /**

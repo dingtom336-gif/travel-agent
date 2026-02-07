@@ -190,7 +190,7 @@ export default function ItineraryMap({ days, selectedDay }: ItineraryMapProps) {
       </div>
 
       {/* Map container */}
-      <div className="overflow-hidden rounded-xl border border-border" style={{ height: 480 }}>
+      <div className="overflow-hidden rounded-xl border border-border h-[360px] sm:h-[480px]">
         <MapContainer
           center={defaultCenter}
           zoom={11}

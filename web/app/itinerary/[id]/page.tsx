@@ -216,10 +216,10 @@ function StatusBadge({
   status: "draft" | "confirmed" | "in_progress" | "completed";
 }) {
   const styles: Record<string, string> = {
-    draft: "bg-yellow-100 text-yellow-700",
-    confirmed: "bg-green-100 text-green-700",
-    in_progress: "bg-blue-100 text-blue-700",
-    completed: "bg-gray-100 text-gray-600",
+    draft: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
+    confirmed: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+    in_progress: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+    completed: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
   };
   const labels: Record<string, string> = {
     draft: "草稿",

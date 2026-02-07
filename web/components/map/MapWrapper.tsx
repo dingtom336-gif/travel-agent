@@ -7,7 +7,7 @@ import { TimelineDayData } from "@/lib/types";
 const ItineraryMap = dynamic(() => import("./ItineraryMap"), {
   ssr: false,
   loading: () => (
-    <div className="flex items-center justify-center rounded-xl border border-border bg-muted/30" style={{ height: 480 }}>
+    <div className="flex items-center justify-center rounded-xl border border-border bg-muted/30 h-[360px] sm:h-[480px]">
       <div className="flex flex-col items-center gap-2">
         <div className="h-8 w-8 animate-spin-slow rounded-full border-2 border-primary border-t-transparent" />
         <span className="text-sm text-muted-foreground">Loading map...</span>
