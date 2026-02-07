@@ -1,5 +1,5 @@
 ## 当前状态
-Wave 5 完成：个人中心页面 + 工具层（MCP/Skills）均已开发并验证通过。前端 5 页面全部就绪，后端 12 个工具已注册。
+Wave 6 完成：模拟演练与评估系统已实现。用户模拟器（5种画像）+ 环境模拟器（5种故障+3场景）+ AI 裁判评估（6维度规则引擎）+ 5个调试 API 端点。
 
 ## 最近操作记录
 | # | 时间 | 操作摘要 | 类型 |
@@ -16,6 +16,7 @@ Wave 5 完成：个人中心页面 + 工具层（MCP/Skills）均已开发并验
 | 10 | 2026-02-07 | 行程结果页开发：/itinerary/[id] 页面 + BudgetChart 组件 + mock-itinerary 数据，三 Tab 视图 + 底部操作栏 | 🖥️终端 |
 | 11 | 2026-02-07 | 个人中心页面：行程列表(搜索) + 偏好设置(5项) + 收藏夹 + Navbar 导航更新 | 🖥️终端 |
 | 12 | 2026-02-07 | 工具层开发：6个MCP原子工具 + 3个Skills组合技能 + registry注册中心 + 6个Agent对接工具 | 🖥️终端 |
+| 13 | 2026-02-07 | 模拟演练系统：用户模拟器(5画像) + 环境模拟器(5故障+3场景) + AI裁判评估(6维度) + 5调试API | 🖥️终端 |
 
 ## 未完成事项
 - [x] 前端首页 + 对话页开发
@@ -29,7 +30,7 @@ Wave 5 完成：个人中心页面 + 工具层（MCP/Skills）均已开发并验
 - [x] 个人中心页面
 - [ ] 长期记忆 + 知识库 RAG
 - [ ] 地图组件
-- [ ] 模拟演练系统
+- [x] 模拟演练系统
 - [ ] 端到端测试
 - [ ] UI 质量审查
 
@@ -96,6 +97,23 @@ agent/tools/
     └── itinerary_optimizer.py # optimize_itinerary() - 行程优化
 
 共 12 个工具（9 MCP + 3 Skills），覆盖 6 个 Agent。
+```
+
+## 模拟演练系统文件清单
+```
+agent/simulator/
+├── __init__.py               # 包导出
+├── user_simulator.py         # 用户模拟器：5种画像 + 对话生成
+├── env_simulator.py          # 环境模拟器：故障注入 + 场景模拟
+├── evaluator.py              # AI裁判：6维度评估报告
+└── scoring_rules.py          # 评分规则引擎（从evaluator拆分）
+
+调试 API 端点（agent/main.py）：
+- GET  /api/debug/personas      # 列出所有模拟用户画像
+- POST /api/debug/simulate      # 运行模拟对话
+- POST /api/debug/evaluate      # 评估对话质量
+- GET  /api/debug/scenarios     # 列出所有模拟场景
+- POST /api/debug/inject-fault  # 注入故障
 ```
 
 ## 历史归档

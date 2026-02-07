@@ -11,6 +11,7 @@ from typing import Any
 import anthropic
 
 from agent.config.settings import get_settings
+from agent.memory.profile import profile_manager
 from agent.memory.session import session_memory
 from agent.memory.state_pool import state_pool
 from agent.models import (
@@ -81,6 +82,11 @@ class OrchestratorAgent:
       # Store user message
       session_memory.add_message(session_id, "user", message)
 
+      # Step 0: Load personalization context from user profile
+      # Use session_id as user_id for now (will be replaced by real auth later)
+      user_id = session_id
+      personalization_ctx = profile_manager.get_personalization_context(user_id)
+
       # Step 1: Extract state from user message
       yield SSEMessage(
         event=SSEEventType.THINKING,
@@ -94,13 +100,23 @@ class OrchestratorAgent:
       complexity = await classify_complexity(message, history)
 
       if complexity == "simple":
-        async for chunk in self._handle_simple(session_id, message, history):
+        async for chunk in self._handle_simple(
+          session_id, message, history, personalization_ctx,
+        ):
           yield chunk
+        # Learn from session after reply
+        self._learn_from_session_safe(user_id, history)
         return
 
       # Step 3: Complex → full ReAct loop
-      async for chunk in self._react_loop(session_id, message, history):
+      async for chunk in self._react_loop(
+        session_id, message, history, personalization_ctx,
+      ):
         yield chunk
+
+      # Learn from session after full ReAct loop
+      updated_history = session_memory.get_history(session_id)
+      self._learn_from_session_safe(user_id, updated_history)
 
     except Exception as exc:
       logger.exception("Orchestrator error")
@@ -122,10 +138,13 @@ class OrchestratorAgent:
     session_id: str,
     message: str,
     history: list[dict[str, Any]],
+    personalization_ctx: str = "",
   ) -> AsyncGenerator[str, None]:
     """Handle simple messages with a direct Claude call."""
     try:
-      response = await self._call_claude_simple(message, history)
+      response = await self._call_claude_simple(
+        message, history, personalization_ctx,
+      )
       yield SSEMessage(
         event=SSEEventType.TEXT,
         data={"content": response},
@@ -151,10 +170,14 @@ class OrchestratorAgent:
     session_id: str,
     message: str,
     history: list[dict[str, Any]],
+    personalization_ctx: str = "",
   ) -> AsyncGenerator[str, None]:
     """Thought -> Action -> Observe -> Reflect cycle."""
     try:
       state_ctx = state_pool.to_prompt_context(session_id)
+      # Append personalization context to state context
+      if personalization_ctx:
+        state_ctx += f"\n\n--- User Profile ---\n{personalization_ctx}"
 
       # --- THOUGHT: Decompose into tasks ---
       yield SSEMessage(
@@ -339,6 +362,7 @@ class OrchestratorAgent:
     self,
     message: str,
     history: list[dict[str, Any]],
+    personalization_ctx: str = "",
   ) -> str:
     """Quick Claude call for simple messages."""
     settings = get_settings()
@@ -349,12 +373,20 @@ class OrchestratorAgent:
         "Where would you like to go?"
       )
     try:
+      # Inject personalization context into system prompt
+      system_prompt = ORCHESTRATOR_SYSTEM_PROMPT
+      if personalization_ctx:
+        system_prompt += (
+          f"\n\n--- User Profile ---\n{personalization_ctx}\n"
+          "Use the above user preferences to personalize your response."
+        )
+
       messages = self._build_messages(history)
       client = anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
       response = await client.messages.create(
         model=settings.CLAUDE_MODEL,
         max_tokens=1024,
-        system=ORCHESTRATOR_SYSTEM_PROMPT,
+        system=system_prompt,
         messages=messages,
       )
       return response.content[0].text
@@ -466,6 +498,17 @@ class OrchestratorAgent:
 
     if updates:
       state_pool.update_from_dict(session_id, updates)
+
+  def _learn_from_session_safe(
+    self,
+    user_id: str,
+    history: list[dict[str, Any]],
+  ) -> None:
+    """Learn user preferences from session – never raises."""
+    try:
+      profile_manager.learn_from_session(user_id, history)
+    except Exception as exc:
+      logger.warning("Profile learning failed (non-fatal): %s", exc)
 
   def _build_messages(
     self,
