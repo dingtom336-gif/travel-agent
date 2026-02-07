@@ -1,5 +1,5 @@
 ## 当前状态
-Wave 2 完成：前端 UI + 后端 Agent 服务均已开发并验证通过。准备进入 Wave 3（测试 + UI Review）。
+前后端 SSE 流式联调完成。ChatContainer 已对接后端 chatStream，支持 7 种 SSE 事件类型；ChatMessage 支持动态渲染 5 种 UI 卡片。保留 USE_MOCK 开关可回退 mock 模式。
 
 ## 最近操作记录
 | # | 时间 | 操作摘要 | 类型 |
@@ -12,6 +12,7 @@ Wave 2 完成：前端 UI + 后端 Agent 服务均已开发并验证通过。准
 | 6 | 2026-02-07 | 修复 Python 3.9 兼容性（typing 导入 + __future__ annotations） | 🖥️终端 |
 | 7 | 2026-02-07 | 前后端验证通过：next build 成功，uvicorn 启动成功 | 🖥️终端 |
 | 8 | 2026-02-07 | Git 提交：前端 UI 第一版 + 后端 Agent 服务第一版 | 🖥️终端 |
+| 9 | 2026-02-07 | 前后端 SSE 联调：ChatContainer 对接 chatStream，ChatMessage 支持 uiPayloads 动态卡片渲染，types 与后端对齐 | 🖥️终端 |
 
 ## 未完成事项
 - [x] 前端首页 + 对话页开发
@@ -19,7 +20,7 @@ Wave 2 完成：前端 UI + 后端 Agent 服务均已开发并验证通过。准
 - [x] API 客户端封装
 - [x] Agent 服务开发（Orchestrator + 8 个专业 Agent）
 - [x] 记忆系统（短期会话 + 状态池）
-- [ ] 前后端联调（替换 mock 为真实 SSE 流）
+- [x] 前后端联调（替换 mock 为真实 SSE 流）
 - [ ] 行程结果页（/itinerary/[id]）
 - [ ] 个人中心页面
 - [ ] 工具层开发（MCP / Skills）
@@ -53,10 +54,11 @@ web/
 │   │   ├── Navbar.tsx       # 顶部导航栏（响应式）
 │   │   └── Footer.tsx       # 底部页脚
 │   ├── chat/
-│   │   ├── ChatContainer.tsx # 对话容器（含 mock 逻辑）
-│   │   ├── ChatMessage.tsx   # 消息气泡（含简易 Markdown 渲染）
+│   │   ├── ChatContainer.tsx # 对话容器（SSE 流式通信 + USE_MOCK 开关）
+│   │   ├── ChatMessage.tsx   # 消息气泡（Markdown + UI 卡片渲染）
 │   │   ├── ChatInput.tsx     # 输入框（自动高度 + 快捷键）
-│   │   └── AgentStatus.tsx   # Agent 思考状态指示器
+│   │   ├── AgentStatus.tsx   # Agent 思考状态指示器
+│   │   └── mockStream.ts     # Mock 流式响应（后端不可用时回退）
 │   └── cards/
 │       ├── FlightCard.tsx    # 机票卡片
 │       ├── HotelCard.tsx     # 酒店卡片
