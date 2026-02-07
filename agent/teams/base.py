@@ -1,14 +1,17 @@
 # Base class for all specialist agents
 from __future__ import annotations
 
+import logging
 import time
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Callable, Dict
 
 import anthropic
 
 from agent.config.settings import get_settings
 from agent.models import AgentName, AgentResult, AgentTask, TaskStatus
+
+logger = logging.getLogger(__name__)
 
 
 class BaseAgent(ABC):
@@ -17,10 +20,53 @@ class BaseAgent(ABC):
   Subclasses must set `name` / `description` and implement `execute`.
   Provides a shared helper `_call_claude` that gracefully falls back
   to mock data when no API key is configured.
+  Also provides `available_tools` and `call_tool` for tool-layer access.
   """
 
   name: AgentName
   description: str = ""
+
+  # --- tool access ---
+
+  @property
+  def available_tools(self) -> Dict[str, Callable[..., Any]]:
+    """Return tools registered for this agent from the global registry."""
+    from agent.tools.registry import get_tools_for_agent
+    return get_tools_for_agent(self.name.value)
+
+  async def call_tool(self, tool_name: str, **kwargs: Any) -> Any:
+    """Call a registered tool by name.
+
+    Args:
+      tool_name: Name of the tool (e.g. "search_flights")
+      **kwargs: Arguments to pass to the tool function
+
+    Returns:
+      Tool result (usually a dict)
+
+    Raises:
+      ValueError: If tool is not found or not authorised for this agent
+    """
+    tools = self.available_tools
+    func = tools.get(tool_name)
+    if func is None:
+      raise ValueError(
+        f"Tool '{tool_name}' not available for agent '{self.name.value}'. "
+        f"Available: {list(tools.keys())}"
+      )
+    try:
+      result = await func(**kwargs)
+      logger.info(
+        "Agent %s called tool %s -> success=%s",
+        self.name.value, tool_name, result.get("success", "n/a"),
+      )
+      return result
+    except Exception as exc:
+      logger.error(
+        "Agent %s tool %s failed: %s",
+        self.name.value, tool_name, exc,
+      )
+      raise
 
   # --- abstract ---
 
