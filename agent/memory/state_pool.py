@@ -34,7 +34,7 @@ class StatePool:
         old_value = getattr(state, key)
         if old_value is not None and old_value != value:
           logger.info(
-            "State field '%s' overwritten: '%s' -> '%s' (session=%s)",
+            "State '%s' overwritten: '%s' -> '%s' (session=%s)",
             key, old_value, value, session_id[:8],
           )
         setattr(state, key, value)

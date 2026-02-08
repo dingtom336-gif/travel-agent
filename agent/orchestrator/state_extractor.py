@@ -16,15 +16,15 @@ STATE_EXTRACTION_PROMPT = """Extract travel parameters from the user's LATEST me
 
 **Critical rules for multi-turn conversations:**
 1. You will receive conversation history and current extracted state. Use them to understand context.
-2. If the AI just asked "出发城市/从哪出发" and the user answers with a city name, that city is the ORIGIN, not the destination.
-3. If the AI just asked about budget/dates/preferences and the user answers, map the answer to the correct field.
+2. If the AI just asked "出发城市是哪里?" or similar, and the user answers with a city name, that city is the ORIGIN (出发地), NOT the destination.
+3. If the AI just asked about budget/dates/travelers/preferences and the user answers, map the answer to the CORRECT field based on what was asked.
 4. NEVER overwrite a previously established field unless the user EXPLICITLY wants to change it (e.g., "改成去泰国", "目的地换成...", "不去日本了").
-5. A city mentioned as "从X出发/X出发/从X去" is ORIGIN, not destination.
-6. Preference words (古迹/都市/海滩/美食/购物/温泉/自然 etc.) go into the preferences object, not destination.
+5. City names after "从" or as answer to "从哪出发/出发城市" → origin field.
+6. Preference words (古迹, 都市, 海滩, 美食, 购物, 自然, 文化, 亲子) → preferences object, NOT destination.
 
-**Typo correction**: Fix obvious misspellings (e.g., "塞尔维他" → "塞尔维亚", "东经" → "东京").
+**Important**: Correct obvious typos in city names (e.g., "塞尔维他" → "塞尔维亚").
 Only include fields that are NEWLY mentioned or EXPLICITLY changed in the latest message.
-Use null for fields not mentioned in the latest message.
+Use null for fields not mentioned or not changed.
 Fields: destination, origin, start_date, end_date, duration_days, travelers, budget, preferences (object), constraints (array of strings).
 Return ONLY valid JSON, no other text."""
 
@@ -38,11 +38,11 @@ async def extract_state(
   """Try to extract travel parameters from the user message with conversation context."""
   try:
     # Build context-aware prompt
-    prompt_parts = []
+    prompt_parts: list[str] = []
 
     # Include existing state so LLM knows what's already extracted
     if existing_state:
-      state_fields = []
+      state_fields: list[str] = []
       if existing_state.destination:
         state_fields.append(f"destination: {existing_state.destination}")
       if existing_state.origin:
@@ -57,10 +57,10 @@ async def extract_state(
         state_fields.append(f"preferences: {existing_state.preferences}")
       if state_fields:
         prompt_parts.append(
-          "Current extracted state:\n" + "\n".join(state_fields)
+          "Currently extracted state:\n" + "\n".join(state_fields)
         )
 
-    # Include recent conversation history (last 3 turns = 6 messages)
+    # Include recent conversation history (last 6 messages ≈ 3 turns)
     if history:
       recent = history[-6:]
       history_text = "\n".join(
@@ -126,15 +126,15 @@ def heuristic_extract(
     "悉尼", "新西兰", "土耳其", "伊斯坦布尔", "埃及", "迪拜",
     "塞尔维亚", "贝尔格莱德", "希腊", "瑞士", "冰岛", "挪威",
   ]
+  has_change_intent = any(kw in message for kw in ["改成", "换成", "不去", "改为"])
   for dest in destinations:
     if dest in message:
-      # Skip if this city was matched as origin
+      # Skip if this city was already matched as origin
       if origin_found and dest == origin_found:
         continue
-      # Don't overwrite existing destination unless user explicitly changes it
+      # Don't overwrite existing destination unless user explicitly wants to change
       if (existing_state and existing_state.destination
-          and "改" not in message and "换" not in message
-          and "不去" not in message):
+          and not has_change_intent):
         continue
       updates["destination"] = dest
       break

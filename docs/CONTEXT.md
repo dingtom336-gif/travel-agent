@@ -1,39 +1,32 @@
 ## 当前状态
-**对话语义修复v0.3.3：** extract_state注入对话历史+已有state，解决follow-up回答被误解为新目的地。5文件改动，19测试通过。
+**v0.3.3 对话语义理解修复完成。** extract_state 注入对话历史+已有state，不再误解 follow-up 回答。19测试通过。
 
 ## 最近操作记录
 | # | 时间 | 操作摘要 | 类型 |
 |---|------|---------|------|
-| 1 | 2026-02-08 | Footer版本号v0.3.0 + 推理步骤全中文化v0.3.1 | 🖥️终端 |
-| 2 | 2026-02-08 | 三项修复v0.3.2：POI点击+真实地点+路线空间合理性（7文件） | 🖥️终端 |
-| 3 | 2026-02-08 | 对话语义修复v0.3.3：state_extractor上下文感知（5文件） | 🖥️终端 |
+| 1 | 2026-02-08 | 三项修复v0.3.2：POI点击+真实地点+路线空间合理性（7文件） | 🖥️终端 |
+| 2 | 2026-02-08 | v0.3.3语义修复：state_extractor加上下文+heuristic加origin+state_pool日志+planner交叉验证 | 🖥️终端 |
 
 ## 未完成事项
-- [ ] E2E验证："日本5天"→追问出发城市→回答"上海"→确认destination=日本,origin=上海
-- [ ] E2E验证："改成去泰国"→destination正确更新为泰国
+- [ ] 部署v0.3.3并E2E验证：日本行程→回答上海→确认destination=日本,origin=上海
 
 ## 环境备忘
-- **本地开发**：`~/Desktop/claude-test/travel-agent/`，前端3001，后端8000
-- **生产服务器**：38.54.88.144 (LightNode Tokyo, Ubuntu 22.04)
-  - 前端：http://38.54.88.144/travel（PM2: travel-frontend, port 3003）
-  - 后端API：http://38.54.88.144/travel-api/（PM2: travel-backend, port 8000）
+- **本地**：`~/Desktop/claude-test/travel-agent/`，前端3001，后端8000
+- **生产**：38.54.88.144，前端 /travel (PM2:3003)，后端 /travel-api/ (PM2:8000)
 - **GitHub**：github.com/dingtom336-gif/travel-agent
-- **更新流程**：`ssh → cd /opt/travel-agent && git pull → pm2 restart travel-backend`
-- **AI引擎**：DeepSeek V3（deepseek-chat）+ R1（deepseek-reasoner，仅反思）
-- **测试**：`./agent/venv2/bin/python -m pytest tests/ -v`（19个测试，零token）
+- **部署**：`ssh → cd /opt/travel-agent && git pull → pm2 restart travel-backend`
+- **AI引擎**：DeepSeek V3 + R1（仅反思）
+- **测试**：`./agent/venv2/bin/python -m pytest tests/ -v`（19测试）
 
 ## 核心文件索引
 | 模块 | 关键文件 |
 |------|---------|
-| 状态提取 | `agent/orchestrator/state_extractor.py` (上下文感知+多轮对话规则) |
-| Orchestrator | `agent/orchestrator/agent.py` (传history+existing_state给extract_state) |
-| State Pool | `agent/memory/state_pool.py` (覆盖日志) |
-| 路由 | `agent/orchestrator/router.py` (改进prompt+上下文感知) |
-| Planner | `agent/orchestrator/planner.py` (交叉验证origin≠destination) |
+| 状态提取 | `agent/orchestrator/state_extractor.py` ← 本次修复核心 |
+| Orchestrator | `agent/orchestrator/agent.py` |
+| State Pool | `agent/memory/state_pool.py` |
+| Planner | `agent/orchestrator/planner.py` |
 
 ## 历史归档
-- Wave 1-8 (2026-02-07)：PRD → 前端+后端+地图+UI审查+DeepSeek集成
-- SSE/超时/记忆/数据流修复 (2026-02-08)：多轮修复+12测试+部署
-- 推理步骤UI重构+三层反思机制 (2026-02-08)
-- 性能优化+0步bug修复+R1反思+Router修复+版本号+中文化 (2026-02-08)
-- POI卡片点击+真实地点+路线空间合理性v0.3.2 (2026-02-08)
+- Wave 1-8 (02-07)：PRD→前端+后端+地图+UI审查+DeepSeek集成
+- SSE/超时/记忆/数据流/推理UI/三层反思/性能优化/Router修复/中文化 (02-08)
+- v0.3.2 POI点击+真实地点+路线空间合理性 (02-08)
