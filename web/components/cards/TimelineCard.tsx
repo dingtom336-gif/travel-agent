@@ -40,7 +40,7 @@ export default function TimelineCard({ data }: TimelineCardProps) {
         {data.items.map((item, index) => {
           const style = typeStyles[item.type] || typeStyles.activity;
           return (
-            <div key={`${item.time}-${index}`} className="relative flex gap-3 pb-4 last:pb-0">
+            <div key={`${item.time}-${index}`} className="relative flex gap-3 pb-4 last:pb-0 animate-fade-in" style={{ animationDelay: `${index * 0.08}s` }}>
               {/* Dot on timeline */}
               <div className={`relative z-10 mt-1 flex h-5 w-5 -translate-x-[10px] items-center justify-center rounded-full ${style.bgColor}`}>
                 <div className={`h-2 w-2 rounded-full ${style.dotColor}`} />

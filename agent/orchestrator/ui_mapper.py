@@ -1,13 +1,21 @@
 # UI Mapper – converts tool raw data to frontend component formats
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
+import urllib.parse
 from typing import Any, Dict, List
 
 from agent.models import SSEEventType, SSEMessage
 
 logger = logging.getLogger(__name__)
+
+
+def _generate_image_url(name: str, category: str = "travel") -> str:
+  """Generate a deterministic image URL using picsum.photos seeded by name hash."""
+  seed = hashlib.md5(f"{name}-{category}".encode()).hexdigest()[:10]
+  return f"https://picsum.photos/seed/{seed}/400/250"
 
 
 def extract_ui_components(
@@ -93,6 +101,7 @@ def _map_hotels(tool_data: Dict[str, Any]) -> List[dict]:
       "pricePerNight": h.get("price_per_night", 0),
       "currency": h.get("currency", "CNY"),
       "amenities": h.get("facilities", [])[:6],
+      "imageUrl": h.get("image_url") or _generate_image_url(h.get("name", ""), "hotel"),
     }))
   return events
 
@@ -112,6 +121,7 @@ def _map_pois(tool_data: Dict[str, Any]) -> List[dict]:
       "openingHours": p.get("hours", ""),
       "ticketPrice": p.get("price", 0),
       "currency": "CNY",
+      "imageUrl": p.get("image_url") or _generate_image_url(p.get("name", ""), p.get("category", "scenic")),
     }))
   return events
 
@@ -164,6 +174,25 @@ def _map_itinerary(tool_data: Dict[str, Any]) -> List[dict]:
       "title": f"Day {day_info.get('day', 0)}",
       "items": items,
     }))
+
+  # Extract route map from POI coordinates across all days
+  route_points = []
+  for day_info in days:
+    for item in day_info.get("schedule", []):
+      lat = item.get("lat") or item.get("latitude")
+      lng = item.get("lng") or item.get("longitude") or item.get("lon")
+      if lat and lng:
+        route_points.append({
+          "lat": float(lat),
+          "lng": float(lng),
+          "label": item.get("poi_name", ""),
+        })
+  if len(route_points) >= 2:
+    events.append(_make_ui_event("route_map", {
+      "points": route_points,
+      "title": "行程路线图",
+    }))
+
   return events
 
 
@@ -207,8 +236,8 @@ def truncate_tool_data_for_synthesis(result_data: Dict[str, Any]) -> str:
     return ""
   try:
     raw = json.dumps(tool_data, ensure_ascii=False, default=str)
-    if len(raw) > 800:
-      raw = raw[:800] + "..."
+    if len(raw) > 1500:
+      raw = raw[:1500] + "..."
     return f"\nStructured data: {raw}"
   except Exception:
     return ""

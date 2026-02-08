@@ -14,16 +14,18 @@ export default function HotelCard({ data, onSelect }: HotelCardProps) {
   return (
     <button
       type="button"
-      className="group w-full cursor-pointer overflow-hidden rounded-xl border border-border bg-card text-left transition-all hover:border-primary/30 hover:shadow-md"
+      className="group w-full cursor-pointer overflow-hidden rounded-xl border border-border bg-card text-left transition-all duration-200 hover:border-primary/30 hover:shadow-md hover:scale-[1.01]"
       onClick={onSelect}
     >
-      {/* Image placeholder */}
-      <div className="relative h-32 w-full bg-gradient-to-br from-purple-100 to-blue-100">
+      {/* Image with gradient overlay */}
+      <div className="relative h-32 w-full overflow-hidden bg-gradient-to-br from-purple-100 to-blue-100">
         {data.imageUrl ? (
           <img
             src={data.imageUrl}
             alt={data.name}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
           />
         ) : (
           <div className="flex h-full items-center justify-center">
@@ -32,6 +34,8 @@ export default function HotelCard({ data, onSelect }: HotelCardProps) {
             </svg>
           </div>
         )}
+        {/* Bottom gradient overlay for text readability */}
+        <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/20 to-transparent" />
         {/* Star badge */}
         <div className="absolute right-2 top-2 rounded-lg bg-white/90 px-2 py-0.5 text-xs font-medium text-yellow-600 backdrop-blur-sm" aria-label={`${data.stars}星级`}>
           {"★".repeat(data.stars)} {data.stars}星

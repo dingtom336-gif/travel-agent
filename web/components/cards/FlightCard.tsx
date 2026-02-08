@@ -14,7 +14,7 @@ export default function FlightCard({ data, onSelect }: FlightCardProps) {
   return (
     <button
       type="button"
-      className="group w-full cursor-pointer rounded-xl border border-border bg-card p-4 text-left transition-all hover:border-primary/30 hover:shadow-md"
+      className="group w-full cursor-pointer rounded-xl border border-border bg-card p-4 text-left transition-all duration-200 hover:border-primary/30 hover:shadow-md hover:scale-[1.01]"
       onClick={onSelect}
     >
       {/* Header: airline + flight number */}

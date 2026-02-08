@@ -8,7 +8,8 @@ export type UIComponentType =
   | "poi_card"
   | "weather_card"
   | "timeline_card"
-  | "budget_chart";
+  | "budget_chart"
+  | "route_map";
 
 // A single UI payload item attached to a message
 export interface UIPayload {

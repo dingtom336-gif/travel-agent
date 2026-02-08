@@ -84,6 +84,55 @@ When responding:
 - **Smart clarification**: If the user's request lacks critical info that you cannot reasonably infer from context, naturally weave 1-2 clarifying questions into your response. But if you can make reasonable assumptions (e.g., budget range, travel style), just proceed and mention your assumptions. Never ask more than 2 questions at once. Never ask about things you can figure out yourself.
 - **Geographic logic**: When presenting itineraries, ensure geographic rationality: group nearby locations on the same day, arrange multi-city routes to minimize backtracking (e.g., 北京→天津→广州 not 北京→广州→天津)."""
 
+# Rich output formatting guide injected into synthesis prompts
+SYNTHESIS_OUTPUT_GUIDE = """
+## Output Format Guidelines
+
+Based on the content type, CHOOSE the most fitting format. Do NOT always use the same structure. Vary your presentation across messages.
+
+### Format Toolkit (use as appropriate):
+1. **Comparison Tables** — markdown tables for comparing 2+ options (flights, hotels, restaurants). Include key differentiators.
+2. **Highlight Blockquotes** — Use `>` for key recommendations, insider tips, or important warnings.
+3. **Emoji Section Headers** — Create visual rhythm: "✈️ **航班推荐**", "🏨 **住宿方案**", "🎯 **今日亮点**", "💡 **实用贴士**"
+4. **Bold Key Stats** — Emphasize important numbers: **¥3,200/晚**, **4.8分**, **步行15分钟**
+5. **Section Dividers** — Use `---` between major sections for clear visual separation.
+6. **Bullet Tips** — Use bullet lists for practical tips, packing advice, reminders.
+7. **Numbered Steps** — Use ordered lists for itinerary sequences or step-by-step guides.
+
+### Content-Adaptive Strategy:
+- **Flight/Hotel results** → Lead with a summary sentence, then comparison table, then blockquote recommendation
+- **Destination guides** → Emoji headers for sections, mix highlights and practical tips
+- **Complete itinerary** → Day-by-day with emoji headers (🌅 Day 1), brief description per day, highlight must-sees
+- **Budget analysis** → Summary paragraph, then itemized breakdown
+- **Weather/tips** → Concise bullets with practical clothing/preparation suggestions
+- **Q&A / follow-up** → Conversational tone, skip heavy formatting, be direct
+
+### Component Placeholders:
+You can embed rich card components inline by placing these markers in your text:
+- `{{flight_cards}}` — Insert flight comparison cards here
+- `{{hotel_cards}}` — Insert hotel recommendation cards here
+- `{{poi_cards}}` — Insert point-of-interest cards here
+- `{{weather_cards}}` — Insert weather forecast cards here
+- `{{timeline}}` — Insert day-by-day timeline here
+- `{{budget_chart}}` — Insert budget breakdown chart here
+
+Use them naturally in your text flow. Example:
+"以下是为您精选的航班方案：
+
+{{flight_cards}}
+
+综合来看，我推荐 XX 航班，性价比最高。"
+
+If no placeholders are used, cards will appear after your text.
+
+{personalization_instructions}
+
+### Important:
+- VARY your structure across messages. If you used tables last time, try a different lead this time.
+- Keep response under 800 chars for simple queries, up to 2000 for complex plans.
+- Never output raw JSON or code. Always present data in human-readable markdown.
+"""
+
 class OrchestratorAgent:
   """Central agent that drives the ReAct loop and coordinates specialist agents."""
 
@@ -364,7 +413,7 @@ class OrchestratorAgent:
 
       full_response = ""
       async for chunk in self._synthesize_stream(
-        message, results, state_ctx, history,
+        message, results, state_ctx, history, personalization_ctx,
       ):
         full_response += chunk
         yield SSEMessage(
@@ -521,12 +570,33 @@ class OrchestratorAgent:
         "What destination are you considering?"
       )
 
+  def _build_personalization_instructions(self, personalization_ctx: str) -> str:
+    """Generate format instructions based on user profile."""
+    if not personalization_ctx:
+      return ""
+    instructions: list[str] = []
+    ctx_lower = personalization_ctx.lower()
+    if "经济" in ctx_lower or "省钱" in ctx_lower or "budget" in ctx_lower:
+      instructions.append("- Emphasize prices and value comparisons. Show price per person when possible.")
+    if "奢华" in ctx_lower or "高端" in ctx_lower or "luxury" in ctx_lower:
+      instructions.append("- Highlight premium features, exclusive experiences, star ratings.")
+    if "亲子" in ctx_lower or "孩子" in ctx_lower or "family" in ctx_lower:
+      instructions.append("- Mention child-friendliness, age suitability, family facilities.")
+    if "美食" in ctx_lower or "吃" in ctx_lower or "foodie" in ctx_lower:
+      instructions.append("- Include restaurant recommendations with must-try dishes.")
+    if "摄影" in ctx_lower or "拍照" in ctx_lower or "photo" in ctx_lower:
+      instructions.append("- Mention best photo spots and golden hour times.")
+    if instructions:
+      return "### Personalization:\n" + "\n".join(instructions)
+    return ""
+
   def _build_synthesis_prompt(
     self,
     user_message: str,
     results: dict[str, AgentResult],
     state_ctx: str,
     context_summary: str = "",
+    personalization_ctx: str = "",
   ) -> tuple[str, str]:
     """Build synthesis prompt and combined results string."""
     result_summaries: list[str] = []
@@ -542,15 +612,22 @@ class OrchestratorAgent:
     if context_summary:
       context_block = f"Conversation context:\n{context_summary}\n\n"
 
+    # Build personalization-aware output guide
+    personal_instr = self._build_personalization_instructions(personalization_ctx)
+    output_guide = SYNTHESIS_OUTPUT_GUIDE.replace(
+      "{personalization_instructions}", personal_instr,
+    )
+
     prompt = (
       f"{context_block}"
       f"Latest user message: {user_message}\n\n"
       f"Current travel parameters:\n{state_ctx}\n\n"
       f"Agent results:\n{combined}\n\n"
+      f"{output_guide}\n\n"
       "Synthesize a coherent, well-structured response. "
       "If this is a follow-up, UPDATE the plan with new info, don't restart. "
       "If critical info is missing and cannot be inferred, naturally ask 1-2 questions in your response. "
-      "Use markdown. Respond in the user's language."
+      "Respond in the user's language."
     )
     return prompt, combined
 
@@ -560,12 +637,13 @@ class OrchestratorAgent:
     results: dict[str, AgentResult],
     state_ctx: str,
     history: list[dict[str, Any]],
+    personalization_ctx: str = "",
   ) -> AsyncGenerator[str, None]:
     """Stream synthesis – yields text chunks for SSE."""
     settings = get_settings()
     context_summary = await build_context_with_summary(history)
     prompt, combined = self._build_synthesis_prompt(
-      user_message, results, state_ctx, context_summary,
+      user_message, results, state_ctx, context_summary, personalization_ctx,
     )
 
     try:
@@ -590,12 +668,13 @@ class OrchestratorAgent:
     results: dict[str, AgentResult],
     state_ctx: str,
     history: list[dict[str, Any]],
+    personalization_ctx: str = "",
   ) -> str:
     """Non-streaming synthesis – used by _handle_simple fallback."""
     settings = get_settings()
     context_summary = await build_context_with_summary(history)
     prompt, combined = self._build_synthesis_prompt(
-      user_message, results, state_ctx, context_summary,
+      user_message, results, state_ctx, context_summary, personalization_ctx,
     )
 
     try:

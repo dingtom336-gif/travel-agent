@@ -30,16 +30,18 @@ export default function POICard({ data, onSelect }: POICardProps) {
   return (
     <button
       type="button"
-      className="group w-full cursor-pointer overflow-hidden rounded-xl border border-border bg-card text-left transition-all hover:border-primary/30 hover:shadow-md"
+      className="group w-full cursor-pointer overflow-hidden rounded-xl border border-border bg-card text-left transition-all duration-200 hover:border-primary/30 hover:shadow-md hover:scale-[1.01]"
       onClick={handleClick}
     >
-      {/* Image placeholder */}
-      <div className="relative h-28 w-full bg-gradient-to-br from-green-100 to-emerald-100">
+      {/* Image with gradient overlay */}
+      <div className="relative h-28 w-full overflow-hidden bg-gradient-to-br from-green-100 to-emerald-100">
         {data.imageUrl ? (
           <img
             src={data.imageUrl}
             alt={data.name}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
           />
         ) : (
           <div className="flex h-full items-center justify-center">
@@ -49,6 +51,8 @@ export default function POICard({ data, onSelect }: POICardProps) {
             </svg>
           </div>
         )}
+        {/* Bottom gradient overlay */}
+        <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/20 to-transparent" />
         {/* Type badge */}
         <div className="absolute left-2 top-2 rounded-lg bg-white/90 px-2 py-0.5 text-xs font-medium text-green-600 backdrop-blur-sm">
           {typeLabels[data.type] || data.type}

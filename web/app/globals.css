@@ -129,6 +129,22 @@ body {
   animation: slideUp 0.4s ease-out forwards;
 }
 
+/* Card entrance animation */
+@keyframes cardEntrance {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-card-in {
+  opacity: 0;
+  animation: cardEntrance 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Staggered animation delays */
+.stagger-1 { animation-delay: 0.06s; }
+.stagger-2 { animation-delay: 0.12s; }
+.stagger-3 { animation-delay: 0.18s; }
+
 /* Gradient background for hero section */
 .hero-gradient {
   background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 30%, #bfdbfe 60%, #e0f2fe 100%);

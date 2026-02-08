@@ -11,7 +11,7 @@ export default function Footer() {
           </div>
           <p className="text-sm text-muted-foreground">
             &copy; {new Date().getFullYear()} TravelMind. 你的 AI 旅行规划助手.
-            <span className="ml-2 text-[10px] opacity-30 select-none">v0.3.3</span>
+            <span className="ml-2 text-[10px] opacity-30 select-none">v0.4.0</span>
           </p>
           <div className="flex gap-4 text-sm text-muted-foreground">
             <a href="#" className="hover:text-foreground transition-colors">关于我们</a>
