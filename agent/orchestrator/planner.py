@@ -34,6 +34,7 @@ Rules:
 5. If the user's message is a simple greeting or chit-chat, return an empty array [].
 6. If the user's message is a follow-up adding new info (e.g., "from Shanghai"), only plan tasks for the new/changed aspects. Reuse previous results where possible. Do NOT re-plan everything from scratch.
 7. IMPORTANT: The "goal" field MUST be written in Chinese (e.g., "查询目的地签证和旅行贴士", "搜索航班和交通方案").
+8. Cross-validate: if the state shows origin and destination as the same city, this is likely a state extraction error. Treat the conversation history as the source of truth for the actual destination.
 
 Respond ONLY with the JSON array, no extra text."""
 

@@ -113,7 +113,7 @@ class OrchestratorAgent:
       has_travel_context = bool(existing_state and existing_state.destination)
 
       _, complexity = await asyncio.gather(
-        extract_state(session_id, message),
+        extract_state(session_id, message, history, existing_state),
         classify_complexity(message, history, has_travel_context),
       )
 

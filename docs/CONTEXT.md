@@ -1,17 +1,16 @@
 ## 当前状态
-**三项修复v0.3.2：** POI卡片可点击（Google Maps）、真实地点（删除虚假池+LLM回填）、路线空间合理性（地理邻近约束）。19测试通过。
+**对话语义修复v0.3.3：** extract_state注入对话历史+已有state，解决follow-up回答被误解为新目的地。5文件改动，19测试通过。
 
 ## 最近操作记录
 | # | 时间 | 操作摘要 | 类型 |
 |---|------|---------|------|
-| 1 | 2026-02-08 | R1反思+Router修复：5文件改动，多专家+右侧面板数据流恢复 | 🖥️终端 |
-| 2 | 2026-02-08 | Footer版本号v0.3.0 + 推理步骤全中文化v0.3.1 | 🖥️终端 |
-| 3 | 2026-02-08 | 三项修复v0.3.2：POI点击+真实地点+路线空间合理性（7文件） | 🖥️终端 |
+| 1 | 2026-02-08 | Footer版本号v0.3.0 + 推理步骤全中文化v0.3.1 | 🖥️终端 |
+| 2 | 2026-02-08 | 三项修复v0.3.2：POI点击+真实地点+路线空间合理性（7文件） | 🖥️终端 |
+| 3 | 2026-02-08 | 对话语义修复v0.3.3：state_extractor上下文感知（5文件） | 🖥️终端 |
 
 ## 未完成事项
-- [ ] 部署v0.3.2到生产服务器并验证
-- [ ] E2E验证：非预置城市POI不再出现虚假地名
-- [ ] E2E验证：多城市行程按地理顺序排列
+- [ ] E2E验证："日本5天"→追问出发城市→回答"上海"→确认destination=日本,origin=上海
+- [ ] E2E验证："改成去泰国"→destination正确更新为泰国
 
 ## 环境备忘
 - **本地开发**：`~/Desktop/claude-test/travel-agent/`，前端3001，后端8000
@@ -26,17 +25,15 @@
 ## 核心文件索引
 | 模块 | 关键文件 |
 |------|---------|
-| LLM 客户端 | `agent/llm/client.py` (llm_chat + llm_chat_stream + model参数 + 重试) |
-| 配置 | `agent/config/settings.py` (DEEPSEEK_MODEL + DEEPSEEK_REASONER_MODEL) |
-| Orchestrator | `agent/orchestrator/agent.py` (并行+流式+地理逻辑约束) |
-| 反思引擎 | `agent/orchestrator/reflector.py` (R1模型) |
+| 状态提取 | `agent/orchestrator/state_extractor.py` (上下文感知+多轮对话规则) |
+| Orchestrator | `agent/orchestrator/agent.py` (传history+existing_state给extract_state) |
+| State Pool | `agent/memory/state_pool.py` (覆盖日志) |
 | 路由 | `agent/orchestrator/router.py` (改进prompt+上下文感知) |
-| POI专家 | `agent/teams/poi.py` (真实地点prompt+LLM JSON回填) |
-| 行程专家 | `agent/teams/itinerary.py` (地理邻近性约束) |
+| Planner | `agent/orchestrator/planner.py` (交叉验证origin≠destination) |
 
 ## 历史归档
 - Wave 1-8 (2026-02-07)：PRD → 前端+后端+地图+UI审查+DeepSeek集成
 - SSE/超时/记忆/数据流修复 (2026-02-08)：多轮修复+12测试+部署
-- 推理步骤UI重构 (2026-02-08)：ThinkingSteps.tsx新组件+ChatContainer改造+部署
-- 三层反思机制 (2026-02-08)：Layer0纠错+Layer1规则+Layer2 LLM审查+7新测试+部署
+- 推理步骤UI重构+三层反思机制 (2026-02-08)
 - 性能优化+0步bug修复+R1反思+Router修复+版本号+中文化 (2026-02-08)
+- POI卡片点击+真实地点+路线空间合理性v0.3.2 (2026-02-08)

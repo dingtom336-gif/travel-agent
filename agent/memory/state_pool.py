@@ -1,9 +1,12 @@
 # Global state pool – maintains extracted travel parameters per session
 from __future__ import annotations
 
+import logging
 from typing import Any
 
 from agent.models import SessionState
+
+logger = logging.getLogger(__name__)
 
 
 class StatePool:
@@ -28,6 +31,12 @@ class StatePool:
     state = self.get(session_id)
     for key, value in kwargs.items():
       if value is not None and hasattr(state, key):
+        old_value = getattr(state, key)
+        if old_value is not None and old_value != value:
+          logger.info(
+            "State field '%s' overwritten: '%s' -> '%s' (session=%s)",
+            key, old_value, value, session_id[:8],
+          )
         setattr(state, key, value)
     return state
 
