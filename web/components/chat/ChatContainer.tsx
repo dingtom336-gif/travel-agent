@@ -181,14 +181,28 @@ export default function ChatContainer() {
         }
 
         case "agent_result": {
-          // A sub-agent finished
+          // A sub-agent finished – update its running step by agent name
           const agentName = (data.agent as string) || "unknown";
-          upsertThinkingStep(aiMsgId, {
-            agent: agentName,
-            task: (data.task as string) || (data.summary as string) || "完成",
-            status: (data.status as string) === "failed" ? "error" : "done",
-            timestamp: Date.now(),
-          });
+          const resultStatus = (data.status as string) === "failed" ? "error" : "done";
+          setMessages((prev) =>
+            prev.map((msg) => {
+              if (msg.id !== aiMsgId) return msg;
+              const steps = [...(msg.thinkingSteps || [])];
+              // Find last running step for this agent and update it
+              for (let i = steps.length - 1; i >= 0; i--) {
+                if (steps[i].agent === agentName && steps[i].status === "running") {
+                  steps[i] = {
+                    ...steps[i],
+                    task: (data.summary as string) || steps[i].task,
+                    status: resultStatus as "done" | "error",
+                    timestamp: Date.now(),
+                  };
+                  break;
+                }
+              }
+              return { ...msg, thinkingSteps: steps };
+            })
+          );
 
           // Extract structured data and dispatch to travel context
           const resultData = data.data as Record<string, unknown> | undefined;
@@ -219,6 +233,16 @@ export default function ChatContainer() {
         }
 
         case "done": {
+          // Auto-complete all remaining running steps
+          setMessages((prev) =>
+            prev.map((msg) => {
+              if (msg.id !== aiMsgId) return msg;
+              const updatedSteps = (msg.thinkingSteps || []).map((s) =>
+                s.status === "running" ? { ...s, status: "done" as const } : s
+              );
+              return { ...msg, thinkingSteps: updatedSteps };
+            })
+          );
           // Stream finished; save session_id for future messages
           if (data.session_id) {
             const sid = data.session_id as string;

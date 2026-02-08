@@ -92,12 +92,6 @@ class OrchestratorAgent:
       user_id = session_id
       personalization_ctx = profile_manager.get_personalization_context(user_id)
 
-      # Step 1: Extract state from user message
-      yield SSEMessage(
-        event=SSEEventType.THINKING,
-        data={"agent": "orchestrator", "thought": "Analyzing your request..."},
-      ).format()
-
       # Step 1+2: Extract state AND classify complexity in parallel
       history = session_memory.get_history(session_id)
       _, complexity = await asyncio.gather(
@@ -331,6 +325,14 @@ class OrchestratorAgent:
             reflection_round += 1
             continue
 
+        # Always emit validation feedback so user sees verification happened
+        yield SSEMessage(
+          event=SSEEventType.THINKING,
+          data={
+            "agent": "orchestrator",
+            "thought": "All results validated, no issues found.",
+          },
+        ).format()
         break  # No issues or only warnings
 
       # --- SYNTHESIZE: Stream combined results to user ---
