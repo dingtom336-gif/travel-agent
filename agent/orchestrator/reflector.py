@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 from typing import Any, Optional
 
+from agent.config.settings import get_settings
 from agent.llm import llm_chat
 from agent.models import AgentName, AgentResult, SessionState, TaskStatus
 
@@ -212,6 +213,7 @@ class ConsistencyChecker:
         messages=[{"role": "user", "content": prompt}],
         max_tokens=256,
         temperature=0.1,
+        model=get_settings().DEEPSEEK_REASONER_MODEL,
       )
 
       if text is None:

@@ -22,6 +22,7 @@ class Settings(BaseSettings):
   DEEPSEEK_API_KEY: str = ""
   DEEPSEEK_BASE_URL: str = "https://api.deepseek.com"
   DEEPSEEK_MODEL: str = "deepseek-chat"
+  DEEPSEEK_REASONER_MODEL: str = "deepseek-reasoner"
   LLM_MAX_TOKENS: int = 2048
   LLM_AGENT_TOKENS: int = 1024
   LLM_TIMEOUT: float = 30.0

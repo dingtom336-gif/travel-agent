@@ -9,21 +9,29 @@ from agent.llm import llm_chat
 
 logger = logging.getLogger(__name__)
 
-ROUTER_SYSTEM_PROMPT = """You are a routing classifier for TravelMind, a travel planning AI.
+ROUTER_SYSTEM_PROMPT = """You are a routing classifier for TravelMind.
 
-Given the user's message, classify it into exactly one category:
+Classify the LATEST message as "simple" or "complex":
 
-- "simple": greetings, chit-chat, simple factual questions that can be answered directly
+- "simple": pure greetings, thanks, or factual questions unrelated to planning
   (e.g. "hi", "thanks", "what time zone is Tokyo in?")
-- "complex": travel planning requests that need multiple agents
-  (e.g. "plan a 5-day trip to Japan", "find flights and hotels for my family vacation")
+- "complex": ANY message that should trigger travel planning or replanning:
+  - New travel request ("plan a 5-day trip to Japan")
+  - User providing missing info (dates, budget, preferences, ages, style)
+  - User adding constraints or changing requirements
+  - Follow-up that completes enough info to start/update a plan
 
-Respond with ONLY the word "simple" or "complex"."""
+IMPORTANT: If the conversation already has a travel topic and the user
+provides additional details (even short ones like "明天" or "3岁"),
+classify as "complex" — these trigger agent replanning.
+
+Respond with ONLY "simple" or "complex"."""
 
 
 async def classify_complexity(
   user_message: str,
   conversation_history: list[dict[str, Any]] | None = None,
+  has_travel_context: bool = False,
 ) -> str:
   """Return 'simple' or 'complex' for the given message.
 
@@ -32,7 +40,7 @@ async def classify_complexity(
   try:
     # Include recent history so the LLM can tell follow-ups from new requests
     if conversation_history:
-      recent = conversation_history[-4:]
+      recent = conversation_history[-6:]
       context = "\n".join(
         f'{m["role"]}: {m["content"][:150]}' for m in recent
       )
@@ -43,29 +51,38 @@ async def classify_complexity(
     text = await llm_chat(
       system=ROUTER_SYSTEM_PROMPT,
       messages=[{"role": "user", "content": prompt}],
-      max_tokens=8,
+      max_tokens=16,
       temperature=0.1,
     )
     if text is None:
-      return _heuristic_classify(user_message)
+      return _heuristic_classify(user_message, has_travel_context)
     result = text.strip().lower()
     if result in ("simple", "complex"):
       return result
     return "complex"  # default to complex if unclear
   except Exception as exc:
     logger.warning("Router classification failed: %s – using heuristic", exc)
-    return _heuristic_classify(user_message)
+    return _heuristic_classify(user_message, has_travel_context)
 
 
-def _heuristic_classify(message: str) -> str:
-  """Keyword-based fallback when Claude is unavailable."""
+def _heuristic_classify(message: str, has_travel_context: bool = False) -> str:
+  """Keyword-based fallback when LLM is unavailable."""
   simple_patterns = [
     "hello", "hi", "hey", "thanks", "thank you", "bye",
     "你好", "谢谢", "再见", "嗯", "好的", "ok",
   ]
   msg_lower = message.strip().lower()
-  # Short messages or matching simple patterns
-  if len(msg_lower) < 10 or msg_lower in simple_patterns:
+
+  # If we already have travel context, short messages are likely follow-ups
+  if has_travel_context and msg_lower not in simple_patterns:
+    return "complex"
+
+  # Short messages matching simple patterns
+  if msg_lower in simple_patterns:
+    return "simple"
+
+  # Very short messages without travel context → simple
+  if len(msg_lower) < 10 and not has_travel_context:
     return "simple"
 
   complex_keywords = [

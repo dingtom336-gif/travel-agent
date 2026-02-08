@@ -42,6 +42,7 @@ async def llm_chat(
   messages: list[dict[str, str]],
   max_tokens: int = 2048,
   temperature: float = 0.7,
+  model: str | None = None,
 ) -> str | None:
   """Send a chat completion request with retry.
 
@@ -62,7 +63,7 @@ async def llm_chat(
   for attempt in range(MAX_RETRIES + 1):
     try:
       response = await client.chat.completions.create(
-        model=settings.DEEPSEEK_MODEL,
+        model=model or settings.DEEPSEEK_MODEL,
         max_tokens=max_tokens,
         temperature=temperature,
         messages=full_messages,
@@ -86,6 +87,7 @@ async def llm_chat_stream(
   messages: list[dict[str, str]],
   max_tokens: int = 2048,
   temperature: float = 0.7,
+  model: str | None = None,
 ) -> AsyncGenerator[str, None]:
   """Stream chat completion, yielding content chunks.
 
@@ -106,7 +108,7 @@ async def llm_chat_stream(
   for attempt in range(MAX_RETRIES + 1):
     try:
       stream = await client.chat.completions.create(
-        model=settings.DEEPSEEK_MODEL,
+        model=model or settings.DEEPSEEK_MODEL,
         max_tokens=max_tokens,
         temperature=temperature,
         messages=full_messages,

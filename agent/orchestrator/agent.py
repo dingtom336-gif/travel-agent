@@ -94,9 +94,13 @@ class OrchestratorAgent:
 
       # Step 1+2: Extract state AND classify complexity in parallel
       history = session_memory.get_history(session_id)
+      # Check if session already has travel context (e.g. destination set)
+      existing_state = state_pool.get(session_id)
+      has_travel_context = bool(existing_state and existing_state.destination)
+
       _, complexity = await asyncio.gather(
         extract_state(session_id, message),
-        classify_complexity(message, history),
+        classify_complexity(message, history, has_travel_context),
       )
 
       if complexity == "simple":
