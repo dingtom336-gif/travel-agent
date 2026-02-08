@@ -57,6 +57,19 @@ AGENT_REGISTRY: dict[AgentName, BaseAgent] = {
   AgentName.CUSTOMER_SERVICE: CustomerServiceAgent(),
 }
 
+# Agent display names for Chinese UI
+agentDisplayNames: dict[str, str] = {
+  "orchestrator": "主控大脑",
+  "transport": "交通专家",
+  "hotel": "住宿专家",
+  "poi": "目的地专家",
+  "itinerary": "行程编排师",
+  "budget": "预算管家",
+  "knowledge": "知识顾问",
+  "weather": "天气助手",
+  "customer_service": "客服专家",
+}
+
 # System prompt for quick replies and final synthesis
 ORCHESTRATOR_SYSTEM_PROMPT = """You are TravelMind, a friendly and professional AI travel planning assistant.
 
@@ -188,7 +201,7 @@ class OrchestratorAgent:
         event=SSEEventType.THINKING,
         data={
           "agent": "orchestrator",
-          "thought": "Breaking down your request into sub-tasks...",
+          "thought": "正在分解你的需求为子任务...",
         },
       ).format()
 
@@ -212,7 +225,7 @@ class OrchestratorAgent:
           event=SSEEventType.THINKING,
           data={
             "agent": "orchestrator",
-            "thought": f"Dispatching {len(parallel_tasks)} parallel tasks...",
+            "thought": f"正在调度 {len(parallel_tasks)} 个专家并行处理...",
           },
         ).format()
 
@@ -282,7 +295,7 @@ class OrchestratorAgent:
               event=SSEEventType.THINKING,
               data={
                 "agent": "orchestrator",
-                "thought": "Detected inconsistencies, correcting...",
+                "thought": "发现数据不一致，正在纠正...",
               },
             ).format()
 
@@ -291,14 +304,14 @@ class OrchestratorAgent:
             for agent_name, _original in to_rerun:
               rerun_task = AgentTask(
                 agent=AgentName(agent_name),
-                goal="Re-query with corrected parameters",
+                goal="使用纠正后的参数重新查询",
               )
 
               yield SSEMessage(
                 event=SSEEventType.AGENT_START,
                 data={
                   "agent": agent_name,
-                  "task": f"Correcting {agent_name} results...",
+                  "task": f"正在纠正 {agentDisplayNames.get(agent_name, agent_name)} 的结果...",
                 },
               ).format()
 
@@ -334,7 +347,7 @@ class OrchestratorAgent:
           event=SSEEventType.THINKING,
           data={
             "agent": "orchestrator",
-            "thought": "All results validated, no issues found.",
+            "thought": "所有结果已验证，未发现问题。",
           },
         ).format()
         break  # No issues or only warnings
@@ -344,7 +357,7 @@ class OrchestratorAgent:
         event=SSEEventType.THINKING,
         data={
           "agent": "orchestrator",
-          "thought": "Synthesizing results from all agents...",
+          "thought": "正在综合所有专家结果，生成旅行方案...",
         },
       ).format()
 

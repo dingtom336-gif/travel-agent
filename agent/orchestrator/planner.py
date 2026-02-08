@@ -28,11 +28,12 @@ Available agents:
 
 Rules:
 1. Return a JSON array of task objects.
-2. Each task has: agent (string), goal (string), params (object), depends_on (array of agent names whose results this task needs).
+2. Each task has: agent (string), goal (string in Chinese), params (object), depends_on (array of agent names whose results this task needs).
 3. Tasks without dependencies can run in parallel.
 4. The "itinerary" agent usually depends on transport, poi, hotel results.
 5. If the user's message is a simple greeting or chit-chat, return an empty array [].
 6. If the user's message is a follow-up adding new info (e.g., "from Shanghai"), only plan tasks for the new/changed aspects. Reuse previous results where possible. Do NOT re-plan everything from scratch.
+7. IMPORTANT: The "goal" field MUST be written in Chinese (e.g., "查询目的地签证和旅行贴士", "搜索航班和交通方案").
 
 Respond ONLY with the JSON array, no extra text."""
 
@@ -40,31 +41,31 @@ Respond ONLY with the JSON array, no extra text."""
 MOCK_PLAN: list[dict[str, Any]] = [
   {
     "agent": "knowledge",
-    "goal": "Look up visa and travel tips for the destination",
+    "goal": "查询目的地签证政策和旅行贴士",
     "params": {},
     "depends_on": [],
   },
   {
     "agent": "weather",
-    "goal": "Check weather forecast for the destination during travel dates",
+    "goal": "查询旅行期间目的地天气预报",
     "params": {},
     "depends_on": [],
   },
   {
     "agent": "transport",
-    "goal": "Search for transport options to the destination",
+    "goal": "搜索前往目的地的交通方案",
     "params": {},
     "depends_on": [],
   },
   {
     "agent": "poi",
-    "goal": "Recommend attractions and experiences at the destination",
+    "goal": "推荐目的地热门景点和体验",
     "params": {},
     "depends_on": [],
   },
   {
     "agent": "itinerary",
-    "goal": "Compile a day-by-day itinerary from all agent results",
+    "goal": "根据所有专家结果编排每日行程",
     "params": {},
     "depends_on": ["transport", "poi", "knowledge", "weather"],
   },
