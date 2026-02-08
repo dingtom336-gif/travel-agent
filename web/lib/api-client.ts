@@ -1,3 +1,13 @@
+import type {
+  BattleResult,
+  EvaluationResult,
+  FaultConfig,
+  Persona,
+  Scenario,
+  ScenarioResult,
+  SessionDetail,
+  SessionSummary,
+} from "./simulator-types";
 import { ChatRequest, SSEEvent, SSEEventType } from "./types";
 
 // Backend agent service base URL
@@ -162,6 +172,108 @@ export async function getItinerary(id: string): Promise<unknown | null> {
  * Combine multiple AbortSignals into one.
  * The combined signal aborts when any of the input signals aborts.
  */
+// ====================================================================== //
+// Simulator / Debug API functions
+// ====================================================================== //
+
+const DEBUG_HEADERS = {
+  "Content-Type": "application/json",
+};
+
+export async function getPersonas(): Promise<Persona[]> {
+  const res = await fetch(`${API_BASE_URL}/api/debug/personas`);
+  const data = await res.json();
+  return data.personas ?? [];
+}
+
+export async function getScenarios(): Promise<Scenario[]> {
+  const res = await fetch(`${API_BASE_URL}/api/debug/scenarios`);
+  const data = await res.json();
+  return data.scenarios ?? [];
+}
+
+export async function runBattle(
+  persona: string,
+  turns: number,
+  scenario?: string
+): Promise<BattleResult> {
+  const res = await fetch(`${API_BASE_URL}/api/debug/battle`, {
+    method: "POST",
+    headers: DEBUG_HEADERS,
+    body: JSON.stringify({ persona, turns, scenario: scenario || null }),
+  });
+  if (!res.ok) throw new Error(`Battle failed: ${res.status}`);
+  return res.json();
+}
+
+export async function activateScenario(
+  scenario: string
+): Promise<ScenarioResult> {
+  const res = await fetch(`${API_BASE_URL}/api/debug/activate-scenario`, {
+    method: "POST",
+    headers: DEBUG_HEADERS,
+    body: JSON.stringify({ scenario }),
+  });
+  if (!res.ok) throw new Error(`Activate scenario failed: ${res.status}`);
+  return res.json();
+}
+
+export async function resetFaults(): Promise<{ status: string; faults_cleared: number }> {
+  const res = await fetch(`${API_BASE_URL}/api/debug/reset`, {
+    method: "POST",
+    headers: DEBUG_HEADERS,
+  });
+  return res.json();
+}
+
+export async function getFaultConfig(): Promise<FaultConfig> {
+  const res = await fetch(`${API_BASE_URL}/api/debug/fault-config`);
+  return res.json();
+}
+
+export async function injectFault(
+  faultType: string,
+  params?: Record<string, unknown>
+): Promise<unknown> {
+  const res = await fetch(`${API_BASE_URL}/api/debug/inject-fault`, {
+    method: "POST",
+    headers: DEBUG_HEADERS,
+    body: JSON.stringify({ fault_type: faultType, params: params ?? {} }),
+  });
+  if (!res.ok) throw new Error(`Inject fault failed: ${res.status}`);
+  return res.json();
+}
+
+export async function evaluateSession(
+  sessionId: string
+): Promise<{ session_id: string; evaluation: EvaluationResult }> {
+  const res = await fetch(`${API_BASE_URL}/api/debug/evaluate`, {
+    method: "POST",
+    headers: DEBUG_HEADERS,
+    body: JSON.stringify({ session_id: sessionId }),
+  });
+  if (!res.ok) throw new Error(`Evaluate failed: ${res.status}`);
+  return res.json();
+}
+
+export async function listSessions(): Promise<SessionSummary[]> {
+  const res = await fetch(`${API_BASE_URL}/api/debug/sessions`);
+  const data = await res.json();
+  return data.sessions ?? [];
+}
+
+export async function getSessionDetail(
+  sessionId: string
+): Promise<SessionDetail> {
+  const res = await fetch(`${API_BASE_URL}/api/debug/sessions/${sessionId}`);
+  if (!res.ok) throw new Error(`Session not found: ${res.status}`);
+  return res.json();
+}
+
+// ====================================================================== //
+// Internal helpers
+// ====================================================================== //
+
 function combineAbortSignals(...signals: AbortSignal[]): AbortSignal {
   const controller = new AbortController();
   for (const sig of signals) {

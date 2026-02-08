@@ -34,7 +34,7 @@ class BaseAgent(ABC):
     return get_tools_for_agent(self.name.value)
 
   async def call_tool(self, tool_name: str, **kwargs: Any) -> Any:
-    """Call a registered tool by name.
+    """Call a registered tool by name, with fault injection support.
 
     Args:
       tool_name: Name of the tool (e.g. "search_flights")
@@ -53,8 +53,48 @@ class BaseAgent(ABC):
         f"Tool '{tool_name}' not available for agent '{self.name.value}'. "
         f"Available: {list(tools.keys())}"
       )
+
+    # Fault injection: check for simulated faults before calling
+    from agent.simulator.env_simulator import get_env_simulator
+    env_sim = get_env_simulator()
+
+    if env_sim.is_fault_active("tool_timeout"):
+      if env_sim.should_trigger_fault("tool_timeout"):
+        config = env_sim._active_faults["tool_timeout"]
+        timeout_ms = config.params.get("timeout_ms", 5000)
+        affected = config.params.get("affected_tools", ["all"])
+        if "all" in affected or tool_name in affected:
+          import asyncio
+          logger.warning(
+            "FAULT INJECTED: timeout %dms for %s.%s",
+            timeout_ms, self.name.value, tool_name,
+          )
+          await asyncio.sleep(timeout_ms / 1000.0)
+          raise TimeoutError(f"Simulated timeout for {tool_name}")
+
+    if env_sim.is_fault_active("tool_error"):
+      if env_sim.should_trigger_fault("tool_error"):
+        config = env_sim._active_faults["tool_error"]
+        affected = config.params.get("affected_tools", ["all"])
+        if "all" in affected or tool_name in affected:
+          error_msg = config.params.get(
+            "error_message", "Simulated tool error",
+          )
+          logger.warning(
+            "FAULT INJECTED: error for %s.%s: %s",
+            self.name.value, tool_name, error_msg,
+          )
+          raise RuntimeError(error_msg)
+
     try:
       result = await func(**kwargs)
+
+      # Fault injection: apply price modifier to results
+      if env_sim.is_fault_active("price_change"):
+        modifier = env_sim.get_price_modifier()
+        if modifier != 1.0:
+          result = self._apply_price_modifier(result, modifier)
+
       logger.info(
         "Agent %s called tool %s -> success=%s",
         self.name.value, tool_name, result.get("success", "n/a"),
@@ -66,6 +106,23 @@ class BaseAgent(ABC):
         self.name.value, tool_name, exc,
       )
       raise
+
+  @staticmethod
+  def _apply_price_modifier(result: Any, modifier: float) -> Any:
+    """Apply price multiplier to tool results containing price fields."""
+    if not isinstance(result, dict):
+      return result
+    price_keys = ("price", "price_per_night", "ticket_price", "total_price")
+    for key in price_keys:
+      if key in result and isinstance(result[key], (int, float)):
+        result[key] = round(result[key] * modifier)
+    # Handle nested results list
+    for item in result.get("results", []):
+      if isinstance(item, dict):
+        for key in price_keys:
+          if key in item and isinstance(item[key], (int, float)):
+            item[key] = round(item[key] * modifier)
+    return result
 
   # --- abstract ---
 

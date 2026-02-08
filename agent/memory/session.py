@@ -7,20 +7,21 @@ from agent.config.settings import get_settings
 
 
 class SessionMemory:
-  """Per-session short-term memory storing conversation history.
+  """Per-session short-term memory storing conversation history and agent traces.
 
-  Uses a plain dict keyed by session_id.
-  Automatically truncates to the most recent N turns.
+  Uses plain dicts keyed by session_id.
+  Automatically truncates messages to the most recent N turns.
   """
 
   def __init__(self) -> None:
     self._store: dict[str, list[dict[str, Any]]] = {}
+    self._traces: dict[str, list[dict[str, Any]]] = {}
 
   @property
   def _max_turns(self) -> int:
     return get_settings().MAX_SESSION_TURNS
 
-  # --- public API ---
+  # --- message API ---
 
   def get_history(self, session_id: str) -> list[dict[str, Any]]:
     """Return conversation history for a session."""
@@ -38,9 +39,28 @@ class SessionMemory:
     self._store[session_id].append({"role": role, "content": content})
     self._truncate(session_id)
 
+  # --- trace API ---
+
+  def add_trace(self, session_id: str, trace: dict[str, Any]) -> None:
+    """Append an agent execution trace for the session."""
+    if session_id not in self._traces:
+      self._traces[session_id] = []
+    self._traces[session_id].append(trace)
+
+  def get_traces(self, session_id: str) -> list[dict[str, Any]]:
+    """Return all agent traces for a session."""
+    return list(self._traces.get(session_id, []))
+
+  # --- session management ---
+
+  def list_sessions(self) -> list[str]:
+    """Return all session IDs that have history."""
+    return list(self._store.keys())
+
   def clear(self, session_id: str) -> None:
-    """Clear all history for a session."""
+    """Clear all history and traces for a session."""
     self._store.pop(session_id, None)
+    self._traces.pop(session_id, None)
 
   def exists(self, session_id: str) -> bool:
     """Check if a session exists."""

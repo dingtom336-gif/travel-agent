@@ -14,7 +14,8 @@ from sse_starlette.sse import EventSourceResponse
 from agent.config.settings import get_settings
 from agent.models import ChatRequest
 from agent.orchestrator.agent import orchestrator
-from agent.simulator.env_simulator import EnvironmentSimulator
+from agent.simulator.battle_runner import run_battle, run_battle_stream
+from agent.simulator.env_simulator import get_env_simulator
 from agent.simulator.evaluator import Evaluator
 from agent.simulator.user_simulator import UserSimulator
 
@@ -28,7 +29,7 @@ settings = get_settings()
 
 # --- Simulator singletons ---
 user_simulator = UserSimulator()
-env_simulator = EnvironmentSimulator()
+env_simulator = get_env_simulator()  # shared singleton with base.py
 evaluator = Evaluator()
 
 
@@ -55,6 +56,18 @@ class InjectFaultRequest(BaseModel):
     default_factory=dict,
     description="Optional fault parameters",
   )
+
+
+class BattleRequest(BaseModel):
+  """Request body for POST /api/debug/battle."""
+  persona: str = Field(..., description="Persona name")
+  turns: int = Field(default=3, ge=1, le=10, description="Number of turns")
+  scenario: Optional[str] = Field(default=None, description="Scenario to activate")
+
+
+class ActivateScenarioRequest(BaseModel):
+  """Request body for POST /api/debug/activate-scenario."""
+  scenario: str = Field(..., description="Scenario name to activate")
 
 
 app = FastAPI(
@@ -220,7 +233,10 @@ async def debug_evaluate(request: EvaluateRequest):
         content={"error": f"Session '{request.session_id}' not found or empty"},
       )
 
-    report = evaluator.evaluate_conversation(messages=history)
+    traces = session_memory.get_traces(request.session_id)
+    report = evaluator.evaluate_conversation(
+      messages=history, agent_traces=traces,
+    )
     return {
       "session_id": request.session_id,
       "evaluation": report.to_dict(),
@@ -253,4 +269,127 @@ async def debug_inject_fault(request: InjectFaultRequest):
     return JSONResponse(status_code=400, content={"error": str(exc)})
   except Exception as exc:
     logger.exception("Debug inject-fault error")
+    return JSONResponse(status_code=500, content={"error": str(exc)})
+
+
+@app.post("/api/debug/activate-scenario")
+async def debug_activate_scenario(request: ActivateScenarioRequest):
+  """Activate a pre-defined fault scenario."""
+  try:
+    result = env_simulator.simulate_scenario(request.scenario)
+    return result.to_dict()
+  except ValueError as exc:
+    return JSONResponse(status_code=400, content={"error": str(exc)})
+  except Exception as exc:
+    logger.exception("Debug activate-scenario error")
+    return JSONResponse(status_code=500, content={"error": str(exc)})
+
+
+@app.post("/api/debug/reset")
+async def debug_reset():
+  """Reset all active faults and environment state."""
+  try:
+    return env_simulator.reset()
+  except Exception as exc:
+    logger.exception("Debug reset error")
+    return JSONResponse(status_code=500, content={"error": str(exc)})
+
+
+@app.get("/api/debug/fault-config")
+async def debug_fault_config():
+  """Get current fault configuration."""
+  try:
+    return env_simulator.get_fault_config()
+  except Exception as exc:
+    logger.exception("Debug fault-config error")
+    return JSONResponse(status_code=500, content={"error": str(exc)})
+
+
+@app.get("/api/debug/sessions")
+async def debug_list_sessions():
+  """List all active sessions with message/trace counts."""
+  try:
+    from agent.memory.session import session_memory
+
+    sessions = session_memory.list_sessions()
+    result = []
+    for sid in sessions:
+      result.append({
+        "session_id": sid,
+        "message_count": len(session_memory.get_history(sid)),
+        "trace_count": len(session_memory.get_traces(sid)),
+      })
+    return {"sessions": result}
+  except Exception as exc:
+    logger.exception("Debug sessions error")
+    return JSONResponse(status_code=500, content={"error": str(exc)})
+
+
+@app.get("/api/debug/sessions/{session_id}")
+async def debug_session_detail(session_id: str):
+  """Get full detail of a session including messages and traces."""
+  try:
+    from agent.memory.session import session_memory
+
+    history = session_memory.get_history(session_id)
+    traces = session_memory.get_traces(session_id)
+    if not history and not traces:
+      return JSONResponse(
+        status_code=404,
+        content={"error": f"Session '{session_id}' not found"},
+      )
+    return {
+      "session_id": session_id,
+      "messages": history,
+      "traces": traces,
+      "message_count": len(history),
+      "trace_count": len(traces),
+    }
+  except Exception as exc:
+    logger.exception("Debug session detail error")
+    return JSONResponse(status_code=500, content={"error": str(exc)})
+
+
+@app.post("/api/debug/battle")
+async def debug_battle(request: BattleRequest):
+  """Run an automated persona vs orchestrator battle (non-streaming)."""
+  try:
+    result = await run_battle(
+      persona_name=request.persona,
+      turns=request.turns,
+      scenario_name=request.scenario,
+    )
+    return result.to_dict()
+  except KeyError as exc:
+    return JSONResponse(status_code=404, content={"error": str(exc)})
+  except Exception as exc:
+    logger.exception("Debug battle error")
+    return JSONResponse(status_code=500, content={"error": str(exc)})
+
+
+@app.post("/api/debug/battle/stream")
+async def debug_battle_stream(request: BattleRequest):
+  """Run an automated battle with SSE progress streaming."""
+  try:
+    from collections.abc import AsyncGenerator as AG
+
+    async def event_gen() -> AG[dict, None]:
+      try:
+        async for evt in run_battle_stream(
+          persona_name=request.persona,
+          turns=request.turns,
+          scenario_name=request.scenario,
+        ):
+          yield evt
+      except Exception as exc:
+        import json
+        logger.exception("Battle stream error")
+        yield {"event": "error", "data": json.dumps({"error": str(exc)})}
+
+    return EventSourceResponse(
+      event_gen(),
+      media_type="text/event-stream",
+    )
+  except Exception as exc:
+    logger.exception("Debug battle stream error")
     return JSONResponse(status_code=500, content={"error": str(exc)})

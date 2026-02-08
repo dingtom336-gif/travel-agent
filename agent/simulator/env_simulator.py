@@ -351,3 +351,15 @@ class EnvironmentSimulator:
       },
     }
     return dict(defaults.get(fault_type, {}))
+
+
+# Module-level singleton
+_env_simulator_instance: Optional[EnvironmentSimulator] = None
+
+
+def get_env_simulator() -> EnvironmentSimulator:
+  """Get the global environment simulator singleton."""
+  global _env_simulator_instance
+  if _env_simulator_instance is None:
+    _env_simulator_instance = EnvironmentSimulator()
+  return _env_simulator_instance

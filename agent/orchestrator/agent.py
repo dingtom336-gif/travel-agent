@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import time
 import uuid
 from collections.abc import AsyncGenerator
 from typing import Any
@@ -473,6 +474,17 @@ class OrchestratorAgent:
       else:
         result = res
       results[task.task_id] = result
+      # Record agent trace for simulator evaluator
+      session_memory.add_trace(session_id, {
+        "agent": task.agent.value,
+        "task_id": task.task_id,
+        "goal": task.goal,
+        "status": result.status.value,
+        "summary": result.summary,
+        "duration_ms": result.duration_ms,
+        "error": result.error,
+        "timestamp": time.time(),
+      })
       sse_messages.append(
         SSEMessage(
           event=SSEEventType.AGENT_RESULT,
