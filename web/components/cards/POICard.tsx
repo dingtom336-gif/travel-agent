@@ -21,11 +21,17 @@ const typeLabels: Record<string, string> = {
  * Point of Interest card component.
  */
 export default function POICard({ data, onSelect }: POICardProps) {
+  const handleClick = () => {
+    const query = encodeURIComponent(data.name);
+    window.open(`https://www.google.com/maps/search/${query}`, "_blank", "noopener");
+    onSelect?.();
+  };
+
   return (
     <button
       type="button"
       className="group w-full cursor-pointer overflow-hidden rounded-xl border border-border bg-card text-left transition-all hover:border-primary/30 hover:shadow-md"
-      onClick={onSelect}
+      onClick={handleClick}
     >
       {/* Image placeholder */}
       <div className="relative h-28 w-full bg-gradient-to-br from-green-100 to-emerald-100">

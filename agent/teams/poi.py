@@ -16,6 +16,16 @@ Given the user's travel parameters AND real POI search results, provide:
 2. Hidden gems or off-the-beaten-path suggestions.
 3. Practical info: opening hours, ticket prices, best visiting time.
 
+CRITICAL RULES:
+- ONLY recommend places that ACTUALLY EXIST in the real world.
+- Use their official names (e.g., "东京国立博物馆" not "日本博物馆", "故宫博物院" not "北京博物馆").
+- If tool search results are empty, use your own knowledge to recommend real places.
+- For each place provide: name, category, rating (estimated), opening hours, ticket price, and a brief description.
+- When tool results are empty, append a JSON block at the end of your response in this format:
+```json
+[{"name": "地点名", "category": "scenic|restaurant|shopping|activity|museum|park", "rating": 4.5, "hours": "09:00-17:00", "price": 0, "desc": "简短描述"}]
+```
+
 Respond in the same language as the user's message.
 Keep the answer concise and structured (use markdown)."""
 
@@ -50,6 +60,23 @@ class POIAgent(BaseAgent):
       # Build prompt with tool results
       prompt = self._build_prompt(task, context, tool_data)
       response = await self._call_claude(SYSTEM_PROMPT, prompt)
+
+      # If tool returned no POIs, try to extract structured data from LLM response
+      pois_result = tool_data.get("pois", {})
+      has_pois = (
+        isinstance(pois_result, dict)
+        and pois_result.get("results")
+        and len(pois_result["results"]) > 0
+      )
+      if not has_pois and response:
+        extracted = self._extract_pois_from_response(response)
+        if extracted:
+          tool_data["pois"] = {
+            "success": True,
+            "results": extracted,
+            "total_count": len(extracted),
+            "query": {"city": city, "source": "llm"},
+          }
 
       return self._make_result(
         task,
@@ -86,3 +113,21 @@ class POIAgent(BaseAgent):
         parts.append(json.dumps(result, ensure_ascii=False, default=str)[:3000])
 
     return "\n\n".join(parts)
+
+  @staticmethod
+  def _extract_pois_from_response(response: str) -> list[dict[str, Any]]:
+    """Extract structured POI data from LLM response JSON block."""
+    try:
+      # Find JSON array in the response (between ```json and ```)
+      import re
+      match = re.search(r"```json\s*(\[[\s\S]*?\])\s*```", response)
+      if not match:
+        # Try bare JSON array
+        match = re.search(r"(\[\s*\{[\s\S]*?\}\s*\])", response)
+      if match:
+        pois = json.loads(match.group(1))
+        if isinstance(pois, list) and len(pois) > 0:
+          return pois
+    except (json.JSONDecodeError, AttributeError):
+      pass
+    return []

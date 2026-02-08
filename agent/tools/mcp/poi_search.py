@@ -119,8 +119,8 @@ async def search_pois(
   try:
     await asyncio.sleep(random.uniform(0.1, 0.2))
 
-    # Get POI pool for the city
-    pool = _POI_POOLS.get(city, _generate_generic_pool(city))
+    # Get POI pool for the city (no fake data for unknown cities)
+    pool = _POI_POOLS.get(city, [])
 
     # Apply category filter
     if category and category in CATEGORIES:

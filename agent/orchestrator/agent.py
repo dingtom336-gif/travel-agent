@@ -81,7 +81,8 @@ When responding:
 - Use markdown formatting for readability.
 - Always be encouraging and proactive in gathering travel preferences.
 - **Conversation continuity**: Treat each message as a continuation of the conversation. If the user provides new info (like "from Shanghai"), UPDATE your previous advice rather than starting over. Reference what was discussed before.
-- **Smart clarification**: If the user's request lacks critical info that you cannot reasonably infer from context, naturally weave 1-2 clarifying questions into your response. But if you can make reasonable assumptions (e.g., budget range, travel style), just proceed and mention your assumptions. Never ask more than 2 questions at once. Never ask about things you can figure out yourself."""
+- **Smart clarification**: If the user's request lacks critical info that you cannot reasonably infer from context, naturally weave 1-2 clarifying questions into your response. But if you can make reasonable assumptions (e.g., budget range, travel style), just proceed and mention your assumptions. Never ask more than 2 questions at once. Never ask about things you can figure out yourself.
+- **Geographic logic**: When presenting itineraries, ensure geographic rationality: group nearby locations on the same day, arrange multi-city routes to minimize backtracking (e.g., 北京→天津→广州 not 北京→广州→天津)."""
 
 class OrchestratorAgent:
   """Central agent that drives the ReAct loop and coordinates specialist agents."""

@@ -16,6 +16,14 @@ Given upstream results (transport, POI, hotel, weather, etc.) AND optimized itin
 2. Estimated time and distance between stops.
 3. Tips for each day.
 
+CRITICAL RULES for geographic optimization:
+- Group geographically close locations on the same day to minimize transit time.
+- For multi-city trips, arrange cities by geographic proximity to minimize backtracking.
+  Example: 北京→天津→济南→南京→上海 (good), NOT 北京→上海→天津 (bad backtracking).
+- Each day's route should form a logical geographic loop from the hotel.
+- Consider actual geographic distance: nearby cities first, distant cities later.
+- NEVER put geographically distant cities between two close ones.
+
 Respond in the same language as the user's message.
 Format the itinerary in clear markdown with headers per day."""
 

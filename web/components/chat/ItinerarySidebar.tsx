@@ -119,21 +119,36 @@ export default function ItinerarySidebar() {
             {/* POIs */}
             {state.pois.length > 0 && (
               <Section title="推荐景点" icon="📍">
-                {state.pois.map((p, i) => (
-                  <MiniCard key={i}>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-medium text-foreground">
-                        {(get(p, "name") as string) || ""}
-                      </span>
-                      <span className="text-xs text-amber-500">
-                        ★ {(get(p, "rating") as number) || 0}
-                      </span>
-                    </div>
-                    <div className="mt-0.5 text-xs text-muted-foreground line-clamp-1">
-                      {(get(p, "description", "desc") as string) || (get(p, "type", "category") as string) || ""}
-                    </div>
-                  </MiniCard>
-                ))}
+                {state.pois.map((p, i) => {
+                  const poiName = (get(p, "name") as string) || "";
+                  return (
+                    <MiniCard
+                      key={i}
+                      onClick={() => {
+                        if (poiName) {
+                          window.open(
+                            `https://www.google.com/maps/search/${encodeURIComponent(poiName)}`,
+                            "_blank",
+                            "noopener",
+                          );
+                        }
+                      }}
+                      className="cursor-pointer hover:bg-muted/80 transition-colors"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-medium text-foreground">
+                          {poiName}
+                        </span>
+                        <span className="text-xs text-amber-500">
+                          ★ {(get(p, "rating") as number) || 0}
+                        </span>
+                      </div>
+                      <div className="mt-0.5 text-xs text-muted-foreground line-clamp-1">
+                        {(get(p, "description", "desc") as string) || (get(p, "type", "category") as string) || ""}
+                      </div>
+                    </MiniCard>
+                  );
+                })}
               </Section>
             )}
 
@@ -243,9 +258,24 @@ function Section({
   );
 }
 
-function MiniCard({ children }: { children: React.ReactNode }) {
+function MiniCard({
+  children,
+  onClick,
+  className,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+}) {
+  const base = "rounded-lg border border-border/60 bg-card p-2.5 transition-colors hover:bg-muted/30";
   return (
-    <div className="rounded-lg border border-border/60 bg-card p-2.5 transition-colors hover:bg-muted/30">
+    <div
+      className={className ? `${base} ${className}` : base}
+      onClick={onClick}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={onClick ? (e) => { if (e.key === "Enter") onClick(); } : undefined}
+    >
       {children}
     </div>
   );
