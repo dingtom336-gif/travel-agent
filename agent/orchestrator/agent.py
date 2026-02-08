@@ -24,6 +24,10 @@ from agent.orchestrator.context import build_context_with_summary, build_message
 from agent.orchestrator.planner import decompose_tasks
 from agent.orchestrator.router import classify_complexity
 from agent.orchestrator.state_extractor import extract_state
+from agent.orchestrator.ui_mapper import (
+  extract_ui_components,
+  truncate_tool_data_for_synthesis,
+)
 from agent.teams.base import BaseAgent
 from agent.teams.budget import BudgetAgent
 from agent.teams.customer_service import CustomerServiceAgent
@@ -242,8 +246,13 @@ class OrchestratorAgent:
             "agent": task.agent.value,
             "status": result.status.value,
             "summary": result.summary,
+            "data": result.data,
           },
         ).format()
+
+        # Emit UI component events for structured data
+        for ui_event in extract_ui_components(task.agent.value, result.data):
+          yield ui_event
 
       # --- OBSERVE & REFLECT: Synthesize all results ---
       yield SSEMessage(
@@ -320,9 +329,13 @@ class OrchestratorAgent:
             "agent": task.agent.value,
             "status": result.status.value,
             "summary": result.summary,
+            "data": result.data,
           },
         ).format()
       )
+      # Emit UI component events for structured data
+      for ui_event in extract_ui_components(task.agent.value, result.data):
+        sse_messages.append(ui_event)
 
     return sse_messages, results
 
@@ -416,12 +429,13 @@ class OrchestratorAgent:
     """Combine all agent results into a coherent final answer."""
     settings = get_settings()
 
-    # Build a summary of all agent results
+    # Build a summary of all agent results (include tool_data for richer synthesis)
     result_summaries: list[str] = []
     for result in results.values():
       agent_data = result.data.get("response", result.summary)
+      tool_summary = truncate_tool_data_for_synthesis(result.data)
       result_summaries.append(
-        f"### {result.agent.value} agent result:\n{agent_data}"
+        f"### {result.agent.value} agent result:\n{agent_data}{tool_summary}"
       )
     combined = "\n\n".join(result_summaries)
 

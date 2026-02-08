@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import TimelineCard from "@/components/cards/TimelineCard";
 import BudgetChart from "@/components/cards/BudgetChart";
 import MapWrapper from "@/components/map/MapWrapper";
 import { mockItinerary } from "@/lib/mock-itinerary";
-import { TimelineDayData } from "@/lib/types";
+import { ItineraryData, TimelineDayData } from "@/lib/types";
 
 type TabType = "timeline" | "map" | "budget";
 
@@ -20,14 +20,29 @@ export default function ItineraryPage() {
   const id = params.id as string;
 
   const [activeTab, setActiveTab] = useState<TabType>("timeline");
+  const [itinerary, setItinerary] = useState<ItineraryData>(mockItinerary);
+  const [isFromSession, setIsFromSession] = useState(false);
   const [expandedDays, setExpandedDays] = useState<Set<number>>(() => {
-    // Expand all days by default
     return new Set(mockItinerary.days.map((d) => d.day));
   });
   const [isSaved, setIsSaved] = useState(false);
 
-  // In production, fetch itinerary by id; for now use mock
-  const itinerary = mockItinerary;
+  // Try to load real itinerary data from sessionStorage
+  useEffect(() => {
+    try {
+      const stored = sessionStorage.getItem(`travel_plan_${id}`);
+      if (stored) {
+        const parsed = JSON.parse(stored) as ItineraryData;
+        if (parsed.days && parsed.days.length > 0) {
+          setItinerary(parsed);
+          setExpandedDays(new Set(parsed.days.map((d) => d.day)));
+          setIsFromSession(true);
+        }
+      }
+    } catch {
+      // Fall back to mock data
+    }
+  }, [id]);
 
   // Compute summary stats
   const summary = useMemo(() => {
@@ -141,7 +156,14 @@ export default function ItineraryPage() {
             </div>
 
             {/* Status badge */}
-            <StatusBadge status={itinerary.status} />
+            <div className="flex items-center gap-2">
+              {!isFromSession && (
+                <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                  示例行程
+                </span>
+              )}
+              <StatusBadge status={itinerary.status} />
+            </div>
           </div>
 
           {/* Summary stats */}
@@ -361,6 +383,7 @@ function ActionBar({
 
           {/* Export PDF */}
           <button
+            onClick={() => window.print()}
             className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-2 text-sm text-card-foreground transition-colors hover:bg-muted"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">

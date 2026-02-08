@@ -50,11 +50,10 @@ export default function PreferencesTab({ initialPreferences }: PreferencesTabPro
     setPrefs((prev) => ({ ...prev, [key]: value }));
   };
 
-  // Handle save
+  // Handle save – backend not yet available for MVP
   const handleSave = () => {
-    // In production, send to backend
     setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+    setTimeout(() => setSaved(false), 3000);
   };
 
   return (
@@ -167,21 +166,26 @@ export default function PreferencesTab({ initialPreferences }: PreferencesTabPro
       </PreferenceSection>
 
       {/* Save button */}
-      <div className="flex justify-end border-t border-border pt-6">
+      <div className="flex items-center justify-end gap-3 border-t border-border pt-6">
+        {saved && (
+          <span className="text-xs text-amber-500 animate-fade-in">
+            偏好设置功能即将上线，敬请期待
+          </span>
+        )}
         <button
           onClick={handleSave}
           className={`inline-flex items-center gap-2 rounded-lg px-6 py-2.5 text-sm font-medium text-white transition-all ${
             saved
-              ? "bg-green-500 hover:bg-green-600"
+              ? "bg-amber-500 hover:bg-amber-600"
               : "bg-primary hover:bg-primary-dark"
           }`}
         >
           {saved ? (
             <>
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              已保存
+              即将上线
             </>
           ) : (
             "保存偏好设置"

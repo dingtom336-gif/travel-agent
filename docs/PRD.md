@@ -266,7 +266,32 @@ Orchestrator 拆解：
 | **部署** | PM2 + Nginx（LightNode Tokyo） | 前后端同机，nginx 反向代理 |
 | **未来 App** | Capacitor | Web → 原生 App，最低成本 |
 
-### 5.2 项目结构
+### 5.2 SSE 数据流架构
+
+```
+Agent Tool执行 → result.data (含 tool_data)
+    │
+    ├─ SSE agent_result 事件 → data 字段包含完整 result.data
+    │
+    ├─ ui_mapper.py → 提取 tool_data → 发 ui_component SSE 事件
+    │   (transport→flight_card, hotel→hotel_card, poi→poi_card,
+    │    weather→weather_card, itinerary→timeline_card, budget→budget_chart)
+    │
+    └─ _synthesize() → truncate_tool_data → 加入合成 prompt
+
+前端接收：
+    ChatContainer.tsx
+    ├─ agent_result → dispatchAgentData() → TravelPlanContext
+    ├─ ui_component → appendUIPayload() → 消息内嵌卡片
+    └─ done → SET_SESSION + sessionStorage 持久化
+
+    ItinerarySidebar.tsx ← useTravelPlan() ← TravelPlanContext
+    (实时渲染航班/酒店/天气/POI/日程/预算)
+
+    /itinerary/[id] ← sessionStorage("travel_plan_" + id)
+```
+
+### 5.3 项目结构
 
 ```
 travel-agent/

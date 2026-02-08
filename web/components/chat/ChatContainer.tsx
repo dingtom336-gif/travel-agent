@@ -7,8 +7,15 @@ import {
   AgentStatus as AgentStatusType,
   UIPayload,
   SSEEvent,
+  FlightData,
+  HotelData,
+  POIData,
+  WeatherData,
+  TimelineDayData,
+  BudgetSummary,
 } from "@/lib/types";
 import { chatStream } from "@/lib/api-client";
+import { useTravelPlan } from "@/lib/travel-context";
 import { mockStreamResponse } from "./mockStream";
 import ChatMessage from "./ChatMessage";
 import ChatInput from "./ChatInput";
@@ -24,6 +31,7 @@ function generateId(): string {
 
 export default function ChatContainer() {
   const searchParams = useSearchParams();
+  const { dispatch: travelDispatch } = useTravelPlan();
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [agentStatuses, setAgentStatuses] = useState<AgentStatusType[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -90,6 +98,57 @@ export default function ChatContainer() {
     setIsProcessing(false);
   }, []);
 
+  // Dispatch structured agent data to travel plan context
+  const dispatchAgentData = useCallback(
+    (agentName: string, resultData: Record<string, unknown>) => {
+      const toolData = resultData.tool_data as Record<string, unknown> | undefined;
+      if (!toolData) return;
+
+      try {
+        if (agentName === "transport") {
+          const transit = toolData.transit as Record<string, unknown> | undefined;
+          const flightsObj = transit || (toolData.flights as Record<string, unknown> | undefined);
+          const results = (flightsObj?.results as FlightData[]) || [];
+          if (results.length > 0) {
+            travelDispatch({ type: "ADD_FLIGHTS", payload: results.slice(0, 3) as FlightData[] });
+          }
+        } else if (agentName === "hotel") {
+          const hotelsObj = toolData.hotels as Record<string, unknown> | undefined;
+          const results = (hotelsObj?.results as HotelData[]) || [];
+          if (results.length > 0) {
+            travelDispatch({ type: "ADD_HOTELS", payload: results.slice(0, 3) as HotelData[] });
+          }
+        } else if (agentName === "poi") {
+          const poisObj = toolData.pois as Record<string, unknown> | undefined;
+          const results = (poisObj?.results as POIData[]) || [];
+          if (results.length > 0) {
+            travelDispatch({ type: "ADD_POIS", payload: results.slice(0, 4) as POIData[] });
+          }
+        } else if (agentName === "weather") {
+          const forecastObj = toolData.forecast as Record<string, unknown> | undefined;
+          const forecasts = (forecastObj?.forecast as WeatherData[]) || [];
+          if (forecasts.length > 0) {
+            travelDispatch({ type: "SET_WEATHER", payload: forecasts.slice(0, 5) as WeatherData[] });
+          }
+        } else if (agentName === "itinerary") {
+          const itinObj = toolData.optimized_itinerary as Record<string, unknown> | undefined;
+          const days = (itinObj?.days as TimelineDayData[]) || [];
+          if (days.length > 0) {
+            travelDispatch({ type: "SET_ITINERARY", payload: days as TimelineDayData[] });
+          }
+        } else if (agentName === "budget") {
+          const allocObj = toolData.budget_allocation as Record<string, unknown> | undefined;
+          if (allocObj) {
+            travelDispatch({ type: "SET_BUDGET", payload: allocObj as unknown as BudgetSummary });
+          }
+        }
+      } catch {
+        // Silently ignore malformed data
+      }
+    },
+    [travelDispatch]
+  );
+
   // Handle SSE events from the real backend
   const handleSSEEvent = useCallback(
     (event: SSEEvent, aiMsgId: string) => {
@@ -119,11 +178,18 @@ export default function ChatContainer() {
 
         case "agent_result": {
           // A sub-agent finished
+          const agentName = (data.agent as string) || "unknown";
           upsertAgentStatus({
-            agent: (data.agent as string) || "unknown",
+            agent: agentName,
             task: (data.task as string) || (data.summary as string) || "完成",
             status: (data.status as string) === "failed" ? "error" : "done",
           });
+
+          // Extract structured data and dispatch to travel context
+          const resultData = data.data as Record<string, unknown> | undefined;
+          if (resultData) {
+            dispatchAgentData(agentName, resultData);
+          }
           break;
         }
 
@@ -150,7 +216,12 @@ export default function ChatContainer() {
         case "done": {
           // Stream finished; save session_id for future messages
           if (data.session_id) {
-            sessionIdRef.current = data.session_id as string;
+            const sid = data.session_id as string;
+            sessionIdRef.current = sid;
+            travelDispatch({
+              type: "SET_SESSION",
+              payload: { sessionId: sid },
+            });
           }
           finishMessage(aiMsgId);
           break;
@@ -171,7 +242,7 @@ export default function ChatContainer() {
           break;
       }
     },
-    [upsertAgentStatus, appendText, appendUIPayload, finishMessage]
+    [upsertAgentStatus, appendText, appendUIPayload, finishMessage, dispatchAgentData, travelDispatch]
   );
 
   // Send message via real backend SSE stream
@@ -226,6 +297,7 @@ export default function ChatContainer() {
       setMessages((prev) => [...prev, userMsg]);
       setIsProcessing(true);
       setAgentStatuses([]);
+      travelDispatch({ type: "RESET" });
 
       // Create abort controller for this request
       const controller = new AbortController();
@@ -248,7 +320,7 @@ export default function ChatContainer() {
         await sendViaBackend(text, aiMsgId, controller.signal);
       }
     },
-    [isProcessing, sendViaBackend, sendViaMock]
+    [isProcessing, sendViaBackend, sendViaMock, travelDispatch]
   );
 
   // Handle initial prompt from URL query parameter

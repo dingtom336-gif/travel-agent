@@ -39,6 +39,7 @@ class SSEEventType(str, Enum):
   AGENT_START = "agent_start"
   AGENT_RESULT = "agent_result"
   TEXT = "text"
+  UI_COMPONENT = "ui_component"
   ERROR = "error"
   DONE = "done"
 
