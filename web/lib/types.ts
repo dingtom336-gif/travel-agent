@@ -17,6 +17,14 @@ export interface UIPayload {
   status?: "loading" | "loaded" | "error";
 }
 
+// A single thinking step bound to a specific AI message
+export interface ThinkingStep {
+  agent: string;
+  task: string;
+  status: "running" | "done" | "error";
+  timestamp: number;
+}
+
 // Single chat message
 export interface ChatMessage {
   id: string;
@@ -25,6 +33,7 @@ export interface ChatMessage {
   timestamp: Date;
   isStreaming?: boolean;
   uiPayloads?: UIPayload[];
+  thinkingSteps?: ThinkingStep[];
 }
 
 // Agent status during processing

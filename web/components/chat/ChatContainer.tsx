@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import {
   ChatMessage as ChatMessageType,
   AgentStatus as AgentStatusType,
+  ThinkingStep,
   UIPayload,
   SSEEvent,
   FlightData,
@@ -19,7 +20,6 @@ import { useTravelPlan } from "@/lib/travel-context";
 import { mockStreamResponse } from "./mockStream";
 import ChatMessage from "./ChatMessage";
 import ChatInput from "./ChatInput";
-import AgentStatus from "./AgentStatus";
 
 // Toggle this to true to use mock data when backend is unavailable
 const USE_MOCK = false;
@@ -33,7 +33,6 @@ export default function ChatContainer() {
   const searchParams = useSearchParams();
   const { dispatch: travelDispatch } = useTravelPlan();
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
-  const [agentStatuses, setAgentStatuses] = useState<AgentStatusType[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -48,21 +47,25 @@ export default function ChatContainer() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, agentStatuses, scrollToBottom]);
+  }, [messages, scrollToBottom]);
 
-  // Update a specific agent status entry (upsert by agent name)
-  const upsertAgentStatus = useCallback((status: AgentStatusType) => {
-    setAgentStatuses((prev) => {
-      const existing = prev.findIndex(
-        (s) => s.agent === status.agent && s.task === status.task
-      );
-      if (existing >= 0) {
-        const updated = [...prev];
-        updated[existing] = status;
-        return updated;
-      }
-      return [...prev, status];
-    });
+  // Upsert a thinking step into a specific AI message
+  const upsertThinkingStep = useCallback((msgId: string, step: ThinkingStep) => {
+    setMessages((prev) =>
+      prev.map((msg) => {
+        if (msg.id !== msgId) return msg;
+        const steps = msg.thinkingSteps || [];
+        const existing = steps.findIndex(
+          (s) => s.agent === step.agent && s.task === step.task
+        );
+        if (existing >= 0) {
+          const updated = [...steps];
+          updated[existing] = step;
+          return { ...msg, thinkingSteps: updated };
+        }
+        return { ...msg, thinkingSteps: [...steps, step] };
+      })
+    );
   }, []);
 
   // Append text content to a streaming AI message
@@ -94,7 +97,6 @@ export default function ChatContainer() {
         msg.id === msgId ? { ...msg, isStreaming: false } : msg
       )
     );
-    setAgentStatuses([]);
     setIsProcessing(false);
   }, []);
 
@@ -156,22 +158,24 @@ export default function ChatContainer() {
 
       switch (type) {
         case "thinking": {
-          // Show orchestrator thinking process as agent status
+          // Show orchestrator thinking process as a thinking step
           const thought = (data.thought as string) || "正在思考...";
-          upsertAgentStatus({
+          upsertThinkingStep(aiMsgId, {
             agent: (data.agent as string) || "orchestrator",
             task: thought,
             status: "running",
+            timestamp: Date.now(),
           });
           break;
         }
 
         case "agent_start": {
           // A sub-agent starts working
-          upsertAgentStatus({
+          upsertThinkingStep(aiMsgId, {
             agent: (data.agent as string) || "unknown",
             task: (data.task as string) || "处理中...",
             status: "running",
+            timestamp: Date.now(),
           });
           break;
         }
@@ -179,10 +183,11 @@ export default function ChatContainer() {
         case "agent_result": {
           // A sub-agent finished
           const agentName = (data.agent as string) || "unknown";
-          upsertAgentStatus({
+          upsertThinkingStep(aiMsgId, {
             agent: agentName,
             task: (data.task as string) || (data.summary as string) || "完成",
             status: (data.status as string) === "failed" ? "error" : "done",
+            timestamp: Date.now(),
           });
 
           // Extract structured data and dispatch to travel context
@@ -242,7 +247,7 @@ export default function ChatContainer() {
           break;
       }
     },
-    [upsertAgentStatus, appendText, appendUIPayload, finishMessage, dispatchAgentData, travelDispatch]
+    [upsertThinkingStep, appendText, appendUIPayload, finishMessage, dispatchAgentData, travelDispatch]
   );
 
   // Send message via real backend SSE stream
@@ -267,10 +272,17 @@ export default function ChatContainer() {
   // Send message via mock stream
   const sendViaMock = useCallback(
     async (text: string, aiMsgId: string, signal: AbortSignal) => {
+      // Wrap upsertThinkingStep to match mockStream's AgentStatus callback
+      const mockUpsert = (status: AgentStatusType) => {
+        upsertThinkingStep(aiMsgId, {
+          ...status,
+          timestamp: Date.now(),
+        });
+      };
       try {
         await mockStreamResponse(
           text,
-          upsertAgentStatus,
+          mockUpsert,
           (chunk) => appendText(aiMsgId, chunk),
           () => finishMessage(aiMsgId),
           signal
@@ -279,7 +291,7 @@ export default function ChatContainer() {
         finishMessage(aiMsgId);
       }
     },
-    [upsertAgentStatus, appendText, finishMessage]
+    [upsertThinkingStep, appendText, finishMessage]
   );
 
   // Handle sending a message (both user-initiated and auto from URL param)
@@ -296,7 +308,6 @@ export default function ChatContainer() {
       };
       setMessages((prev) => [...prev, userMsg]);
       setIsProcessing(true);
-      setAgentStatuses([]);
       travelDispatch({ type: "RESET" });
 
       // Create abort controller for this request
@@ -354,11 +365,6 @@ export default function ChatContainer() {
           {messages.map((msg) => (
             <ChatMessage key={msg.id} message={msg} />
           ))}
-
-          {/* Agent status indicators */}
-          {agentStatuses.length > 0 && (
-            <AgentStatus statuses={agentStatuses} />
-          )}
 
           <div ref={messagesEndRef} />
         </div>

@@ -14,6 +14,7 @@ import HotelCard from "@/components/cards/HotelCard";
 import POICard from "@/components/cards/POICard";
 import WeatherCard from "@/components/cards/WeatherCard";
 import TimelineCard from "@/components/cards/TimelineCard";
+import ThinkingSteps from "./ThinkingSteps";
 
 interface ChatMessageProps {
   message: ChatMessageType;
@@ -54,6 +55,14 @@ export default function ChatMessage({ message }: ChatMessageProps) {
                 : "bg-bubble-ai text-card-foreground"
             } ${message.isStreaming ? "cursor-blink" : ""}`}
           >
+            {/* Thinking steps inside AI bubble */}
+            {!isUser && message.thinkingSteps && message.thinkingSteps.length > 0 && (
+              <ThinkingSteps steps={message.thinkingSteps} isStreaming={!!message.isStreaming} />
+            )}
+            {/* Separator when both thinking and text exist */}
+            {!isUser && message.thinkingSteps && message.thinkingSteps.length > 0 && message.content && (
+              <div className="mb-2 border-b border-border/40" />
+            )}
             {isUser ? (
               <p className="whitespace-pre-wrap">{message.content}</p>
             ) : (
