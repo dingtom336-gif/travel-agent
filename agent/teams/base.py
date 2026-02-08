@@ -88,7 +88,7 @@ class BaseAgent(ABC):
       result = await llm_chat(
         system=system_prompt,
         messages=[{"role": "user", "content": user_message}],
-        max_tokens=max_tokens or settings.LLM_MAX_TOKENS,
+        max_tokens=max_tokens or settings.LLM_AGENT_TOKENS,
       )
       if result is None:
         return self._mock_response(user_message)

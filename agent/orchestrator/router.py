@@ -43,7 +43,7 @@ async def classify_complexity(
     text = await llm_chat(
       system=ROUTER_SYSTEM_PROMPT,
       messages=[{"role": "user", "content": prompt}],
-      max_tokens=16,
+      max_tokens=8,
       temperature=0.1,
     )
     if text is None:

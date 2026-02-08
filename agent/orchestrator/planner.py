@@ -108,7 +108,7 @@ async def _call_planner(
     text = await llm_chat(
       system=PLANNER_SYSTEM_PROMPT,
       messages=[{"role": "user", "content": full_prompt}],
-      max_tokens=2048,
+      max_tokens=1024,
       temperature=0.3,
     )
     if text is None:

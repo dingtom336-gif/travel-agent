@@ -210,7 +210,7 @@ class ConsistencyChecker:
       text = await llm_chat(
         system="You are a precise quality checker. Return only valid JSON.",
         messages=[{"role": "user", "content": prompt}],
-        max_tokens=512,
+        max_tokens=256,
         temperature=0.1,
       )
 

@@ -25,7 +25,7 @@ async def extract_state(session_id: str, message: str) -> None:
     text = await llm_chat(
       system=STATE_EXTRACTION_PROMPT,
       messages=[{"role": "user", "content": message}],
-      max_tokens=512,
+      max_tokens=256,
       temperature=0.1,
     )
     if text is None:

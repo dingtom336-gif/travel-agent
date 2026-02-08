@@ -41,7 +41,7 @@ async def summarize_history(messages: list[dict[str, Any]]) -> str:
         "Chinese output."
       ),
       messages=[{"role": "user", "content": text}],
-      max_tokens=150,
+      max_tokens=100,
       temperature=0.1,
     )
     return result or text[:200]  # fallback if LLM returns None
