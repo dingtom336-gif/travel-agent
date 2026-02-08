@@ -24,6 +24,11 @@ from agent.orchestrator.context import build_context_with_summary, build_message
 from agent.orchestrator.planner import decompose_tasks
 from agent.orchestrator.router import classify_complexity
 from agent.orchestrator.state_extractor import extract_state
+from agent.orchestrator.reflector import (
+  consistency_checker,
+  identify_affected_agents,
+  preflight_validator,
+)
 from agent.orchestrator.ui_mapper import (
   extract_ui_components,
   truncate_tool_data_for_synthesis,
@@ -254,7 +259,80 @@ class OrchestratorAgent:
         for ui_event in extract_ui_components(task.agent.value, result.data):
           yield ui_event
 
-      # --- OBSERVE & REFLECT: Synthesize all results ---
+      # --- REFLECT: Validate and correct results ---
+      reflection_round = 0
+      MAX_REFLECTION_ROUNDS = 1
+
+      while reflection_round < MAX_REFLECTION_ROUNDS:
+        state = state_pool.get(session_id)
+        issues = preflight_validator.validate(results, state)
+
+        has_errors = any(i.severity == "error" for i in issues)
+        if has_errors or len(results) >= 3:
+          check = await consistency_checker.check(
+            message, results, state_ctx,
+          )
+          if not check.passed and check.state_corrections:
+            # Apply corrections to state pool
+            state_pool.update_from_dict(
+              session_id, check.state_corrections,
+            )
+            state_ctx = state_pool.to_prompt_context(session_id)
+
+            yield SSEMessage(
+              event=SSEEventType.THINKING,
+              data={
+                "agent": "orchestrator",
+                "thought": "Detected inconsistencies, correcting...",
+              },
+            ).format()
+
+            # Re-run affected agents with corrected state
+            to_rerun = identify_affected_agents(check, results)
+            for agent_name, _original in to_rerun:
+              rerun_task = AgentTask(
+                agent=AgentName(agent_name),
+                goal="Re-query with corrected parameters",
+              )
+
+              yield SSEMessage(
+                event=SSEEventType.AGENT_START,
+                data={
+                  "agent": agent_name,
+                  "task": f"Correcting {agent_name} results...",
+                },
+              ).format()
+
+              new_result = await self._execute_single_task(
+                rerun_task, {"state_context": state_ctx},
+              )
+              # Replace old result in the results dict
+              for tid, old_r in list(results.items()):
+                if old_r.agent.value == agent_name:
+                  results[tid] = new_result
+                  break
+
+              yield SSEMessage(
+                event=SSEEventType.AGENT_RESULT,
+                data={
+                  "agent": agent_name,
+                  "status": new_result.status.value,
+                  "summary": new_result.summary,
+                  "data": new_result.data,
+                },
+              ).format()
+
+              for ui_event in extract_ui_components(
+                agent_name, new_result.data,
+              ):
+                yield ui_event
+
+            reflection_round += 1
+            continue
+
+        break  # No issues or only warnings
+
+      # --- SYNTHESIZE: Combine all results ---
       yield SSEMessage(
         event=SSEEventType.THINKING,
         data={

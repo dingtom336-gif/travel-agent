@@ -12,6 +12,8 @@ from agent.memory.state_pool import state_pool
 logger = logging.getLogger(__name__)
 
 STATE_EXTRACTION_PROMPT = """Extract travel parameters from the user message into a JSON object.
+**Important**: If the user has obvious typos or misspellings in destination/city names,
+correct them to the standard name (e.g., "塞尔维他" → "塞尔维亚", "东经" → "东京", "巴黎黎" → "巴黎").
 Only include fields that are explicitly mentioned. Use null for unmentioned fields.
 Fields: destination, origin, start_date, end_date, duration_days, travelers, budget, preferences (object), constraints (array of strings).
 Return ONLY valid JSON, no other text."""
@@ -49,7 +51,12 @@ def heuristic_extract(session_id: str, message: str) -> None:
   destinations = [
     "日本", "东京", "大阪", "京都", "泰国", "曼谷", "韩国", "首尔",
     "新加坡", "马来西亚", "北京", "上海", "广州", "深圳", "成都",
-    "三亚", "丽江", "西安", "杭州", "重庆",
+    "三亚", "丽江", "西安", "杭州", "重庆", "香港", "澳门", "台北",
+    "越南", "河内", "印尼", "巴厘岛", "菲律宾", "柬埔寨",
+    "法国", "巴黎", "英国", "伦敦", "德国", "意大利", "罗马",
+    "西班牙", "巴塞罗那", "美国", "纽约", "洛杉矶", "澳大利亚",
+    "悉尼", "新西兰", "土耳其", "伊斯坦布尔", "埃及", "迪拜",
+    "塞尔维亚", "贝尔格莱德", "希腊", "瑞士", "冰岛", "挪威",
   ]
   for dest in destinations:
     if dest in message:
