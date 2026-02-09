@@ -18,9 +18,10 @@ STATE_EXTRACTION_PROMPT = """Extract travel parameters from the user's LATEST me
 1. You will receive conversation history and current extracted state. Use them to understand context.
 2. If the AI just asked "出发城市是哪里?" or similar, and the user answers with a city name, that city is the ORIGIN (出发地), NOT the destination.
 3. If the AI just asked about budget/dates/travelers/preferences and the user answers, map the answer to the CORRECT field based on what was asked.
-4. NEVER overwrite a previously established field unless the user EXPLICITLY wants to change it (e.g., "改成去泰国", "目的地换成...", "不去日本了").
-5. City names after "从" or as answer to "从哪出发/出发城市" → origin field.
-6. Preference words (古迹, 都市, 海滩, 美食, 购物, 自然, 文化, 亲子) → preferences object, NOT destination.
+4. **Slot-filling from AI questions**: When "AI's previous question" is provided, and the user's latest message is a short direct answer (a city, number, date, etc.), map that answer to the field the AI was asking about. For example: AI asked "几个人去？" and user says "4个" → travelers=4; AI asked "预算多少？" and user says "一万" → budget="10000元".
+5. NEVER overwrite a previously established field unless the user EXPLICITLY wants to change it (e.g., "改成去泰国", "目的地换成...", "不去日本了").
+6. City names after "从" or as answer to "从哪出发/出发城市" → origin field.
+7. Preference words (古迹, 都市, 海滩, 美食, 购物, 自然, 文化, 亲子) → preferences object, NOT destination.
 
 **Important**: Correct obvious typos in city names (e.g., "塞尔维他" → "塞尔维亚").
 Only include fields that are NEWLY mentioned or EXPLICITLY changed in the latest message.
@@ -68,6 +69,13 @@ async def extract_state(
       )
       prompt_parts.append(f"Recent conversation:\n{history_text}")
 
+      # Extract AI's last question for slot-filling context
+      last_assistant = _get_last_assistant_message(history)
+      if last_assistant:
+        prompt_parts.append(
+          f"AI's previous question: {last_assistant[:200]}"
+        )
+
     prompt_parts.append(f"Latest user message: {message}")
     full_prompt = "\n\n".join(prompt_parts)
 
@@ -78,7 +86,7 @@ async def extract_state(
       temperature=0.1,
     )
     if text is None:
-      heuristic_extract(session_id, message, existing_state)
+      await heuristic_extract(session_id, message, existing_state)
       return
     text = text.strip()
     if text.startswith("```"):
@@ -87,13 +95,13 @@ async def extract_state(
     # Remove null values
     clean = {k: v for k, v in data.items() if v is not None}
     if clean:
-      state_pool.update_from_dict(session_id, clean)
+      await state_pool.update_from_dict(session_id, clean)
   except Exception as exc:
     logger.warning("State extraction failed: %s – using heuristic", exc)
-    heuristic_extract(session_id, message, existing_state)
+    await heuristic_extract(session_id, message, existing_state)
 
 
-def heuristic_extract(
+async def heuristic_extract(
   session_id: str,
   message: str,
   existing_state: Optional[SessionState] = None,
@@ -153,4 +161,12 @@ def heuristic_extract(
     updates["budget"] = f"{num}元"
 
   if updates:
-    state_pool.update_from_dict(session_id, updates)
+    await state_pool.update_from_dict(session_id, updates)
+
+
+def _get_last_assistant_message(history: list[dict[str, Any]]) -> str:
+  """Return the content of the last assistant message, or empty string."""
+  for msg in reversed(history):
+    if msg.get("role") == "assistant":
+      return msg.get("content", "")
+  return ""
