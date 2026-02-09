@@ -36,10 +36,10 @@ async def test_slow_agent_times_out():
     context = {"state_context": ""}
 
     with patch.dict(
-        "agent.orchestrator.agent.AGENT_REGISTRY",
+        "agent.orchestrator.react_loop.AGENT_REGISTRY",
         {AgentName.WEATHER: SlowAgent()},
     ):
-        with patch("agent.orchestrator.agent.get_settings") as mock_settings:
+        with patch("agent.orchestrator.react_loop.get_settings") as mock_settings:
             mock_settings.return_value.LLM_TASK_TIMEOUT = 0.5
             result = await orch._execute_single_task(task, context)
 
@@ -62,10 +62,10 @@ async def test_normal_agent_completes():
     )
 
     with patch.dict(
-        "agent.orchestrator.agent.AGENT_REGISTRY",
+        "agent.orchestrator.react_loop.AGENT_REGISTRY",
         {AgentName.WEATHER: FastAgent(fast_result)},
     ):
-        with patch("agent.orchestrator.agent.get_settings") as mock_settings:
+        with patch("agent.orchestrator.react_loop.get_settings") as mock_settings:
             mock_settings.return_value.LLM_TASK_TIMEOUT = 10.0
             result = await orch._execute_single_task(task, context)
 

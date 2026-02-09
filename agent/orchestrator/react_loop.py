@@ -1,0 +1,365 @@
+# ReAct loop engine – Thought→Action→Observe→Reflect cycle
+from __future__ import annotations
+
+import asyncio
+import logging
+import time
+from collections.abc import AsyncGenerator
+from typing import Any
+
+from agent.config.settings import get_settings
+from agent.memory.session import session_memory
+from agent.memory.state_pool import state_pool
+from agent.models import (
+  AgentName,
+  AgentResult,
+  AgentTask,
+  SSEEventType,
+  SSEMessage,
+  TaskStatus,
+)
+from agent.orchestrator.constants import AGENT_DISPLAY_NAMES, AGENT_REGISTRY
+from agent.orchestrator.context import build_context_with_summary
+from agent.orchestrator.planner import decompose_tasks
+from agent.orchestrator.reflector import (
+  consistency_checker,
+  identify_affected_agents,
+  preflight_validator,
+)
+from agent.orchestrator.ui_mapper import extract_ui_components
+
+logger = logging.getLogger(__name__)
+
+
+class ReactEngine:
+  """Runs the ReAct loop: decompose tasks, execute agents, reflect."""
+
+  async def run(
+    self,
+    session_id: str,
+    message: str,
+    history: list[dict[str, Any]],
+    state_ctx: str,
+    personalization_ctx: str,
+    synthesize_fn: Any,
+  ) -> AsyncGenerator[dict, None]:
+    """Full ReAct cycle. Yields SSE dicts.
+
+    Args:
+      synthesize_fn: async generator that yields text chunks for synthesis.
+    """
+    try:
+      # --- THOUGHT: Decompose into tasks ---
+      yield SSEMessage(
+        event=SSEEventType.THINKING,
+        data={
+          "agent": "orchestrator",
+          "thought": "正在分解你的需求为子任务...",
+        },
+      ).format()
+
+      tasks = await decompose_tasks(message, state_ctx, history)
+      if not tasks:
+        return
+
+      conversation_summary = await build_context_with_summary(history)
+
+      # --- ACTION: Execute tasks respecting dependencies ---
+      results: dict[str, AgentResult] = {}
+
+      parallel_tasks = [t for t in tasks if not t.depends_on]
+      dependent_tasks = [t for t in tasks if t.depends_on]
+
+      # Execute parallel tasks concurrently
+      if parallel_tasks:
+        yield SSEMessage(
+          event=SSEEventType.THINKING,
+          data={
+            "agent": "orchestrator",
+            "thought": f"正在调度 {len(parallel_tasks)} 个专家并行处理...",
+          },
+        ).format()
+
+        parallel_sse, parallel_results = await self._execute_tasks_parallel(
+          parallel_tasks, session_id, state_ctx, conversation_summary,
+        )
+        for sse_msg in parallel_sse:
+          yield sse_msg
+        results.update(parallel_results)
+
+      # Execute dependent tasks sequentially
+      for task in dependent_tasks:
+        upstream = {}
+        for dep_name in task.depends_on:
+          for r in results.values():
+            if r.agent.value == dep_name:
+              upstream[dep_name] = r.data.get("response", r.summary)
+        context = {
+          "state_context": state_ctx,
+          "upstream_results": upstream,
+          "conversation_summary": conversation_summary,
+        }
+
+        yield SSEMessage(
+          event=SSEEventType.AGENT_START,
+          data={"agent": task.agent.value, "task": task.goal},
+        ).format()
+
+        result = await self._execute_single_task(task, context)
+        results[task.task_id] = result
+
+        yield SSEMessage(
+          event=SSEEventType.AGENT_RESULT,
+          data={
+            "agent": task.agent.value,
+            "status": result.status.value,
+            "summary": result.summary,
+            "data": result.data,
+          },
+        ).format()
+
+        for ui_event in extract_ui_components(task.agent.value, result.data):
+          yield ui_event
+
+      # --- REFLECT: Validate and correct results ---
+      async for sse in self._reflect(
+        session_id, message, results, state_ctx, conversation_summary,
+      ):
+        yield sse
+
+      # --- SYNTHESIZE ---
+      yield SSEMessage(
+        event=SSEEventType.THINKING,
+        data={
+          "agent": "orchestrator",
+          "thought": "正在综合所有专家结果，生成旅行方案...",
+        },
+      ).format()
+
+      full_response = ""
+      async for chunk in synthesize_fn(
+        message, results, state_ctx, history, personalization_ctx,
+      ):
+        full_response += chunk
+        yield SSEMessage(
+          event=SSEEventType.TEXT,
+          data={"content": chunk},
+        ).format()
+
+      await session_memory.add_message(
+        session_id, "assistant", full_response,
+      )
+
+      yield SSEMessage(
+        event=SSEEventType.DONE,
+        data={"session_id": session_id},
+      ).format()
+
+    except Exception as exc:
+      logger.exception("ReAct loop error")
+      yield SSEMessage(
+        event=SSEEventType.ERROR,
+        data={"error": str(exc)},
+      ).format()
+
+  # ------------------------------------------------------------------ #
+  # Reflection sub-loop
+  # ------------------------------------------------------------------ #
+
+  async def _reflect(
+    self,
+    session_id: str,
+    message: str,
+    results: dict[str, AgentResult],
+    state_ctx: str,
+    conversation_summary: str,
+  ) -> AsyncGenerator[dict, None]:
+    """Validate results and re-run agents if inconsistencies found."""
+    reflection_round = 0
+    MAX_REFLECTION_ROUNDS = 1
+
+    while reflection_round < MAX_REFLECTION_ROUNDS:
+      state = await state_pool.get(session_id)
+      issues = preflight_validator.validate(results, state)
+
+      has_errors = any(i.severity == "error" for i in issues)
+      if has_errors:
+        check = await consistency_checker.check(message, results, state_ctx)
+        if not check.passed and check.state_corrections:
+          await state_pool.update_from_dict(
+            session_id, check.state_corrections,
+          )
+          state_ctx = await state_pool.to_prompt_context(session_id)
+
+          yield SSEMessage(
+            event=SSEEventType.THINKING,
+            data={
+              "agent": "orchestrator",
+              "thought": "发现数据不一致，正在纠正...",
+            },
+          ).format()
+
+          to_rerun = identify_affected_agents(check, results)
+          for agent_name, _original in to_rerun:
+            rerun_task = AgentTask(
+              agent=AgentName(agent_name),
+              goal="使用纠正后的参数重新查询",
+            )
+
+            display = AGENT_DISPLAY_NAMES.get(agent_name, agent_name)
+            yield SSEMessage(
+              event=SSEEventType.AGENT_START,
+              data={
+                "agent": agent_name,
+                "task": f"正在纠正 {display} 的结果...",
+              },
+            ).format()
+
+            new_result = await self._execute_single_task(
+              rerun_task, {
+                "state_context": state_ctx,
+                "conversation_summary": conversation_summary,
+              },
+            )
+            for tid, old_r in list(results.items()):
+              if old_r.agent.value == agent_name:
+                results[tid] = new_result
+                break
+
+            yield SSEMessage(
+              event=SSEEventType.AGENT_RESULT,
+              data={
+                "agent": agent_name,
+                "status": new_result.status.value,
+                "summary": new_result.summary,
+                "data": new_result.data,
+              },
+            ).format()
+
+            for ui_event in extract_ui_components(
+              agent_name, new_result.data,
+            ):
+              yield ui_event
+
+          reflection_round += 1
+          continue
+
+      yield SSEMessage(
+        event=SSEEventType.THINKING,
+        data={
+          "agent": "orchestrator",
+          "thought": "所有结果已验证，未发现问题。",
+        },
+      ).format()
+      break
+
+  # ------------------------------------------------------------------ #
+  # Task execution
+  # ------------------------------------------------------------------ #
+
+  async def _execute_tasks_parallel(
+    self,
+    tasks: list[AgentTask],
+    session_id: str,
+    state_ctx: str,
+    conversation_summary: str = "",
+  ) -> tuple[list[dict], dict[str, AgentResult]]:
+    """Run independent tasks concurrently; return SSE messages and results."""
+    sse_messages: list[dict] = []
+    for t in tasks:
+      sse_messages.append(
+        SSEMessage(
+          event=SSEEventType.AGENT_START,
+          data={"agent": t.agent.value, "task": t.goal},
+        ).format()
+      )
+
+    context = {
+      "state_context": state_ctx,
+      "conversation_summary": conversation_summary,
+    }
+    coros = [self._execute_single_task(t, context) for t in tasks]
+    raw_results = await asyncio.gather(*coros, return_exceptions=True)
+
+    results: dict[str, AgentResult] = {}
+    for task, res in zip(tasks, raw_results):
+      if isinstance(res, Exception):
+        result = AgentResult(
+          task_id=task.task_id,
+          agent=task.agent,
+          status=TaskStatus.FAILED,
+          error=str(res),
+        )
+      else:
+        result = res
+      results[task.task_id] = result
+      await session_memory.add_trace(session_id, {
+        "agent": task.agent.value,
+        "task_id": task.task_id,
+        "goal": task.goal,
+        "status": result.status.value,
+        "summary": result.summary,
+        "duration_ms": result.duration_ms,
+        "error": result.error,
+        "timestamp": time.time(),
+      })
+      sse_messages.append(
+        SSEMessage(
+          event=SSEEventType.AGENT_RESULT,
+          data={
+            "agent": task.agent.value,
+            "status": result.status.value,
+            "summary": result.summary,
+            "data": result.data,
+          },
+        ).format()
+      )
+      for ui_event in extract_ui_components(task.agent.value, result.data):
+        sse_messages.append(ui_event)
+
+    return sse_messages, results
+
+  async def _execute_single_task(
+    self,
+    task: AgentTask,
+    context: dict[str, Any],
+  ) -> AgentResult:
+    """Dispatch a single task to the appropriate agent with timeout."""
+    agent = AGENT_REGISTRY.get(task.agent)
+    if not agent:
+      return AgentResult(
+        task_id=task.task_id,
+        agent=task.agent,
+        status=TaskStatus.FAILED,
+        error=f"No agent registered for {task.agent.value}",
+      )
+    try:
+      conv_summary = context.get("conversation_summary", "")
+      if conv_summary:
+        enriched_task = AgentTask(
+          agent=task.agent,
+          goal=f"{task.goal}\n\n[对话上下文]: {conv_summary}",
+          depends_on=task.depends_on,
+        )
+      else:
+        enriched_task = task
+
+      settings = get_settings()
+      return await asyncio.wait_for(
+        agent.execute(enriched_task, context),
+        timeout=settings.LLM_TASK_TIMEOUT,
+      )
+    except asyncio.TimeoutError:
+      return AgentResult(
+        task_id=task.task_id,
+        agent=task.agent,
+        status=TaskStatus.FAILED,
+        error=f"Agent {task.agent.value} timed out after {get_settings().LLM_TASK_TIMEOUT}s",
+      )
+    except Exception as exc:
+      return AgentResult(
+        task_id=task.task_id,
+        agent=task.agent,
+        status=TaskStatus.FAILED,
+        error=str(exc),
+      )

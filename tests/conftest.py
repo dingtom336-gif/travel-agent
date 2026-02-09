@@ -15,7 +15,7 @@ def mock_llm(monkeypatch):
     fake = AsyncMock(return_value="Mock LLM response for testing.")
     monkeypatch.setattr("agent.llm.llm_chat", fake)
     monkeypatch.setattr("agent.llm.client.llm_chat", fake)
-    monkeypatch.setattr("agent.orchestrator.agent.llm_chat", fake)
+    monkeypatch.setattr("agent.orchestrator.synthesis.llm_chat", fake, raising=False)
     monkeypatch.setattr("agent.orchestrator.planner.llm_chat", fake, raising=False)
     monkeypatch.setattr("agent.orchestrator.router.llm_chat", fake, raising=False)
     monkeypatch.setattr("agent.orchestrator.context.llm_chat", fake, raising=False)
