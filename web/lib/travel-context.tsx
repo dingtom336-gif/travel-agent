@@ -28,7 +28,7 @@ export interface TravelPlanState {
   destination: string;
 }
 
-type Action =
+export type Action =
   | { type: "ADD_FLIGHTS"; payload: FlightData[] }
   | { type: "ADD_HOTELS"; payload: HotelData[] }
   | { type: "ADD_POIS"; payload: POIData[] }
