@@ -7,6 +7,7 @@ import { useChatMessages } from "@/lib/hooks/useChatMessages";
 import ChatMessage from "./ChatMessage";
 import ChatInput from "./ChatInput";
 import EmptyState from "./EmptyState";
+import ConnectionBanner from "./ConnectionBanner";
 
 export default function ChatContainer() {
   const searchParams = useSearchParams();
@@ -14,7 +15,7 @@ export default function ChatContainer() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const initialPromptHandled = useRef(false);
 
-  const { messages, isProcessing, handleSend, cleanup } = useChatMessages({
+  const { messages, isProcessing, connectionState, handleSend, cleanup } = useChatMessages({
     travelDispatch,
   });
 
@@ -49,6 +50,9 @@ export default function ChatContainer() {
 
   return (
     <div className="flex h-full flex-col">
+      {/* Connection status banner */}
+      <ConnectionBanner state={connectionState} />
+
       {/* Messages area */}
       <div className="flex-1 overflow-y-auto px-4 py-6">
         <div className="mx-auto max-w-4xl space-y-6">

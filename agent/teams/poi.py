@@ -92,28 +92,6 @@ class POIAgent(BaseAgent):
         error=str(exc),
       )
 
-  def _build_prompt(
-    self,
-    task: AgentTask,
-    context: dict[str, Any],
-    tool_data: dict[str, Any],
-  ) -> str:
-    """Compose prompt from task goal + context + tool results."""
-    parts = [f"Task: {task.goal}"]
-    if task.params:
-      parts.append(f"Parameters: {task.params}")
-    state_ctx = context.get("state_context", "")
-    if state_ctx:
-      parts.append(f"Current travel state:\n{state_ctx}")
-
-    if tool_data:
-      parts.append("=== Tool Results ===")
-      for tool_name, result in tool_data.items():
-        parts.append(f"--- {tool_name} ---")
-        parts.append(json.dumps(result, ensure_ascii=False, default=str)[:3000])
-
-    return "\n\n".join(parts)
-
   @staticmethod
   def _extract_pois_from_response(response: str) -> list[dict[str, Any]]:
     """Extract structured POI data from LLM response JSON block."""

@@ -5,7 +5,7 @@ import type {
   ChatMessage,
   AgentStatus as AgentStatusType,
 } from "@/lib/types";
-import { chatStream } from "@/lib/api-client";
+import { chatStream, type ConnectionState } from "@/lib/api-client";
 import type { Action } from "@/lib/travel-context";
 import { mockStreamResponse } from "@/components/chat/mockStream";
 import { useSSEHandler } from "./useSSEHandler";
@@ -25,6 +25,7 @@ interface UseChatMessagesOptions {
 export function useChatMessages({ travelDispatch }: UseChatMessagesOptions) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [connectionState, setConnectionState] = useState<ConnectionState>("idle");
   const abortControllerRef = useRef<AbortController | null>(null);
   const sessionIdRef = useRef<string | undefined>(undefined);
 
@@ -46,7 +47,8 @@ export function useChatMessages({ travelDispatch }: UseChatMessagesOptions) {
             message: text,
           },
           (event) => handleSSEEvent(event, aiMsgId),
-          signal
+          signal,
+          setConnectionState
         );
       } catch {
         finishMessage(aiMsgId);
@@ -121,5 +123,5 @@ export function useChatMessages({ travelDispatch }: UseChatMessagesOptions) {
     abortControllerRef.current?.abort();
   }, []);
 
-  return { messages, isProcessing, handleSend, cleanup };
+  return { messages, isProcessing, connectionState, handleSend, cleanup };
 }
