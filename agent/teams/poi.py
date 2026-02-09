@@ -2,13 +2,20 @@
 from __future__ import annotations
 
 import json
-import time
+import re
 from typing import Any
 
-from agent.models import AgentName, AgentResult, AgentTask, TaskStatus
+from agent.models import AgentName, AgentTask
 from agent.teams.base import BaseAgent
 
-SYSTEM_PROMPT = """You are the POI (Point of Interest) Agent of TravelMind.
+
+class POIAgent(BaseAgent):
+  name = AgentName.POI
+  description = "Recommends attractions, restaurants, and local experiences."
+  _success_label = "POI recommendations generated"
+  _failure_label = "POI search failed"
+
+  system_prompt = """You are the POI (Point of Interest) Agent of TravelMind.
 Your job is to recommend attractions, restaurants, shopping spots, and experiences.
 
 Given the user's travel parameters AND real POI search results, provide:
@@ -29,78 +36,62 @@ CRITICAL RULES:
 Respond in the same language as the user's message.
 Keep the answer concise and structured (use markdown)."""
 
+  async def _run_tools(
+    self, task: AgentTask, context: dict[str, Any],
+  ) -> dict[str, Any]:
+    params = task.params or {}
+    city = params.get("city") or params.get("destination", "")
+    category = params.get("category")
+    limit = params.get("limit", 10)
 
-class POIAgent(BaseAgent):
-  name = AgentName.POI
-  description = "Recommends attractions, restaurants, and local experiences."
+    tool_data: dict[str, Any] = {}
 
-  async def execute(self, task: AgentTask, context: dict[str, Any]) -> AgentResult:
-    try:
-      start = time.time()
+    if city:
+      try:
+        kwargs: dict[str, Any] = {"city": city, "limit": limit}
+        if category:
+          kwargs["category"] = category
+        poi_result = await self.call_tool("search_pois", **kwargs)
+        tool_data["pois"] = poi_result
+      except Exception:
+        pass
 
-      # Extract parameters
-      params = task.params or {}
-      city = params.get("city") or params.get("destination", "")
-      category = params.get("category")
-      limit = params.get("limit", 10)
+    return tool_data
 
-      tool_data = {}
+  def _post_process(
+    self,
+    task: AgentTask,
+    context: dict[str, Any],
+    tool_data: dict[str, Any],
+    response: str,
+  ) -> dict[str, Any]:
+    """Extract structured POI data from LLM response when tools return empty."""
+    pois_result = tool_data.get("pois", {})
+    has_pois = (
+      isinstance(pois_result, dict)
+      and pois_result.get("results")
+      and len(pois_result["results"]) > 0
+    )
+    if not has_pois and response:
+      extracted = self._extract_pois_from_response(response)
+      if extracted:
+        params = task.params or {}
+        city = params.get("city") or params.get("destination", "")
+        tool_data["pois"] = {
+          "success": True,
+          "results": extracted,
+          "total_count": len(extracted),
+          "query": {"city": city, "source": "llm"},
+        }
 
-      # Call POI search tool
-      if city:
-        try:
-          kwargs: dict[str, Any] = {"city": city, "limit": limit}
-          if category:
-            kwargs["category"] = category
-          poi_result = await self.call_tool("search_pois", **kwargs)
-          tool_data["pois"] = poi_result
-        except Exception:
-          pass
-
-      # Build prompt with tool results
-      prompt = self._build_prompt(task, context, tool_data)
-      response = await self._call_claude(SYSTEM_PROMPT, prompt)
-
-      # If tool returned no POIs, try to extract structured data from LLM response
-      pois_result = tool_data.get("pois", {})
-      has_pois = (
-        isinstance(pois_result, dict)
-        and pois_result.get("results")
-        and len(pois_result["results"]) > 0
-      )
-      if not has_pois and response:
-        extracted = self._extract_pois_from_response(response)
-        if extracted:
-          tool_data["pois"] = {
-            "success": True,
-            "results": extracted,
-            "total_count": len(extracted),
-            "query": {"city": city, "source": "llm"},
-          }
-
-      return self._make_result(
-        task,
-        summary=f"POI recommendations generated for {task.goal}",
-        data={"response": response, "tool_data": tool_data},
-        start_time=start,
-      )
-    except Exception as exc:
-      return self._make_result(
-        task,
-        summary="POI search failed",
-        status=TaskStatus.FAILED,
-        error=str(exc),
-      )
+    return {"response": response, "tool_data": tool_data}
 
   @staticmethod
   def _extract_pois_from_response(response: str) -> list[dict[str, Any]]:
     """Extract structured POI data from LLM response JSON block."""
     try:
-      # Find JSON array in the response (between ```json and ```)
-      import re
       match = re.search(r"```json\s*(\[[\s\S]*?\])\s*```", response)
       if not match:
-        # Try bare JSON array
         match = re.search(r"(\[\s*\{[\s\S]*?\}\s*\])", response)
       if match:
         pois = json.loads(match.group(1))

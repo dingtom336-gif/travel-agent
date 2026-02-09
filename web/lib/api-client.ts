@@ -9,6 +9,7 @@ import type {
   SessionSummary,
 } from "./simulator-types";
 import { ChatRequest, SSEEvent, SSEEventType } from "./types";
+import { safeParseSSEEvent } from "./schemas";
 
 // Backend agent service base URL
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
@@ -173,8 +174,13 @@ async function chatStreamOnce(
         const dataStr = trimmed.slice(5).trim();
         try {
           const data = JSON.parse(dataStr);
-          onEvent({ type: currentEventType, data });
+          const raw = { type: currentEventType, data };
+          const validated = safeParseSSEEvent(raw);
+          if (validated) {
+            onEvent(validated as SSEEvent);
+          }
         } catch {
+          // Non-JSON data: treat as plain text, skip schema validation
           onEvent({
             type: currentEventType,
             data: { content: dataStr },

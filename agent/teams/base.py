@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 import logging
 import time
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Any, Callable, Dict
 
 from agent.config.settings import get_settings
@@ -17,14 +17,20 @@ logger = logging.getLogger(__name__)
 class BaseAgent(ABC):
   """Abstract base for every specialist agent.
 
-  Subclasses must set `name` / `description` and implement `execute`.
-  Provides a shared helper `_call_claude` that gracefully falls back
-  to mock data when no API key is configured.
-  Also provides `available_tools` and `call_tool` for tool-layer access.
+  Subclasses set `name`, `description`, `system_prompt` and override
+  `_run_tools` (+ optionally `_build_prompt` / `_post_process`).
+  The template-method `execute` handles the common pipeline:
+  run_tools -> build_prompt -> call_claude -> post_process -> make_result.
+
+  Agents with fundamentally different workflows (e.g. KnowledgeAgent)
+  may override `execute` directly.
   """
 
   name: AgentName
   description: str = ""
+  system_prompt: str = ""
+  _success_label: str = "completed"
+  _failure_label: str = "failed"
 
   # --- tool access ---
 
@@ -125,12 +131,50 @@ class BaseAgent(ABC):
             item[key] = round(item[key] * modifier)
     return result
 
-  # --- abstract ---
+  # --- template method ---
 
-  @abstractmethod
   async def execute(self, task: AgentTask, context: dict[str, Any]) -> AgentResult:
-    """Run the task and return a result."""
-    ...
+    """Template-method implementation of the agent pipeline.
+
+    Subclasses override hook methods (_run_tools, _post_process, etc.)
+    instead of reimplementing execute. Agents with fundamentally different
+    workflows (e.g. KnowledgeAgent) may still override execute directly.
+    """
+    start = time.time()
+    try:
+      tool_data = await self._run_tools(task, context)
+      prompt = self._build_prompt(task, context, tool_data)
+      response = await self._call_claude(self.system_prompt, prompt)
+      data = self._post_process(task, context, tool_data, response)
+      return self._make_result(
+        task,
+        summary=f"{self._success_label} for {task.goal}",
+        data=data,
+        start_time=start,
+      )
+    except Exception as exc:
+      return self._make_result(
+        task,
+        summary=f"{self._failure_label} for {task.goal}",
+        status=TaskStatus.FAILED,
+        error=str(exc),
+      )
+
+  async def _run_tools(
+    self, task: AgentTask, context: dict[str, Any],
+  ) -> dict[str, Any]:
+    """Call tools and return collected results. Override in subclasses."""
+    return {}
+
+  def _post_process(
+    self,
+    task: AgentTask,
+    context: dict[str, Any],
+    tool_data: dict[str, Any],
+    response: str,
+  ) -> dict[str, Any]:
+    """Build the result data dict. Override to add extra processing."""
+    return {"response": response, "tool_data": tool_data}
 
   # --- helpers ---
 
