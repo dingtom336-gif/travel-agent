@@ -116,6 +116,27 @@ def score_tool_usage(
     t.get("agent", "unknown") for t in traces
   ))
 
+  # Simple mode: only orchestrator agent present — don't penalize for missing specialist agents
+  is_simple_mode = (
+    len(agents_used) == 1 and agents_used[0] == "orchestrator"
+  )
+
+  if is_simple_mode:
+    # Simple queries don't need specialist agents; score based on success
+    score = 4 if successful == total_calls else 3
+    reason = (
+      f"Simple mode: {successful}/{total_calls} direct calls succeeded"
+    )
+    details = {
+      "total_calls": total_calls,
+      "successful_calls": successful,
+      "success_rate": 1.0 if successful == total_calls else round(successful / total_calls, 2),
+      "agents_used": agents_used,
+      "coverage": 0,
+      "simple_mode": True,
+    }
+    return score, reason, details
+
   success_rate = successful / total_calls if total_calls > 0 else 0
   coverage = sum(1 for a in EXPECTED_AGENTS if a in agents_used)
   coverage_ratio = coverage / len(EXPECTED_AGENTS)
@@ -133,6 +154,7 @@ def score_tool_usage(
     "success_rate": round(success_rate, 2),
     "agents_used": agents_used,
     "coverage": coverage,
+    "simple_mode": False,
   }
   return score, reason, details
 
@@ -220,26 +242,47 @@ def score_personalization(
     (score, reason, details) tuple
   """
   assistant_msgs = _extract_messages(messages, "assistant")
+  user_msgs = _extract_messages(messages, "user")
   combined = " ".join(assistant_msgs)
 
   score_points = 0
   details: Dict[str, Any] = {}
 
+  # 1. Explicit preference references (+2)
   pref_keywords = [
     "偏好", "喜欢", "习惯", "preference", "您之前",
     "根据您", "为您", "推荐给您", "适合您",
+    "考虑到您", "按照您", "符合您",
   ]
-  has_pref = any(kw in combined for kw in pref_keywords)
+  pref_matches = sum(1 for kw in pref_keywords if kw in combined)
+  has_pref = pref_matches > 0
   details["references_preferences"] = has_pref
+  details["pref_keyword_matches"] = pref_matches
   if has_pref:
     score_points += 2
 
+  # 2. Personal tone (+1)
   personal_patterns = ["您", "你", "your", "you"]
   has_personal_tone = any(kw in combined for kw in personal_patterns)
   details["personal_tone"] = has_personal_tone
   if has_personal_tone:
     score_points += 1
 
+  # 3. User need echo: key entities from user messages appear in assistant replies (+1)
+  if user_msgs and assistant_msgs:
+    user_entities = set()
+    for um in user_msgs:
+      user_entities.update(
+        w for w in re.findall(r"[\u4e00-\u9fff]{2,}", um) if len(w) >= 2
+      )
+    if user_entities:
+      echoed = sum(1 for w in user_entities if w in combined)
+      echo_ratio = echoed / len(user_entities) if user_entities else 0
+      details["user_need_echo_ratio"] = round(echo_ratio, 2)
+      if echo_ratio >= 0.15:
+        score_points += 1
+
+  # 4. Profile in traces (+1, reduced from +2)
   trace_text = str(traces)
   has_profile = any(
     kw in trace_text
@@ -247,7 +290,7 @@ def score_personalization(
   )
   details["profile_data_loaded"] = has_profile
   if has_profile:
-    score_points += 2
+    score_points += 1
 
   score = max(1, min(5, score_points))
   reason = f"Personalization score {score_points}/5"
@@ -314,6 +357,7 @@ def score_coherence(
   Returns:
     (score, reason, details) tuple
   """
+  user_msgs = _extract_messages(messages, "user")
   assistant_msgs = _extract_messages(messages, "assistant")
 
   if len(assistant_msgs) < 2:
@@ -326,7 +370,7 @@ def score_coherence(
   score_points = 0
   details: Dict[str, Any] = {"turns": len(assistant_msgs)}
 
-  # 1. Destination consistency
+  # 1. Destination consistency (+1, reduced from +2)
   dest_pattern = re.compile(
     r"(日本|泰国|东京|三亚|北京|上海|大阪|首尔|"
     r"曼谷|新加坡|巴厘岛|马尔代夫)"
@@ -338,11 +382,27 @@ def score_coherence(
   unique_dests = set(destinations)
   details["destinations_mentioned"] = list(unique_dests)
   if len(unique_dests) <= 2:
-    score_points += 2
-  elif len(unique_dests) <= 4:
     score_points += 1
 
-  # 2. Later turns reference earlier context
+  # 2. Q&A alignment: user question keywords appear in corresponding assistant reply (+1)
+  qa_aligned = 0
+  pairs = min(len(user_msgs), len(assistant_msgs))
+  for i in range(pairs):
+    u_words = set(
+      w for w in re.findall(r"[\u4e00-\u9fff]{2,}", user_msgs[i])
+      if len(w) >= 2
+    )
+    if u_words:
+      matched = sum(1 for w in u_words if w in assistant_msgs[i])
+      if matched / len(u_words) >= 0.15:
+        qa_aligned += 1
+  if pairs > 0:
+    qa_ratio = qa_aligned / pairs
+    details["qa_alignment_ratio"] = round(qa_ratio, 2)
+    if qa_ratio >= 0.5:
+      score_points += 1
+
+  # 3. Cross-turn reference: later turns reference earlier specific info (+1)
   if len(assistant_msgs) >= 2:
     mid = len(assistant_msgs) // 2
     early_text = " ".join(assistant_msgs[:mid])
@@ -358,7 +418,7 @@ def score_coherence(
       if continuity >= 0.3:
         score_points += 1
 
-  # 3. Base point for multi-turn
+  # 4. Base point for multi-turn
   score_points += 1
 
   score = max(1, min(5, score_points))

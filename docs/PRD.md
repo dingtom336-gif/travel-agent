@@ -209,14 +209,15 @@ Orchestrator 拆解：
 - 目的地突发事件 → 安全提醒 + 行程调整建议
 - 异步处理通知：耗时操作（退改签处理）完成后主动回复
 
-### 3.8 模拟演练与自进化 ✅ v0.5.0 全面激活
+### 3.8 模拟演练与自进化 ✅ v0.5.1 修复迭代
 - **用户模拟器**：5种虚拟用户人格（犹豫型/价格敏感型/模糊型/奢华型/亲子型），自动生成多轮对话
 - **环境模拟器**：5种故障注入（超时/报错/价格波动/库存变化/API限流）+ 3种预设场景（旺季/恶劣天气/预算危机）
 - **Fault Injection 拦截层**：`BaseAgent.call_tool()` 中统一拦截，所有工具调用自动受故障影响
-- **Agent Traces 持久化**：`SessionMemory` 记录每个Agent执行轨迹（agent/task/status/duration/error）
+- **Agent Traces 持久化**：`SessionMemory` 记录每个Agent执行轨迹（agent/task/status/duration/error），含Simple模式
 - **自动对战 Battle Runner**：人格 × 场景 → 真实 Orchestrator → 6维度自动评分
 - **AI裁判评估**：6维度评分（意图理解/工具调用/回答质量/个性化/完整性/连贯性）+ SVG雷达图
 - **Debug Console**：隐藏路径 `/debug/simulator`，密码门禁，4个面板（对战/故障/评估/会话浏览）
+- **v0.5.1 修复**：连贯性(Agent上下文注入conversation_summary)、个性化(synthesis强制引用偏好)、评分规则升级(simple模式友好+Q&A对齐)
 - **合成数据驱动训练**：优秀轨迹 → 合成数据 → 模型微调，形成自进化飞轮（规划中）
 
 ---

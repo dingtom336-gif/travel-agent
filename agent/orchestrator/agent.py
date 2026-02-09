@@ -210,9 +210,24 @@ class OrchestratorAgent:
   ) -> AsyncGenerator[dict, None]:
     """Handle simple messages with a direct Claude call."""
     try:
+      start = time.time()
       response = await self._call_claude_simple(
         message, history, personalization_ctx,
       )
+      duration = int((time.time() - start) * 1000)
+
+      # Record trace for simple mode so evaluator can see it
+      session_memory.add_trace(session_id, {
+        "agent": "orchestrator",
+        "task_id": f"simple-{uuid.uuid4().hex[:8]}",
+        "goal": message[:100],
+        "status": "success",
+        "summary": response[:200],
+        "duration_ms": duration,
+        "error": None,
+        "timestamp": time.time(),
+      })
+
       yield SSEMessage(
         event=SSEEventType.TEXT,
         data={"content": response},
@@ -263,6 +278,9 @@ class OrchestratorAgent:
           yield chunk
         return
 
+      # Pre-build conversation summary for agent context continuity
+      conversation_summary = await build_context_with_summary(history)
+
       # --- ACTION: Execute tasks respecting dependencies ---
       results: dict[str, AgentResult] = {}
 
@@ -281,7 +299,7 @@ class OrchestratorAgent:
         ).format()
 
         parallel_sse, parallel_results = await self._execute_tasks_parallel(
-          parallel_tasks, session_id, state_ctx,
+          parallel_tasks, session_id, state_ctx, conversation_summary,
         )
         for sse_msg in parallel_sse:
           yield sse_msg
@@ -298,6 +316,7 @@ class OrchestratorAgent:
         context = {
           "state_context": state_ctx,
           "upstream_results": upstream,
+          "conversation_summary": conversation_summary,
         }
 
         yield SSEMessage(
@@ -367,7 +386,10 @@ class OrchestratorAgent:
               ).format()
 
               new_result = await self._execute_single_task(
-                rerun_task, {"state_context": state_ctx},
+                rerun_task, {
+                  "state_context": state_ctx,
+                  "conversation_summary": conversation_summary,
+                },
               )
               # Replace old result in the results dict
               for tid, old_r in list(results.items()):
@@ -447,6 +469,7 @@ class OrchestratorAgent:
     tasks: list[AgentTask],
     session_id: str,
     state_ctx: str,
+    conversation_summary: str = "",
   ) -> tuple[list[dict], dict[str, AgentResult]]:
     """Run independent tasks concurrently; return SSE messages and results."""
     sse_messages: list[dict] = []
@@ -458,7 +481,10 @@ class OrchestratorAgent:
         ).format()
       )
 
-    context = {"state_context": state_ctx}
+    context = {
+      "state_context": state_ctx,
+      "conversation_summary": conversation_summary,
+    }
     coros = [self._execute_single_task(t, context) for t in tasks]
     raw_results = await asyncio.gather(*coros, return_exceptions=True)
 
@@ -517,9 +543,20 @@ class OrchestratorAgent:
         error=f"No agent registered for {task.agent.value}",
       )
     try:
+      # Inject conversation summary into task goal for context continuity
+      conv_summary = context.get("conversation_summary", "")
+      if conv_summary:
+        enriched_task = AgentTask(
+          agent=task.agent,
+          goal=f"{task.goal}\n\n[对话上下文]: {conv_summary}",
+          depends_on=task.depends_on,
+        )
+      else:
+        enriched_task = task
+
       settings = get_settings()
       return await asyncio.wait_for(
-        agent.execute(task, context),
+        agent.execute(enriched_task, context),
         timeout=settings.LLM_TASK_TIMEOUT,
       )
     except asyncio.TimeoutError:
@@ -598,9 +635,9 @@ class OrchestratorAgent:
       instructions.append("- Include restaurant recommendations with must-try dishes.")
     if "摄影" in ctx_lower or "拍照" in ctx_lower or "photo" in ctx_lower:
       instructions.append("- Mention best photo spots and golden hour times.")
-    if instructions:
-      return "### Personalization:\n" + "\n".join(instructions)
-    return ""
+    if not instructions:
+      instructions.append("- 在回答中自然引用用户在对话中表达的偏好和需求")
+    return "### Personalization:\n" + "\n".join(instructions)
 
   def _build_synthesis_prompt(
     self,
@@ -639,6 +676,8 @@ class OrchestratorAgent:
       "Synthesize a coherent, well-structured response. "
       "If this is a follow-up, UPDATE the plan with new info, don't restart. "
       "If critical info is missing and cannot be inferred, naturally ask 1-2 questions in your response. "
+      "IMPORTANT: 如果提供了用户画像/偏好，你必须在回答中明确引用并体现个性化。"
+      "使用'根据您的偏好'、'考虑到您喜欢...'等表达，让用户感受到定制化服务。"
       "Respond in the user's language."
     )
     return prompt, combined

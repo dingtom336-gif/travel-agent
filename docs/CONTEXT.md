@@ -1,17 +1,17 @@
 ## 当前状态
-**v0.5.0 世界模拟器全面激活完成。** Fault Injection拦截、Agent Traces持久化、自动对战BattleRunner、前端Debug Console（密码门禁）、6维雷达图评估。19测试通过+前端编译通过。
+**v0.5.1 模拟器发现三大问题修复完成。** 连贯性(Agent上下文注入+窗口扩展)、个性化(synthesis强制引用偏好)、Simple模式Trace记录、评分规则升级。19测试通过。
 
 ## 最近操作记录
 | # | 时间 | 操作摘要 | 类型 |
 |---|------|---------|------|
-| 1 | 2026-02-09 | v0.5.0 Phase1: session.py traces + base.py fault injection + agent.py trace recording | 🖥️终端 |
-| 2 | 2026-02-09 | v0.5.0 Phase2: battle_runner.py新建 + main.py 7个新端点 + env_simulator单例统一 | 🖥️终端 |
-| 3 | 2026-02-09 | v0.5.0 Phase3: 前端simulator-types + api-client扩展 + 5个组件 + /debug/simulator页面 | 🖥️终端 |
-| 4 | 2026-02-09 | v0.5.0 Phase4: Footer版本号v0.5.0 + CONTEXT/PRD更新 | 🖥️终端 |
+| 1 | 2026-02-09 | v0.5.1 Fix1: conversation_summary注入Agent上下文 + build_messages窗口10→20 | 🖥️终端 |
+| 2 | 2026-02-09 | v0.5.1 Fix2: synthesis prompt强制个性化 + _build_personalization_instructions通用兜底 | 🖥️终端 |
+| 3 | 2026-02-09 | v0.5.1 Fix3: _handle_simple添加trace记录(timing+agent+goal) | 🖥️终端 |
+| 4 | 2026-02-09 | v0.5.1 Fix4: scoring_rules升级(tool_usage simple友好+personalization增强+coherence Q&A对齐) | 🖥️终端 |
 
 ## 未完成事项
-- [ ] 部署v0.5.0到生产并E2E验证
-- [ ] 验证模拟器：访问 /debug/simulator → 密码门禁 → 人格对战 → 故障注入
+- [ ] 重新跑全面模拟测试（5人格+3故障），验证评分提升
+- [ ] 部署v0.5.1到生产并E2E验证
 
 ## 环境备忘
 - **本地**：`~/Desktop/claude-test/travel-agent/`，前端3001，后端8000
@@ -25,11 +25,9 @@
 ## 核心文件索引
 | 模块 | 关键文件 |
 |------|---------|
-| Fault Injection | `agent/teams/base.py` ← call_tool()拦截层 |
-| Battle Runner | `agent/simulator/battle_runner.py` ← 自动对战核心 |
-| Debug API | `agent/main.py` ← 14个端点(含7个新debug端点) |
-| 模拟器前端 | `web/app/debug/simulator/page.tsx` ← 密码门禁+4Tab |
-| 雷达图 | `web/components/simulator/RadarChart.tsx` ← SVG 6维度 |
+| 连贯性修复 | `agent/orchestrator/agent.py` ← conversation_summary注入 |
+| 上下文窗口 | `agent/orchestrator/context.py` ← build_messages 20条 |
+| 评分规则 | `agent/simulator/scoring_rules.py` ← 3函数升级 |
 
 ## 历史归档
 - Wave 1-8 (02-07)：PRD→前端+后端+地图+UI审查+DeepSeek集成
@@ -37,3 +35,4 @@
 - v0.3.2 POI点击+真实地点+路线空间合理性 (02-08)
 - v0.3.3 对话语义理解修复：extract_state注入history+existing_state (02-08)
 - v0.4.0 Generative UI：react-markdown+卡片穿插文本+图片注入+RouteMap+BudgetChart (02-09)
+- v0.5.0 世界模拟器：Fault Injection+Traces持久化+BattleRunner+Debug Console+6维雷达图 (02-09)

@@ -56,7 +56,7 @@ def build_messages(
 ) -> list[dict[str, str]]:
   """Convert session history to Claude message format."""
   messages: list[dict[str, str]] = []
-  for msg in history[-10:]:  # last 5 turns
+  for msg in history[-20:]:  # last 10 turns
     role = msg["role"]
     if role in ("user", "assistant"):
       messages.append({"role": role, "content": msg["content"]})
