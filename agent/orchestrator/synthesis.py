@@ -5,7 +5,7 @@ import logging
 import time
 import uuid
 from collections.abc import AsyncGenerator
-from typing import Any
+from typing import Any, Optional
 
 from agent.config.settings import get_settings
 from agent.llm import llm_chat, llm_chat_stream
@@ -25,7 +25,7 @@ class Synthesizer:
   """Handles simple replies and full synthesis of agent results."""
 
   # ------------------------------------------------------------------ #
-  # Simple reply
+  # Simple reply – streaming (v0.7.0: converted from non-streaming)
   # ------------------------------------------------------------------ #
 
   async def handle_simple(
@@ -35,30 +35,67 @@ class Synthesizer:
     history: list[dict[str, Any]],
     personalization_ctx: str = "",
   ) -> AsyncGenerator[dict, None]:
-    """Handle simple messages with a direct Claude call."""
+    """Handle simple messages with streaming LLM call."""
     try:
       start = time.time()
-      response = await self._call_claude_simple(
-        message, history, personalization_ctx,
-      )
+
+      system_prompt = ORCHESTRATOR_SYSTEM_PROMPT
+      if personalization_ctx:
+        system_prompt += (
+          f"\n\n--- User Profile ---\n{personalization_ctx}\n"
+          "Use the above user preferences to personalize your response."
+        )
+
+      # Only build context summary for longer conversations
+      if len(history) > 4:
+        context_summary = await build_context_with_summary(history)
+        if context_summary:
+          system_prompt += f"\n\n--- Conversation Context ---\n{context_summary}"
+
+      messages = build_messages(history)
+
+      full_response = ""
+      got_content = False
+      async for chunk in llm_chat_stream(
+        system=system_prompt,
+        messages=messages,
+        max_tokens=1024,
+      ):
+        if chunk:
+          got_content = True
+          full_response += chunk
+          yield SSEMessage(
+            event=SSEEventType.TEXT,
+            data={"content": chunk},
+          ).format()
+
+      if not got_content:
+        fallback = (
+          "[MOCK] Hi! I'm TravelMind, your AI travel planning assistant. "
+          "I can help you plan trips, find flights, hotels, attractions, and more. "
+          "Where would you like to go?"
+        )
+        full_response = fallback
+        yield SSEMessage(
+          event=SSEEventType.TEXT,
+          data={"content": fallback},
+        ).format()
+
       duration = int((time.time() - start) * 1000)
+      logger.info("TIMING stage=simple_reply duration_ms=%d session=%s", duration, session_id)
 
       await session_memory.add_trace(session_id, {
         "agent": "orchestrator",
         "task_id": f"simple-{uuid.uuid4().hex[:8]}",
         "goal": message[:100],
         "status": "success",
-        "summary": response[:200],
+        "summary": full_response[:200],
         "duration_ms": duration,
         "error": None,
         "timestamp": time.time(),
       })
 
-      yield SSEMessage(
-        event=SSEEventType.TEXT,
-        data={"content": response},
-      ).format()
-      await session_memory.add_message(session_id, "assistant", response)
+      await session_memory.add_message(session_id, "assistant", full_response)
       yield SSEMessage(
         event=SSEEventType.DONE,
         data={"session_id": session_id},
@@ -81,10 +118,18 @@ class Synthesizer:
     state_ctx: str,
     history: list[dict[str, Any]],
     personalization_ctx: str = "",
+    context_summary: Optional[str] = None,
   ) -> AsyncGenerator[str, None]:
-    """Stream synthesis – yields text chunks for SSE."""
+    """Stream synthesis – yields text chunks for SSE.
+
+    Args:
+      context_summary: Pre-built conversation summary from react_loop.
+                       If provided, skips the duplicate LLM call.
+    """
     settings = get_settings()
-    context_summary = await build_context_with_summary(history)
+    # Reuse pre-built summary if available, otherwise build fresh
+    if context_summary is None:
+      context_summary = await build_context_with_summary(history)
     prompt, combined = self._build_synthesis_prompt(
       user_message, results, state_ctx, context_summary, personalization_ctx,
     )
@@ -136,45 +181,6 @@ class Synthesizer:
   # ------------------------------------------------------------------ #
   # Internals
   # ------------------------------------------------------------------ #
-
-  async def _call_claude_simple(
-    self,
-    message: str,
-    history: list[dict[str, Any]],
-    personalization_ctx: str = "",
-  ) -> str:
-    """Quick LLM call for simple messages."""
-    try:
-      system_prompt = ORCHESTRATOR_SYSTEM_PROMPT
-      if personalization_ctx:
-        system_prompt += (
-          f"\n\n--- User Profile ---\n{personalization_ctx}\n"
-          "Use the above user preferences to personalize your response."
-        )
-
-      context_summary = await build_context_with_summary(history)
-      if context_summary and len(history) > 4:
-        system_prompt += f"\n\n--- Conversation Context ---\n{context_summary}"
-
-      messages = build_messages(history)
-      result = await llm_chat(
-        system=system_prompt,
-        messages=messages,
-        max_tokens=1024,
-      )
-      if result is None:
-        return (
-          "[MOCK] Hi! I'm TravelMind, your AI travel planning assistant. "
-          "I can help you plan trips, find flights, hotels, attractions, and more. "
-          "Where would you like to go?"
-        )
-      return result
-    except Exception as exc:
-      logger.warning("Simple LLM call failed: %s", exc)
-      return (
-        "[MOCK] Hi! I'm TravelMind. I'm here to help you plan your perfect trip. "
-        "What destination are you considering?"
-      )
 
   def _build_synthesis_prompt(
     self,

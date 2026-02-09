@@ -236,6 +236,21 @@ Orchestrator 拆解：
 - **性能优化**：全组件 React.memo + 自定义比较函数 + useCallback
 - **测试覆盖**：19 → 195 测试，覆盖 Memory/Agent/Orchestrator/SSE集成/评分规则
 
+### 3.10 v0.7.0 性能优化
+- **本地意图分类器**：新建 `intent_classifier.py`，7维特征加权评分，< 1ms 替代 ~20s LLM Router
+- **立即 SSE 反馈**：`handle_message` 在任何 async 操作前 yield thinking 事件，用户零等待
+- **流式简单回复**：`handle_simple` 从非流式 `llm_chat` 改为流式 `llm_chat_stream`，逐块输出
+- **启发式 Planner**：首次旅行请求用 `_heuristic_decompose` 即时分解，跳过 ~20s LLM 调用
+- **启发式状态提取**：首次消息用正则即时提取，LLM 精确提取 fire-and-forget 后台执行
+- **Reflector 恢复 R1**：使用 deepseek-reasoner 模型，增强 `<think>` 标签剥离和 JSON 解析
+- **目的地误报修复**：`_scan_for_variants` 阈值调优（tlen<=2跳过，ratio>=0.7）
+- **Context Summary 传递**：避免 synthesis 重复构建 conversation_summary
+- **全管道 TIMING 日志**：每阶段计时 `TIMING stage=X duration_ms=Y`
+- **跟进消息并行化**：StateExtract 与 ContextSummary 用 `asyncio.gather` 并行
+- **性能门禁测试**：`test_performance.py` 覆盖分类器延迟/准确率、首事件延迟
+- **部署冒烟测试**：`scripts/smoke_test.py` 自动验证简单/复杂消息延迟阈值
+- **测试覆盖**：195 → 200 测试
+
 ---
 
 ## 4. 页面设计
@@ -364,7 +379,8 @@ travel-agent/
 │   │   ├── state_extractor.py    # 旅行参数提取（含AI上下文）
 │   │   ├── planner.py            # 任务拆解（支持增量模式）
 │   │   ├── reflector.py          # 自我反思 (Reflection)
-│   │   ├── router.py             # 模型路由策略
+│   │   ├── router.py             # 模型路由策略（v0.7.0 改用本地分类器）
+│   │   ├── intent_classifier.py  # 本地意图分类器（< 1ms）
 │   │   └── ui_mapper.py          # UI组件映射
 │   ├── teams/                    # 专业 Agent 团队（模板方法模式）
 │   │   ├── base.py               # BaseAgent 基类（模板execute）
@@ -396,17 +412,20 @@ travel-agent/
 │   └── config/
 │       └── settings.py           # 配置（含缓存/限流/CORS参数）
 │
-├── tests/                        # 测试（195个）
+├── tests/                        # 测试（200个）
 │   ├── conftest.py               # 共享 fixtures
 │   ├── test_session_memory.py    # Memory 层测试
 │   ├── test_state_pool.py
 │   ├── test_profile_manager.py
 │   ├── test_agents.py            # Agent 层测试（BaseAgent+7子类）
 │   ├── test_orchestrator.py      # Orchestrator 组件测试
+│   ├── test_performance.py       # 性能门禁测试（分类器+SSE延迟）
 │   ├── test_integration_sse.py   # SSE 集成测试
 │   ├── test_evaluator.py         # 评分规则测试
 │   └── test_sse_pipeline.py      # SSE 管道测试
 │
+├── scripts/
+│   └── smoke_test.py             # 部署冒烟测试（自动验证延迟阈值）
 ├── docs/
 │   ├── PRD.md
 │   └── CONTEXT.md

@@ -1,31 +1,33 @@
 ## 当前状态
-**v0.6.2 修复信号量导致的卡死。** 移除并发信号量+恢复超时+恢复全并行。保留RPM 300、Router快速路径、Reflection短路、MAX_RETRIES=2。
+**v0.7.0 性能优化完成。** 本地测试 199/200 通过（1个预存在失败）。待部署验证。
 
 ## 最近操作记录
 | # | 时间 | 操作摘要 | 类型 |
 |---|------|---------|------|
-| 1 | 2026-02-09 | v0.6.1 并发信号量导致卡死，反思后回滚 | 📋决策 |
-| 2 | 2026-02-09 | v0.6.2 移除信号量+分批启动，恢复全并行asyncio.gather | 🖥️终端 |
-| 3 | 2026-02-09 | 恢复LLM_TIMEOUT=30s, TASK_TIMEOUT=45s (20s太短) | 🖥️终端 |
-| 4 | 2026-02-09 | 保留有效优化：RPM300/Router快速路径/Reflection短路/RETRIES=2 | 🖥️终端 |
+| 1 | 2026-02-10 | v0.7.0 全部11项改动实现完毕，测试199/200通过 | 🖥️终端 |
+| 2 | 2026-02-10 | 新建intent_classifier.py(本地分类<1ms)替换LLM Router(~20s) | ⚙️配置 |
+| 3 | 2026-02-10 | synthesis流式化+planner启发式+agent立即SSE+TIMING日志 | 🖥️终端 |
+| 4 | 2026-02-10 | reflector恢复R1模型+JSON解析增强+目的地误报修复 | 🖥️终端 |
+| 5 | 2026-02-10 | 闭环铁律固化到CLAUDE.md+self-test.md(含反死循环保护) | ⚙️配置 |
 
 ## 踩坑记录
-- **【重要】信号量+分批执行是反模式**：DeepSeek响应需要15-25s，信号量=3会把并行Agent串行化，总延迟从20s变成60s+。429重试是正常行为，由OpenAI SDK自动处理，不需要限制并发。
-- **不要把HTTP超时降到DeepSeek响应时间以下**：DeepSeek V3正常响应15-25s，LLM_TIMEOUT=20s会触发大量误超时。
+- **【重要】组件无上下文模式**：修一个组件上下文缺失时，必须排查同管道所有组件
+- **【致命】先查日志再改代码**：已固化到CLAUDE.md强制规则
+- **【新】heuristic拦截破坏旧测试**：planner启发式拦截旅行消息导致mock LLM路径跑不到，需传previous_tasks强制LLM路径
 
 ## 未完成事项
+- [ ] 部署v0.7.0到生产并运行smoke_test.py
 - [ ] 1个预存在测试失败(test_sse_pipeline, sse-starlette事件循环问题)
-- [ ] 部署v0.6.2到生产并E2E验证
 
 ## 环境备忘
 - **本地**：`~/Desktop/claude-test/travel-agent/`，前端3001，后端8000
 - **生产**：38.54.88.144，前端 /travel (PM2:3003)，后端 /travel-api/ (PM2:8000)
 - **GitHub**：github.com/dingtom336-gif/travel-agent
-- **AI引擎**：DeepSeek V3（反思也改用V3，不再用R1）
-- **测试**：`./agent/venv2/bin/python -m pytest tests/ -v`（195测试）
+- **AI引擎**：DeepSeek V3(主) + R1(反思)
+- **测试**：`./agent/venv2/bin/python -m pytest tests/ -v`（200测试）
 
 ## 历史归档
 - Wave 1-8 (02-07)：PRD→前端+后端+地图+UI审查+DeepSeek集成
 - v0.3.2~v0.5.1 POI/语义/GenUI/模拟器/连贯性修复 (02-08~09)
-- v0.6.0 T1~T4 并发安全+Agent模板化+Orchestrator拆分+前端重构+195测试 (02-09)
-- v0.6.1 错误的信号量优化导致卡死 (02-09)
+- v0.6.0 并发安全+Agent模板化+Orchestrator拆分+前端重构+195测试 (02-09)
+- v0.6.1 错误的信号量优化→v0.6.2 回滚修复+自测规范强化 (02-09~10)

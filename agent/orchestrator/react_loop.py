@@ -1,11 +1,12 @@
 # ReAct loop engine – Thought→Action→Observe→Reflect cycle
+# v0.7.0: TIMING logs, context_summary passthrough
 from __future__ import annotations
 
 import asyncio
 import logging
 import time
 from collections.abc import AsyncGenerator
-from typing import Any
+from typing import Any, Optional
 
 from agent.config.settings import get_settings
 from agent.memory.session import session_memory
@@ -47,11 +48,13 @@ class ReactEngine:
     state_ctx: str,
     personalization_ctx: str,
     synthesize_fn: Any,
+    conversation_summary: Optional[str] = None,
   ) -> AsyncGenerator[dict, None]:
     """Full ReAct cycle. Yields SSE dicts.
 
     Args:
       synthesize_fn: async generator that yields text chunks for synthesis.
+      conversation_summary: Pre-built summary from agent.py (avoids duplicate LLM call).
     """
     try:
       # --- THOUGHT: Decompose into tasks ---
@@ -63,12 +66,24 @@ class ReactEngine:
         },
       ).format()
 
+      t_planner = time.time()
       prev_tasks = self._previous_tasks.get(session_id)
       tasks = await decompose_tasks(message, state_ctx, history, prev_tasks)
+      logger.info(
+        "TIMING stage=planner duration_ms=%d session=%s",
+        int((time.time() - t_planner) * 1000), session_id,
+      )
       if not tasks:
         return
 
-      conversation_summary = await build_context_with_summary(history)
+      # Reuse pre-built summary if available
+      if conversation_summary is None:
+        t_ctx = time.time()
+        conversation_summary = await build_context_with_summary(history)
+        logger.info(
+          "TIMING stage=context_summary duration_ms=%d session=%s",
+          int((time.time() - t_ctx) * 1000), session_id,
+        )
 
       # --- ACTION: Execute tasks respecting dependencies ---
       results: dict[str, AgentResult] = {}
@@ -100,8 +115,13 @@ class ReactEngine:
           },
         ).format()
 
+        t_agents = time.time()
         parallel_sse, parallel_results = await self._execute_tasks_parallel(
           parallel_tasks, session_id, state_ctx, conversation_summary,
+        )
+        logger.info(
+          "TIMING stage=agents_parallel duration_ms=%d count=%d session=%s",
+          int((time.time() - t_agents) * 1000), len(parallel_tasks), session_id,
         )
         for sse_msg in parallel_sse:
           yield sse_msg
@@ -142,10 +162,15 @@ class ReactEngine:
           yield ui_event
 
       # --- REFLECT: Validate and correct results ---
+      t_reflect = time.time()
       async for sse in self._reflect(
         session_id, message, results, state_ctx, conversation_summary,
       ):
         yield sse
+      logger.info(
+        "TIMING stage=reflector duration_ms=%d session=%s",
+        int((time.time() - t_reflect) * 1000), session_id,
+      )
 
       # --- SYNTHESIZE ---
       yield SSEMessage(
@@ -156,15 +181,21 @@ class ReactEngine:
         },
       ).format()
 
+      t_synth = time.time()
       full_response = ""
       async for chunk in synthesize_fn(
         message, results, state_ctx, history, personalization_ctx,
+        context_summary=conversation_summary,
       ):
         full_response += chunk
         yield SSEMessage(
           event=SSEEventType.TEXT,
           data={"content": chunk},
         ).format()
+      logger.info(
+        "TIMING stage=synthesis duration_ms=%d session=%s",
+        int((time.time() - t_synth) * 1000), session_id,
+      )
 
       await session_memory.add_message(
         session_id, "assistant", full_response,

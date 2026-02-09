@@ -80,17 +80,62 @@ async def decompose_tasks(
   conversation_history: list[dict[str, Any]] | None = None,
   previous_tasks: list[AgentTask] | None = None,
 ) -> list[AgentTask]:
-  """Call Claude to decompose the user message into AgentTasks.
+  """Decompose user message into AgentTasks.
 
-  Falls back to a mock plan when the API key is missing or on error.
-  If previous_tasks is provided, the planner can mark unchanged agents
-  with reuse_previous=true for incremental planning.
+  For follow-ups (previous_tasks exists), uses LLM for incremental planning.
+  For first-time clear travel requests, uses instant heuristic plan.
+  Falls back to LLM when heuristic is not confident.
   """
+  # Follow-ups need LLM for incremental planning
+  if previous_tasks:
+    settings = get_settings()
+    raw_tasks = await _call_planner(
+      settings, user_message, state_context, conversation_history, previous_tasks,
+    )
+    return _parse_tasks(raw_tasks)
+
+  # First-time: try heuristic plan (instant, 0 LLM cost)
+  heuristic_plan = _heuristic_decompose(user_message)
+  if heuristic_plan is not None:
+    logger.info("Using heuristic plan (skipping LLM planner)")
+    return _parse_tasks(heuristic_plan)
+
+  # Not confident → fall back to LLM planner
   settings = get_settings()
   raw_tasks = await _call_planner(
     settings, user_message, state_context, conversation_history, previous_tasks,
   )
   return _parse_tasks(raw_tasks)
+
+
+# Known destinations for heuristic detection
+_HEURISTIC_DESTINATIONS = {
+  "日本", "东京", "大阪", "京都", "泰国", "曼谷", "韩国", "首尔",
+  "新加坡", "马来西亚", "北京", "上海", "广州", "深圳", "成都",
+  "三亚", "丽江", "西安", "杭州", "重庆", "香港", "澳门", "台北",
+  "越南", "河内", "印尼", "巴厘岛", "菲律宾", "柬埔寨",
+  "法国", "巴黎", "英国", "伦敦", "德国", "意大利", "罗马",
+  "美国", "纽约", "洛杉矶", "澳大利亚", "悉尼", "清迈", "普吉",
+  "冲绳", "北海道", "奈良", "济州岛", "马尔代夫",
+}
+
+_TRAVEL_INTENT_KEYWORDS = {"旅行", "旅游", "游", "攻略", "规划", "出行", "度假", "自由行"}
+
+
+def _heuristic_decompose(user_message: str) -> list[dict[str, Any]] | None:
+  """Instant task decomposition for common travel patterns.
+
+  Returns MOCK_PLAN if confident this is a first-time travel request.
+  Returns None if not confident (caller should use LLM).
+  """
+  msg = user_message.lower()
+  has_intent = any(kw in msg for kw in _TRAVEL_INTENT_KEYWORDS)
+  has_location = any(loc in user_message for loc in _HEURISTIC_DESTINATIONS)
+
+  if not (has_intent or has_location):
+    return None  # Not confident → use LLM
+
+  return MOCK_PLAN
 
 
 async def _call_planner(

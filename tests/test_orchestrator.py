@@ -19,7 +19,7 @@ class TestPlanner:
 
   @pytest.mark.asyncio
   async def test_decompose_returns_agent_tasks(self, mock_llm):
-    """decompose_tasks returns a list of AgentTask objects."""
+    """decompose_tasks returns a list of AgentTask objects via LLM path."""
     from agent.orchestrator.planner import decompose_tasks
 
     mock_llm.return_value = json.dumps([
@@ -27,7 +27,9 @@ class TestPlanner:
       {"agent": "hotel", "goal": "搜索酒店", "params": {"city": "东京"}, "depends_on": []},
     ])
 
-    tasks = await decompose_tasks("帮我规划去东京的旅行")
+    # Provide previous_tasks to force LLM incremental planning path
+    prev = [AgentTask(agent=AgentName.TRANSPORT, goal="旧任务")]
+    tasks = await decompose_tasks("帮我规划去东京的旅行", previous_tasks=prev)
 
     assert len(tasks) == 2
     assert all(isinstance(t, AgentTask) for t in tasks)
@@ -64,7 +66,9 @@ class TestPlanner:
 
     mock_llm.return_value = '```json\n[{"agent": "weather", "goal": "查天气", "params": {}, "depends_on": []}]\n```'
 
-    tasks = await decompose_tasks("东京天气怎么样")
+    # Force LLM path with previous_tasks
+    prev = [AgentTask(agent=AgentName.WEATHER, goal="旧任务")]
+    tasks = await decompose_tasks("东京天气怎么样", previous_tasks=prev)
 
     assert len(tasks) == 1
     assert tasks[0].agent == AgentName.WEATHER
@@ -79,7 +83,9 @@ class TestPlanner:
       {"agent": "invalid_agent", "goal": "做不了", "params": {}, "depends_on": []},
     ])
 
-    tasks = await decompose_tasks("帮我规划旅行")
+    # Force LLM path with previous_tasks
+    prev = [AgentTask(agent=AgentName.TRANSPORT, goal="旧任务")]
+    tasks = await decompose_tasks("帮我规划旅行", previous_tasks=prev)
 
     assert len(tasks) == 1
     assert tasks[0].agent == AgentName.TRANSPORT
@@ -169,111 +175,76 @@ class TestPlanner:
 # ───────────────────────────────────────────────
 
 class TestRouter:
-  """Tests for orchestrator.router.classify_complexity."""
+  """Tests for orchestrator.router.classify_complexity (v0.7.0: local intent classifier)."""
 
   @pytest.mark.asyncio
-  async def test_classify_simple_via_llm(self, mock_llm):
-    """classify_complexity returns 'simple' when LLM says so."""
+  async def test_classify_simple_greeting(self):
+    """classify_complexity returns 'simple' for greetings."""
     from agent.orchestrator.router import classify_complexity
 
-    mock_llm.return_value = "simple"
-
     result = await classify_complexity("你好")
-
     assert result == "simple"
 
   @pytest.mark.asyncio
-  async def test_classify_complex_via_llm(self, mock_llm):
-    """classify_complexity returns 'complex' when LLM says so."""
+  async def test_classify_complex_travel(self):
+    """classify_complexity returns 'complex' for travel requests."""
     from agent.orchestrator.router import classify_complexity
-
-    mock_llm.return_value = "complex"
 
     result = await classify_complexity("帮我规划去东京的5天旅行")
-
     assert result == "complex"
 
   @pytest.mark.asyncio
-  async def test_classify_defaults_to_complex_on_unclear(self, mock_llm):
-    """classify_complexity defaults to 'complex' on unexpected LLM output."""
+  async def test_classify_simple_thanks(self):
+    """classify_complexity returns 'simple' for thanks."""
     from agent.orchestrator.router import classify_complexity
 
-    mock_llm.return_value = "maybe_complex"
-
-    result = await classify_complexity("不知道该怎么分类")
-
-    assert result == "complex"
-
-  @pytest.mark.asyncio
-  async def test_classify_falls_back_to_heuristic_on_none(self, mock_llm):
-    """classify_complexity uses heuristic when LLM returns None."""
-    from agent.orchestrator.router import classify_complexity
-
-    mock_llm.return_value = None
-
-    result = await classify_complexity("你好")
-
+    result = await classify_complexity("谢谢")
     assert result == "simple"
 
   @pytest.mark.asyncio
-  async def test_classify_falls_back_to_heuristic_on_exception(self, mock_llm):
-    """classify_complexity uses heuristic when LLM raises."""
+  async def test_classify_with_travel_context(self):
+    """Short messages with travel context are complex (follow-ups)."""
     from agent.orchestrator.router import classify_complexity
 
-    mock_llm.side_effect = RuntimeError("API down")
-
-    # Use a message long enough (>=10 chars) so keyword check is triggered
-    result = await classify_complexity("帮我规划一下去东京的旅行方案")
-
+    result = await classify_complexity("5天", has_travel_context=True)
     assert result == "complex"
 
   @pytest.mark.asyncio
-  async def test_classify_includes_history_in_prompt(self, mock_llm):
-    """classify_complexity includes conversation history in prompt."""
+  async def test_greeting_with_context_stays_simple(self):
+    """Known greetings remain simple even with travel context."""
     from agent.orchestrator.router import classify_complexity
 
-    mock_llm.return_value = "complex"
-
-    history = [
-      {"role": "user", "content": "我想去日本"},
-      {"role": "assistant", "content": "好的，几天？"},
-    ]
-
-    await classify_complexity("5天", conversation_history=history)
-
-    call_args = mock_llm.call_args
-    user_content = call_args[1]["messages"][0]["content"]
-    assert "日本" in user_content
+    result = await classify_complexity("谢谢", has_travel_context=True)
+    assert result == "simple"
 
 
-class TestHeuristicClassify:
-  """Tests for router._heuristic_classify."""
+class TestIntentClassifier:
+  """Tests for the local intent classifier."""
 
   def test_greeting_is_simple(self):
-    from agent.orchestrator.router import _heuristic_classify
-    assert _heuristic_classify("你好") == "simple"
-    assert _heuristic_classify("hi") == "simple"
-    assert _heuristic_classify("thanks") == "simple"
+    from agent.orchestrator.intent_classifier import intent_classifier
+    assert intent_classifier.classify("你好")[0] == "simple"
+    assert intent_classifier.classify("hi")[0] == "simple"
+    assert intent_classifier.classify("thanks")[0] == "simple"
 
   def test_travel_keywords_are_complex(self):
-    from agent.orchestrator.router import _heuristic_classify
-    assert _heuristic_classify("帮我规划去东京的旅行") == "complex"
-    # Short messages (<10 chars) without context default to simple
-    # even with keywords, so test with longer messages
-    assert _heuristic_classify("帮我搜索一下机票信息") == "complex"
-    assert _heuristic_classify("帮我推荐一些好的酒店") == "complex"
+    from agent.orchestrator.intent_classifier import intent_classifier
+    assert intent_classifier.classify("帮我规划去东京的旅行")[0] == "complex"
+    assert intent_classifier.classify("帮我搜索一下机票信息")[0] == "complex"
+    assert intent_classifier.classify("帮我推荐一些好的酒店")[0] == "complex"
 
   def test_short_without_context_is_simple(self):
-    from agent.orchestrator.router import _heuristic_classify
-    assert _heuristic_classify("嗯嗯") == "simple"
+    from agent.orchestrator.intent_classifier import intent_classifier
+    # "嗯嗯" is in GREETING_WORDS → simple
+    assert intent_classifier.classify("嗯")[0] == "simple"
 
   def test_short_with_travel_context_is_complex(self):
-    from agent.orchestrator.router import _heuristic_classify
-    assert _heuristic_classify("5天", has_travel_context=True) == "complex"
+    from agent.orchestrator.intent_classifier import intent_classifier
+    assert intent_classifier.classify("5天", has_travel_context=True)[0] == "complex"
 
   def test_short_greeting_with_context_is_simple(self):
-    from agent.orchestrator.router import _heuristic_classify
-    assert _heuristic_classify("谢谢", has_travel_context=True) == "simple"
+    from agent.orchestrator.intent_classifier import intent_classifier
+    assert intent_classifier.classify("谢谢", has_travel_context=True)[0] == "simple"
 
 
 # ───────────────────────────────────────────────

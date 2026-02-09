@@ -132,7 +132,7 @@ class PreflightValidator:
   ) -> None:
     """Find strings similar to target in text using sliding window."""
     tlen = len(target)
-    if tlen < 2:
+    if tlen <= 2:
       return
 
     # Find positions where target appears exactly (to exclude overlaps)
@@ -157,7 +157,7 @@ class PreflightValidator:
         continue
       seen.add(candidate)
       ratio = SequenceMatcher(None, candidate, target).ratio()
-      if ratio >= 0.5 and ratio < 1.0:
+      if ratio >= 0.7 and ratio < 1.0:
         variants[candidate] = variants.get(candidate, 0) + 1
 
 
@@ -213,6 +213,7 @@ class ConsistencyChecker:
         messages=[{"role": "user", "content": prompt}],
         max_tokens=256,
         temperature=0.1,
+        model=get_settings().DEEPSEEK_REASONER_MODEL,
       )
 
       if text is None:
@@ -237,11 +238,22 @@ class ConsistencyChecker:
     return "\n\n".join(parts)
 
   def _parse_result(self, text: str) -> ReflectionResult:
-    """Parse LLM JSON response into ReflectionResult."""
+    """Parse LLM JSON response into ReflectionResult.
+
+    Handles R1 model's <think>...</think> tags and markdown fences.
+    """
     text = text.strip()
+
+    # Strip R1 reasoning tags
+    if "<think>" in text:
+      parts = text.split("</think>")
+      text = parts[-1].strip() if len(parts) > 1 else text
+
+    # Strip markdown fences
     if text.startswith("```"):
       text = text.split("\n", 1)[1].rsplit("```", 1)[0].strip()
 
+    # Try direct JSON parse first
     try:
       data = json.loads(text)
       return ReflectionResult(
@@ -249,9 +261,24 @@ class ConsistencyChecker:
         issues=data.get("issues", []),
         state_corrections=data.get("state_corrections", {}),
       )
-    except (json.JSONDecodeError, KeyError) as exc:
-      logger.warning("Failed to parse reflection result: %s", exc)
-      return ReflectionResult(passed=True)
+    except (json.JSONDecodeError, KeyError):
+      pass
+
+    # Regex fallback: extract JSON object containing "passed"
+    json_match = re.search(r'\{[^{}]*"passed"[^{}]*\}', text)
+    if json_match:
+      try:
+        data = json.loads(json_match.group())
+        return ReflectionResult(
+          passed=data.get("passed", True),
+          issues=data.get("issues", []),
+          state_corrections=data.get("state_corrections", {}),
+        )
+      except (json.JSONDecodeError, KeyError):
+        pass
+
+    logger.warning("Failed to parse reflection result from: %s", text[:200])
+    return ReflectionResult(passed=True)
 
 
 def identify_affected_agents(
