@@ -16,6 +16,7 @@ class StatePool:
   The state pool stores slot values extracted from the conversation
   (destination, dates, budget, etc.) so that downstream agents
   can access shared context without re-parsing.
+  Supports eviction of stale sessions based on session_memory TTL.
   All mutating and reading methods are async with lock protection
   for safe concurrent access.
   """
@@ -56,6 +57,20 @@ class StatePool:
     """Reset state for a session."""
     async with self._lock:
       self._pool.pop(session_id, None)
+
+  async def evict_stale(self, stale_ids: list[str]) -> int:
+    """Remove state for sessions that have expired in session_memory.
+
+    Returns the number of evicted entries.
+    """
+    async with self._lock:
+      evicted = 0
+      for sid in stale_ids:
+        if self._pool.pop(sid, None) is not None:
+          evicted += 1
+      if evicted:
+        logger.info("StatePool: evicted %d stale sessions", evicted)
+      return evicted
 
   async def to_prompt_context(self, session_id: str) -> str:
     """Serialize current state as a readable string for prompts."""

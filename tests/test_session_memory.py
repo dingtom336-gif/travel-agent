@@ -89,6 +89,9 @@ class TestSessionMemory:
         """History is truncated to MAX_SESSION_TURNS * 2 messages."""
         with patch("agent.memory.session.get_settings") as mock_settings:
             mock_settings.return_value.MAX_SESSION_TURNS = 2
+            mock_settings.return_value.SESSION_TTL_SECONDS = 7200
+            mock_settings.return_value.SESSION_MAX_COUNT = 1000
+            mock_settings.return_value.TRACE_MAX_PER_SESSION = 200
             mem = SessionMemory()
 
             # Add 3 full turns (6 messages) — should keep only last 4

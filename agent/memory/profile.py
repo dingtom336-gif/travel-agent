@@ -4,8 +4,11 @@ from __future__ import annotations
 import asyncio
 import logging
 import re
+import time
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
+
+from agent.config.settings import get_settings
 
 logger = logging.getLogger(__name__)
 
@@ -117,6 +120,7 @@ class ProfileManager:
 
   def __init__(self) -> None:
     self._profiles: Dict[str, UserProfile] = {}
+    self._timestamps: Dict[str, float] = {}
     self._lock = asyncio.Lock()
 
   # --- public API ---
@@ -126,6 +130,8 @@ class ProfileManager:
     async with self._lock:
       if user_id not in self._profiles:
         self._profiles[user_id] = UserProfile()
+        self._evict_lru()
+      self._timestamps[user_id] = time.monotonic()
       return self._profiles[user_id]
 
   async def update_profile(
@@ -141,6 +147,8 @@ class ProfileManager:
     async with self._lock:
       if user_id not in self._profiles:
         self._profiles[user_id] = UserProfile()
+        self._evict_lru()
+      self._timestamps[user_id] = time.monotonic()
       profile = self._profiles[user_id]
 
       for key, value in updates.items():
@@ -335,9 +343,29 @@ class ProfileManager:
       logger.warning("get_personalization_context failed: %s", exc)
       return ""
 
+  # --- internal ---
+
+  def _evict_lru(self) -> None:
+    """LRU-evict profiles if over PROFILE_MAX_COUNT. Caller holds lock."""
+    max_count = get_settings().PROFILE_MAX_COUNT
+    if len(self._profiles) <= max_count:
+      return
+    sorted_users = sorted(
+      self._timestamps.items(), key=lambda x: x[1],
+    )
+    to_evict = len(self._profiles) - max_count
+    for uid, _ in sorted_users[:to_evict]:
+      self._profiles.pop(uid, None)
+      self._timestamps.pop(uid, None)
+    logger.info(
+      "ProfileManager: LRU-evicted %d profiles (max=%d)",
+      to_evict, max_count,
+    )
+
   def delete_profile(self, user_id: str) -> None:
     """Remove a user profile entirely."""
     self._profiles.pop(user_id, None)
+    self._timestamps.pop(user_id, None)
 
 
 # Singleton instance

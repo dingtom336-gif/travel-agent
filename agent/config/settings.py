@@ -40,6 +40,10 @@ class Settings(BaseSettings):
 
   # --- Memory ---
   MAX_SESSION_TURNS: int = 20
+  SESSION_MAX_COUNT: int = 1000
+  SESSION_TTL_SECONDS: int = 7200
+  TRACE_MAX_PER_SESSION: int = 200
+  PROFILE_MAX_COUNT: int = 5000
 
   model_config = {
     "env_file": str(_ENV_FILE),
