@@ -332,17 +332,8 @@ class ReactEngine:
       "conversation_summary": conversation_summary,
     }
 
-    # Stagger agent launches in batches to avoid API burst
-    BATCH_SIZE = 3
-    STAGGER_DELAY = 0.2
-    raw_results: list = []
-    for i in range(0, len(tasks), BATCH_SIZE):
-      batch = tasks[i:i + BATCH_SIZE]
-      batch_coros = [self._execute_single_task(t, context) for t in batch]
-      batch_results = await asyncio.gather(*batch_coros, return_exceptions=True)
-      raw_results.extend(batch_results)
-      if i + BATCH_SIZE < len(tasks):
-        await asyncio.sleep(STAGGER_DELAY)
+    coros = [self._execute_single_task(t, context) for t in tasks]
+    raw_results = await asyncio.gather(*coros, return_exceptions=True)
 
     results: dict[str, AgentResult] = {}
     for task, res in zip(tasks, raw_results):
