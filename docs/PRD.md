@@ -220,6 +220,22 @@ Orchestrator 拆解：
 - **v0.5.1 修复**：连贯性(Agent上下文注入conversation_summary)、个性化(synthesis强制引用偏好)、评分规则升级(simple模式友好+Q&A对齐)
 - **合成数据驱动训练**：优秀轨迹 → 合成数据 → 模型微调，形成自进化飞轮（规划中）
 
+### 3.9 v0.6.0 工程重构
+- **并发安全**：Memory 层（SessionMemory/StatePool/ProfileManager）全部 async 化 + asyncio.Lock 保护
+- **内存管理**：Session TTL 2h + LRU 淘汰(上限1000) + Trace 上限(200/session) + Profile 上限(5000)
+- **LLM 增强**：LRU 响应缓存(100条/5min TTL) + 令牌桶速率限制 + Synthesis 独立超时(60s)
+- **CORS 收紧**：默认白名单 localhost:3000/3001，生产环境变量覆盖
+- **Agent 模板化**：BaseAgent 模板方法(execute→_run_tools→_build_prompt→_call_claude→_post_process→_make_result)，子类只覆写 hook
+- **Agent 去重**：_build_prompt 上移基类，8 Agent 平均缩减 40% 代码
+- **Orchestrator 拆分**：758行 agent.py → agent.py(120) + react_loop.py(365) + synthesis.py(240) + constants.py(103)
+- **State Extractor 增强**：注入 AI 上一个问题，单值回答自动映射对应槽位
+- **Planner 增量模式**：follow-up 场景复用上轮未受影响的 Agent 结果，AgentTask.reuse_previous 标记
+- **前端组件拆分**：ChatContainer 424→69行(hooks提取)，ChatMessage 359→54行(子组件提取)
+- **SSE 错误恢复**：自动重试(3次/exponential backoff) + AbortController 超时 + ConnectionBanner 状态展示
+- **Zod 运行时校验**：SSE 事件 + 业务数据 schema，safeParse graceful degradation
+- **性能优化**：全组件 React.memo + 自定义比较函数 + useCallback
+- **测试覆盖**：19 → 195 测试，覆盖 Memory/Agent/Orchestrator/SSE集成/评分规则
+
 ---
 
 ## 4. 页面设计
@@ -306,64 +322,90 @@ travel-agent/
 │   │   ├── chat/page.tsx         # 对话页
 │   │   ├── itinerary/[id]/       # 行程结果页
 │   │   ├── profile/              # 个人中心
+│   │   ├── debug/simulator/      # 模拟器 Debug Console
 │   │   └── api/                  # BFF 接口（代理转发）
 │   ├── components/
-│   │   ├── chat/                 # 对话组件
-│   │   ├── cards/                # 原子化卡片组件
+│   │   ├── chat/                 # 对话组件（v0.6.0 拆分）
+│   │   │   ├── ChatContainer.tsx # 组合容器 (69行)
+│   │   │   ├── ChatMessage.tsx   # 消息容器 (54行)
+│   │   │   ├── MarkdownRenderer.tsx  # Markdown渲染
+│   │   │   ├── InterleavedContent.tsx # 卡片+文本穿插
+│   │   │   ├── EmptyState.tsx    # 空状态组件
+│   │   │   ├── ConnectionBanner.tsx  # SSE连接状态
+│   │   │   └── ItinerarySidebar.tsx  # 行程侧边栏
+│   │   ├── cards/                # 原子化卡片组件（全 React.memo）
 │   │   │   ├── FlightCard.tsx
 │   │   │   ├── HotelCard.tsx
 │   │   │   ├── POICard.tsx
 │   │   │   ├── WeatherCard.tsx
 │   │   │   ├── BudgetChart.tsx
-│   │   │   └── TimelineCard.tsx
+│   │   │   ├── TimelineCard.tsx
+│   │   │   └── RouteMapCard.tsx
 │   │   ├── map/                  # 地图组件
 │   │   └── ui/                   # shadcn/ui 基础组件
 │   └── lib/
-│       ├── stream.ts             # 流式渲染工具
-│       └── api-client.ts         # Agent 服务请求
+│       ├── hooks/                # 自定义 Hooks（v0.6.0 提取）
+│       │   ├── useSSEHandler.ts  # SSE 事件处理
+│       │   └── useChatMessages.ts # 消息状态管理
+│       ├── schemas.ts            # Zod 运行时校验
+│       ├── api-client.ts         # Agent 服务请求（含重试+backoff）
+│       ├── types.ts              # TypeScript 类型定义
+│       └── travel-context.tsx    # 旅行计划上下文
 │
 ├── agent/                        # Python Agent 服务
-│   ├── main.py                   # FastAPI 入口
-│   ├── orchestrator/             # 主控 Agent
-│   │   ├── agent.py              # Orchestrator 核心逻辑
-│   │   ├── context.py            # 记忆压缩（近2轮原文+旧对话摘要）
-│   │   ├── state_extractor.py    # 旅行参数提取（LLM+启发式）
-│   │   ├── planner.py            # 任务拆解 (Decomposition)
+│   ├── main.py                   # FastAPI 入口（CORS 白名单）
+│   ├── models.py                 # Pydantic 数据模型
+│   ├── orchestrator/             # 主控 Agent（v0.6.0 拆分为4模块）
+│   │   ├── agent.py              # 入口 + handle_message (120行)
+│   │   ├── react_loop.py         # ReAct循环 + 并行执行 (365行)
+│   │   ├── synthesis.py          # 流式合成 + simple模式 (240行)
+│   │   ├── constants.py          # 系统提示词 + Agent注册表 (103行)
+│   │   ├── context.py            # 记忆压缩（20条窗口+摘要）
+│   │   ├── state_extractor.py    # 旅行参数提取（含AI上下文）
+│   │   ├── planner.py            # 任务拆解（支持增量模式）
 │   │   ├── reflector.py          # 自我反思 (Reflection)
-│   │   └── router.py             # 模型路由策略
-│   ├── teams/                    # 专业 Agent 团队
-│   │   ├── transport.py          # 交通专家
-│   │   ├── hotel.py              # 住宿专家
-│   │   ├── poi.py                # 目的地专家
-│   │   ├── itinerary.py          # 行程编排师
-│   │   ├── budget.py             # 预算管家
-│   │   ├── knowledge.py          # 知识顾问
-│   │   ├── weather.py            # 天气助手
-│   │   └── customer_service.py   # 客服专家
+│   │   ├── router.py             # 模型路由策略
+│   │   └── ui_mapper.py          # UI组件映射
+│   ├── teams/                    # 专业 Agent 团队（模板方法模式）
+│   │   ├── base.py               # BaseAgent 基类（模板execute）
+│   │   ├── transport/agent.py    # 交通专家
+│   │   ├── hotel/agent.py        # 住宿专家
+│   │   ├── poi/agent.py          # 目的地专家
+│   │   ├── itinerary/agent.py    # 行程编排师
+│   │   ├── budget/agent.py       # 预算管家
+│   │   ├── knowledge/agent.py    # 知识顾问
+│   │   ├── weather/agent.py      # 天气助手
+│   │   └── customer_service/agent.py # 客服专家
 │   ├── tools/                    # 三层工具体系
 │   │   ├── mcp/                  # 原子工具 (MCP)
-│   │   │   ├── flight_search.py
-│   │   │   ├── hotel_search.py
-│   │   │   ├── poi_search.py
-│   │   │   ├── weather_api.py
-│   │   │   ├── map_service.py
-│   │   │   └── currency.py
 │   │   └── skills/               # 组合技能 (Skills)
-│   │       ├── transit_optimizer.py
-│   │       ├── budget_allocator.py
-│   │       └── itinerary_optimizer.py
-│   ├── memory/                   # 记忆系统
-│   │   ├── session.py            # 短期记忆（上下文压缩、槽位化）
-│   │   ├── profile.py            # 长期记忆（用户画像）
+│   ├── llm/                      # LLM 客户端层（v0.6.0 增强）
+│   │   ├── client.py             # DeepSeek客户端（含LRU缓存）
+│   │   └── rate_limiter.py       # 令牌桶速率限制
+│   ├── memory/                   # 记忆系统（全async+Lock）
+│   │   ├── session.py            # 短期记忆（TTL+LRU淘汰）
+│   │   ├── profile.py            # 长期记忆（用户画像+上限）
 │   │   ├── knowledge.py          # 知识库 (RAG)
-│   │   └── state_pool.py         # 全局状态池
+│   │   └── state_pool.py         # 全局状态池（TTL+上限）
 │   ├── simulator/                # 模拟演练系统
-│   │   ├── user_simulator.py     # 用户模拟器
-│   │   ├── env_simulator.py      # 环境模拟器
-│   │   └── evaluator.py          # AI 裁判评估
+│   │   ├── user_simulator.py     # 用户模拟器（5人格）
+│   │   ├── env_simulator.py      # 环境模拟器（故障注入）
+│   │   ├── evaluator.py          # AI 裁判评估（6维度）
+│   │   ├── scoring_rules.py      # 评分规则函数
+│   │   └── battle_runner.py      # 自动对战引擎
 │   └── config/
-│       ├── prompts/              # 各 Agent 的 System Prompt
-│       └── settings.py           # 配置
+│       └── settings.py           # 配置（含缓存/限流/CORS参数）
+│
+├── tests/                        # 测试（195个）
+│   ├── conftest.py               # 共享 fixtures
+│   ├── test_session_memory.py    # Memory 层测试
+│   ├── test_state_pool.py
+│   ├── test_profile_manager.py
+│   ├── test_agents.py            # Agent 层测试（BaseAgent+7子类）
+│   ├── test_orchestrator.py      # Orchestrator 组件测试
+│   ├── test_integration_sse.py   # SSE 集成测试
+│   ├── test_evaluator.py         # 评分规则测试
+│   └── test_sse_pipeline.py      # SSE 管道测试
 │
 ├── docs/
 │   ├── PRD.md
