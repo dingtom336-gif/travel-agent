@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { ChatMessage as ChatMessageType } from "@/lib/types";
 import InterleavedContent from "./InterleavedContent";
 
@@ -12,7 +13,7 @@ interface ChatMessageProps {
  * User messages: right-aligned, blue bubble.
  * Assistant messages: left-aligned, gray bubble with rich markdown support.
  */
-export default function ChatMessage({ message }: ChatMessageProps) {
+function ChatMessageRaw({ message }: ChatMessageProps) {
   const isUser = message.role === "user";
 
   return (
@@ -52,3 +53,15 @@ export default function ChatMessage({ message }: ChatMessageProps) {
     </div>
   );
 }
+
+const ChatMessage = memo(ChatMessageRaw, (prev, next) => {
+  const pm = prev.message;
+  const nm = next.message;
+  return (
+    pm.id === nm.id &&
+    pm.content.length === nm.content.length &&
+    pm.isStreaming === nm.isStreaming
+  );
+});
+
+export default ChatMessage;

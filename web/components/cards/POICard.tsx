@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { POIData } from "@/lib/types";
 
 interface POICardProps {
@@ -20,7 +21,7 @@ const typeLabels: Record<string, string> = {
 /**
  * Point of Interest card component.
  */
-export default function POICard({ data, onSelect }: POICardProps) {
+export default memo(function POICard({ data, onSelect }: POICardProps) {
   const handleClick = () => {
     const query = encodeURIComponent(data.name);
     window.open(`https://www.google.com/maps/search/${query}`, "_blank", "noopener");
@@ -93,4 +94,4 @@ export default function POICard({ data, onSelect }: POICardProps) {
       </div>
     </button>
   );
-}
+});

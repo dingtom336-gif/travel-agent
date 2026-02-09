@@ -21,8 +21,8 @@ logger = logging.getLogger(__name__)
 # Module-level client cache
 _client: Optional[AsyncOpenAI] = None
 
-MAX_RETRIES = 1
-RETRY_DELAY = 1.0  # seconds
+MAX_RETRIES = 2
+RETRY_DELAY = 0.5  # seconds
 
 
 def _get_client() -> Optional[AsyncOpenAI]:
@@ -127,12 +127,15 @@ async def llm_chat(
   for attempt in range(MAX_RETRIES + 1):
     try:
       await rate_limiter.acquire()
-      response = await client.chat.completions.create(
-        model=resolved_model,
-        max_tokens=max_tokens,
-        temperature=temperature,
-        messages=full_messages,
-      )
+      try:
+        response = await client.chat.completions.create(
+          model=resolved_model,
+          max_tokens=max_tokens,
+          temperature=temperature,
+          messages=full_messages,
+        )
+      finally:
+        rate_limiter.release()
       result = response.choices[0].message.content or ""
       await _cache_put(key, result)
       return result
@@ -176,17 +179,20 @@ async def llm_chat_stream(
   for attempt in range(MAX_RETRIES + 1):
     try:
       await rate_limiter.acquire()
-      stream = await client.chat.completions.create(
-        model=model or settings.DEEPSEEK_MODEL,
-        max_tokens=max_tokens,
-        temperature=temperature,
-        messages=full_messages,
-        stream=True,
-      )
-      async for chunk in stream:
-        delta = chunk.choices[0].delta.content
-        if delta:
-          yield delta
+      try:
+        stream = await client.chat.completions.create(
+          model=model or settings.DEEPSEEK_MODEL,
+          max_tokens=max_tokens,
+          temperature=temperature,
+          messages=full_messages,
+          stream=True,
+        )
+        async for chunk in stream:
+          delta = chunk.choices[0].delta.content
+          if delta:
+            yield delta
+      finally:
+        rate_limiter.release()
       return  # success, exit retry loop
     except Exception as exc:
       if attempt < MAX_RETRIES:

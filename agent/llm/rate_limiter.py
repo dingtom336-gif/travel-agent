@@ -1,4 +1,4 @@
-# Token-bucket rate limiter for LLM API calls
+# Token-bucket rate limiter with concurrency control for LLM API calls
 from __future__ import annotations
 
 import asyncio
@@ -11,20 +11,22 @@ logger = logging.getLogger(__name__)
 
 
 class TokenBucketRateLimiter:
-  """Async token-bucket rate limiter.
+  """Async token-bucket rate limiter with concurrency semaphore.
 
-  Limits requests to LLM_RATE_LIMIT_RPM per minute.
-  When the bucket is empty, acquire() awaits until a token is available.
+  Limits requests to LLM_RATE_LIMIT_RPM per minute AND
+  LLM_MAX_CONCURRENT simultaneous requests.
   """
 
   def __init__(self) -> None:
     settings = get_settings()
     self._rpm = settings.LLM_RATE_LIMIT_RPM
-    self._tokens = float(self._rpm)
+    # Start with a small burst allowance to avoid flooding the API
+    self._tokens = float(min(10, self._rpm))
     self._max_tokens = float(self._rpm)
     self._refill_rate = self._rpm / 60.0  # tokens per second
     self._last_refill = time.monotonic()
     self._lock = asyncio.Lock()
+    self._semaphore = asyncio.Semaphore(settings.LLM_MAX_CONCURRENT)
 
   def _refill(self) -> None:
     """Add tokens based on elapsed time since last refill."""
@@ -37,7 +39,9 @@ class TokenBucketRateLimiter:
     self._last_refill = now
 
   async def acquire(self) -> None:
-    """Wait until a token is available, then consume one."""
+    """Wait for both a concurrency slot and a rate-limit token."""
+    await self._semaphore.acquire()
+
     async with self._lock:
       self._refill()
       if self._tokens >= 1.0:
@@ -58,6 +62,10 @@ class TokenBucketRateLimiter:
     async with self._lock:
       self._refill()
       self._tokens = max(0.0, self._tokens - 1.0)
+
+  def release(self) -> None:
+    """Release the concurrency slot after the LLM call completes."""
+    self._semaphore.release()
 
 
 # Singleton instance

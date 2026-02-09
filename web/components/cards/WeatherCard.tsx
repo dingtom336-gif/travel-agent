@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { WeatherData } from "@/lib/types";
 
 interface WeatherCardProps {
@@ -26,7 +27,7 @@ const weatherIcons: Record<string, { icon: string; color: string; bg: string }> 
 /**
  * Weather card component showing city weather info.
  */
-export default function WeatherCard({ data }: WeatherCardProps) {
+export default memo(function WeatherCard({ data }: WeatherCardProps) {
   const weather = weatherIcons[data.condition] || weatherIcons.sunny;
 
   return (
@@ -66,7 +67,7 @@ export default function WeatherCard({ data }: WeatherCardProps) {
       )}
     </div>
   );
-}
+});
 
 function WeatherIcon({ type }: { type: string }) {
   if (type === "sun") {

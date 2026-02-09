@@ -34,6 +34,11 @@ logger = logging.getLogger(__name__)
 class ReactEngine:
   """Runs the ReAct loop: decompose tasks, execute agents, reflect."""
 
+  def __init__(self) -> None:
+    # Per-session caches for incremental planning
+    self._previous_tasks: dict[str, list[AgentTask]] = {}
+    self._previous_results: dict[str, dict[str, AgentResult]] = {}
+
   async def run(
     self,
     session_id: str,
@@ -58,7 +63,8 @@ class ReactEngine:
         },
       ).format()
 
-      tasks = await decompose_tasks(message, state_ctx, history)
+      prev_tasks = self._previous_tasks.get(session_id)
+      tasks = await decompose_tasks(message, state_ctx, history, prev_tasks)
       if not tasks:
         return
 
@@ -67,8 +73,22 @@ class ReactEngine:
       # --- ACTION: Execute tasks respecting dependencies ---
       results: dict[str, AgentResult] = {}
 
-      parallel_tasks = [t for t in tasks if not t.depends_on]
-      dependent_tasks = [t for t in tasks if t.depends_on]
+      # Reuse previous results for tasks marked reuse_previous
+      prev_results = self._previous_results.get(session_id, {})
+      reuse_tasks = [t for t in tasks if t.reuse_previous]
+      active_tasks = [t for t in tasks if not t.reuse_previous]
+
+      for task in reuse_tasks:
+        cached = self._find_previous_result(prev_results, task.agent)
+        if cached:
+          results[task.task_id] = cached
+          logger.info(
+            "Reusing previous result for %s (session %s)",
+            task.agent.value, session_id,
+          )
+
+      parallel_tasks = [t for t in active_tasks if not t.depends_on]
+      dependent_tasks = [t for t in active_tasks if t.depends_on]
 
       # Execute parallel tasks concurrently
       if parallel_tasks:
@@ -150,6 +170,10 @@ class ReactEngine:
         session_id, "assistant", full_response,
       )
 
+      # Cache tasks and results for incremental planning on follow-ups
+      self._previous_tasks[session_id] = tasks
+      self._previous_results[session_id] = results
+
       yield SSEMessage(
         event=SSEEventType.DONE,
         data={"session_id": session_id},
@@ -175,6 +199,20 @@ class ReactEngine:
     conversation_summary: str,
   ) -> AsyncGenerator[dict, None]:
     """Validate results and re-run agents if inconsistencies found."""
+    # Skip reflection when most agents failed (can't fix rate-limit issues)
+    success_count = sum(
+      1 for r in results.values() if r.status == TaskStatus.SUCCESS
+    )
+    if success_count < 2:
+      yield SSEMessage(
+        event=SSEEventType.THINKING,
+        data={
+          "agent": "orchestrator",
+          "thought": "部分专家暂时不可用，跳过结果验证。",
+        },
+      ).format()
+      return
+
     reflection_round = 0
     MAX_REFLECTION_ROUNDS = 1
 
@@ -254,6 +292,21 @@ class ReactEngine:
       break
 
   # ------------------------------------------------------------------ #
+  # Incremental planning helpers
+  # ------------------------------------------------------------------ #
+
+  @staticmethod
+  def _find_previous_result(
+    prev_results: dict[str, AgentResult],
+    agent: AgentName,
+  ) -> AgentResult | None:
+    """Find a previous result for a given agent name."""
+    for result in prev_results.values():
+      if result.agent == agent and result.status == TaskStatus.SUCCESS:
+        return result
+    return None
+
+  # ------------------------------------------------------------------ #
   # Task execution
   # ------------------------------------------------------------------ #
 
@@ -278,8 +331,18 @@ class ReactEngine:
       "state_context": state_ctx,
       "conversation_summary": conversation_summary,
     }
-    coros = [self._execute_single_task(t, context) for t in tasks]
-    raw_results = await asyncio.gather(*coros, return_exceptions=True)
+
+    # Stagger agent launches in batches to avoid API burst
+    BATCH_SIZE = 3
+    STAGGER_DELAY = 0.2
+    raw_results: list = []
+    for i in range(0, len(tasks), BATCH_SIZE):
+      batch = tasks[i:i + BATCH_SIZE]
+      batch_coros = [self._execute_single_task(t, context) for t in batch]
+      batch_results = await asyncio.gather(*batch_coros, return_exceptions=True)
+      raw_results.extend(batch_results)
+      if i + BATCH_SIZE < len(tasks):
+        await asyncio.sleep(STAGGER_DELAY)
 
     results: dict[str, AgentResult] = {}
     for task, res in zip(tasks, raw_results):

@@ -25,12 +25,13 @@ class Settings(BaseSettings):
   DEEPSEEK_REASONER_MODEL: str = "deepseek-reasoner"
   LLM_MAX_TOKENS: int = 2048
   LLM_AGENT_TOKENS: int = 1024
-  LLM_TIMEOUT: float = 30.0
-  LLM_TASK_TIMEOUT: float = 45.0
+  LLM_TIMEOUT: float = 20.0
+  LLM_TASK_TIMEOUT: float = 30.0
   LLM_SYNTHESIS_TIMEOUT: float = 60.0
   LLM_CACHE_SIZE: int = 100
   LLM_CACHE_TTL: int = 300
-  LLM_RATE_LIMIT_RPM: int = 60
+  LLM_RATE_LIMIT_RPM: int = 300
+  LLM_MAX_CONCURRENT: int = 3
 
   # Legacy – kept for compatibility checks
   ANTHROPIC_API_KEY: str = ""

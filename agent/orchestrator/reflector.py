@@ -213,7 +213,6 @@ class ConsistencyChecker:
         messages=[{"role": "user", "content": prompt}],
         max_tokens=256,
         temperature=0.1,
-        model=get_settings().DEEPSEEK_REASONER_MODEL,
       )
 
       if text is None:

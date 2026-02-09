@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { HotelData } from "@/lib/types";
 
 interface HotelCardProps {
@@ -10,7 +11,7 @@ interface HotelCardProps {
 /**
  * Hotel card component displaying name, rating, location, price, and amenities.
  */
-export default function HotelCard({ data, onSelect }: HotelCardProps) {
+export default memo(function HotelCard({ data, onSelect }: HotelCardProps) {
   return (
     <button
       type="button"
@@ -79,4 +80,4 @@ export default function HotelCard({ data, onSelect }: HotelCardProps) {
       </div>
     </button>
   );
-}
+});

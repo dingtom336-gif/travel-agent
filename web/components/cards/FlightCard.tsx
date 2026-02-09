@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { FlightData } from "@/lib/types";
 
 interface FlightCardProps {
@@ -10,7 +11,7 @@ interface FlightCardProps {
 /**
  * Flight card component displaying airline, route, time, and price.
  */
-export default function FlightCard({ data, onSelect }: FlightCardProps) {
+export default memo(function FlightCard({ data, onSelect }: FlightCardProps) {
   return (
     <button
       type="button"
@@ -72,4 +73,4 @@ export default function FlightCard({ data, onSelect }: FlightCardProps) {
       </div>
     </button>
   );
-}
+});

@@ -69,6 +69,7 @@ class AgentTask(BaseModel):
   params: Dict[str, Any] = Field(default_factory=dict)
   depends_on: List[str] = Field(default_factory=list)
   status: TaskStatus = TaskStatus.PENDING
+  reuse_previous: bool = False
 
 
 class AgentResult(BaseModel):

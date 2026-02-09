@@ -49,10 +49,15 @@ class OrchestratorAgent:
       existing_state = await state_pool.get(session_id)
       has_travel_context = bool(existing_state and existing_state.destination)
 
-      _, complexity = await asyncio.gather(
-        extract_state(session_id, message, history, existing_state),
-        classify_complexity(message, history, has_travel_context),
-      )
+      # When travel context exists, skip Router LLM call (always complex)
+      if has_travel_context:
+        complexity = "complex"
+        await extract_state(session_id, message, history, existing_state)
+      else:
+        _, complexity = await asyncio.gather(
+          extract_state(session_id, message, history, existing_state),
+          classify_complexity(message, history, has_travel_context),
+        )
 
       if complexity == "simple":
         async for chunk in self._synthesizer.handle_simple(

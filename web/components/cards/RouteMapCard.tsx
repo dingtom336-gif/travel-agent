@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { GeoLocation } from "@/lib/types";
 
@@ -39,7 +39,7 @@ interface RouteMapCardProps {
  * Route map card showing travel route as polyline with markers.
  * Uses Leaflet via react-leaflet (already installed).
  */
-export default function RouteMapCard({ data }: RouteMapCardProps) {
+export default memo(function RouteMapCard({ data }: RouteMapCardProps) {
   const { points, title } = data;
 
   if (!points || points.length === 0) return null;
@@ -87,4 +87,4 @@ export default function RouteMapCard({ data }: RouteMapCardProps) {
       </div>
     </div>
   );
-}
+});

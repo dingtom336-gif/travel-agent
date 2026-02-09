@@ -28,13 +28,14 @@ Available agents:
 
 Rules:
 1. Return a JSON array of task objects.
-2. Each task has: agent (string), goal (string in Chinese), params (object), depends_on (array of agent names whose results this task needs).
+2. Each task has: agent (string), goal (string in Chinese), params (object), depends_on (array of agent names whose results this task needs), reuse_previous (boolean, default false).
 3. Tasks without dependencies can run in parallel.
 4. The "itinerary" agent usually depends on transport, poi, hotel results.
 5. If the user's message is a simple greeting or chit-chat, return an empty array [].
-6. If the user's message is a follow-up adding new info (e.g., "from Shanghai"), only plan tasks for the new/changed aspects. Reuse previous results where possible. Do NOT re-plan everything from scratch.
+6. If the user's message is a follow-up adding new info (e.g., "from Shanghai"), only plan tasks for the new/changed aspects. For agents whose results are still valid, set reuse_previous=true so they are skipped. Do NOT re-plan everything from scratch.
 7. IMPORTANT: The "goal" field MUST be written in Chinese (e.g., "查询目的地签证和旅行贴士", "搜索航班和交通方案").
 8. Cross-validate: if state shows origin and destination as the same city, this is likely a state extraction error. Treat the conversation history as the source of truth for the actual destination.
+9. When "Previous plan" is provided, use it as context. Only create new tasks for agents affected by the user's latest change. Mark unchanged agents with reuse_previous=true — their previous results will be reused without re-executing.
 
 Respond ONLY with the JSON array, no extra text."""
 
@@ -77,13 +78,18 @@ async def decompose_tasks(
   user_message: str,
   state_context: str = "",
   conversation_history: list[dict[str, Any]] | None = None,
+  previous_tasks: list[AgentTask] | None = None,
 ) -> list[AgentTask]:
   """Call Claude to decompose the user message into AgentTasks.
 
   Falls back to a mock plan when the API key is missing or on error.
+  If previous_tasks is provided, the planner can mark unchanged agents
+  with reuse_previous=true for incremental planning.
   """
   settings = get_settings()
-  raw_tasks = await _call_planner(settings, user_message, state_context, conversation_history)
+  raw_tasks = await _call_planner(
+    settings, user_message, state_context, conversation_history, previous_tasks,
+  )
   return _parse_tasks(raw_tasks)
 
 
@@ -92,6 +98,7 @@ async def _call_planner(
   user_message: str,
   state_context: str,
   conversation_history: list[dict[str, Any]] | None,
+  previous_tasks: list[AgentTask] | None = None,
 ) -> list[dict[str, Any]]:
   """Invoke LLM or return mock plan."""
   try:
@@ -104,6 +111,12 @@ async def _call_planner(
         "Recent conversation:\n"
         + "\n".join(f'{m["role"]}: {m["content"][:200]}' for m in recent)
       )
+    if previous_tasks:
+      prev_summary = json.dumps(
+        [{"agent": t.agent.value, "goal": t.goal} for t in previous_tasks],
+        ensure_ascii=False,
+      )
+      prompt_parts.append(f"Previous plan:\n{prev_summary}")
     prompt_parts.append(f"User message: {user_message}")
     full_prompt = "\n\n".join(prompt_parts)
 
@@ -140,6 +153,7 @@ def _parse_tasks(raw: list[dict[str, Any]]) -> list[AgentTask]:
           goal=item.get("goal", ""),
           params=item.get("params", {}),
           depends_on=item.get("depends_on", []),
+          reuse_previous=bool(item.get("reuse_previous", False)),
         )
       )
     except (ValueError, KeyError) as exc:

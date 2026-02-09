@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { useTravelPlan } from "@/lib/travel-context";
 
 // Safe getter for data that may use camelCase or snake_case
@@ -15,7 +16,7 @@ function get(obj: any, ...keys: string[]): unknown {
  * Real-time itinerary preview sidebar.
  * Consumes TravelPlanContext and renders data as agents complete.
  */
-export default function ItinerarySidebar() {
+export default memo(function ItinerarySidebar() {
   const { state, hasData } = useTravelPlan();
 
   return (
@@ -210,7 +211,7 @@ export default function ItinerarySidebar() {
       </div>
     </div>
   );
-}
+});
 
 function EmptyState() {
   return (

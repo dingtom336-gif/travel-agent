@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { BudgetCategory, BudgetSummary } from "@/lib/types";
 
 interface BudgetChartProps {
@@ -61,7 +61,7 @@ interface CategoryAgg {
  * Budget visualization: horizontal bar chart + detail table.
  * Pure CSS implementation, no external chart libraries.
  */
-export default function BudgetChart({ data }: BudgetChartProps) {
+export default memo(function BudgetChart({ data }: BudgetChartProps) {
   // Aggregate items by category
   const categories = useMemo<CategoryAgg[]>(() => {
     const map = new Map<BudgetCategory, number>();
@@ -238,4 +238,4 @@ export default function BudgetChart({ data }: BudgetChartProps) {
       </div>
     </div>
   );
-}
+});

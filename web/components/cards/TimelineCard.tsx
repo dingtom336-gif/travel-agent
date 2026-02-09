@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { TimelineDayData, TimelineItem } from "@/lib/types";
 
 interface TimelineCardProps {
@@ -18,7 +19,7 @@ const typeStyles: Record<TimelineItem["type"], { color: string; bgColor: string;
 /**
  * Timeline card for a single day's itinerary.
  */
-export default function TimelineCard({ data }: TimelineCardProps) {
+export default memo(function TimelineCard({ data }: TimelineCardProps) {
   return (
     <div className="rounded-xl border border-border bg-card p-4">
       {/* Day header */}
@@ -65,4 +66,4 @@ export default function TimelineCard({ data }: TimelineCardProps) {
       </div>
     </div>
   );
-}
+});
