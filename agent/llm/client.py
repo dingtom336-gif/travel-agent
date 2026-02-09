@@ -2,25 +2,30 @@
 from __future__ import annotations
 
 import asyncio
+import hashlib
+import json
 import logging
+import time
+from collections import OrderedDict
 from collections.abc import AsyncGenerator
-from typing import Any
+from typing import Any, Optional, Tuple
 
 import httpx
 from openai import AsyncOpenAI
 
 from agent.config.settings import get_settings
+from agent.llm.rate_limiter import rate_limiter
 
 logger = logging.getLogger(__name__)
 
 # Module-level client cache
-_client: AsyncOpenAI | None = None
+_client: Optional[AsyncOpenAI] = None
 
 MAX_RETRIES = 1
 RETRY_DELAY = 1.0  # seconds
 
 
-def _get_client() -> AsyncOpenAI | None:
+def _get_client() -> Optional[AsyncOpenAI]:
   """Lazily create and cache an AsyncOpenAI client."""
   global _client
   if _client is not None:
@@ -36,15 +41,66 @@ def _get_client() -> AsyncOpenAI | None:
   return _client
 
 
+# --- LRU response cache ---
+
+# Entry: (response_str, timestamp)
+_cache: OrderedDict[str, Tuple[str, float]] = OrderedDict()
+_cache_lock = asyncio.Lock()
+
+
+def _cache_key(
+  system: str,
+  messages: list[dict[str, str]],
+  model: Optional[str],
+  max_tokens: int,
+  temperature: float,
+) -> str:
+  """Compute a deterministic cache key from request parameters."""
+  payload = json.dumps(
+    {"s": system, "m": messages, "model": model,
+     "mt": max_tokens, "t": temperature},
+    sort_keys=True, ensure_ascii=False,
+  )
+  return hashlib.sha256(payload.encode()).hexdigest()
+
+
+async def _cache_get(key: str) -> Optional[str]:
+  """Return cached response if key exists and not expired."""
+  settings = get_settings()
+  async with _cache_lock:
+    if key not in _cache:
+      return None
+    response, ts = _cache[key]
+    if (time.monotonic() - ts) > settings.LLM_CACHE_TTL:
+      _cache.pop(key, None)
+      return None
+    # Move to end (most recently used)
+    _cache.move_to_end(key)
+    return response
+
+
+async def _cache_put(key: str, response: str) -> None:
+  """Store response in cache, evicting oldest if over size limit."""
+  settings = get_settings()
+  async with _cache_lock:
+    if key in _cache:
+      _cache.move_to_end(key)
+      _cache[key] = (response, time.monotonic())
+      return
+    _cache[key] = (response, time.monotonic())
+    while len(_cache) > settings.LLM_CACHE_SIZE:
+      _cache.popitem(last=False)
+
+
 async def llm_chat(
   *,
   system: str,
   messages: list[dict[str, str]],
   max_tokens: int = 2048,
   temperature: float = 0.7,
-  model: str | None = None,
-) -> str | None:
-  """Send a chat completion request with retry.
+  model: Optional[str] = None,
+) -> Optional[str]:
+  """Send a chat completion request with retry, caching, and rate limiting.
 
   Returns the assistant message content, or None if no API key is set.
   Raises on API errors so callers can handle fallback.
@@ -54,6 +110,14 @@ async def llm_chat(
     return None
 
   settings = get_settings()
+  resolved_model = model or settings.DEEPSEEK_MODEL
+
+  # Check cache first
+  key = _cache_key(system, messages, resolved_model, max_tokens, temperature)
+  cached = await _cache_get(key)
+  if cached is not None:
+    logger.debug("LLM cache hit (key=%s...)", key[:8])
+    return cached
 
   full_messages: list[dict[str, Any]] = [
     {"role": "system", "content": system},
@@ -62,13 +126,16 @@ async def llm_chat(
 
   for attempt in range(MAX_RETRIES + 1):
     try:
+      await rate_limiter.acquire()
       response = await client.chat.completions.create(
-        model=model or settings.DEEPSEEK_MODEL,
+        model=resolved_model,
         max_tokens=max_tokens,
         temperature=temperature,
         messages=full_messages,
       )
-      return response.choices[0].message.content or ""
+      result = response.choices[0].message.content or ""
+      await _cache_put(key, result)
+      return result
     except Exception as exc:
       if attempt < MAX_RETRIES:
         delay = RETRY_DELAY * (2 ** attempt)
@@ -87,11 +154,12 @@ async def llm_chat_stream(
   messages: list[dict[str, str]],
   max_tokens: int = 2048,
   temperature: float = 0.7,
-  model: str | None = None,
+  model: Optional[str] = None,
 ) -> AsyncGenerator[str, None]:
   """Stream chat completion, yielding content chunks.
 
   Yields empty string once if no API key is set.
+  Not cached (streaming responses are consumed incrementally).
   """
   client = _get_client()
   if client is None:
@@ -107,6 +175,7 @@ async def llm_chat_stream(
 
   for attempt in range(MAX_RETRIES + 1):
     try:
+      await rate_limiter.acquire()
       stream = await client.chat.completions.create(
         model=model or settings.DEEPSEEK_MODEL,
         max_tokens=max_tokens,
