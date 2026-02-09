@@ -18,7 +18,7 @@ import sys
 import time
 from urllib.request import Request, urlopen
 
-DEFAULT_API_URL = "http://localhost:8000/api/chat"
+DEFAULT_API_URL = "http://localhost:8000/api/chat/stream"
 
 TARGETS = {
   "simple": {
@@ -66,26 +66,37 @@ def test_single(api_url: str, tier: str, config: dict) -> dict:
     with urlopen(req, timeout=config["max_total_ms"] / 1000 + 5) as resp:
       first_event_recorded = False
       first_text_recorded = False
+      current_event = ""
 
       for raw_line in resp:
         line = raw_line.decode("utf-8", errors="replace").strip()
         if not line:
+          current_event = ""
           continue
 
         now_ms = int((time.time() - start) * 1000)
 
-        if not first_event_recorded and line.startswith("data:"):
-          result["first_event_ms"] = now_ms
-          first_event_recorded = True
+        # SSE format: "event: <type>" then "data: <json>"
+        if line.startswith("event:"):
+          current_event = line.split(":", 1)[1].strip()
+          if not first_event_recorded:
+            result["first_event_ms"] = now_ms
+            first_event_recorded = True
+          continue
 
-        if not first_text_recorded and "\"event\":\"text\"" in line:
-          result["first_text_ms"] = now_ms
-          first_text_recorded = True
+        if line.startswith("data:"):
+          if not first_event_recorded:
+            result["first_event_ms"] = now_ms
+            first_event_recorded = True
 
-        if "\"event\":\"done\"" in line:
-          result["got_done"] = True
-          result["total_ms"] = now_ms
-          break
+          if not first_text_recorded and current_event == "text":
+            result["first_text_ms"] = now_ms
+            first_text_recorded = True
+
+          if current_event == "done":
+            result["got_done"] = True
+            result["total_ms"] = now_ms
+            break
 
     # Validate thresholds
     errors = []
