@@ -180,27 +180,17 @@ class TestProfileManager:
 
     def test_personalization_context_empty(self):
         """Blank profile returns empty string."""
-        # get_personalization_context is sync but internally calls async get_profile
-        # without await — on a fresh manager with no cached profile, it gets a coroutine
-        # object which has no travel_style attribute, so it falls into the except branch.
         ctx = self.pm.get_personalization_context("u1")
         assert ctx == ""
 
     @pytest.mark.asyncio
     async def test_personalization_context_with_data(self):
-        """Populated profile produces a human-readable context string.
-
-        We pre-populate the profile via the async API so the sync
-        get_personalization_context can find it in the internal dict.
-        """
+        """Populated profile produces a human-readable context string."""
         await self.pm.update_profile("u1", {
             "travel_style": ["adventure", "foodie"],
             "budget_preference": "luxury",
         })
-        # Now the profile exists in _profiles, so even though
-        # get_personalization_context calls get_profile (async) without await,
-        # it gets a coroutine — not the profile. This is a known source-code issue.
-        # We test the actual behaviour: it returns "" because the coroutine
-        # doesn't have .travel_style and the except branch catches it.
         ctx = self.pm.get_personalization_context("u1")
-        assert ctx == ""
+        assert "冒险探索" in ctx
+        assert "美食体验" in ctx
+        assert "奢华型" in ctx

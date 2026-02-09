@@ -1,6 +1,7 @@
 # Long-term user profile memory – in-memory store with DB migration interface
 from __future__ import annotations
 
+import asyncio
 import logging
 import re
 from dataclasses import dataclass, field
@@ -116,16 +117,18 @@ class ProfileManager:
 
   def __init__(self) -> None:
     self._profiles: Dict[str, UserProfile] = {}
+    self._lock = asyncio.Lock()
 
   # --- public API ---
 
-  def get_profile(self, user_id: str) -> UserProfile:
+  async def get_profile(self, user_id: str) -> UserProfile:
     """Return profile for user_id, creating a blank one if absent."""
-    if user_id not in self._profiles:
-      self._profiles[user_id] = UserProfile()
-    return self._profiles[user_id]
+    async with self._lock:
+      if user_id not in self._profiles:
+        self._profiles[user_id] = UserProfile()
+      return self._profiles[user_id]
 
-  def update_profile(
+  async def update_profile(
     self,
     user_id: str,
     updates: Dict[str, Any],
@@ -135,29 +138,32 @@ class ProfileManager:
     For list fields the new values are **appended** (deduplicated).
     For scalar fields the new value **overwrites**.
     """
-    profile = self.get_profile(user_id)
+    async with self._lock:
+      if user_id not in self._profiles:
+        self._profiles[user_id] = UserProfile()
+      profile = self._profiles[user_id]
 
-    for key, value in updates.items():
-      if value is None or not hasattr(profile, key):
-        continue
+      for key, value in updates.items():
+        if value is None or not hasattr(profile, key):
+          continue
 
-      current = getattr(profile, key)
-      if isinstance(current, list) and isinstance(value, list):
-        # Append and deduplicate preserving order
-        merged = list(current)
-        for item in value:
-          if item not in merged:
-            merged.append(item)
-        setattr(profile, key, merged)
-      elif isinstance(current, list) and isinstance(value, str):
-        if value not in current:
-          current.append(value)
-      else:
-        setattr(profile, key, value)
+        current = getattr(profile, key)
+        if isinstance(current, list) and isinstance(value, list):
+          # Append and deduplicate preserving order
+          merged = list(current)
+          for item in value:
+            if item not in merged:
+              merged.append(item)
+          setattr(profile, key, merged)
+        elif isinstance(current, list) and isinstance(value, str):
+          if value not in current:
+            current.append(value)
+        else:
+          setattr(profile, key, value)
 
-    return profile
+      return profile
 
-  def learn_from_session(
+  async def learn_from_session(
     self,
     user_id: str,
     session_messages: List[Dict[str, Any]],
@@ -170,7 +176,7 @@ class ProfileManager:
     profile accordingly.
     """
     try:
-      profile = self.get_profile(user_id)
+      profile = await self.get_profile(user_id)
 
       # Concatenate all user messages
       user_text = " ".join(
@@ -233,7 +239,7 @@ class ProfileManager:
             updates["visited_destinations"].append(dest)
 
       if updates:
-        self.update_profile(user_id, updates)
+        await self.update_profile(user_id, updates)
         logger.info(
           "Learned preferences for user %s: %s",
           user_id, list(updates.keys()),
@@ -243,7 +249,7 @@ class ProfileManager:
 
     except Exception as exc:
       logger.warning("learn_from_session failed: %s", exc)
-      return self.get_profile(user_id)
+      return await self.get_profile(user_id)
 
   def get_personalization_context(self, user_id: str) -> str:
     """Generate a human-readable context string for Agent prompts.
@@ -252,7 +258,9 @@ class ProfileManager:
     can safely inject it without noise.
     """
     try:
-      profile = self.get_profile(user_id)
+      if user_id not in self._profiles:
+        return ""
+      profile = self._profiles[user_id]
       parts: List[str] = []
 
       if profile.travel_style:

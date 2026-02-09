@@ -1,6 +1,7 @@
 # Short-term session memory (in-memory dict, no Redis dependency)
 from __future__ import annotations
 
+import asyncio
 from typing import Any
 
 from agent.config.settings import get_settings
@@ -11,11 +12,14 @@ class SessionMemory:
 
   Uses plain dicts keyed by session_id.
   Automatically truncates messages to the most recent N turns.
+  All mutating and reading methods are async with lock protection
+  for safe concurrent access.
   """
 
   def __init__(self) -> None:
     self._store: dict[str, list[dict[str, Any]]] = {}
     self._traces: dict[str, list[dict[str, Any]]] = {}
+    self._lock = asyncio.Lock()
 
   @property
   def _max_turns(self) -> int:
@@ -23,33 +27,37 @@ class SessionMemory:
 
   # --- message API ---
 
-  def get_history(self, session_id: str) -> list[dict[str, Any]]:
+  async def get_history(self, session_id: str) -> list[dict[str, Any]]:
     """Return conversation history for a session."""
-    return list(self._store.get(session_id, []))
+    async with self._lock:
+      return list(self._store.get(session_id, []))
 
-  def add_message(
+  async def add_message(
     self,
     session_id: str,
     role: str,
     content: str,
   ) -> None:
     """Append a message and truncate if exceeding window."""
-    if session_id not in self._store:
-      self._store[session_id] = []
-    self._store[session_id].append({"role": role, "content": content})
-    self._truncate(session_id)
+    async with self._lock:
+      if session_id not in self._store:
+        self._store[session_id] = []
+      self._store[session_id].append({"role": role, "content": content})
+      self._truncate(session_id)
 
   # --- trace API ---
 
-  def add_trace(self, session_id: str, trace: dict[str, Any]) -> None:
+  async def add_trace(self, session_id: str, trace: dict[str, Any]) -> None:
     """Append an agent execution trace for the session."""
-    if session_id not in self._traces:
-      self._traces[session_id] = []
-    self._traces[session_id].append(trace)
+    async with self._lock:
+      if session_id not in self._traces:
+        self._traces[session_id] = []
+      self._traces[session_id].append(trace)
 
-  def get_traces(self, session_id: str) -> list[dict[str, Any]]:
+  async def get_traces(self, session_id: str) -> list[dict[str, Any]]:
     """Return all agent traces for a session."""
-    return list(self._traces.get(session_id, []))
+    async with self._lock:
+      return list(self._traces.get(session_id, []))
 
   # --- session management ---
 
@@ -57,10 +65,11 @@ class SessionMemory:
     """Return all session IDs that have history."""
     return list(self._store.keys())
 
-  def clear(self, session_id: str) -> None:
+  async def clear(self, session_id: str) -> None:
     """Clear all history and traces for a session."""
-    self._store.pop(session_id, None)
-    self._traces.pop(session_id, None)
+    async with self._lock:
+      self._store.pop(session_id, None)
+      self._traces.pop(session_id, None)
 
   def exists(self, session_id: str) -> bool:
     """Check if a session exists."""
