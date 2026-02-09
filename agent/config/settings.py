@@ -40,7 +40,10 @@ class Settings(BaseSettings):
   DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/travelmind"
 
   # --- CORS ---
-  CORS_ORIGINS: List[str] = ["*"]
+  CORS_ORIGINS: List[str] = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+  ]
 
   # --- Memory ---
   MAX_SESSION_TURNS: int = 20
