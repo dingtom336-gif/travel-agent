@@ -4,11 +4,11 @@
 ## 最近操作记录
 | # | 时间 | 操作摘要 | 类型 |
 |---|------|---------|------|
-| 1 | 2026-02-10 | v0.7.1: MOCK_PLAN从5→4 agents(去掉itinerary)修复429限流 | 🖥️终端 |
-| 2 | 2026-02-10 | 并行agent启动加stagger延迟+exception handler补duration_ms | 🖥️终端 |
-| 3 | 2026-02-10 | 生产验证: 4/4 agents成功，transport=11s,POI=34s,synthesis=19s | 🌐域外 |
-| 4 | 2026-02-10 | smoke_test.py修复SSE解析+API URL+cache buster | 🖥️终端 |
-| 5 | 2026-02-10 | react_loop streaming重构: asyncio.wait(FIRST_COMPLETED)逐个返回 | 🖥️终端 |
+| 1 | 2026-02-10 | 生产验证: 4/4 agents成功，transport=11s,POI=34s,synthesis=19s | 🌐域外 |
+| 2 | 2026-02-10 | smoke_test.py修复SSE解析+API URL+cache buster | 🖥️终端 |
+| 3 | 2026-02-10 | react_loop streaming重构: asyncio.wait(FIRST_COMPLETED)逐个返回 | 🖥️终端 |
+| 4 | 2026-02-10 | v0.7.1版本号更新+生产部署验证通过 | 🖥️终端 |
+| 5 | 2026-02-11 | Claude Code初始化: CLAUDE.md+commands(4)+Playwright+.gitignore | 🖥️终端 |
 
 ## 踩坑记录
 - **【致命】5并发DeepSeek触发429**：5个agent同时调LLM→2个429超时。减为4个+stagger解决

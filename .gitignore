@@ -28,3 +28,17 @@ Thumbs.db
 # Debug
 npm-debug.log*
 venv2/
+
+# Claude Code
+CLAUDE.local.md
+.claude/settings.local.json
+
+# Test screenshots
+tests/screenshots/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
