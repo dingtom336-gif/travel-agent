@@ -368,9 +368,11 @@ class ReactEngine:
       "conversation_summary": conversation_summary,
     }
 
-    # Launch all tasks concurrently
+    # Launch tasks with slight stagger to avoid API rate-limit bursts
     future_to_task: dict[asyncio.Task, AgentTask] = {}
-    for t in tasks:
+    for i, t in enumerate(tasks):
+      if i > 0 and i % 3 == 0:
+        await asyncio.sleep(1.0)
       future = asyncio.create_task(self._execute_single_task(t, context))
       future_to_task[future] = t
 
@@ -437,6 +439,7 @@ class ReactEngine:
         status=TaskStatus.FAILED,
         error=f"No agent registered for {task.agent.value}",
       )
+    start = time.time()
     try:
       conv_summary = context.get("conversation_summary", "")
       if conv_summary:
@@ -459,6 +462,7 @@ class ReactEngine:
         agent=task.agent,
         status=TaskStatus.FAILED,
         error=f"Agent {task.agent.value} timed out after {get_settings().LLM_TASK_TIMEOUT}s",
+        duration_ms=int((time.time() - start) * 1000),
       )
     except Exception as exc:
       return AgentResult(
@@ -466,4 +470,5 @@ class ReactEngine:
         agent=task.agent,
         status=TaskStatus.FAILED,
         error=str(exc),
+        duration_ms=int((time.time() - start) * 1000),
       )

@@ -158,6 +158,7 @@ class BaseAgent(ABC):
         summary=f"{self._failure_label} for {task.goal}",
         status=TaskStatus.FAILED,
         error=str(exc),
+        start_time=start,
       )
 
   async def _run_tools(
