@@ -22,3 +22,19 @@ def mock_llm(monkeypatch):
     monkeypatch.setattr("agent.orchestrator.state_extractor.llm_chat", fake, raising=False)
     monkeypatch.setattr("agent.teams.base.llm_chat", fake, raising=False)
     return fake
+
+
+@pytest.fixture(autouse=True)
+def reset_sse_app_status():
+    """Reset sse-starlette global AppStatus between tests.
+
+    sse-starlette uses a module-level AppStatus with a global
+    should_exit_event that leaks across event loops in different tests.
+    """
+    yield
+    try:
+        from sse_starlette.sse import AppStatus
+        AppStatus.should_exit = False
+        AppStatus.should_exit_event = None
+    except (ImportError, AttributeError):
+        pass
