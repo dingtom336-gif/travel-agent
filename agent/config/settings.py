@@ -15,7 +15,7 @@ class Settings(BaseSettings):
 
   # --- App ---
   APP_NAME: str = "TravelMind Agent Service"
-  APP_VERSION: str = "0.1.0"
+  APP_VERSION: str = "0.7.1"
   DEBUG: bool = True
 
   # --- AI (DeepSeek – OpenAI-compatible API) ---
