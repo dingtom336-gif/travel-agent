@@ -7,6 +7,7 @@ import BudgetChart from "@/components/cards/BudgetChart";
 import MapWrapper from "@/components/map/MapWrapper";
 import { mockItinerary } from "@/lib/mock-itinerary";
 import { ItineraryData, TimelineDayData } from "@/lib/types";
+import { getItinerary } from "@/lib/api-client";
 
 type TabType = "timeline" | "map" | "budget";
 
@@ -26,22 +27,51 @@ export default function ItineraryPage() {
     return new Set(mockItinerary.days.map((d) => d.day));
   });
   const [isSaved, setIsSaved] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Try to load real itinerary data from sessionStorage
+  // Try API first → sessionStorage → mock data
   useEffect(() => {
-    try {
-      const stored = sessionStorage.getItem(`travel_plan_${id}`);
-      if (stored) {
-        const parsed = JSON.parse(stored) as ItineraryData;
-        if (parsed.days && parsed.days.length > 0) {
-          setItinerary(parsed);
-          setExpandedDays(new Set(parsed.days.map((d) => d.day)));
-          setIsFromSession(true);
+    let cancelled = false;
+    async function load() {
+      try {
+        // 1. Try API
+        const apiData = await getItinerary(id);
+        if (!cancelled && apiData && typeof apiData === "object") {
+          const d = apiData as Record<string, unknown>;
+          if (d.days && Array.isArray(d.days) && d.days.length > 0) {
+            const parsed = apiData as ItineraryData;
+            setItinerary(parsed);
+            setExpandedDays(new Set(parsed.days.map((day) => day.day)));
+            setIsFromSession(true);
+            setIsLoading(false);
+            return;
+          }
         }
+      } catch {
+        // API failed, try next source
       }
-    } catch {
-      // Fall back to mock data
+
+      // 2. Try sessionStorage
+      try {
+        const stored = sessionStorage.getItem(`travel_plan_${id}`);
+        if (stored) {
+          const parsed = JSON.parse(stored) as ItineraryData;
+          if (parsed.days && parsed.days.length > 0) {
+            if (!cancelled) {
+              setItinerary(parsed);
+              setExpandedDays(new Set(parsed.days.map((d) => d.day)));
+              setIsFromSession(true);
+            }
+          }
+        }
+      } catch {
+        // Fall back to mock data
+      }
+
+      if (!cancelled) setIsLoading(false);
     }
+    load();
+    return () => { cancelled = true; };
   }, [id]);
 
   // Compute summary stats
@@ -106,6 +136,14 @@ export default function ItineraryPage() {
       ),
     },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-background">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-background">

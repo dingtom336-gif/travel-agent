@@ -225,6 +225,112 @@ export async function getItinerary(id: string): Promise<unknown | null> {
 }
 
 /**
+ * Create a new itinerary.
+ */
+export async function createItinerary(
+  data: Record<string, unknown>
+): Promise<unknown | null> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/itineraries`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to create itinerary:", error);
+    return null;
+  }
+}
+
+/**
+ * Update an existing itinerary.
+ */
+export async function updateItinerary(
+  id: string,
+  data: Record<string, unknown>
+): Promise<unknown | null> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/itineraries/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to update itinerary:", error);
+    return null;
+  }
+}
+
+/**
+ * Delete an itinerary.
+ */
+export async function deleteItinerary(id: string): Promise<boolean> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/itineraries/${id}`, {
+      method: "DELETE",
+    });
+    return response.ok;
+  } catch (error) {
+    console.error("Failed to delete itinerary:", error);
+    return false;
+  }
+}
+
+/**
+ * Fetch user profile with preferences.
+ */
+export async function getProfile(
+  userId = "default"
+): Promise<unknown | null> {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/profile?user_id=${encodeURIComponent(userId)}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to fetch profile:", error);
+    return null;
+  }
+}
+
+/**
+ * Update user preferences.
+ */
+export async function updateProfile(
+  data: Record<string, unknown>,
+  userId = "default"
+): Promise<unknown | null> {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/profile?user_id=${encodeURIComponent(userId)}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to update profile:", error);
+    return null;
+  }
+}
+
+/**
  * Combine multiple AbortSignals into one.
  * The combined signal aborts when any of the input signals aborts.
  */

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TripsTab from "@/components/profile/TripsTab";
 import PreferencesTab from "@/components/profile/PreferencesTab";
 import FavoritesTab from "@/components/profile/FavoritesTab";
@@ -9,7 +9,11 @@ import {
   mockTrips,
   mockFavorites,
   mockPreferences,
+  type UserProfile,
+  type TripItem,
+  type UserPreferences,
 } from "@/lib/mock-profile";
+import { getProfile, getItineraries } from "@/lib/api-client";
 
 type ProfileTab = "trips" | "preferences" | "favorites";
 
@@ -19,8 +23,59 @@ type ProfileTab = "trips" | "preferences" | "favorites";
  */
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<ProfileTab>("trips");
+  const [user, setUser] = useState<UserProfile>(mockUser);
+  const [trips, setTrips] = useState<TripItem[]>(mockTrips);
+  const [preferences, setPreferences] = useState<UserPreferences>(mockPreferences);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const user = mockUser;
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        const [profileRes, itinRes] = await Promise.all([
+          getProfile(),
+          getItineraries(),
+        ]);
+        if (cancelled) return;
+        if (profileRes && typeof profileRes === "object") {
+          const p = profileRes as Record<string, unknown>;
+          if (p.name) {
+            setUser((prev) => ({
+              ...prev,
+              name: (p.name as string) || prev.name,
+              email: (p.email as string) || prev.email,
+              memberLevel: (p.member_level as string) || prev.memberLevel,
+              totalTrips: (p.total_trips as number) ?? prev.totalTrips,
+              totalDestinations: (p.total_destinations as number) ?? prev.totalDestinations,
+            }));
+          }
+          if (p.travel_style || p.budget_preference) {
+            setPreferences((prev) => ({
+              ...prev,
+              travelStyles: (p.travel_style as UserPreferences["travelStyles"]) || prev.travelStyles,
+              budgetLevel: (p.budget_preference as UserPreferences["budgetLevel"]) || prev.budgetLevel,
+              transportPref: (p.transport_pref as UserPreferences["transportPref"]) || prev.transportPref,
+            }));
+          }
+        }
+        if (itinRes && typeof itinRes === "object" && !Array.isArray(itinRes)) {
+          const obj = itinRes as Record<string, unknown>;
+          if ("itineraries" in obj) {
+            const items = obj.itineraries as TripItem[];
+            if (items && items.length > 0) {
+              setTrips(items);
+            }
+          }
+        }
+      } catch {
+        // Fall back to mock data (already set as defaults)
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    }
+    load();
+    return () => { cancelled = true; };
+  }, []);
 
   // Tab definitions
   const tabs: { key: ProfileTab; label: string; icon: React.ReactNode }[] = [
@@ -115,12 +170,20 @@ export default function ProfilePage() {
 
       {/* Tab content */}
       <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6">
-        {activeTab === "trips" && <TripsTab trips={mockTrips} />}
-        {activeTab === "preferences" && (
-          <PreferencesTab initialPreferences={mockPreferences} />
-        )}
-        {activeTab === "favorites" && (
-          <FavoritesTab favorites={mockFavorites} />
+        {isLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          </div>
+        ) : (
+          <>
+            {activeTab === "trips" && <TripsTab trips={trips} />}
+            {activeTab === "preferences" && (
+              <PreferencesTab initialPreferences={preferences} />
+            )}
+            {activeTab === "favorites" && (
+              <FavoritesTab favorites={mockFavorites} />
+            )}
+          </>
         )}
       </div>
     </div>

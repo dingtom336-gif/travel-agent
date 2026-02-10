@@ -15,6 +15,7 @@ import type {
   BudgetSummary,
 } from "@/lib/types";
 import type { Action } from "@/lib/travel-context";
+import { createItinerary } from "@/lib/api-client";
 
 interface UseSSEHandlerOptions {
   setMessages: Dispatch<SetStateAction<ChatMessage[]>>;
@@ -234,6 +235,19 @@ export function useSSEHandler({
               type: "SET_SESSION",
               payload: { sessionId: sid },
             });
+
+            // Save itinerary to API if we have itinerary data
+            if (data.itinerary_id || data.destination) {
+              createItinerary({
+                title: (data.title as string) || `${data.destination || "旅行"}行程`,
+                destination: (data.destination as string) || "",
+                session_id: sid,
+                days: data.days || [],
+                budget_items: data.budget_items || [],
+              }).catch(() => {
+                // Non-critical: silently ignore save failures
+              });
+            }
           }
           finishMessage(aiMsgId);
           break;
