@@ -36,9 +36,15 @@ class Settings(BaseSettings):
   # Legacy – kept for compatibility checks
   ANTHROPIC_API_KEY: str = ""
 
-  # --- Infra (not used yet, placeholders) ---
+  # --- Infra ---
   REDIS_URL: str = "redis://localhost:6379/0"
   DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/travelmind"
+  DATABASE_POOL_SIZE: int = 5
+  DATABASE_MAX_OVERFLOW: int = 10
+  DATABASE_ECHO: bool = False
+
+  # --- Serper API ---
+  SERPER_API_KEY: str = ""
 
   # --- CORS ---
   CORS_ORIGINS: List[str] = [

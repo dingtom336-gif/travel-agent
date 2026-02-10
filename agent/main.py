@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import logging
 from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
 from typing import Any, Dict, Optional
 
 from fastapi import FastAPI, Request
@@ -12,8 +13,11 @@ from pydantic import BaseModel, Field
 from sse_starlette.sse import EventSourceResponse
 
 from agent.config.settings import get_settings
+from agent.db import init_db, close_db
 from agent.models import ChatRequest
 from agent.orchestrator.agent import orchestrator
+from agent.routes.itinerary import router as itinerary_router
+from agent.routes.profile import router as profile_router
 from agent.simulator.battle_runner import run_battle, run_battle_stream
 from agent.simulator.env_simulator import get_env_simulator
 from agent.simulator.evaluator import Evaluator
@@ -70,10 +74,24 @@ class ActivateScenarioRequest(BaseModel):
   scenario: str = Field(..., description="Scenario name to activate")
 
 
+@asynccontextmanager
+async def lifespan(application: FastAPI):
+  # Startup
+  ok = await init_db()
+  if ok:
+    logger.info("Database connected")
+  else:
+    logger.warning("Database unavailable – using in-memory fallback")
+  yield
+  # Shutdown
+  await close_db()
+
+
 app = FastAPI(
   title=settings.APP_NAME,
   version=settings.APP_VERSION,
   description="TravelMind Agent Service – multi-agent travel planning",
+  lifespan=lifespan,
 )
 
 # --- CORS ---
@@ -84,6 +102,10 @@ app.add_middleware(
   allow_methods=["*"],
   allow_headers=["*"],
 )
+
+# --- CRUD routers ---
+app.include_router(itinerary_router)
+app.include_router(profile_router)
 
 
 # --- Health check ---
