@@ -105,7 +105,7 @@ class ReactEngine:
       parallel_tasks = [t for t in active_tasks if not t.depends_on]
       dependent_tasks = [t for t in active_tasks if t.depends_on]
 
-      # Execute parallel tasks concurrently
+      # Execute parallel tasks concurrently, streaming results as each completes
       if parallel_tasks:
         yield SSEMessage(
           event=SSEEventType.THINKING,
@@ -116,16 +116,14 @@ class ReactEngine:
         ).format()
 
         t_agents = time.time()
-        parallel_sse, parallel_results = await self._execute_tasks_parallel(
-          parallel_tasks, session_id, state_ctx, conversation_summary,
-        )
+        async for sse_or_result in self._execute_tasks_streaming(
+          parallel_tasks, session_id, state_ctx, conversation_summary, results,
+        ):
+          yield sse_or_result
         logger.info(
           "TIMING stage=agents_parallel duration_ms=%d count=%d session=%s",
           int((time.time() - t_agents) * 1000), len(parallel_tasks), session_id,
         )
-        for sse_msg in parallel_sse:
-          yield sse_msg
-        results.update(parallel_results)
 
       # Execute dependent tasks sequentially
       for task in dependent_tasks:
@@ -145,8 +143,13 @@ class ReactEngine:
           data={"agent": task.agent.value, "task": task.goal},
         ).format()
 
+        t_dep = time.time()
         result = await self._execute_single_task(task, context)
         results[task.task_id] = result
+        logger.info(
+          "TIMING stage=agent_%s_dependent duration_ms=%d session=%s",
+          task.agent.value, int((time.time() - t_dep) * 1000), session_id,
+        )
 
         yield SSEMessage(
           event=SSEEventType.AGENT_RESULT,
@@ -341,55 +344,73 @@ class ReactEngine:
   # Task execution
   # ------------------------------------------------------------------ #
 
-  async def _execute_tasks_parallel(
+  async def _execute_tasks_streaming(
     self,
     tasks: list[AgentTask],
     session_id: str,
     state_ctx: str,
-    conversation_summary: str = "",
-  ) -> tuple[list[dict], dict[str, AgentResult]]:
-    """Run independent tasks concurrently; return SSE messages and results."""
-    sse_messages: list[dict] = []
+    conversation_summary: str,
+    results_out: dict[str, AgentResult],
+  ) -> AsyncGenerator[dict, None]:
+    """Run tasks in parallel, yielding SSE events as each agent completes.
+
+    Results are stored into results_out dict as a side effect.
+    """
+    # Yield all AGENT_START messages immediately
     for t in tasks:
-      sse_messages.append(
-        SSEMessage(
-          event=SSEEventType.AGENT_START,
-          data={"agent": t.agent.value, "task": t.goal},
-        ).format()
-      )
+      yield SSEMessage(
+        event=SSEEventType.AGENT_START,
+        data={"agent": t.agent.value, "task": t.goal},
+      ).format()
 
     context = {
       "state_context": state_ctx,
       "conversation_summary": conversation_summary,
     }
 
-    coros = [self._execute_single_task(t, context) for t in tasks]
-    raw_results = await asyncio.gather(*coros, return_exceptions=True)
+    # Launch all tasks concurrently
+    future_to_task: dict[asyncio.Task, AgentTask] = {}
+    for t in tasks:
+      future = asyncio.create_task(self._execute_single_task(t, context))
+      future_to_task[future] = t
 
-    results: dict[str, AgentResult] = {}
-    for task, res in zip(tasks, raw_results):
-      if isinstance(res, Exception):
-        result = AgentResult(
-          task_id=task.task_id,
-          agent=task.agent,
-          status=TaskStatus.FAILED,
-          error=str(res),
+    # Yield results as each agent completes (FIRST_COMPLETED)
+    pending = set(future_to_task.keys())
+    while pending:
+      done, pending = await asyncio.wait(
+        pending, return_when=asyncio.FIRST_COMPLETED,
+      )
+      for future in done:
+        task = future_to_task[future]
+        try:
+          result = future.result()
+        except Exception as exc:
+          result = AgentResult(
+            task_id=task.task_id,
+            agent=task.agent,
+            status=TaskStatus.FAILED,
+            error=str(exc),
+          )
+
+        results_out[task.task_id] = result
+        await session_memory.add_trace(session_id, {
+          "agent": task.agent.value,
+          "task_id": task.task_id,
+          "goal": task.goal,
+          "status": result.status.value,
+          "summary": result.summary,
+          "duration_ms": result.duration_ms,
+          "error": result.error,
+          "timestamp": time.time(),
+        })
+
+        display = AGENT_DISPLAY_NAMES.get(task.agent.value, task.agent.value)
+        logger.info(
+          "TIMING stage=agent_%s duration_ms=%d session=%s",
+          task.agent.value, result.duration_ms or 0, session_id,
         )
-      else:
-        result = res
-      results[task.task_id] = result
-      await session_memory.add_trace(session_id, {
-        "agent": task.agent.value,
-        "task_id": task.task_id,
-        "goal": task.goal,
-        "status": result.status.value,
-        "summary": result.summary,
-        "duration_ms": result.duration_ms,
-        "error": result.error,
-        "timestamp": time.time(),
-      })
-      sse_messages.append(
-        SSEMessage(
+
+        yield SSEMessage(
           event=SSEEventType.AGENT_RESULT,
           data={
             "agent": task.agent.value,
@@ -398,11 +419,9 @@ class ReactEngine:
             "data": result.data,
           },
         ).format()
-      )
-      for ui_event in extract_ui_components(task.agent.value, result.data):
-        sse_messages.append(ui_event)
 
-    return sse_messages, results
+        for ui_event in extract_ui_components(task.agent.value, result.data):
+          yield ui_event
 
   async def _execute_single_task(
     self,

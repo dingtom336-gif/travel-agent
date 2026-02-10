@@ -40,8 +40,10 @@ MAX_RETRIES = 3
 
 def test_single(api_url: str, tier: str, config: dict) -> dict:
   """Send a message and measure SSE response times."""
+  # Unique suffix to bust LRU cache — each attempt must hit real API
+  cache_buster = f"(测试{int(time.time())})"
   payload = json.dumps({
-    "message": config["message"],
+    "message": f"{config['message']} {cache_buster}",
     "session_id": f"smoke-{tier}-{int(time.time())}",
   }).encode()
 

@@ -67,9 +67,9 @@ MOCK_PLAN: list[dict[str, Any]] = [
   },
   {
     "agent": "itinerary",
-    "goal": "根据所有专家结果编排每日行程",
+    "goal": "根据旅行状态编排每日行程",
     "params": {},
-    "depends_on": ["transport", "poi", "knowledge", "weather"],
+    "depends_on": [],
   },
 ]
 
