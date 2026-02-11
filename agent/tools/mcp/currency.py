@@ -1,10 +1,17 @@
-# Currency conversion MCP tool - mock implementation
-# Uses hardcoded exchange rates for development/testing
+# Currency conversion MCP tool - fawazahmed0 (primary) + hardcoded fallback
 from __future__ import annotations
 
 import asyncio
+import logging
 import random
 from typing import Any, Dict, Optional
+
+import httpx
+
+logger = logging.getLogger(__name__)
+
+_CURRENCY_API_URL = "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies"
+_CURRENCY_TIMEOUT = 3.0
 
 
 # Hardcoded exchange rates relative to CNY (1 CNY = X foreign)
@@ -75,61 +82,80 @@ async def convert_currency(
 ) -> Dict[str, Any]:
   """Convert amount between currencies.
 
-  Args:
-    amount: Amount to convert
-    from_currency: Source currency code (e.g. "CNY", "USD", "JPY")
-    to_currency: Target currency code
-
-  Returns:
-    Dict with conversion result, rate, and display info
+  Fallback: fawazahmed0 API (via jsdelivr CDN) → hardcoded rates.
   """
+  from_code = from_currency.upper()
+  to_code = to_currency.upper()
+  source = "hardcoded"
+
+  # 1. Try fawazahmed0 real-time rates (CDN, 341 currencies)
+  rate = None
   try:
-    await asyncio.sleep(random.uniform(0.02, 0.08))
-
-    from_code = from_currency.upper()
-    to_code = to_currency.upper()
-
-    rate = _get_rate(from_code, to_code)
-    if rate is None:
-      return {
-        "success": False,
-        "error": f"Unsupported currency pair: {from_code}/{to_code}",
-        "supported_currencies": list(_RATES_TO_CNY.keys()),
-      }
-
-    # Add tiny random fluctuation for realism (+-0.5%)
-    rate = rate * random.uniform(0.995, 1.005)
-    converted_amount = round(amount * rate, 2)
-
-    from_info = _CURRENCY_INFO.get(from_code, {"name": from_code, "symbol": from_code, "name_en": from_code})
-    to_info = _CURRENCY_INFO.get(to_code, {"name": to_code, "symbol": to_code, "name_en": to_code})
-
-    return {
-      "success": True,
-      "from": {
-        "currency": from_code,
-        "name": from_info["name"],
-        "symbol": from_info["symbol"],
-        "amount": amount,
-        "display": f"{from_info['symbol']}{amount:,.2f}",
-      },
-      "to": {
-        "currency": to_code,
-        "name": to_info["name"],
-        "symbol": to_info["symbol"],
-        "amount": converted_amount,
-        "display": f"{to_info['symbol']}{converted_amount:,.2f}",
-      },
-      "rate": round(rate, 6),
-      "rate_display": f"1 {from_code} = {round(rate, 4)} {to_code}",
-      "timestamp": "2026-02-07T12:00:00Z",
-      "note": "汇率仅供参考，实际交易以银行当日牌价为准",
-    }
+    rate = await _fetch_live_rate(from_code, to_code)
+    if rate:
+      source = "fawazahmed0"
   except Exception as exc:
+    logger.debug("Currency API failed: %s", exc)
+
+  # 2. Hardcoded fallback
+  if rate is None:
+    rate = _get_rate(from_code, to_code)
+
+  if rate is None:
     return {
       "success": False,
-      "error": str(exc),
+      "error": f"Unsupported currency pair: {from_code}/{to_code}",
+      "supported_currencies": list(_RATES_TO_CNY.keys()),
     }
+
+  converted_amount = round(amount * rate, 2)
+  from_info = _CURRENCY_INFO.get(from_code, {"name": from_code, "symbol": from_code, "name_en": from_code})
+  to_info = _CURRENCY_INFO.get(to_code, {"name": to_code, "symbol": to_code, "name_en": to_code})
+
+  return {
+    "success": True,
+    "source": source,
+    "from": {
+      "currency": from_code,
+      "name": from_info["name"],
+      "symbol": from_info["symbol"],
+      "amount": amount,
+      "display": f"{from_info['symbol']}{amount:,.2f}",
+    },
+    "to": {
+      "currency": to_code,
+      "name": to_info["name"],
+      "symbol": to_info["symbol"],
+      "amount": converted_amount,
+      "display": f"{to_info['symbol']}{converted_amount:,.2f}",
+    },
+    "rate": round(rate, 6),
+    "rate_display": f"1 {from_code} = {round(rate, 4)} {to_code}",
+    "note": "汇率仅供参考，实际交易以银行当日牌价为准",
+  }
+
+
+async def _fetch_live_rate(from_code: str, to_code: str) -> Optional[float]:
+  """Fetch real-time exchange rate from fawazahmed0 API via CDN."""
+  from_lower = from_code.lower()
+  to_lower = to_code.lower()
+  url = f"{_CURRENCY_API_URL}/{from_lower}.json"
+
+  try:
+    async with httpx.AsyncClient(timeout=_CURRENCY_TIMEOUT) as client:
+      resp = await client.get(url)
+      resp.raise_for_status()
+      data = resp.json()
+
+    rates = data.get(from_lower, {})
+    rate = rates.get(to_lower)
+    if rate is not None:
+      logger.info("Currency API: %s→%s = %s", from_code, to_code, rate)
+      return float(rate)
+    return None
+  except Exception as exc:
+    logger.debug("Currency API error: %s", exc)
+    return None
 
 
 async def list_supported_currencies() -> Dict[str, Any]:
