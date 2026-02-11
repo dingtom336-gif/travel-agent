@@ -1,13 +1,13 @@
 ## 当前状态
-**v0.8.0 生产部署完成。** PostgreSQL持久化(本地+生产)+CRUD API+Serper搜索+拖拽编辑+PDF导出+主动服务。200/200测试通过。SSE流+4 agent并行验证通过。
+**v0.8.0 生产运行中。** SSE滚动抢夺已修复+手机端适配完成+Footer版本v0.8.0确认。PostgreSQL持久化+CRUD API+Serper搜索+拖拽编辑+PDF导出+主动服务。
 
 ## 最近操作记录
 | # | 时间 | 操作摘要 | 类型 |
 |---|------|---------|------|
-| 1 | 2026-02-12 | 本地：修复DATABASE_URL+alembic迁移+版本号v0.8.0 | 🖥️终端 |
-| 2 | 2026-02-12 | 生产：安装PostgreSQL 14+创建travelmind库+设postgres密码 | 🖥️终端 |
-| 3 | 2026-02-12 | 生产：git pull+pip install依赖+alembic upgrade(9表) | 🖥️终端 |
-| 4 | 2026-02-12 | 生产：npm build+PM2 restart+冒烟测试通过(health+CRUD+SSE) | 🖥️终端 |
+| 1 | 2026-02-12 | 修复SSE流滚动抢夺：useAutoScroll hook替换无条件scrollToBottom | 🐛修复 |
+| 2 | 2026-02-12 | 手机端适配：viewport meta+safe-bottom+44px触控+响应式布局 | 📱优化 |
+| 3 | 2026-02-12 | 组件打磨：可滚动Tab栏+响应式卡片字号+地图高度适配 | 📱优化 |
+| 4 | 2026-02-12 | 生产部署：3 commits推送+build+PM2 restart，v0.8.0确认 | 🚀部署 |
 
 ## 踩坑记录
 - **【致命】5并发DeepSeek触发429**：减为4个+stagger解决
@@ -34,4 +34,4 @@
 - v0.6.0~v0.6.2 并发安全+Agent模板化+自测规范强化 (02-09~10)
 - v0.7.0 性能优化11项(intent_classifier/streaming/heuristic/TIMING) (02-10)
 - v0.7.1 生产部署验证+smoke test修复+Claude Code初始化 (02-10~11)
-- v0.8.0 Phase 0-5 开发+本地PG配置 (02-11~12)
+- v0.8.0 Phase 0-5 开发+本地PG配置+SSE滚动修复+手机端适配 (02-11~12)
