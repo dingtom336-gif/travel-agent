@@ -44,19 +44,37 @@ Format the itinerary in clear markdown with headers per day."""
 
     tool_data: dict[str, Any] = {}
 
-    # Get upstream POI data from context
+    # Get upstream data from context
     upstream = context.get("upstream_results", {})
     pois_data = self._extract_pois_from_upstream(upstream)
+
+    # Extract hotel info from upstream (structured data)
+    hotel_coordinates = None
+    hotel_upstream = upstream.get("hotel", {})
+    if isinstance(hotel_upstream, dict):
+      hotel_td = hotel_upstream.get("tool_data", {})
+      if isinstance(hotel_td, dict):
+        hotels_results = hotel_td.get("hotels", {})
+        if isinstance(hotels_results, dict):
+          hotel_list = hotels_results.get("results", [])
+          if hotel_list:
+            top_hotel = hotel_list[0]
+            hotel_location = top_hotel.get("name", hotel_location)
+            hotel_coordinates = top_hotel.get("coordinates")
 
     # Optimize itinerary if we have POI data
     if pois_data:
       try:
+        kwargs: dict[str, Any] = {
+          "pois": pois_data,
+          "hotel_location": hotel_location,
+          "trip_days": trip_days,
+          "preferences": preference,
+        }
+        if hotel_coordinates:
+          kwargs["hotel_coordinates"] = hotel_coordinates
         itinerary_result = await self.call_tool(
-          "optimize_itinerary",
-          pois=pois_data,
-          hotel_location=hotel_location,
-          trip_days=trip_days,
-          preferences=preference,
+          "optimize_itinerary", **kwargs,
         )
         tool_data["optimized_itinerary"] = itinerary_result
       except Exception:
@@ -96,8 +114,11 @@ Format the itinerary in clear markdown with headers per day."""
       for agent_name, result_data in upstream.items():
         parts.append(f"--- {agent_name} ---")
         if isinstance(result_data, dict):
-          response_text = result_data.get("response", str(result_data))
-          parts.append(str(response_text)[:1500])
+          response_text = result_data.get("response", "")
+          if response_text:
+            parts.append(str(response_text)[:1500])
+          else:
+            parts.append(str(result_data)[:1500])
         else:
           parts.append(str(result_data)[:1500])
 

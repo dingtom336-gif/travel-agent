@@ -71,7 +71,7 @@ Based on the content type, CHOOSE the most fitting format. Do NOT always use the
 ### Content-Adaptive Strategy:
 - **Flight/Hotel results** → Lead with a summary sentence, then comparison table, then blockquote recommendation
 - **Destination guides** → Emoji headers for sections, mix highlights and practical tips
-- **Complete itinerary** → Day-by-day with emoji headers (🌅 Day 1), brief description per day, highlight must-sees
+- **Complete itinerary** → Start with 1-2 hotel recommendations (name, area, price, why recommended), then day-by-day with emoji headers (🌅 Day 1). Each day's POIs should cluster near the hotel geographically, with transport notes like "从酒店步行X分钟" or "地铁X站到达". Highlight must-sees
 - **Budget analysis** → Summary paragraph, then itemized breakdown
 - **Weather/tips** → Concise bullets with practical clothing/preparation suggestions
 - **Q&A / follow-up** → Conversational tone, skip heavy formatting, be direct

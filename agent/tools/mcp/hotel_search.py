@@ -10,45 +10,45 @@ from typing import Any, Dict, List, Optional
 # City-specific hotel data pools
 _HOTEL_POOLS: Dict[str, List[Dict[str, Any]]] = {
   "东京": [
-    {"name": "东京帝国酒店", "name_en": "Imperial Hotel Tokyo", "stars": 5, "area": "千代田区", "base_price": 2800},
-    {"name": "东京安缦", "name_en": "Aman Tokyo", "stars": 5, "area": "大手町", "base_price": 5500},
-    {"name": "新宿格拉斯丽酒店", "name_en": "Hotel Gracery Shinjuku", "stars": 4, "area": "新宿", "base_price": 900},
-    {"name": "东京湾洲际酒店", "name_en": "InterContinental Tokyo Bay", "stars": 5, "area": "台场", "base_price": 2200},
-    {"name": "涩谷东急卓越酒店", "name_en": "Tokyu Excel Shibuya", "stars": 4, "area": "涩谷", "base_price": 1100},
-    {"name": "浅草豪景酒店", "name_en": "Asakusa View Hotel", "stars": 4, "area": "浅草", "base_price": 800},
-    {"name": "东京站大都会酒店", "name_en": "Hotel Metropolitan Tokyo", "stars": 4, "area": "池袋", "base_price": 950},
-    {"name": "银座三井花园酒店", "name_en": "Mitsui Garden Ginza", "stars": 4, "area": "银座", "base_price": 1300},
+    {"name": "东京帝国酒店", "name_en": "Imperial Hotel Tokyo", "stars": 5, "area": "千代田区", "base_price": 2800, "coordinates": {"lat": 35.6722, "lng": 139.7583}},
+    {"name": "东京安缦", "name_en": "Aman Tokyo", "stars": 5, "area": "大手町", "base_price": 5500, "coordinates": {"lat": 35.6867, "lng": 139.7640}},
+    {"name": "新宿格拉斯丽酒店", "name_en": "Hotel Gracery Shinjuku", "stars": 4, "area": "新宿", "base_price": 900, "coordinates": {"lat": 35.6938, "lng": 139.7034}},
+    {"name": "东京湾洲际酒店", "name_en": "InterContinental Tokyo Bay", "stars": 5, "area": "台场", "base_price": 2200, "coordinates": {"lat": 35.6281, "lng": 139.7673}},
+    {"name": "涩谷东急卓越酒店", "name_en": "Tokyu Excel Shibuya", "stars": 4, "area": "涩谷", "base_price": 1100, "coordinates": {"lat": 35.6580, "lng": 139.7016}},
+    {"name": "浅草豪景酒店", "name_en": "Asakusa View Hotel", "stars": 4, "area": "浅草", "base_price": 800, "coordinates": {"lat": 35.7117, "lng": 139.7966}},
+    {"name": "东京站大都会酒店", "name_en": "Hotel Metropolitan Tokyo", "stars": 4, "area": "池袋", "base_price": 950, "coordinates": {"lat": 35.7295, "lng": 139.7109}},
+    {"name": "银座三井花园酒店", "name_en": "Mitsui Garden Ginza", "stars": 4, "area": "银座", "base_price": 1300, "coordinates": {"lat": 35.6719, "lng": 139.7649}},
   ],
   "大阪": [
-    {"name": "大阪丽思卡尔顿", "name_en": "The Ritz-Carlton Osaka", "stars": 5, "area": "梅田", "base_price": 3200},
-    {"name": "大阪瑞士南海酒店", "name_en": "Swissôtel Nankai Osaka", "stars": 5, "area": "难波", "base_price": 1800},
-    {"name": "大阪十字酒店", "name_en": "Cross Hotel Osaka", "stars": 4, "area": "心斋桥", "base_price": 900},
-    {"name": "道顿堀酒店", "name_en": "Dotonbori Hotel", "stars": 3, "area": "道顿堀", "base_price": 600},
-    {"name": "大阪万豪都酒店", "name_en": "Osaka Marriott Miyako", "stars": 5, "area": "天王寺", "base_price": 2500},
-    {"name": "大阪希尔顿", "name_en": "Hilton Osaka", "stars": 5, "area": "梅田", "base_price": 2000},
+    {"name": "大阪丽思卡尔顿", "name_en": "The Ritz-Carlton Osaka", "stars": 5, "area": "梅田", "base_price": 3200, "coordinates": {"lat": 34.6985, "lng": 135.4942}},
+    {"name": "大阪瑞士南海酒店", "name_en": "Swissôtel Nankai Osaka", "stars": 5, "area": "难波", "base_price": 1800, "coordinates": {"lat": 34.6644, "lng": 135.5013}},
+    {"name": "大阪十字酒店", "name_en": "Cross Hotel Osaka", "stars": 4, "area": "心斋桥", "base_price": 900, "coordinates": {"lat": 34.6723, "lng": 135.5016}},
+    {"name": "道顿堀酒店", "name_en": "Dotonbori Hotel", "stars": 3, "area": "道顿堀", "base_price": 600, "coordinates": {"lat": 34.6688, "lng": 135.5019}},
+    {"name": "大阪万豪都酒店", "name_en": "Osaka Marriott Miyako", "stars": 5, "area": "天王寺", "base_price": 2500, "coordinates": {"lat": 34.6463, "lng": 135.5131}},
+    {"name": "大阪希尔顿", "name_en": "Hilton Osaka", "stars": 5, "area": "梅田", "base_price": 2000, "coordinates": {"lat": 34.6967, "lng": 135.4983}},
   ],
   "北京": [
-    {"name": "北京国贸大酒店", "name_en": "China World Summit Wing", "stars": 5, "area": "国贸CBD", "base_price": 2500},
-    {"name": "王府井文华东方", "name_en": "Mandarin Oriental Wangfujing", "stars": 5, "area": "王府井", "base_price": 3500},
-    {"name": "北京饭店", "name_en": "Beijing Hotel", "stars": 5, "area": "长安街", "base_price": 1200},
-    {"name": "三里屯通盈中心洲际", "name_en": "InterContinental Sanlitun", "stars": 5, "area": "三里屯", "base_price": 1800},
-    {"name": "颐和安缦", "name_en": "Aman Summer Palace", "stars": 5, "area": "颐和园", "base_price": 4800},
-    {"name": "桔子水晶酒店(鼓楼店)", "name_en": "Crystal Orange Gulou", "stars": 3, "area": "鼓楼", "base_price": 500},
+    {"name": "北京国贸大酒店", "name_en": "China World Summit Wing", "stars": 5, "area": "国贸CBD", "base_price": 2500, "coordinates": {"lat": 39.9087, "lng": 116.4599}},
+    {"name": "王府井文华东方", "name_en": "Mandarin Oriental Wangfujing", "stars": 5, "area": "王府井", "base_price": 3500, "coordinates": {"lat": 39.9147, "lng": 116.4112}},
+    {"name": "北京饭店", "name_en": "Beijing Hotel", "stars": 5, "area": "长安街", "base_price": 1200, "coordinates": {"lat": 39.9140, "lng": 116.4070}},
+    {"name": "三里屯通盈中心洲际", "name_en": "InterContinental Sanlitun", "stars": 5, "area": "三里屯", "base_price": 1800, "coordinates": {"lat": 39.9339, "lng": 116.4538}},
+    {"name": "颐和安缦", "name_en": "Aman Summer Palace", "stars": 5, "area": "颐和园", "base_price": 4800, "coordinates": {"lat": 39.9998, "lng": 116.2755}},
+    {"name": "桔子水晶酒店(鼓楼店)", "name_en": "Crystal Orange Gulou", "stars": 3, "area": "鼓楼", "base_price": 500, "coordinates": {"lat": 39.9407, "lng": 116.3934}},
   ],
   "上海": [
-    {"name": "上海外滩华尔道夫", "name_en": "Waldorf Astoria Shanghai", "stars": 5, "area": "外滩", "base_price": 3000},
-    {"name": "上海和平饭店", "name_en": "Fairmont Peace Hotel", "stars": 5, "area": "南京路", "base_price": 2800},
-    {"name": "上海璞丽酒店", "name_en": "The PuLi Hotel", "stars": 5, "area": "静安", "base_price": 2500},
-    {"name": "上海虹桥雅高美爵", "name_en": "Grand Mercure Hongqiao", "stars": 4, "area": "虹桥", "base_price": 700},
-    {"name": "上海外滩英迪格", "name_en": "Hotel Indigo Shanghai", "stars": 4, "area": "外滩", "base_price": 1200},
-    {"name": "全季酒店(陆家嘴店)", "name_en": "JI Hotel Lujiazui", "stars": 3, "area": "陆家嘴", "base_price": 450},
+    {"name": "上海外滩华尔道夫", "name_en": "Waldorf Astoria Shanghai", "stars": 5, "area": "外滩", "base_price": 3000, "coordinates": {"lat": 31.2387, "lng": 121.4907}},
+    {"name": "上海和平饭店", "name_en": "Fairmont Peace Hotel", "stars": 5, "area": "南京路", "base_price": 2800, "coordinates": {"lat": 31.2401, "lng": 121.4906}},
+    {"name": "上海璞丽酒店", "name_en": "The PuLi Hotel", "stars": 5, "area": "静安", "base_price": 2500, "coordinates": {"lat": 31.2247, "lng": 121.4437}},
+    {"name": "上海虹桥雅高美爵", "name_en": "Grand Mercure Hongqiao", "stars": 4, "area": "虹桥", "base_price": 700, "coordinates": {"lat": 31.1942, "lng": 121.3360}},
+    {"name": "上海外滩英迪格", "name_en": "Hotel Indigo Shanghai", "stars": 4, "area": "外滩", "base_price": 1200, "coordinates": {"lat": 31.2360, "lng": 121.4920}},
+    {"name": "全季酒店(陆家嘴店)", "name_en": "JI Hotel Lujiazui", "stars": 3, "area": "陆家嘴", "base_price": 450, "coordinates": {"lat": 31.2354, "lng": 121.5055}},
   ],
   "曼谷": [
-    {"name": "曼谷文华东方", "name_en": "Mandarin Oriental Bangkok", "stars": 5, "area": "湄南河", "base_price": 2800},
-    {"name": "暹罗凯宾斯基", "name_en": "Siam Kempinski", "stars": 5, "area": "暹罗", "base_price": 2200},
-    {"name": "素坤逸万豪", "name_en": "Marriott Sukhumvit", "stars": 5, "area": "素坤逸", "base_price": 1200},
-    {"name": "考山路背包客栈", "name_en": "Khaosan Palace Hotel", "stars": 2, "area": "考山路", "base_price": 200},
-    {"name": "曼谷拉查达酒店", "name_en": "Ratchada Hotel", "stars": 3, "area": "拉差达", "base_price": 350},
+    {"name": "曼谷文华东方", "name_en": "Mandarin Oriental Bangkok", "stars": 5, "area": "湄南河", "base_price": 2800, "coordinates": {"lat": 13.7237, "lng": 100.5148}},
+    {"name": "暹罗凯宾斯基", "name_en": "Siam Kempinski", "stars": 5, "area": "暹罗", "base_price": 2200, "coordinates": {"lat": 13.7440, "lng": 100.5403}},
+    {"name": "素坤逸万豪", "name_en": "Marriott Sukhumvit", "stars": 5, "area": "素坤逸", "base_price": 1200, "coordinates": {"lat": 13.7209, "lng": 100.5602}},
+    {"name": "考山路背包客栈", "name_en": "Khaosan Palace Hotel", "stars": 2, "area": "考山路", "base_price": 200, "coordinates": {"lat": 13.7590, "lng": 100.4974}},
+    {"name": "曼谷拉查达酒店", "name_en": "Ratchada Hotel", "stars": 3, "area": "拉差达", "base_price": 350, "coordinates": {"lat": 13.7649, "lng": 100.5735}},
   ],
 }
 
@@ -114,7 +114,7 @@ def _generate_hotel(
       "available": random.randint(1, 10),
     })
 
-  return {
+  result = {
     "name": hotel_template["name"],
     "name_en": hotel_template["name_en"],
     "stars": stars,
@@ -132,6 +132,9 @@ def _generate_hotel(
     "distance_to_center": f"{round(random.uniform(0.3, 8.0), 1)}km",
     "image_url": f"https://placeholder.travel/hotel/{hotel_template['name_en'].lower().replace(' ', '-')}.jpg",
   }
+  if "coordinates" in hotel_template:
+    result["coordinates"] = hotel_template["coordinates"]
+  return result
 
 
 async def search_hotels(

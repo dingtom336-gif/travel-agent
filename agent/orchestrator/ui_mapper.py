@@ -97,7 +97,7 @@ def _map_hotels(tool_data: Dict[str, Any]) -> List[dict]:
       "name": h.get("name", ""),
       "rating": h.get("rating", 0),
       "stars": h.get("stars", 0),
-      "location": h.get("location", ""),
+      "location": h.get("area", h.get("location", "")),
       "pricePerNight": h.get("price_per_night", 0),
       "currency": h.get("currency", "CNY"),
       "amenities": h.get("facilities", [])[:6],

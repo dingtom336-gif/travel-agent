@@ -60,10 +60,22 @@ MOCK_PLAN: list[dict[str, Any]] = [
     "depends_on": [],
   },
   {
+    "agent": "hotel",
+    "goal": "搜索目的地酒店推荐",
+    "params": {},
+    "depends_on": [],
+  },
+  {
     "agent": "poi",
     "goal": "推荐目的地热门景点和体验",
     "params": {},
     "depends_on": [],
+  },
+  {
+    "agent": "itinerary",
+    "goal": "基于酒店位置编排每日行程",
+    "params": {},
+    "depends_on": ["transport", "poi", "hotel"],
   },
 ]
 

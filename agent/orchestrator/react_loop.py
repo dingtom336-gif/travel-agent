@@ -131,7 +131,7 @@ class ReactEngine:
         for dep_name in task.depends_on:
           for r in results.values():
             if r.agent.value == dep_name:
-              upstream[dep_name] = r.data.get("response", r.summary)
+              upstream[dep_name] = r.data
         context = {
           "state_context": state_ctx,
           "upstream_results": upstream,
