@@ -195,6 +195,22 @@ async def get_weather(
   Returns:
     Dict with weather information
   """
+  # Try Serper real search first
+  try:
+    from agent.tools.serper.client import search as serper_search
+    from agent.tools.serper.parsers import parse_weather_results
+    query = f"{city}天气 {date}"
+    raw = await serper_search(query, num=5)
+    if "error" not in raw:
+      weather = parse_weather_results(raw, city, date)
+      if weather:
+        weather["clothing_advice"] = _get_clothing_advice(
+          (weather["temp_high"] + weather["temp_low"]) / 2
+        )
+        return {"success": True, "source": "serper", "data": weather}
+  except Exception:
+    pass  # Fall through to mock
+
   try:
     await asyncio.sleep(random.uniform(0.05, 0.15))
     weather = _generate_day_weather(city, date)

@@ -157,6 +157,32 @@ async def search_hotels(
   Returns:
     Dict with hotel list and search metadata
   """
+  # Try Serper real search first
+  try:
+    from agent.tools.serper.client import search_places
+    from agent.tools.serper.parsers import parse_hotel_results
+    query = f"{city}酒店 {checkin}"
+    raw = await search_places(query)
+    if "error" not in raw:
+      hotels = parse_hotel_results(raw, city, checkin, checkout)
+      if hotels:
+        if stars_min:
+          hotels = [h for h in hotels if h.get("stars", 0) >= stars_min]
+        if price_max:
+          hotels = [h for h in hotels if h.get("price_per_night", 0) <= price_max]
+        hotels = hotels[:max_results]
+        prices = [h["price_per_night"] for h in hotels] if hotels else [0]
+        return {
+          "success": True,
+          "source": "serper",
+          "query": {"city": city, "checkin": checkin, "checkout": checkout, "guests": guests},
+          "results": hotels,
+          "total_count": len(hotels),
+          "price_summary": {"min_price": min(prices), "max_price": max(prices), "avg_price": int(sum(prices) / len(prices)), "currency": "CNY"},
+        }
+  except Exception:
+    pass  # Fall through to mock
+
   try:
     await asyncio.sleep(random.uniform(0.1, 0.3))
 

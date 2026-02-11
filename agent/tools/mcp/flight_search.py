@@ -186,8 +186,31 @@ async def search_flights(
   Returns:
     Dict with flight list, search metadata, and price summary
   """
+  # Try Serper real search first
   try:
-    # Simulate API latency
+    from agent.tools.serper.client import search as serper_search
+    from agent.tools.serper.parsers import parse_flight_results
+    query = f"{departure}到{arrival}机票 {date} {cabin}"
+    raw = await serper_search(query)
+    if "error" not in raw:
+      flights = parse_flight_results(raw, departure, arrival, date, cabin)
+      if flights:
+        for f in flights:
+          f["total_price"] = f["price"] * passengers
+        prices = [f["price"] for f in flights]
+        return {
+          "success": True,
+          "source": "serper",
+          "query": {"departure": departure, "arrival": arrival, "date": date, "passengers": passengers, "cabin": cabin},
+          "results": flights[:max_results],
+          "total_count": len(flights),
+          "price_summary": {"min_price": min(prices), "max_price": max(prices), "avg_price": int(sum(prices) / len(prices)), "currency": "CNY"},
+        }
+  except Exception:
+    pass  # Fall through to mock
+
+  try:
+    # Mock fallback
     await asyncio.sleep(random.uniform(0.1, 0.3))
 
     num_results = min(max_results, random.randint(3, 5))

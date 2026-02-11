@@ -116,6 +116,30 @@ async def search_pois(
   Returns:
     Dict with POI list and search metadata
   """
+  # Try Serper real search first
+  try:
+    from agent.tools.serper.client import search_places
+    from agent.tools.serper.parsers import parse_poi_results
+    cat_label = {"scenic": "景点", "restaurant": "餐厅", "shopping": "购物", "activity": "活动", "museum": "博物馆", "park": "公园"}.get(category or "", "景点 餐厅 购物")
+    query = f"{city} {cat_label} 推荐"
+    raw = await search_places(query)
+    if "error" not in raw:
+      pois = parse_poi_results(raw, city)
+      if pois:
+        if category:
+          pois = [p for p in pois if p.get("category") == category] or pois
+        pois = pois[:limit]
+        return {
+          "success": True,
+          "source": "serper",
+          "query": {"city": city, "category": category, "limit": limit, "sort_by": sort_by},
+          "results": pois,
+          "total_count": len(pois),
+          "available_categories": list(set(p.get("category", "") for p in pois)),
+        }
+  except Exception:
+    pass  # Fall through to mock
+
   try:
     await asyncio.sleep(random.uniform(0.1, 0.2))
 
