@@ -64,9 +64,11 @@ export default function ChatInput({
         </div>
 
         <button
-          onClick={handleSubmit}
-          disabled={disabled || !value.trim()}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-white transition-all hover:bg-primary-dark disabled:opacity-40 disabled:hover:bg-primary"
+          onPointerDown={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary text-white transition-all hover:bg-primary-dark touch-manipulation ${(disabled || !value.trim()) ? "opacity-40" : ""}`}
           aria-label="Send message"
         >
           {disabled ? (

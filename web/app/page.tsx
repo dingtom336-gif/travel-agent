@@ -80,20 +80,20 @@ export default function Home() {
   return (
     <div className="flex min-h-[calc(100vh-4rem)] flex-col">
       {/* Hero section */}
-      <section className="hero-gradient flex flex-1 flex-col items-center justify-center px-4 py-16 sm:py-24">
+      <section className="hero-gradient flex flex-1 flex-col items-center justify-center px-4 py-8 sm:py-24">
         <div className="mx-auto w-full max-w-3xl text-center">
           {/* Logo animation area */}
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
+          <div className="mb-4 sm:mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
             </svg>
             AI 驱动的智能旅行规划
           </div>
 
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="mb-3 sm:mb-4 text-3xl sm:text-4xl font-bold tracking-tight text-foreground lg:text-6xl">
             你的 AI 旅行规划助手
           </h1>
-          <p className="mb-10 text-lg text-muted-foreground sm:text-xl">
+          <p className="mb-6 sm:mb-10 text-base sm:text-lg text-muted-foreground lg:text-xl">
             告诉我你的旅行想法，我来帮你规划完美行程。
             <br className="hidden sm:block" />
             机票、酒店、景点、预算，一次对话全搞定。
@@ -112,9 +112,11 @@ export default function Home() {
                 className="flex-1 bg-transparent px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none"
               />
               <button
-                onClick={() => handleNavigateToChat()}
-                disabled={!inputValue.trim()}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary text-white transition-colors hover:bg-primary-dark disabled:opacity-40 disabled:cursor-not-allowed"
+                onPointerDown={(e) => {
+                  e.preventDefault();
+                  if (inputValue.trim()) handleNavigateToChat();
+                }}
+                className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary text-white transition-colors hover:bg-primary-dark touch-manipulation ${!inputValue.trim() ? "opacity-40" : ""}`}
                 aria-label="发送"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
