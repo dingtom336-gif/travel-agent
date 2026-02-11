@@ -22,10 +22,10 @@ function ChatMessageRaw({ message }: ChatMessageProps) {
         isUser ? "justify-end" : "justify-start"
       }`}
     >
-      <div className={`flex max-w-[85%] gap-3 sm:max-w-[75%] ${isUser ? "flex-row-reverse" : "flex-row"}`}>
+      <div className={`flex max-w-[92%] gap-2 sm:max-w-[75%] sm:gap-3 ${isUser ? "flex-row-reverse" : "flex-row"}`}>
         {/* Avatar */}
         <div
-          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-medium ${
+          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-medium sm:h-8 sm:w-8 sm:text-sm ${
             isUser
               ? "bg-primary text-white"
               : "bg-gradient-to-br from-blue-400 to-cyan-400 text-white"

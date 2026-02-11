@@ -52,7 +52,7 @@ export default function Navbar() {
         {/* Mobile menu button */}
         <button
           type="button"
-          className="inline-flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:bg-muted hover:text-foreground md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground md:hidden"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -80,7 +80,7 @@ export default function Navbar() {
                 <Link
                   key={link.href + link.label}
                   href={link.href}
-                  className={`block rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`block rounded-lg px-3 py-3 text-base font-medium transition-colors ${
                     isActive
                       ? "bg-primary/10 text-primary"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground"

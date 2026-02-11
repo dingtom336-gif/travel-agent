@@ -145,6 +145,22 @@ body {
 .stagger-2 { animation-delay: 0.12s; }
 .stagger-3 { animation-delay: 0.18s; }
 
+/* Hide scrollbar for horizontal tab scroll on mobile */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* iOS safe area insets for bottom fixed/sticky elements */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
 /* Gradient background for hero section */
 .hero-gradient {
   background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 30%, #bfdbfe 60%, #e0f2fe 100%);
