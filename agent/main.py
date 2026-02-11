@@ -16,6 +16,7 @@ from agent.config.settings import get_settings
 from agent.db import init_db, close_db
 from agent.models import ChatRequest
 from agent.orchestrator.agent import orchestrator
+from agent.routes.export import router as export_router
 from agent.routes.itinerary import router as itinerary_router
 from agent.routes.profile import router as profile_router
 from agent.simulator.battle_runner import run_battle, run_battle_stream
@@ -106,6 +107,7 @@ app.add_middleware(
 # --- CRUD routers ---
 app.include_router(itinerary_router)
 app.include_router(profile_router)
+app.include_router(export_router)
 
 
 # --- Health check ---

@@ -2,12 +2,12 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import TimelineCard from "@/components/cards/TimelineCard";
 import BudgetChart from "@/components/cards/BudgetChart";
 import MapWrapper from "@/components/map/MapWrapper";
+import DraggableTimeline from "@/components/itinerary/DraggableTimeline";
 import { mockItinerary } from "@/lib/mock-itinerary";
 import { ItineraryData, TimelineDayData } from "@/lib/types";
-import { getItinerary } from "@/lib/api-client";
+import { getItinerary, updateItinerary } from "@/lib/api-client";
 
 type TabType = "timeline" | "map" | "budget";
 
@@ -104,6 +104,13 @@ export default function ItineraryPage() {
 
   const collapseAll = () => {
     setExpandedDays(new Set());
+  };
+
+  // Handle drag-and-drop reorder
+  const handleReorder = (updatedDays: TimelineDayData[]) => {
+    setItinerary((prev) => ({ ...prev, days: updatedDays }));
+    // Persist to API (non-blocking)
+    updateItinerary(id, { days: updatedDays }).catch(() => {});
   };
 
   // Tab definitions
@@ -239,12 +246,13 @@ export default function ItineraryPage() {
       {/* Main content area */}
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
         {activeTab === "timeline" && (
-          <TimelineView
+          <DraggableTimeline
             days={itinerary.days}
             expandedDays={expandedDays}
             onToggleDay={toggleDay}
             onExpandAll={expandAll}
             onCollapseAll={collapseAll}
+            onReorder={handleReorder}
           />
         )}
         {activeTab === "map" && <MapWrapper days={itinerary.days} />}
@@ -305,86 +313,6 @@ function StatChip({ label, value }: { label: string; value: string }) {
       <span className="text-sm font-semibold text-card-foreground">
         {value}
       </span>
-    </div>
-  );
-}
-
-/** Timeline view with collapsible day cards */
-function TimelineView({
-  days,
-  expandedDays,
-  onToggleDay,
-  onExpandAll,
-  onCollapseAll,
-}: {
-  days: TimelineDayData[];
-  expandedDays: Set<number>;
-  onToggleDay: (day: number) => void;
-  onExpandAll: () => void;
-  onCollapseAll: () => void;
-}) {
-  return (
-    <div className="space-y-4">
-      {/* Controls */}
-      <div className="flex items-center justify-end gap-2">
-        <button
-          onClick={onExpandAll}
-          className="text-xs text-muted-foreground transition-colors hover:text-foreground"
-        >
-          全部展开
-        </button>
-        <span className="text-xs text-border">|</span>
-        <button
-          onClick={onCollapseAll}
-          className="text-xs text-muted-foreground transition-colors hover:text-foreground"
-        >
-          全部折叠
-        </button>
-      </div>
-
-      {/* Day cards */}
-      {days.map((day) => {
-        const isExpanded = expandedDays.has(day.day);
-        return (
-          <div key={day.day} className="animate-fade-in">
-            {/* Collapsed header (always visible) */}
-            <button
-              onClick={() => onToggleDay(day.day)}
-              className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-4 text-left transition-colors hover:bg-muted/50"
-            >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
-                D{day.day}
-              </div>
-              <div className="min-w-0 flex-1">
-                <h3 className="text-sm font-semibold text-card-foreground">
-                  {day.title}
-                </h3>
-                <p className="text-xs text-muted-foreground">
-                  {day.date} &middot; {day.items.length} 项活动
-                </p>
-              </div>
-              <svg
-                className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-200 ${
-                  isExpanded ? "rotate-180" : ""
-                }`}
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-              </svg>
-            </button>
-
-            {/* Expanded content */}
-            {isExpanded && (
-              <div className="mt-2 animate-fade-in">
-                <TimelineCard data={day} />
-              </div>
-            )}
-          </div>
-        );
-      })}
     </div>
   );
 }
