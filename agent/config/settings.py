@@ -15,7 +15,7 @@ class Settings(BaseSettings):
 
   # --- App ---
   APP_NAME: str = "TravelMind Agent Service"
-  APP_VERSION: str = "0.7.1"
+  APP_VERSION: str = "0.8.0"
   DEBUG: bool = True
 
   # --- AI (DeepSeek – OpenAI-compatible API) ---
@@ -38,7 +38,7 @@ class Settings(BaseSettings):
 
   # --- Infra ---
   REDIS_URL: str = "redis://localhost:6379/0"
-  DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/travelmind"
+  DATABASE_URL: str = "postgresql+asyncpg://xiaozhang@localhost:5432/travelmind"
   DATABASE_POOL_SIZE: int = 5
   DATABASE_MAX_OVERFLOW: int = 10
   DATABASE_ECHO: bool = False
