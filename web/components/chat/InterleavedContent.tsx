@@ -232,7 +232,7 @@ function ThinkingPlaceholder() {
   const progress = Math.min((stageIdx + 1) / THINKING_STAGES.length * 100, 95);
 
   return (
-    <div className="rounded-2xl px-4 py-3 text-sm leading-relaxed bg-bubble-ai text-card-foreground">
+    <div className="rounded-2xl px-4 py-3 text-sm leading-relaxed bg-bubble-ai text-card-foreground overflow-hidden">
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
           <svg className="h-3.5 w-3.5 shrink-0 animate-spin text-amber-500" fill="none" viewBox="0 0 24 24">
@@ -356,7 +356,7 @@ export default function InterleavedContent({
       if (!trimmed) return;
       hasBubbleContent = true;
       bubbleSegments.push(
-        <div key={`md-${idx}`} className="prose-sm">
+        <div key={`md-${idx}`} className="prose-sm min-w-0 overflow-hidden">
           <MarkdownRenderer content={seg.text} />
         </div>
       );
@@ -417,11 +417,11 @@ export default function InterleavedContent({
   const allStandalone = [...standaloneFromMarkers, ...remainingStandalone];
 
   return (
-    <div className="group/msg flex flex-col gap-3">
+    <div className="group/msg flex flex-col gap-3 min-w-0">
       {showPlaceholder && <ThinkingPlaceholder />}
 
       {hasThinking && (
-        <div className="rounded-2xl px-4 py-3 text-sm leading-relaxed bg-bubble-ai text-card-foreground">
+        <div className="rounded-2xl px-4 py-3 text-sm leading-relaxed bg-bubble-ai text-card-foreground overflow-hidden">
           <ThinkingSteps steps={thinkingSteps} isStreaming={isStreaming} />
         </div>
       )}
@@ -430,7 +430,7 @@ export default function InterleavedContent({
       {hasBubbleContent && (
         <div>
           <div
-            className={`rounded-2xl px-4 py-3 text-sm leading-relaxed bg-bubble-ai text-card-foreground flex flex-col gap-3 ${
+            className={`rounded-2xl px-4 py-3 text-sm leading-relaxed bg-bubble-ai text-card-foreground flex flex-col gap-3 overflow-hidden ${
               isStreaming ? "cursor-blink" : ""
             }`}
           >
@@ -442,7 +442,7 @@ export default function InterleavedContent({
 
       {/* Standalone cards outside bubble (timeline, budget, route map) */}
       {allStandalone.length > 0 && (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 min-w-0">
           {allStandalone.map((payload, idx) => {
             const si = standaloneIdx++;
             return (
