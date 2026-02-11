@@ -31,7 +31,7 @@ export default memo(function FlightCard({ data, onSelect }: FlightCardProps) {
             <p className="text-xs text-muted-foreground">{data.flightNo}</p>
           </div>
         </div>
-        <span className="text-lg font-bold text-primary">
+        <span className="text-base font-bold text-primary sm:text-lg">
           {data.currency}{data.price}
         </span>
       </div>
@@ -40,7 +40,7 @@ export default memo(function FlightCard({ data, onSelect }: FlightCardProps) {
       <div className="flex items-center justify-between">
         {/* Departure */}
         <div className="text-center">
-          <p className="text-lg font-bold text-card-foreground">{data.departTime}</p>
+          <p className="text-base font-bold text-card-foreground sm:text-lg">{data.departTime}</p>
           <p className="text-xs text-muted-foreground">{data.departure}</p>
         </div>
 
@@ -67,7 +67,7 @@ export default memo(function FlightCard({ data, onSelect }: FlightCardProps) {
 
         {/* Arrival */}
         <div className="text-center">
-          <p className="text-lg font-bold text-card-foreground">{data.arriveTime}</p>
+          <p className="text-base font-bold text-card-foreground sm:text-lg">{data.arriveTime}</p>
           <p className="text-xs text-muted-foreground">{data.arrival}</p>
         </div>
       </div>
