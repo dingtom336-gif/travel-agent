@@ -46,6 +46,12 @@ class Settings(BaseSettings):
   # --- Serper API ---
   SERPER_API_KEY: str = ""
 
+  # --- Amap (高德地图) ---
+  AMAP_API_KEY: str = ""
+
+  # --- QWeather (和风天气) ---
+  QWEATHER_API_KEY: str = ""
+
   # --- CORS ---
   CORS_ORIGINS: List[str] = [
     "http://localhost:3000",
