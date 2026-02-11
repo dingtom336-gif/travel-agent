@@ -1,10 +1,24 @@
-# POI (Point of Interest) search MCP tool - mock implementation
-# Returns realistic attraction/restaurant/shopping data
+# POI search MCP tool - Amap (primary) + Serper (fallback) + mock
 from __future__ import annotations
 
 import asyncio
+import logging
 import random
 from typing import Any, Dict, List, Optional
+
+from agent.tools.amap.client import search_poi as amap_search_poi
+
+logger = logging.getLogger(__name__)
+
+# Category → Amap keyword mapping
+_CATEGORY_TO_AMAP: Dict[str, str] = {
+  "scenic": "风景名胜",
+  "restaurant": "餐饮服务",
+  "shopping": "购物服务",
+  "activity": "体育休闲服务",
+  "museum": "博物馆",
+  "park": "公园广场",
+}
 
 
 # Supported categories
@@ -105,25 +119,34 @@ async def search_pois(
   limit: int = 10,
   sort_by: str = "rating",
 ) -> Dict[str, Any]:
-  """Search points of interest in a city.
-
-  Args:
-    city: City name (e.g. "东京", "北京")
-    category: Filter by category: scenic/restaurant/shopping/activity/museum/park
-              None means all categories
-    limit: Maximum number of results (default 10)
-    sort_by: Sort order: "rating" / "popularity" / "price"
-
-  Returns:
-    Dict with POI list and search metadata
+  """Search POIs. Fallback: Amap → Serper → mock.
   """
-  # Try Serper real search first
+  query_meta = {"city": city, "category": category, "limit": limit, "sort_by": sort_by}
+
+  # 1. Amap POI search (China-native, <80ms)
+  try:
+    keywords = _CATEGORY_TO_AMAP.get(category or "", "景点 餐厅 公园")
+    raw_pois = await amap_search_poi(city, keywords=keywords, page_size=limit)
+    if raw_pois:
+      results = [_amap_to_poi(p, category) for p in raw_pois]
+      results = _sort_pois(results, sort_by)[:limit]
+      return {
+        "success": True,
+        "source": "amap",
+        "query": query_meta,
+        "results": results,
+        "total_count": len(results),
+        "available_categories": list(set(p.get("category", "") for p in results)),
+      }
+  except Exception as exc:
+    logger.debug("Amap POI search failed for %s: %s", city, exc)
+
+  # 2. Serper (may be blocked in China)
   try:
     from agent.tools.serper.client import search_places
     from agent.tools.serper.parsers import parse_poi_results
     cat_label = {"scenic": "景点", "restaurant": "餐厅", "shopping": "购物", "activity": "活动", "museum": "博物馆", "park": "公园"}.get(category or "", "景点 餐厅 购物")
-    query = f"{city} {cat_label} 推荐"
-    raw = await search_places(query)
+    raw = await search_places(f"{city} {cat_label} 推荐")
     if "error" not in raw:
       pois = parse_poi_results(raw, city)
       if pois:
@@ -133,57 +156,80 @@ async def search_pois(
         return {
           "success": True,
           "source": "serper",
-          "query": {"city": city, "category": category, "limit": limit, "sort_by": sort_by},
+          "query": query_meta,
           "results": pois,
           "total_count": len(pois),
           "available_categories": list(set(p.get("category", "") for p in pois)),
         }
   except Exception:
-    pass  # Fall through to mock
+    pass
 
+  # 3. Mock fallback
   try:
     await asyncio.sleep(random.uniform(0.1, 0.2))
-
-    # Get POI pool for the city (no fake data for unknown cities)
     pool = _POI_POOLS.get(city, [])
-
-    # Apply category filter
     if category and category in CATEGORIES:
       pool = [p for p in pool if p.get("category") == category]
-
-    # Add computed fields
     results = [_add_common_fields(p, city) for p in pool]
-
-    # Sort
-    if sort_by == "rating":
-      results.sort(key=lambda p: p.get("rating", 0), reverse=True)
-    elif sort_by == "popularity":
-      results.sort(key=lambda p: p.get("popularity", 0), reverse=True)
-    elif sort_by == "price":
-      results.sort(key=lambda p: p.get("price", 0))
-
-    results = results[:limit]
-
+    results = _sort_pois(results, sort_by)[:limit]
     return {
       "success": True,
-      "query": {
-        "city": city,
-        "category": category,
-        "limit": limit,
-        "sort_by": sort_by,
-      },
+      "source": "mock",
+      "query": query_meta,
       "results": results,
       "total_count": len(results),
       "available_categories": list(set(p.get("category", "") for p in results)),
     }
   except Exception as exc:
-    return {
-      "success": False,
-      "error": str(exc),
-      "query": {"city": city, "category": category},
-      "results": [],
-      "total_count": 0,
-    }
+    return {"success": False, "error": str(exc), "query": query_meta, "results": [], "total_count": 0}
+
+
+def _amap_to_poi(amap_poi: Dict[str, Any], category: Optional[str] = None) -> Dict[str, Any]:
+  """Convert Amap POI result to our standard format."""
+  amap_type = amap_poi.get("type", "")
+  guessed_cat = category or _guess_category(amap_type)
+  result: Dict[str, Any] = {
+    "name": amap_poi.get("name", ""),
+    "name_en": "",
+    "category": guessed_cat,
+    "rating": amap_poi.get("rating", 0),
+    "price": int(amap_poi.get("cost", 0)),
+    "hours": amap_poi.get("opentime", ""),
+    "desc": amap_poi.get("address", ""),
+    "city": "",
+    "tips": [],
+  }
+  if amap_poi.get("coordinates"):
+    result["coordinates"] = amap_poi["coordinates"]
+  if amap_poi.get("image_url"):
+    result["image_url"] = amap_poi["image_url"]
+  return result
+
+
+def _guess_category(amap_type: str) -> str:
+  """Guess POI category from Amap type string."""
+  if any(k in amap_type for k in ("餐饮", "餐厅", "小吃")):
+    return "restaurant"
+  if any(k in amap_type for k in ("购物", "商场", "百货")):
+    return "shopping"
+  if any(k in amap_type for k in ("博物馆", "展览")):
+    return "museum"
+  if any(k in amap_type for k in ("公园", "广场")):
+    return "park"
+  if any(k in amap_type for k in ("体育", "娱乐", "游乐")):
+    return "activity"
+  return "scenic"
+
+
+def _sort_pois(pois: List[Dict[str, Any]], sort_by: str) -> List[Dict[str, Any]]:
+  """Sort POIs by the specified criterion."""
+  if sort_by == "rating":
+    pois.sort(key=lambda p: p.get("rating", 0), reverse=True)
+  elif sort_by == "popularity":
+    pois.sort(key=lambda p: p.get("popularity", 0), reverse=True)
+  elif sort_by == "price":
+    pois.sort(key=lambda p: p.get("price", 0))
+  return pois
 
 
 def _generate_generic_pool(city: str) -> List[Dict[str, Any]]:

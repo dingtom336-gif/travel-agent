@@ -1,10 +1,14 @@
-# Hotel search MCP tool - mock implementation
-# Returns realistic hotel data for development/testing
+# Hotel search MCP tool - Amap (primary) + Serper (fallback) + mock
 from __future__ import annotations
 
 import asyncio
+import logging
 import random
 from typing import Any, Dict, List, Optional
+
+from agent.tools.amap.client import search_poi as amap_search_poi
+
+logger = logging.getLogger(__name__)
 
 
 # City-specific hotel data pools
@@ -146,26 +150,38 @@ async def search_hotels(
   price_max: Optional[int] = None,
   max_results: int = 5,
 ) -> Dict[str, Any]:
-  """Search hotels in a city.
-
-  Args:
-    city: City name (e.g. "东京", "大阪", "北京")
-    checkin: Check-in date in YYYY-MM-DD format
-    checkout: Check-out date in YYYY-MM-DD format
-    guests: Number of guests (default 1)
-    stars_min: Minimum star rating filter (optional)
-    price_max: Maximum price per night filter (optional)
-    max_results: Maximum number of results (3-5)
-
-  Returns:
-    Dict with hotel list and search metadata
+  """Search hotels. Fallback: Amap → Serper → mock.
   """
-  # Try Serper real search first
+  query_meta = {"city": city, "checkin": checkin, "checkout": checkout, "guests": guests}
+
+  # 1. Amap POI search (hotel category, <80ms)
+  try:
+    raw_hotels = await amap_search_poi(city, keywords="酒店", types="100000", page_size=max_results + 3)
+    if raw_hotels:
+      hotels = [_amap_to_hotel(h, checkin, checkout) for h in raw_hotels]
+      if stars_min:
+        hotels = [h for h in hotels if h.get("stars", 0) >= stars_min]
+      if price_max:
+        hotels = [h for h in hotels if h.get("price_per_night", 0) <= price_max]
+      hotels = hotels[:max_results]
+      hotels.sort(key=lambda h: h.get("rating", 0), reverse=True)
+      prices = [h["price_per_night"] for h in hotels] if hotels else [0]
+      return {
+        "success": True,
+        "source": "amap",
+        "query": query_meta,
+        "results": hotels,
+        "total_count": len(hotels),
+        "price_summary": _price_summary(prices),
+      }
+  except Exception as exc:
+    logger.debug("Amap hotel search failed for %s: %s", city, exc)
+
+  # 2. Serper (may be blocked in China)
   try:
     from agent.tools.serper.client import search_places
     from agent.tools.serper.parsers import parse_hotel_results
-    query = f"{city}酒店 {checkin}"
-    raw = await search_places(query)
+    raw = await search_places(f"{city}酒店 {checkin}")
     if "error" not in raw:
       hotels = parse_hotel_results(raw, city, checkin, checkout)
       if hotels:
@@ -178,65 +194,100 @@ async def search_hotels(
         return {
           "success": True,
           "source": "serper",
-          "query": {"city": city, "checkin": checkin, "checkout": checkout, "guests": guests},
+          "query": query_meta,
           "results": hotels,
           "total_count": len(hotels),
-          "price_summary": {"min_price": min(prices), "max_price": max(prices), "avg_price": int(sum(prices) / len(prices)), "currency": "CNY"},
+          "price_summary": _price_summary(prices),
         }
   except Exception:
-    pass  # Fall through to mock
+    pass
 
+  # 3. Mock fallback
   try:
     await asyncio.sleep(random.uniform(0.1, 0.3))
-
-    # Get hotel pool for the city, or generate generic hotels
     pool = _HOTEL_POOLS.get(city, _generate_generic_pool(city))
-
     hotels = []
     for template in pool:
       hotel = _generate_hotel(template, checkin, checkout, guests)
-      # Apply filters
       if stars_min and hotel["stars"] < stars_min:
         continue
       if price_max and hotel["price_per_night"] > price_max:
         continue
       hotels.append(hotel)
-
-    # Shuffle and limit
     random.shuffle(hotels)
     hotels = hotels[:max_results]
-
-    # Sort by rating desc
     hotels.sort(key=lambda h: h["rating"], reverse=True)
-
     prices = [h["price_per_night"] for h in hotels] if hotels else [0]
     return {
       "success": True,
-      "query": {
-        "city": city,
-        "checkin": checkin,
-        "checkout": checkout,
-        "guests": guests,
-        "stars_min": stars_min,
-        "price_max": price_max,
-      },
+      "source": "mock",
+      "query": query_meta,
       "results": hotels,
       "total_count": len(hotels),
-      "price_summary": {
-        "min_price": min(prices),
-        "max_price": max(prices),
-        "avg_price": int(sum(prices) / len(prices)) if prices else 0,
-        "currency": "CNY",
-      },
+      "price_summary": _price_summary(prices),
     }
   except Exception as exc:
-    return {
-      "success": False,
-      "error": str(exc),
-      "query": {"city": city, "checkin": checkin, "checkout": checkout},
-      "results": [],
-      "total_count": 0,
-    }
+    return {"success": False, "error": str(exc), "query": query_meta, "results": [], "total_count": 0}
+
+
+def _amap_to_hotel(amap_poi: Dict[str, Any], checkin: str, checkout: str) -> Dict[str, Any]:
+  """Convert Amap POI result to our standard hotel format."""
+  rating = amap_poi.get("rating", 0)
+  cost = amap_poi.get("cost", 0)
+  stars = _estimate_stars(rating, cost)
+  price = int(cost) if cost > 0 else _estimate_price(stars)
+
+  result: Dict[str, Any] = {
+    "name": amap_poi.get("name", ""),
+    "name_en": "",
+    "stars": stars,
+    "rating": rating,
+    "review_count": 0,
+    "area": amap_poi.get("business_area", ""),
+    "price_per_night": price,
+    "currency": "CNY",
+    "checkin": checkin,
+    "checkout": checkout,
+    "facilities": _FACILITIES.get(stars, _FACILITIES[3])[:5],
+    "room_types": [],
+    "breakfast_included": stars >= 4,
+    "free_cancellation": True,
+    "distance_to_center": "",
+  }
+  if amap_poi.get("coordinates"):
+    result["coordinates"] = amap_poi["coordinates"]
+  if amap_poi.get("image_url"):
+    result["image_url"] = amap_poi["image_url"]
+  return result
+
+
+def _estimate_stars(rating: float, cost: float) -> int:
+  """Estimate star rating from Amap rating and cost."""
+  if cost >= 1500 or rating >= 4.8:
+    return 5
+  if cost >= 600 or rating >= 4.3:
+    return 4
+  if cost >= 200 or rating >= 3.5:
+    return 3
+  return 2
+
+
+def _estimate_price(stars: int) -> int:
+  """Estimate price when Amap doesn't provide cost."""
+  base = {5: 1800, 4: 700, 3: 350, 2: 150}
+  return int(base.get(stars, 500) * random.uniform(0.8, 1.2))
+
+
+def _price_summary(prices: List[int]) -> Dict[str, Any]:
+  """Build price summary dict."""
+  if not prices or prices == [0]:
+    return {"min_price": 0, "max_price": 0, "avg_price": 0, "currency": "CNY"}
+  return {
+    "min_price": min(prices),
+    "max_price": max(prices),
+    "avg_price": int(sum(prices) / len(prices)),
+    "currency": "CNY",
+  }
 
 
 def _generate_generic_pool(city: str) -> List[Dict[str, Any]]:
