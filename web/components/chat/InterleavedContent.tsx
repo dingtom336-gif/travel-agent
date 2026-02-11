@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import type {
   ChatMessage as ChatMessageType,
   UIPayload,
@@ -89,6 +89,73 @@ function UICard({ payload }: { payload: UIPayload }) {
     default:
       return null;
   }
+}
+
+// Progressive stages for the thinking placeholder
+const THINKING_STAGES = [
+  { text: "正在连接 AI 引擎...", delay: 0 },
+  { text: "正在分析你的需求...", delay: 1500 },
+  { text: "正在调动专家团队...", delay: 4000 },
+  { text: "专家协作中，请稍候...", delay: 8000 },
+  { text: "正在整合分析结果...", delay: 15000 },
+];
+
+/**
+ * Progressive thinking placeholder with staged messages and elapsed timer.
+ */
+function ThinkingPlaceholder() {
+  const [stageIdx, setStageIdx] = useState(0);
+  const [elapsed, setElapsed] = useState(0);
+  const startTime = useRef(Date.now());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const now = Date.now();
+      const diff = now - startTime.current;
+      setElapsed(Math.floor(diff / 1000));
+      // Advance stage based on elapsed time
+      for (let i = THINKING_STAGES.length - 1; i >= 0; i--) {
+        if (diff >= THINKING_STAGES[i].delay) {
+          setStageIdx(i);
+          break;
+        }
+      }
+    }, 500);
+    return () => clearInterval(timer);
+  }, []);
+
+  const stage = THINKING_STAGES[stageIdx];
+  const progress = Math.min((stageIdx + 1) / THINKING_STAGES.length * 100, 95);
+
+  return (
+    <div className="rounded-2xl px-4 py-3 text-sm leading-relaxed bg-bubble-ai text-card-foreground">
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center gap-2">
+          <svg
+            className="h-3.5 w-3.5 shrink-0 animate-spin text-amber-500"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+          </svg>
+          <span className="flex-1 text-xs font-medium text-amber-600 dark:text-amber-400 transition-all duration-300">
+            {stage.text}
+          </span>
+          <span className="text-[10px] tabular-nums text-muted-foreground">
+            {elapsed}s
+          </span>
+        </div>
+        {/* Progress bar */}
+        <div className="h-1 w-full overflow-hidden rounded-full bg-amber-500/10">
+          <div
+            className="h-full rounded-full bg-amber-500/50 transition-all duration-700 ease-out"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 /**
@@ -194,22 +261,8 @@ export default function InterleavedContent({
 
   return (
     <div className="group/msg flex flex-col gap-3">
-      {/* Thinking placeholder: shown immediately after user sends, before SSE arrives */}
-      {showPlaceholder && (
-        <div className="rounded-2xl px-4 py-3 text-sm leading-relaxed bg-bubble-ai text-card-foreground">
-          <div className="flex items-center gap-2">
-            <svg
-              className="h-3.5 w-3.5 shrink-0 animate-spin text-amber-500"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-            </svg>
-            <span className="text-xs font-medium text-amber-600 dark:text-amber-400">正在思考...</span>
-          </div>
-        </div>
-      )}
+      {/* Progressive thinking placeholder: shown before SSE events arrive */}
+      {showPlaceholder && <ThinkingPlaceholder />}
 
       {/* Thinking steps bubble */}
       {hasThinking && (
