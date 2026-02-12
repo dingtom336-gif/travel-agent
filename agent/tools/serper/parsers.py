@@ -5,6 +5,17 @@ import re
 from typing import Any, Dict, List
 
 
+_AIRLINE_NAMES = [
+  "国航", "东航", "南航", "海航", "川航", "深航", "厦航", "上航",
+  "春秋", "吉祥", "长龙", "全日空", "日航", "乐桃",
+  "大韩", "韩亚", "德威", "新航", "泰航", "亚航",
+  "越航", "菲航", "国泰", "长荣", "ANA", "JAL",
+]
+
+# Flight number pattern: 2-letter code + 3-4 digits
+_FLIGHT_NUM_RE = re.compile(r"\b([A-Z\d]{2})\s?(\d{3,4})\b")
+
+
 def parse_flight_results(
   data: Dict[str, Any],
   departure: str,
@@ -14,67 +25,105 @@ def parse_flight_results(
 ) -> List[Dict[str, Any]]:
   """Extract flight info from Serper search results.
 
-  Parses organic results and knowledge graph for flight data.
-  Returns a list in the same format as the mock flight_search tool.
+  Parses answerBox, knowledgeGraph, and organic results for flight data.
+  Returns a list in the same format as the flight_search tool.
   """
   flights: List[Dict[str, Any]] = []
-  organic = data.get("organic", [])
 
+  # 1. Try answerBox / knowledgeGraph first (more structured)
+  for key in ("answerBox", "knowledgeGraph"):
+    box = data.get(key, {})
+    if not box:
+      continue
+    text = f"{box.get('title', '')} {box.get('snippet', '')} {box.get('answer', '')}"
+    flight = _extract_flight_from_text(text, departure, arrival, date, cabin)
+    if flight:
+      flight["source"] = "serper"
+      flights.append(flight)
+
+  # 2. Organic results
+  organic = data.get("organic", [])
   for item in organic[:8]:
     title = item.get("title", "")
     snippet = item.get("snippet", "")
     text = f"{title} {snippet}"
+    flight = _extract_flight_from_text(text, departure, arrival, date, cabin)
+    if flight:
+      flight["source"] = item.get("link", "serper")
+      flights.append(flight)
 
-    # Try to extract price
-    price_match = re.search(r"[¥￥]?\s*(\d{3,5})\s*(?:元|起|CNY)?", text)
-    if not price_match:
-      continue
+  flights.sort(key=lambda f: (f["price"] == 0, f["price"]))
+  return flights[:5]
 
+
+def _extract_flight_from_text(
+  text: str,
+  departure: str,
+  arrival: str,
+  date: str,
+  cabin: str,
+) -> Dict[str, Any] | None:
+  """Try to extract a single flight record from text. Returns None if not flight-related."""
+  # Must contain at least one flight-related keyword
+  if not any(kw in text for kw in ["航", "机票", "飞", "flight", "票价", "直飞", "经停"]):
+    return None
+
+  # Price (optional now - keep result even without price)
+  price = 0
+  price_match = re.search(r"[¥￥]?\s*(\d{3,5})\s*(?:元|起|CNY|RMB)?", text)
+  if price_match:
     price = int(price_match.group(1))
 
-    # Try to extract airline
-    airline = ""
-    for name in ["国航", "东航", "南航", "海航", "川航", "全日空", "日航", "春秋", "吉祥"]:
-      if name in text:
-        airline = name
-        break
-    if not airline:
-      airline_match = re.search(r"([\u4e00-\u9fff]{2,6}航空?)", text)
-      airline = airline_match.group(1) if airline_match else "航空公司"
+  # Airline
+  airline = ""
+  for name in _AIRLINE_NAMES:
+    if name in text:
+      airline = name
+      break
+  if not airline:
+    airline_match = re.search(r"([\u4e00-\u9fff]{2,6}航空?)", text)
+    airline = airline_match.group(1) if airline_match else ""
 
-    # Try to extract time
-    time_match = re.search(r"(\d{1,2}:\d{2})\s*[-–]\s*(\d{1,2}:\d{2})", text)
-    dep_time = time_match.group(1) if time_match else "08:00"
-    arr_time = time_match.group(2) if time_match else "11:00"
+  # Flight number
+  flight_number = ""
+  fn_match = _FLIGHT_NUM_RE.search(text)
+  if fn_match:
+    flight_number = f"{fn_match.group(1)}{fn_match.group(2)}"
 
-    # Duration
-    dur_match = re.search(r"(\d+)[hH小时]\s*(\d+)?", text)
-    if dur_match:
-      h = int(dur_match.group(1))
-      m = int(dur_match.group(2) or 0)
-      duration_h = round(h + m / 60, 1)
-    else:
-      duration_h = 3.0
+  # Time
+  time_match = re.search(r"(\d{1,2}:\d{2})\s*[-–→]\s*(\d{1,2}:\d{2})", text)
+  dep_time = time_match.group(1) if time_match else ""
+  arr_time = time_match.group(2) if time_match else ""
 
-    flights.append({
-      "airline": airline,
-      "flight_number": "",
-      "departure_city": departure,
-      "arrival_city": arrival,
-      "date": date,
-      "departure_time": dep_time,
-      "arrival_time": arr_time,
-      "duration_hours": duration_h,
-      "duration_display": f"{int(duration_h)}h{int((duration_h % 1) * 60)}m",
-      "cabin_class": cabin,
-      "price": price,
-      "currency": "CNY",
-      "stops": 0,
-      "source": item.get("link", ""),
-    })
+  # Duration
+  dur_match = re.search(r"(\d+)\s*[hH小时]\s*(\d+)?\s*[mM分]?", text)
+  if dur_match:
+    h = int(dur_match.group(1))
+    m = int(dur_match.group(2) or 0)
+    duration_h = round(h + m / 60, 1)
+  else:
+    duration_h = 0
 
-  flights.sort(key=lambda f: f["price"])
-  return flights[:5]
+  # Stops
+  stops = 0
+  if any(kw in text for kw in ["经停", "中转", "转机", "1 stop"]):
+    stops = 1
+
+  return {
+    "airline": airline or "航空公司",
+    "flight_number": flight_number,
+    "departure_city": departure,
+    "arrival_city": arrival,
+    "date": date,
+    "departure_time": dep_time,
+    "arrival_time": arr_time,
+    "duration_hours": duration_h,
+    "duration_display": f"{int(duration_h)}h{int((duration_h % 1) * 60)}m" if duration_h else "",
+    "cabin_class": cabin,
+    "price": price,
+    "currency": "CNY",
+    "stops": stops,
+  }
 
 
 def parse_hotel_results(
