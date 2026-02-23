@@ -13,7 +13,7 @@ import { TravelPlanProvider } from "@/lib/travel-context";
 export default function ChatPage() {
   return (
     <TravelPlanProvider>
-      <div className="flex h-[calc(100vh-4rem)]">
+      <div className="flex h-[calc(100dvh-4rem)]">
         {/* Main chat area */}
         <div className="flex flex-1 flex-col">
           <Suspense fallback={<ChatLoading />}>

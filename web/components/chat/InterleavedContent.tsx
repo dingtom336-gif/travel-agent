@@ -61,41 +61,38 @@ function parseContentSegments(content: string): ContentSegment[] {
 
 function InlineFlightCard({ data }: { data: FlightData }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-border/50 bg-background/50 px-3 py-2.5">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 text-sky-500">
-        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+    <div className="flex items-center gap-2 rounded-xl border border-border/50 bg-background/50 px-2.5 py-2 sm:gap-3 sm:px-3 sm:py-2.5">
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 text-sky-500 sm:h-8 sm:w-8">
+        <svg className="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
         </svg>
       </div>
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 overflow-hidden">
         <div className="flex items-center gap-1.5">
-          <span className="text-xs font-semibold text-card-foreground">{data.airline}</span>
-          <span className="text-[10px] text-muted-foreground">{data.flightNo}</span>
+          <span className="text-xs font-semibold text-card-foreground truncate">{data.airline}</span>
+          <span className="shrink-0 text-[10px] text-muted-foreground">{data.flightNo}</span>
         </div>
-        <div className="flex items-center gap-1 text-[11px] text-muted-foreground">
-          <span>{data.departure} {data.departTime}</span>
-          <span>→</span>
-          <span>{data.arrival} {data.arriveTime}</span>
-          <span className="text-[10px]">({data.duration})</span>
+        <div className="truncate text-[11px] text-muted-foreground">
+          {data.departure} {data.departTime} → {data.arrival} {data.arriveTime} ({data.duration})
         </div>
       </div>
-      <span className="shrink-0 text-sm font-bold text-primary">{data.currency}{data.price}</span>
+      <span className="shrink-0 text-xs font-bold text-primary sm:text-sm">{data.currency}{data.price}</span>
     </div>
   );
 }
 
 function InlineHotelCard({ data }: { data: HotelData }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-border/50 bg-background/50 px-3 py-2.5">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-purple-500/10 text-purple-500">
-        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+    <div className="flex items-center gap-2 rounded-xl border border-border/50 bg-background/50 px-2.5 py-2 sm:gap-3 sm:px-3 sm:py-2.5">
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-purple-500/10 text-purple-500 sm:h-8 sm:w-8">
+        <svg className="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3H21m-3.75 3H21" />
         </svg>
       </div>
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 overflow-hidden">
         <div className="flex items-center gap-1.5">
           <span className="text-xs font-semibold text-card-foreground truncate">{data.name}</span>
-          <span className="text-[10px] text-amber-500">{"★".repeat(data.stars)}</span>
+          <span className="shrink-0 text-[10px] text-amber-500">{"★".repeat(Math.min(data.stars, 5))}</span>
         </div>
         <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
           <span className="truncate">{data.location}</span>
@@ -103,7 +100,7 @@ function InlineHotelCard({ data }: { data: HotelData }) {
         </div>
       </div>
       <div className="shrink-0 text-right">
-        <span className="text-sm font-bold text-primary">{data.currency}{data.pricePerNight}</span>
+        <span className="text-xs font-bold text-primary sm:text-sm">{data.currency}{data.pricePerNight}</span>
         <span className="block text-[10px] text-muted-foreground">/晚</span>
       </div>
     </div>
@@ -118,11 +115,11 @@ function InlinePOICard({ data }: { data: POIData }) {
   const emoji = typeEmoji[data.type] || "📍";
 
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-border/50 bg-background/50 px-3 py-2.5">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-500/10 text-base">
+    <div className="flex items-center gap-2 rounded-xl border border-border/50 bg-background/50 px-2.5 py-2 sm:gap-3 sm:px-3 sm:py-2.5">
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-green-500/10 text-sm sm:h-8 sm:w-8 sm:text-base">
         {emoji}
       </div>
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 overflow-hidden">
         <div className="flex items-center gap-1.5">
           <span className="text-xs font-semibold text-card-foreground truncate">{data.name}</span>
           <span className="shrink-0 rounded bg-muted px-1 py-0.5 text-[10px] text-muted-foreground">{data.type}</span>
@@ -146,15 +143,15 @@ function InlinePOICard({ data }: { data: POIData }) {
 
 function InlineWeatherCard({ data }: { data: WeatherData }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-border/50 bg-background/50 px-3 py-2.5">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-500/10 text-base">
+    <div className="flex items-center gap-2 rounded-xl border border-border/50 bg-background/50 px-2.5 py-2 sm:gap-3 sm:px-3 sm:py-2.5">
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-cyan-500/10 text-sm sm:h-8 sm:w-8 sm:text-base">
         🌤️
       </div>
-      <div className="flex-1 min-w-0">
-        <div className="text-xs font-semibold text-card-foreground">{data.city} · {data.date}</div>
-        <div className="text-[11px] text-muted-foreground">{data.condition} · 湿度{data.humidity}%</div>
+      <div className="flex-1 min-w-0 overflow-hidden">
+        <div className="text-xs font-semibold text-card-foreground truncate">{data.city} · {data.date}</div>
+        <div className="text-[11px] text-muted-foreground truncate">{data.condition} · 湿度{data.humidity}%</div>
       </div>
-      <span className="shrink-0 text-sm font-bold text-card-foreground">{data.temperature.low}°~{data.temperature.high}°</span>
+      <span className="shrink-0 text-xs font-bold text-card-foreground sm:text-sm">{data.temperature.low}°~{data.temperature.high}°</span>
     </div>
   );
 }
@@ -232,7 +229,7 @@ function ThinkingPlaceholder() {
   const progress = Math.min((stageIdx + 1) / THINKING_STAGES.length * 100, 95);
 
   return (
-    <div className="rounded-2xl px-4 py-3 text-sm leading-relaxed bg-bubble-ai text-card-foreground overflow-hidden">
+    <div className="rounded-2xl px-3 py-2.5 text-sm leading-relaxed bg-bubble-ai text-card-foreground overflow-hidden sm:px-4 sm:py-3">
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
           <svg className="h-3.5 w-3.5 shrink-0 animate-spin text-amber-500" fill="none" viewBox="0 0 24 24">
@@ -430,7 +427,7 @@ export default function InterleavedContent({
       {hasBubbleContent && (
         <div>
           <div
-            className={`rounded-2xl px-4 py-3 text-sm leading-relaxed bg-bubble-ai text-card-foreground flex flex-col gap-3 overflow-hidden ${
+            className={`rounded-2xl px-3 py-2.5 text-sm leading-relaxed bg-bubble-ai text-card-foreground flex flex-col gap-3 overflow-hidden break-words sm:px-4 sm:py-3 ${
               isStreaming ? "cursor-blink" : ""
             }`}
           >
@@ -442,7 +439,7 @@ export default function InterleavedContent({
 
       {/* Standalone cards outside bubble (timeline, budget, route map) */}
       {allStandalone.length > 0 && (
-        <div className="flex flex-col gap-3 min-w-0">
+        <div className="flex flex-col gap-3 min-w-0 overflow-hidden">
           {allStandalone.map((payload, idx) => {
             const si = standaloneIdx++;
             return (

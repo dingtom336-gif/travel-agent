@@ -47,11 +47,11 @@ export default function AgentStatus({ statuses }: AgentStatusProps) {
         </div>
 
         {/* Status list */}
-        <div className="space-y-2 rounded-2xl bg-bubble-ai px-4 py-3">
+        <div className="min-w-0 space-y-2 rounded-2xl bg-bubble-ai px-3 py-2.5 sm:px-4 sm:py-3">
           {statuses.map((status, index) => (
             <div
               key={`${status.agent}-${index}`}
-              className="flex items-center gap-2 text-sm"
+              className="flex min-w-0 items-center gap-2 text-sm"
             >
               {/* Spinner or checkmark */}
               {status.status === "running" ? (
@@ -108,10 +108,10 @@ export default function AgentStatus({ statuses }: AgentStatusProps) {
               )}
 
               {/* Agent name + task */}
-              <span className={`font-medium ${agentColors[status.agent] || "text-primary"}`}>
+              <span className={`shrink-0 font-medium ${agentColors[status.agent] || "text-primary"}`}>
                 {agentDisplayNames[status.agent] || status.agent}
               </span>
-              <span className="text-muted-foreground">{status.task}</span>
+              <span className="truncate text-muted-foreground">{status.task}</span>
             </div>
           ))}
         </div>

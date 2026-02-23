@@ -22,7 +22,7 @@ function ChatMessageRaw({ message }: ChatMessageProps) {
         isUser ? "justify-end" : "justify-start"
       }`}
     >
-      <div className={`flex max-w-[92%] gap-2 sm:max-w-[75%] sm:gap-3 ${isUser ? "flex-row-reverse" : "flex-row"}`}>
+      <div className={`flex max-w-[92%] gap-2 sm:max-w-[75%] sm:gap-3 min-w-0 ${isUser ? "flex-row-reverse" : "flex-row"}`}>
         {/* Avatar */}
         <div
           className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-medium sm:h-8 sm:w-8 sm:text-sm ${
@@ -36,9 +36,9 @@ function ChatMessageRaw({ message }: ChatMessageProps) {
 
         {/* Message content: user = plain text, AI = interleaved markdown + cards */}
         {isUser ? (
-          <div className="flex flex-col gap-3">
-            <div className="rounded-2xl px-4 py-3 text-sm leading-relaxed bg-bubble-user text-white">
-              <p className="whitespace-pre-wrap">{message.content}</p>
+          <div className="flex min-w-0 flex-col gap-3">
+            <div className="rounded-2xl px-3 py-2.5 text-sm leading-relaxed bg-bubble-user text-white sm:px-4 sm:py-3">
+              <p className="whitespace-pre-wrap break-words">{message.content}</p>
             </div>
           </div>
         ) : (

@@ -46,11 +46,11 @@ export default memo(function ItinerarySidebar() {
               <Section title="航班" icon="✈️">
                 {state.flights.map((f, i) => (
                   <MiniCard key={i}>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-medium text-foreground">
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="min-w-0 truncate text-xs font-medium text-foreground">
                         {(get(f, "airline", "airline_en") as string) || "航班"}
                       </span>
-                      <span className="text-xs font-bold text-primary">
+                      <span className="shrink-0 text-xs font-bold text-primary">
                         ¥{(get(f, "price") as number) || 0}
                       </span>
                     </div>
@@ -72,11 +72,11 @@ export default memo(function ItinerarySidebar() {
               <Section title="酒店" icon="🏨">
                 {state.hotels.map((h, i) => (
                   <MiniCard key={i}>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-medium text-foreground">
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="min-w-0 truncate text-xs font-medium text-foreground">
                         {(get(h, "name") as string) || ""}
                       </span>
-                      <span className="text-xs text-amber-500">
+                      <span className="shrink-0 text-xs text-amber-500">
                         {"★".repeat(Math.min((get(h, "stars", "rating") as number) || 0, 5))}
                       </span>
                     </div>
@@ -94,7 +94,7 @@ export default memo(function ItinerarySidebar() {
             {/* Weather */}
             {state.weather.length > 0 && (
               <Section title="天气" icon="🌤️">
-                <div className="grid grid-cols-3 gap-1.5">
+                <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
                   {state.weather.map((w, i) => {
                     const temp = w.temperature as { high: number; low: number } | undefined;
                     const hi = temp?.high ?? (get(w, "high_temp") as number) ?? "";
@@ -136,11 +136,11 @@ export default memo(function ItinerarySidebar() {
                       }}
                       className="cursor-pointer hover:bg-muted/80 transition-colors"
                     >
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-medium text-foreground">
+                      <div className="flex items-center justify-between gap-1">
+                        <span className="min-w-0 truncate text-xs font-medium text-foreground">
                           {poiName}
                         </span>
-                        <span className="text-xs text-amber-500">
+                        <span className="shrink-0 text-xs text-amber-500">
                           ★ {(get(p, "rating") as number) || 0}
                         </span>
                       </div>

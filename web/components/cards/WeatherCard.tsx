@@ -31,10 +31,10 @@ export default memo(function WeatherCard({ data }: WeatherCardProps) {
   const weather = weatherIcons[data.condition] || weatherIcons.sunny;
 
   return (
-    <div className={`rounded-xl border border-border bg-gradient-to-br ${weather.bg} p-4`}>
-      <div className="mb-2 flex items-center justify-between">
-        <div>
-          <h3 className="text-sm font-semibold text-card-foreground">{data.city}</h3>
+    <div className={`rounded-xl border border-border bg-gradient-to-br ${weather.bg} p-3 sm:p-4`}>
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <div className="min-w-0">
+          <h3 className="truncate text-sm font-semibold text-card-foreground">{data.city}</h3>
           <p className="text-xs text-muted-foreground">{data.date}</p>
         </div>
         {/* Weather icon */}
@@ -44,8 +44,8 @@ export default memo(function WeatherCard({ data }: WeatherCardProps) {
       </div>
 
       {/* Temperature */}
-      <div className="mb-3 flex items-baseline gap-1">
-        <span className="text-2xl font-bold text-card-foreground">
+      <div className="mb-2 flex items-baseline gap-1 sm:mb-3">
+        <span className="text-xl font-bold text-card-foreground sm:text-2xl">
           {data.temperature.high}&deg;
         </span>
         <span className="text-sm text-muted-foreground">

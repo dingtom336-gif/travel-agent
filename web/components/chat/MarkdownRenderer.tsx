@@ -38,7 +38,7 @@ const markdownComponents: Components = {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-primary underline decoration-primary/30 hover:decoration-primary transition-colors"
+      className="text-primary underline decoration-primary/30 hover:decoration-primary transition-colors break-all"
     >
       {children}
     </a>
@@ -76,7 +76,7 @@ const markdownComponents: Components = {
   ol: ({ children }) => <ol className="my-1 space-y-0.5 pl-4 list-decimal marker:text-muted-foreground">{children}</ol>,
   li: ({ children }) => <li className="text-sm leading-relaxed">{children}</li>,
   // Paragraphs
-  p: ({ children }) => <p className="my-1.5 leading-relaxed">{children}</p>,
+  p: ({ children }) => <p className="my-1.5 leading-relaxed break-words">{children}</p>,
   // Horizontal rule as visual divider
   hr: () => <hr className="my-3 border-border/60" />,
   // Strong / emphasis

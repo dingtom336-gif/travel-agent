@@ -64,7 +64,7 @@ export default function ChatContainer() {
       <div
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="relative flex-1 overflow-y-auto px-4 py-6"
+        className="relative flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 sm:px-4 sm:py-6"
       >
         <div className="mx-auto max-w-4xl space-y-6">
           {messages.length === 0 && <EmptyState />}

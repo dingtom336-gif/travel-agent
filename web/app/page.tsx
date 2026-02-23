@@ -78,7 +78,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] flex-col">
+    <div className="flex min-h-[calc(100dvh-4rem)] flex-col">
       {/* Hero section */}
       <section className="hero-gradient flex flex-1 flex-col items-center justify-center px-4 py-8 sm:py-24">
         <div className="mx-auto w-full max-w-3xl text-center">
@@ -107,9 +107,9 @@ export default function Home() {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="描述你的旅行计划，例如：春节带爸妈去日本5天，预算2万..."
+                placeholder="描述你的旅行计划，例如：去日本5天..."
                 aria-label="输入你的旅行计划"
-                className="flex-1 bg-transparent px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none"
+                className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none sm:px-4 sm:text-base"
               />
               <button
                 onPointerDown={(e) => {
@@ -132,7 +132,7 @@ export default function Home() {
       </section>
 
       {/* Guide cards section */}
-      <section className="bg-background px-4 py-16">
+      <section className="bg-background px-4 py-10 sm:py-16">
         <div className="mx-auto max-w-5xl">
           <h2 className="mb-8 text-center text-2xl font-bold text-foreground">
             不知道从哪开始？试试这些
@@ -142,7 +142,7 @@ export default function Home() {
               <button
                 key={card.title}
                 onClick={() => handleNavigateToChat(card.prompt)}
-                className={`group flex flex-col items-start gap-3 rounded-2xl bg-gradient-to-br ${card.color} border border-border/50 p-6 text-left transition-all hover:border-border hover:shadow-md`}
+                className={`group flex flex-col items-start gap-3 rounded-2xl bg-gradient-to-br ${card.color} border border-border/50 p-4 text-left transition-all hover:border-border hover:shadow-md sm:p-6`}
               >
                 <div className={`${card.iconColor}`}>
                   {card.icon}

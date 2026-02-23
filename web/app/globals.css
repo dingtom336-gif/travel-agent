@@ -56,10 +56,18 @@
   }
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* Enhanced keyboard focus visibility */

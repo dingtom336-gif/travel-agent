@@ -48,17 +48,17 @@ export default memo(function TimelineCard({ data }: TimelineCardProps) {
               </div>
 
               {/* Content */}
-              <div className="-mt-0.5 flex-1">
+              <div className="-mt-0.5 flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-medium text-muted-foreground">{item.time}</span>
                   {item.duration && (
-                    <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
+                    <span className="shrink-0 rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
                       {item.duration}
                     </span>
                   )}
                 </div>
-                <p className="text-sm font-medium text-card-foreground">{item.title}</p>
-                <p className="text-xs text-muted-foreground">{item.description}</p>
+                <p className="text-sm font-medium text-card-foreground break-words">{item.title}</p>
+                <p className="text-xs text-muted-foreground break-words">{item.description}</p>
               </div>
             </div>
           );
