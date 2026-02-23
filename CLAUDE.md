@@ -30,7 +30,7 @@ docs/            # PRD.md, CONTEXT.md
 ```
 
 ## 部署信息
-- **生产服务器**: LightNode Tokyo 38.54.88.144
+- **生产服务器**: 腾讯云上海 150.158.192.237 (ubuntu用户，SSH密钥登录)
 - **进程管理**: PM2
 - **前端**: PM2:3003 → nginx `/travel`
 - **后端**: PM2:8000 → nginx `/travel-api/`
@@ -55,7 +55,7 @@ cd web && npm run build    # 构建
 npx playwright test tests/e2e/
 
 # 生产部署
-ssh root@38.54.88.144 "cd /opt/travel-agent && git pull && pm2 restart all"
+ssh ubuntu@150.158.192.237 "cd /opt/travel-agent && git pull && cd web && npm run build && cd .. && pm2 restart all"
 ```
 
 ## 代码规范
