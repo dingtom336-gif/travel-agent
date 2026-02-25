@@ -173,6 +173,8 @@ async def llm_chat_stream(
   ]
   full_messages.extend(messages)
 
+  chunk_timeout = settings.LLM_STREAM_CHUNK_TIMEOUT
+
   for attempt in range(MAX_RETRIES + 1):
     try:
       await rate_limiter.acquire()
@@ -183,7 +185,21 @@ async def llm_chat_stream(
         messages=full_messages,
         stream=True,
       )
-      async for chunk in stream:
+      # Per-chunk timeout: if no chunk arrives within chunk_timeout, end stream
+      ait = stream.__aiter__()
+      while True:
+        try:
+          chunk = await asyncio.wait_for(
+            ait.__anext__(), timeout=chunk_timeout,
+          )
+        except StopAsyncIteration:
+          break
+        except asyncio.TimeoutError:
+          logger.warning(
+            "LLM stream chunk timeout (%.0fs), ending stream",
+            chunk_timeout,
+          )
+          break
         delta = chunk.choices[0].delta.content
         if delta:
           yield delta

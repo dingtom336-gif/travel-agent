@@ -184,25 +184,47 @@ class ReactEngine:
         },
       ).format()
 
+      settings = get_settings()
+      synth_timeout = settings.LLM_SYNTHESIS_TIMEOUT
       t_synth = time.time()
       full_response = ""
-      async for chunk in synthesize_fn(
-        message, results, state_ctx, history, personalization_ctx,
-        context_summary=conversation_summary,
-      ):
-        full_response += chunk
-        yield SSEMessage(
-          event=SSEEventType.TEXT,
-          data={"content": chunk},
-        ).format()
+      try:
+        async for chunk in synthesize_fn(
+          message, results, state_ctx, history, personalization_ctx,
+          context_summary=conversation_summary,
+        ):
+          # Safety net: overall synthesis timeout
+          elapsed = time.time() - t_synth
+          if elapsed > synth_timeout:
+            logger.warning(
+              "Synthesis overall timeout after %.1fs, ending",
+              elapsed,
+            )
+            break
+          full_response += chunk
+          yield SSEMessage(
+            event=SSEEventType.TEXT,
+            data={"content": chunk},
+          ).format()
+      except Exception as synth_exc:
+        logger.warning("Synthesis stream error: %s", synth_exc)
+        if not full_response:
+          fallback = "抱歉，生成旅行方案时超时了。请重新发送消息再试一次。"
+          full_response = fallback
+          yield SSEMessage(
+            event=SSEEventType.TEXT,
+            data={"content": fallback},
+          ).format()
+
       logger.info(
         "TIMING stage=synthesis duration_ms=%d session=%s",
         int((time.time() - t_synth) * 1000), session_id,
       )
 
-      await session_memory.add_message(
-        session_id, "assistant", full_response,
-      )
+      if full_response:
+        await session_memory.add_message(
+          session_id, "assistant", full_response,
+        )
 
       # Cache tasks and results for incremental planning on follow-ups
       self._previous_tasks[session_id] = tasks
@@ -218,6 +240,11 @@ class ReactEngine:
       yield SSEMessage(
         event=SSEEventType.ERROR,
         data={"error": str(exc)},
+      ).format()
+      # Guarantee done event even on error so frontend stops spinning
+      yield SSEMessage(
+        event=SSEEventType.DONE,
+        data={"session_id": session_id},
       ).format()
 
   # ------------------------------------------------------------------ #
