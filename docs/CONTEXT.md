@@ -19,7 +19,7 @@
 - [ ] E2E验证：curl测"去东京5天"，确认source字段为真实API
 
 ## 环境备忘
-- **本地**：`~/Desktop/claude-test/travel-agent/`，前端3001，后端8000
+- **本地**：`~/Desktop/new_start/claude-code/travel-agent/`，前端3001，后端8000
 - **本地PG**：Postgres.app 18.1，端口5432，用户xiaozhang，库travelmind
 - **生产**：150.158.192.237（腾讯云上海），前端 /travel (PM2:3003)，后端 /travel-api/ (PM2:8000)
 - **生产用户**：ubuntu (sudo)，SSH密钥已配置

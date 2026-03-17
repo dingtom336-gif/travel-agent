@@ -646,19 +646,39 @@ class TestKnowledgeAgent:
 # ───────────────────────────────────────────────
 
 class TestCustomerServiceAgent:
-  """Tests for CustomerServiceAgent (stub agent with no tool overrides)."""
+  """Tests for CustomerServiceAgent incident triage workflow."""
 
   @pytest.mark.asyncio
-  async def test_execute_works_with_default_hooks(self, mock_llm):
-    """Stub agent uses default _run_tools and _post_process."""
+  async def test_execute_returns_structured_incident_plan(self, mock_llm):
+    """Agent returns structured incident metadata in addition to response text."""
     agent = CustomerServiceAgent()
-    task = _make_task(AgentName.CUSTOMER_SERVICE, "Help me cancel a booking")
+    task = _make_task(
+      AgentName.CUSTOMER_SERVICE,
+      "我的航班取消了，订单 AB12345，今晚要出发",
+    )
 
     result = await agent.execute(task, _default_context())
 
     assert result.status == TaskStatus.SUCCESS
-    assert "Customer service" in result.summary
+    assert "Customer service plan generated" in result.summary
     assert "response" in result.data
+    assert result.data["incident_type"] == "cancellation"
+    assert result.data["severity"] in {"high", "critical"}
+    assert result.data["ticket_id"].startswith("CS-")
+    assert isinstance(result.data["recommended_actions"], list)
+    assert isinstance(result.data["required_documents"], list)
+    assert isinstance(result.data["escalation"], dict)
+
+  @pytest.mark.asyncio
+  async def test_extract_references_from_issue_text(self):
+    """Reference extractor captures order IDs, flight numbers, and dates."""
+    refs = CustomerServiceAgent._extract_references(
+      "订单 ZXCVB123，航班 CA1234，日期 2026-03-01，求改签",
+    )
+
+    assert "ZXCVB123" in refs["order_ids"]
+    assert "CA1234" in refs["flight_numbers"]
+    assert "2026-03-01" in refs["dates"]
 
   @pytest.mark.asyncio
   async def test_name_and_description(self):

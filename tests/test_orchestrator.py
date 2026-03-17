@@ -169,6 +169,18 @@ class TestPlanner:
 
     assert tasks[1].depends_on == ["transport", "poi"]
 
+  @pytest.mark.asyncio
+  async def test_decompose_emergency_prefers_customer_service(self, mock_llm):
+    """Heuristic should route emergency/after-sales requests to customer service."""
+    from agent.orchestrator.planner import decompose_tasks
+
+    tasks = await decompose_tasks("航班取消了，帮我紧急改签并处理退票")
+    agent_names = [t.agent for t in tasks]
+
+    assert AgentName.CUSTOMER_SERVICE in agent_names
+    # Emergency travel incidents should not require planner LLM round-trip.
+    mock_llm.assert_not_called()
+
 
 # ───────────────────────────────────────────────
 # Router

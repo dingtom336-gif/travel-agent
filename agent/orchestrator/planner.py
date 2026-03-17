@@ -126,6 +126,11 @@ _HEURISTIC_DESTINATIONS = {
 }
 
 _TRAVEL_INTENT_KEYWORDS = {"旅行", "旅游", "游", "攻略", "规划", "出行", "度假", "自由行"}
+_EMERGENCY_KEYWORDS = {
+  "航班取消", "取消", "延误", "晚点", "改签", "退票", "退款",
+  "投诉", "客服", "售后", "行李丢失", "丢失", "紧急", "emergency",
+  "cancel", "delay", "rebook", "refund", "complaint",
+}
 
 
 def _heuristic_decompose(user_message: str) -> list[dict[str, Any]] | None:
@@ -135,6 +140,27 @@ def _heuristic_decompose(user_message: str) -> list[dict[str, Any]] | None:
   Returns None if not confident (caller should use LLM).
   """
   msg = user_message.lower()
+  if any(kw in msg for kw in _EMERGENCY_KEYWORDS):
+    plan: list[dict[str, Any]] = [
+      {
+        "agent": "customer_service",
+        "goal": "处理售后或应急问题并给出明确操作步骤",
+        "params": {},
+        "depends_on": [],
+      },
+    ]
+    # If user likely needs an immediate replacement route, append transport.
+    if any(kw in msg for kw in ("航班", "机票", "改签", "延误", "取消", "rebook", "flight")):
+      plan.append(
+        {
+          "agent": "transport",
+          "goal": "搜索可替代交通方案，优先最早可行班次",
+          "params": {},
+          "depends_on": ["customer_service"],
+        },
+      )
+    return plan
+
   has_intent = any(kw in msg for kw in _TRAVEL_INTENT_KEYWORDS)
   has_location = any(loc in user_message for loc in _HEURISTIC_DESTINATIONS)
 
