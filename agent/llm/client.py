@@ -25,17 +25,38 @@ MAX_RETRIES = 2
 RETRY_DELAY = 0.5  # seconds
 
 
+def _resolve_model(model: str | None) -> str:
+  """Map special model aliases to actual model identifiers.
+
+  - None or "primary" → settings.PRIMARY_MODEL
+  - "fallback" → settings.FALLBACK_MODEL
+  - anything else → passed through as-is
+  """
+  settings = get_settings()
+  if model is None or model == "primary":
+    return settings.PRIMARY_MODEL
+  if model == "fallback":
+    return settings.FALLBACK_MODEL
+  return model
+
+
 def _get_client() -> Optional[AsyncOpenAI]:
-  """Lazily create and cache an AsyncOpenAI client."""
+  """Lazily create and cache an AsyncOpenAI client.
+
+  Prefers SiliconFlow credentials; falls back to legacy DeepSeek if
+  SILICONFLOW_API_KEY is empty.
+  """
   global _client
   if _client is not None:
     return _client
   settings = get_settings()
-  if not settings.DEEPSEEK_API_KEY:
+  api_key = settings.SILICONFLOW_API_KEY or settings.DEEPSEEK_API_KEY
+  base_url = settings.SILICONFLOW_BASE_URL or settings.DEEPSEEK_BASE_URL
+  if not api_key:
     return None
   _client = AsyncOpenAI(
-    api_key=settings.DEEPSEEK_API_KEY,
-    base_url=settings.DEEPSEEK_BASE_URL,
+    api_key=api_key,
+    base_url=base_url,
     timeout=httpx.Timeout(settings.LLM_TIMEOUT, connect=5.0),
   )
   return _client
@@ -109,8 +130,7 @@ async def llm_chat(
   if client is None:
     return None
 
-  settings = get_settings()
-  resolved_model = model or settings.DEEPSEEK_MODEL
+  resolved_model = _resolve_model(model)
 
   # Check cache first
   key = _cache_key(system, messages, resolved_model, max_tokens, temperature)
@@ -167,6 +187,7 @@ async def llm_chat_stream(
     return
 
   settings = get_settings()
+  resolved_model = _resolve_model(model)
 
   full_messages: list[dict[str, Any]] = [
     {"role": "system", "content": system},
@@ -179,7 +200,7 @@ async def llm_chat_stream(
     try:
       await rate_limiter.acquire()
       stream = await client.chat.completions.create(
-        model=model or settings.DEEPSEEK_MODEL,
+        model=resolved_model,
         max_tokens=max_tokens,
         temperature=temperature,
         messages=full_messages,

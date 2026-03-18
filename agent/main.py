@@ -118,8 +118,8 @@ async def health_check():
       "status": "ok",
       "service": "travelmind-agent",
       "version": settings.APP_VERSION,
-      "has_api_key": bool(settings.DEEPSEEK_API_KEY),
-      "llm_model": settings.DEEPSEEK_MODEL,
+      "has_api_key": bool(settings.SILICONFLOW_API_KEY or settings.DEEPSEEK_API_KEY),
+      "llm_model": settings.PRIMARY_MODEL or settings.DEEPSEEK_MODEL,
     }
   except Exception as exc:
     return JSONResponse(

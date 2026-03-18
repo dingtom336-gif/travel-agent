@@ -8,6 +8,18 @@ from agent.models import AgentName, AgentTask
 from agent.teams.base import BaseAgent
 
 
+def _safe_get(data: Any, *keys: str, default: Any = None) -> Any:
+  """Safely traverse nested dicts. Returns default if any key is missing."""
+  current = data
+  for key in keys:
+    if not isinstance(current, dict):
+      return default
+    current = current.get(key)
+    if current is None:
+      return default
+  return current
+
+
 class ItineraryAgent(BaseAgent):
   name = AgentName.ITINERARY
   description = "Compiles a day-by-day travel itinerary from upstream agent results."
@@ -50,17 +62,19 @@ Format the itinerary in clear markdown with headers per day."""
 
     # Extract hotel info from upstream (structured data)
     hotel_coordinates = None
-    hotel_upstream = upstream.get("hotel", {})
-    if isinstance(hotel_upstream, dict):
-      hotel_td = hotel_upstream.get("tool_data", {})
-      if isinstance(hotel_td, dict):
-        hotels_results = hotel_td.get("hotels", {})
-        if isinstance(hotels_results, dict):
-          hotel_list = hotels_results.get("results", [])
-          if hotel_list:
-            top_hotel = hotel_list[0]
-            hotel_location = top_hotel.get("name", hotel_location)
-            hotel_coordinates = top_hotel.get("coordinates")
+    hotel_list = _safe_get(upstream, "hotel", "tool_data", "hotels", "results", default=[])
+    if hotel_list:
+      top_hotel = hotel_list[0]
+      hotel_location = top_hotel.get("name", hotel_location)
+      hotel_coordinates = top_hotel.get("coordinates")
+
+    # If all upstream data is empty, use fallback itinerary
+    upstream_has_data = any(
+      bool(v) for v in upstream.values() if isinstance(v, dict)
+    )
+    if not upstream_has_data:
+      state_ctx = context.get("state_context", "")
+      return self._fallback_itinerary(task, state_ctx)
 
     # Optimize itinerary if we have POI data
     if pois_data:
@@ -133,6 +147,34 @@ Format the itinerary in clear markdown with headers per day."""
       parts.append(f"Current travel state:\n{state_ctx}")
 
     return "\n\n".join(parts)
+
+  def _fallback_itinerary(
+    self, task: AgentTask, state_ctx: str,
+  ) -> dict[str, Any]:
+    """Generate a template itinerary when upstream data is insufficient."""
+    params = task.params or {}
+    destination = params.get("destination", "目的地")
+    trip_days = params.get("days") or params.get("duration_days", 3)
+    try:
+      trip_days = int(trip_days)
+    except (ValueError, TypeError):
+      trip_days = 3
+
+    days = []
+    days.append({"day": 1, "theme": "到达 & 入住", "activities": [
+      f"抵达{destination}，办理入住",
+      "周边熟悉环境，休息调整",
+    ]})
+    for d in range(2, max(trip_days, 2)):
+      days.append({"day": d, "theme": f"Day {d} 景点游览", "activities": [
+        f"{destination}热门景点游览",
+        "当地特色美食体验",
+      ]})
+    days.append({"day": max(trip_days, 2), "theme": "返程", "activities": [
+      "退房，整理行李",
+      "返程",
+    ]})
+    return {"fallback_itinerary": {"destination": destination, "days": days}}
 
   def _extract_pois_from_upstream(
     self, upstream: dict[str, Any],

@@ -160,6 +160,60 @@ async def heuristic_extract(
       num *= 10000
     updates["budget"] = f"{num}元"
 
+  # Travelers
+  travelers_match = re.search(r"(\d+)\s*[个人]", message)
+  if travelers_match:
+    n = int(travelers_match.group(1))
+    if 1 <= n <= 20:
+      updates["travelers"] = n
+
+  # Constraint patterns – extract preferences/style from vague queries
+  constraint_prefs: dict[str, Any] = {}
+  _CONSTRAINT_MAP = {
+    # Scene preferences
+    "海边": "scene_beach", "海岛": "scene_island", "沙滩": "scene_beach",
+    "山": "scene_mountain", "温泉": "scene_hotspring",
+    "古镇": "scene_ancient_town", "古城": "scene_ancient_town",
+    "滑雪": "activity_ski", "潜水": "activity_dive",
+    # Travel style
+    "散心": "style_relaxing", "放松": "style_relaxing", "躺平": "style_relaxing",
+    "发呆": "style_relaxing", "解压": "style_relaxing", "疗愈": "style_relaxing",
+    "冒险": "style_adventure", "刺激": "style_adventure",
+    "文化": "style_cultural", "历史": "style_cultural",
+    "美食": "style_foodie", "吃": "style_foodie",
+    "购物": "style_shopping", "买买买": "style_shopping",
+    # Companion type
+    "亲子": "companion_family", "带娃": "companion_family",
+    "带孩子": "companion_family", "带老人": "companion_elderly",
+    "带爸妈": "companion_elderly", "情侣": "companion_couple",
+    "蜜月": "companion_honeymoon", "独行": "companion_solo",
+    "一个人": "companion_solo",
+    # Season / timing
+    "周末": "timing_weekend", "五一": "timing_may_day",
+    "十一": "timing_national_day", "国庆": "timing_national_day",
+    "春节": "timing_spring_festival", "暑假": "timing_summer",
+    "寒假": "timing_winter",
+  }
+  for keyword, tag in _CONSTRAINT_MAP.items():
+    if keyword in message:
+      constraint_prefs[tag] = True
+
+  if constraint_prefs:
+    updates["preferences"] = constraint_prefs
+
+  # Constraints as list (emotional / motivational keywords)
+  constraints: list[str] = []
+  _EMOTIONAL_CONSTRAINTS = [
+    ("分手", "情感疗愈旅行"), ("失恋", "情感疗愈旅行"),
+    ("散心", "放松解压"), ("毕业旅行", "毕业纪念"),
+    ("纪念日", "纪念日庆祝"), ("蜜月", "蜜月旅行"),
+  ]
+  for keyword, label in _EMOTIONAL_CONSTRAINTS:
+    if keyword in message:
+      constraints.append(label)
+  if constraints:
+    updates["constraints"] = constraints
+
   if updates:
     await state_pool.update_from_dict(session_id, updates)
 

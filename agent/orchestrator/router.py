@@ -1,13 +1,39 @@
-# Model router – decides whether to use quick reply or full ReAct loop
-# v0.7.0: Replaced LLM classification with local intent classifier (< 1ms)
+# Model router – LLM-based intent classification for Theater mode
+# v0.9.0: Replaced regex rules with LLM classification (GLM-4-32B, ~2s)
 from __future__ import annotations
 
+import json
 import logging
 from typing import Any
 
+from agent.config.settings import get_settings
+from agent.llm import llm_chat
 from agent.orchestrator.intent_classifier import intent_classifier
 
 logger = logging.getLogger(__name__)
+
+# System prompt for LLM intent classification
+_CLASSIFY_SYSTEM = """\
+你是意图分类器。根据用户消息，判断意图类型并提取关键信息。
+
+只输出JSON，不要解释。格式：
+{"intent": "simple|clarify|plan", "thinking": true|false, "reason": "一句话理由"}
+
+分类规则：
+- simple: 非旅行意图（问候、闲聊、写诗、讲笑话、问天气、问你是谁等日常对话）
+- clarify: 有旅行意图但关键信息严重不足，需要追问才能规划（如只说"想散心"没有任何约束）
+- plan: 有足够信息可以开始规划（有目的地，或有2个以上可推理的约束如时间+人群+偏好）
+
+thinking字段（仅plan时有意义）：
+- true: 需要深度推理（无明确目的地需要推荐、复杂约束组合、多城市路线）
+- false: 标准规划（有明确目的地、信息充分）
+
+关键判断原则：
+- 有明确目的地（日本/三亚/北京等）→ plan, thinking=false
+- 无目的地但约束丰富（过年+全家+海边+5天+预算）→ plan, thinking=true
+- 情感诉求+有具体约束（分手+散心+3天+预算不多）→ plan, thinking=true
+- 情感诉求+几乎无约束（"想逃离""工作太累"）→ clarify
+- 完全无旅行意图 → simple"""
 
 
 async def classify_complexity(
@@ -15,12 +41,76 @@ async def classify_complexity(
   conversation_history: list[dict[str, Any]] | None = None,
   has_travel_context: bool = False,
 ) -> str:
-  """Return 'simple' or 'complex' for the given message.
-
-  Uses local intent classifier for instant classification (< 1ms).
-  No LLM calls – eliminates the ~20s Router latency.
-  """
+  """Legacy two-way classifier. Kept for backward compatibility (ReAct path)."""
   label, confidence = intent_classifier.classify(
     user_message, has_travel_context=has_travel_context,
   )
   return label
+
+
+async def classify_intent(
+  message: str,
+  history: list[dict[str, Any]] | None = None,
+  has_travel_context: bool = False,
+) -> dict:
+  """LLM-based three-way intent classification for Theater mode.
+
+  Returns dict: {"intent": "simple|clarify|plan", "thinking": bool, "reason": str}
+  Falls back to simple on LLM failure.
+  """
+  # Follow-up with existing travel context → always plan
+  if has_travel_context:
+    logger.info("classify_intent: has travel context → plan")
+    return {"intent": "plan", "thinking": False, "reason": "follow-up"}
+
+  # Fast local pre-check: obvious non-travel queries skip LLM (~0ms)
+  msg_lower = message.strip().lower()
+  _OBVIOUS_SIMPLE = (
+    "你好", "嗨", "hi", "hello", "再见", "拜拜", "晚安", "谢谢", "感谢",
+    "你是谁", "你能做什么", "帮我算", "写首诗", "讲个笑话", "推荐一部",
+    "今天周几", "几点了", "我饿了", "夸夸我", "心情不错", "1+1",
+  )
+  if any(p in msg_lower for p in _OBVIOUS_SIMPLE) and len(message) < 15:
+    logger.info("classify_intent: obvious simple (local fast-path)")
+    return {"intent": "simple", "thinking": False, "reason": "obvious_simple"}
+
+  settings = get_settings()
+  try:
+    result = await llm_chat(
+      system=_CLASSIFY_SYSTEM,
+      messages=[{"role": "user", "content": message}],
+      max_tokens=100,
+      temperature=0.1,
+      model=settings.WRITING_MODEL,  # GLM-4-32B, fast (~2s)
+    )
+
+    if not result:
+      logger.warning("classify_intent: LLM returned empty, fallback simple")
+      return {"intent": "simple", "thinking": False, "reason": "llm_empty"}
+
+    # Parse JSON from response (strip markdown fences if present)
+    cleaned = result.strip()
+    if cleaned.startswith("```"):
+      cleaned = cleaned.split("\n", 1)[-1].rsplit("```", 1)[0].strip()
+
+    parsed = json.loads(cleaned)
+    intent = parsed.get("intent", "simple")
+    thinking = parsed.get("thinking", False)
+    reason = parsed.get("reason", "")
+
+    # Validate intent value
+    if intent not in ("simple", "clarify", "plan"):
+      intent = "simple"
+
+    logger.info(
+      "classify_intent: intent=%s thinking=%s reason=%s",
+      intent, thinking, reason,
+    )
+    return {"intent": intent, "thinking": thinking, "reason": reason}
+
+  except json.JSONDecodeError as exc:
+    logger.warning("classify_intent: JSON parse failed: %s, raw=%s", exc, result[:100] if result else "")
+    return {"intent": "simple", "thinking": False, "reason": "json_error"}
+  except Exception as exc:
+    logger.warning("classify_intent: LLM call failed: %s", exc)
+    return {"intent": "simple", "thinking": False, "reason": "llm_error"}

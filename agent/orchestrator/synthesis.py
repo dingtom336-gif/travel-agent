@@ -56,25 +56,42 @@ class Synthesizer:
 
       full_response = ""
       got_content = False
-      async for chunk in llm_chat_stream(
-        system=system_prompt,
-        messages=messages,
-        max_tokens=1024,
-      ):
-        if chunk:
-          got_content = True
-          full_response += chunk
-          yield SSEMessage(
-            event=SSEEventType.TEXT,
-            data={"content": chunk},
-          ).format()
+
+      # Try primary model first, fallback on failure
+      for model_choice in ("fallback", "primary"):
+        try:
+          async for chunk in llm_chat_stream(
+            system=system_prompt,
+            messages=messages,
+            max_tokens=1024,
+            model=model_choice,
+          ):
+            if chunk:
+              got_content = True
+              full_response += chunk
+              yield SSEMessage(
+                event=SSEEventType.TEXT,
+                data={"content": chunk},
+              ).format()
+          if got_content:
+            break
+          logger.warning("handle_simple: model=%s returned empty, trying next", model_choice)
+        except Exception as model_exc:
+          logger.warning("handle_simple: model=%s failed: %s", model_choice, model_exc)
+          continue
 
       if not got_content:
-        fallback = (
-          "[MOCK] Hi! I'm TravelMind, your AI travel planning assistant. "
-          "I can help you plan trips, find flights, hotels, attractions, and more. "
-          "Where would you like to go?"
-        )
+        # All models failed — generate contextual fallback based on user message
+        logger.warning("handle_simple: all models failed, using smart fallback")
+        msg_lower = message.strip().lower()
+        if any(w in msg_lower for w in ("你好", "嗨", "hi", "hello")):
+          fallback = "你好！我是 TravelMind 旅行规划助手 😊 无论是国内周边游还是出国度假，我都能帮你规划。想去哪里玩呢？"
+        elif any(w in msg_lower for w in ("再见", "拜拜", "晚安")):
+          fallback = "期待下次为你规划旅行！祝你生活愉快 ✨"
+        elif any(w in msg_lower for w in ("谢谢", "感谢")):
+          fallback = "不客气！随时可以找我规划旅行 😊"
+        else:
+          fallback = f"收到你的消息了！作为旅行助手，我最擅长帮你规划行程和推荐目的地。有什么旅行想法想聊聊吗？"
         full_response = fallback
         yield SSEMessage(
           event=SSEEventType.TEXT,
@@ -145,10 +162,10 @@ class Synthesizer:
           got_content = True
           yield chunk
       if not got_content:
-        yield f"[MOCK] Here is your travel plan based on our analysis:\n\n{combined}"
+        yield f"以下是根据分析结果整理的旅行方案：\n\n{combined}"
     except Exception as exc:
       logger.warning("Synthesis stream failed: %s", exc)
-      yield f"[MOCK] Here is your travel plan:\n\n{combined}"
+      yield f"以下是为你整理的旅行方案：\n\n{combined}"
 
   async def synthesize(
     self,
@@ -172,11 +189,11 @@ class Synthesizer:
         max_tokens=settings.LLM_MAX_TOKENS,
       )
       if result is None:
-        return f"[MOCK] Here is your travel plan based on our analysis:\n\n{combined}"
+        return f"以下是根据分析结果整理的旅行方案：\n\n{combined}"
       return result
     except Exception as exc:
       logger.warning("Synthesis LLM call failed: %s", exc)
-      return f"[MOCK] Here is your travel plan:\n\n{combined}"
+      return f"以下是为你整理的旅行方案：\n\n{combined}"
 
   # ------------------------------------------------------------------ #
   # Internals

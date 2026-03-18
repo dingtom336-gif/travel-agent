@@ -131,7 +131,11 @@ class ReactEngine:
         for dep_name in task.depends_on:
           for r in results.values():
             if r.agent.value == dep_name:
-              upstream[dep_name] = r.data
+              if r.status == TaskStatus.FAILED:
+                logger.warning("Upstream agent %s failed, passing empty data", dep_name)
+                upstream[dep_name] = {}
+              else:
+                upstream[dep_name] = r.data
         context = {
           "state_context": state_ctx,
           "upstream_results": upstream,

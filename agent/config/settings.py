@@ -18,21 +18,33 @@ class Settings(BaseSettings):
   APP_VERSION: str = "0.8.0"
   DEBUG: bool = True
 
-  # --- AI (DeepSeek – OpenAI-compatible API) ---
+  # --- AI (SiliconFlow – OpenAI-compatible, two-stage pipeline) ---
+  SILICONFLOW_API_KEY: str = ""
+  SILICONFLOW_BASE_URL: str = "https://api.siliconflow.cn/v1"
+  REASONING_MODEL: str = "Pro/zai-org/GLM-5"       # Stage 1: skeleton reasoning
+  WRITING_MODEL: str = "THUDM/GLM-4-32B-0414"      # Stage 2: text expansion
+  PRIMARY_MODEL: str = "Pro/zai-org/GLM-5"          # Legacy alias
+  FALLBACK_MODEL: str = "Pro/deepseek-ai/DeepSeek-V3.2"
+
+  # Legacy aliases (backward compat for code that reads these)
   DEEPSEEK_API_KEY: str = ""
-  DEEPSEEK_BASE_URL: str = "https://api.deepseek.com"
-  DEEPSEEK_MODEL: str = "deepseek-chat"
-  DEEPSEEK_REASONER_MODEL: str = "deepseek-reasoner"
-  LLM_MAX_TOKENS: int = 2048
+  DEEPSEEK_BASE_URL: str = ""
+  DEEPSEEK_MODEL: str = ""
+  DEEPSEEK_REASONER_MODEL: str = ""
+
+  LLM_MAX_TOKENS: int = 4096
   LLM_AGENT_TOKENS: int = 1024
-  LLM_TIMEOUT: float = 30.0
-  LLM_TASK_TIMEOUT: float = 45.0
+  LLM_TIMEOUT: float = 50.0
+  LLM_TASK_TIMEOUT: float = 40.0
   LLM_SYNTHESIS_TIMEOUT: float = 60.0
-  LLM_STREAM_CHUNK_TIMEOUT: float = 30.0
+  LLM_STREAM_CHUNK_TIMEOUT: float = 5.0
   LLM_CACHE_SIZE: int = 100
   LLM_CACHE_TTL: int = 300
   LLM_RATE_LIMIT_RPM: int = 300
   LLM_MAX_CONCURRENT: int = 3
+
+  # Theater mode toggle (set to false to use legacy ReAct)
+  THEATER_MODE: bool = True
 
   # Legacy – kept for compatibility checks
   ANTHROPIC_API_KEY: str = ""
