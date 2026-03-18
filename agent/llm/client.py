@@ -154,6 +154,15 @@ async def llm_chat(
         messages=full_messages,
       )
       result = response.choices[0].message.content or ""
+      usage = getattr(response, "usage", None)
+      if usage:
+        logger.info(
+          "LLM_COST model=%s prompt_tokens=%d completion_tokens=%d total_tokens=%d",
+          resolved_model,
+          usage.prompt_tokens,
+          usage.completion_tokens,
+          usage.total_tokens,
+        )
       await _cache_put(key, result)
       return result
     except Exception as exc:
@@ -208,6 +217,7 @@ async def llm_chat_stream(
       )
       # Per-chunk timeout: if no chunk arrives within chunk_timeout, end stream
       ait = stream.__aiter__()
+      last_chunk = None
       while True:
         try:
           chunk = await asyncio.wait_for(
@@ -221,9 +231,21 @@ async def llm_chat_stream(
             chunk_timeout,
           )
           break
+        last_chunk = chunk
         delta = chunk.choices[0].delta.content
         if delta:
           yield delta
+      # Try to extract usage from the last chunk (some APIs include it)
+      if last_chunk:
+        usage = getattr(last_chunk, "usage", None)
+        if usage:
+          logger.info(
+            "LLM_COST_STREAM model=%s prompt_tokens=%d completion_tokens=%d total_tokens=%d",
+            resolved_model,
+            usage.prompt_tokens,
+            usage.completion_tokens,
+            usage.total_tokens,
+          )
       return  # success, exit retry loop
     except Exception as exc:
       if attempt < MAX_RETRIES:

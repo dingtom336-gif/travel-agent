@@ -57,8 +57,9 @@ class Synthesizer:
       full_response = ""
       got_content = False
 
-      # Try primary model first, fallback on failure
-      for model_choice in ("fallback", "primary"):
+      # Use WRITING_MODEL (GLM-4-32B, fastest at 122tok/s), fallback on failure
+      settings = get_settings()
+      for model_choice in (settings.WRITING_MODEL, "fallback"):
         try:
           async for chunk in llm_chat_stream(
             system=system_prompt,

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import json
 import logging
+import time
+from collections import OrderedDict
 from typing import Any
 
 from agent.config.settings import get_settings
@@ -11,6 +13,11 @@ from agent.llm import llm_chat
 from agent.orchestrator.intent_classifier import intent_classifier
 
 logger = logging.getLogger(__name__)
+
+# Module-level intent cache: message → (result_dict, timestamp)
+_intent_cache: OrderedDict[str, tuple[dict, float]] = OrderedDict()
+_INTENT_CACHE_SIZE = 200
+_INTENT_CACHE_TTL = 300  # seconds
 
 # System prompt for LLM intent classification
 _CLASSIFY_SYSTEM = """\
@@ -58,10 +65,21 @@ async def classify_intent(
   Returns dict: {"intent": "simple|clarify|plan", "thinking": bool, "reason": str}
   Falls back to simple on LLM failure.
   """
-  # Follow-up with existing travel context → always plan
+  # Follow-up with existing travel context → always plan (skip cache)
   if has_travel_context:
     logger.info("classify_intent: has travel context → plan")
     return {"intent": "plan", "thinking": False, "reason": "follow-up"}
+
+  # Check cache (only when no travel context – context makes same message differ)
+  now = time.time()
+  if message in _intent_cache:
+    cached_result, cached_ts = _intent_cache[message]
+    if (now - cached_ts) < _INTENT_CACHE_TTL:
+      _intent_cache.move_to_end(message)
+      logger.info("classify_intent: cache hit intent=%s", cached_result.get("intent"))
+      return cached_result
+    else:
+      _intent_cache.pop(message, None)
 
   # Fast local pre-check: obvious non-travel queries skip LLM (~0ms)
   msg_lower = message.strip().lower()
@@ -106,7 +124,15 @@ async def classify_intent(
       "classify_intent: intent=%s thinking=%s reason=%s",
       intent, thinking, reason,
     )
-    return {"intent": intent, "thinking": thinking, "reason": reason}
+    result_dict = {"intent": intent, "thinking": thinking, "reason": reason}
+
+    # Write to cache
+    _intent_cache[message] = (result_dict, time.time())
+    _intent_cache.move_to_end(message)
+    while len(_intent_cache) > _INTENT_CACHE_SIZE:
+      _intent_cache.popitem(last=False)
+
+    return result_dict
 
   except json.JSONDecodeError as exc:
     logger.warning("classify_intent: JSON parse failed: %s, raw=%s", exc, result[:100] if result else "")

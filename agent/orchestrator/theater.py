@@ -13,6 +13,7 @@ from typing import Any, Optional
 from agent.config.mega_prompt import (
   CLARIFY_SYSTEM_PROMPT,
   FIX_PROMPT,
+  INCREMENTAL_PROMPT_TEMPLATE,
   MEGA_SYSTEM_PROMPT,
 )
 from agent.config.settings import get_settings
@@ -28,6 +29,78 @@ from agent.orchestrator.section_parser import (
 from agent.orchestrator.state_extractor import heuristic_extract
 
 logger = logging.getLogger(__name__)
+
+# Session-level cache: session_id → last mega output text
+# Used to enable incremental follow-up mode
+_mega_cache: dict[str, str] = {}
+
+# Fields that count toward incremental state-change detection
+_INCREMENTAL_FIELDS = (
+  "destination", "origin", "start_date", "end_date",
+  "duration_days", "travelers", "budget", "preferences", "constraints",
+)
+
+
+def _detect_state_changes(
+  old_state: Optional[Any],
+  new_state: Optional[Any],
+) -> dict[str, tuple[Any, Any]]:
+  """Compare two SessionState objects, return changed fields as {field: (old, new)}."""
+  if old_state is None or new_state is None:
+    return {}
+  changes: dict[str, tuple[Any, Any]] = {}
+  for field in _INCREMENTAL_FIELDS:
+    old_val = getattr(old_state, field, None)
+    new_val = getattr(new_state, field, None)
+    if old_val != new_val and new_val is not None:
+      changes[field] = (old_val, new_val)
+  return changes
+
+
+def _format_state_changes(changes: dict[str, tuple[Any, Any]]) -> str:
+  """Format state changes into readable text for the incremental prompt."""
+  lines: list[str] = []
+  for field, (old_val, new_val) in changes.items():
+    if old_val is not None:
+      lines.append(f"- {field}: {old_val} → {new_val}")
+    else:
+      lines.append(f"- {field}: (新增) {new_val}")
+  return "\n".join(lines) if lines else "无明显参数变化"
+
+
+def _snapshot_state(state: Optional[Any]) -> Optional[Any]:
+  """Create a shallow copy of state fields for later comparison."""
+  if state is None:
+    return None
+  from agent.models import SessionState
+  snap = SessionState()
+  for field in _INCREMENTAL_FIELDS:
+    val = getattr(state, field, None)
+    if val is not None:
+      setattr(snap, field, val)
+  return snap
+
+
+def _guess_affected_sections(changes: dict[str, tuple[Any, Any]]) -> list[str]:
+  """Map state field changes to likely affected SECTION names."""
+  affected: set[str] = set()
+  field_to_sections: dict[str, list[str]] = {
+    "budget": ["hotel", "transport", "poi"],
+    "duration_days": ["itinerary", "hotel"],
+    "start_date": ["weather", "transport", "itinerary"],
+    "end_date": ["weather", "itinerary"],
+    "travelers": ["hotel", "transport"],
+    "origin": ["transport"],
+    "preferences": ["poi", "itinerary"],
+    "constraints": ["poi", "itinerary"],
+  }
+  for field in changes:
+    for section in field_to_sections.get(field, ["itinerary"]):
+      affected.add(section)
+  # Always include itinerary as it's the most commonly affected
+  affected.add("itinerary")
+  return list(affected)[:3]
+
 
 # Theater performance steps: (section_name, display_text, delay_seconds)
 THEATER_STEPS = [
@@ -121,13 +194,75 @@ async def theater_handle(
     # ── Think: immediate feedback + state extraction ──
     yield _thinking("正在分析你的需求...")
 
+    # Snapshot old state before extraction for incremental diff
     existing_state = await state_pool.get(session_id)
+    old_state_snapshot = _snapshot_state(existing_state)
     await heuristic_extract(session_id, message, existing_state)
     state = await state_pool.get(session_id)
     state_ctx = await state_pool.to_prompt_context(session_id)
 
-    # ── Act: parallel LLM + theater performance ──
+    # ── Incremental mode: if cached output exists and changes are small ──
+    previous_output = _mega_cache.get(session_id)
+    state_changes = _detect_state_changes(old_state_snapshot, state)
+    is_incremental = (
+      previous_output
+      and len(state_changes) <= 2
+      and "destination" not in state_changes  # destination change → full replan
+    )
+
+    if is_incremental:
+      logger.info(
+        "THEATER incremental mode: %d state changes session=%s",
+        len(state_changes), session_id[:8],
+      )
+      yield _thinking("正在增量更新方案...")
+
+      # Only show affected agent steps (2-3 at most)
+      affected_sections = _guess_affected_sections(state_changes)
+      for section in affected_sections:
+        display = next(
+          (d for n, d, _ in THEATER_STEPS if n == section),
+          f"正在更新 {section}...",
+        )
+        yield _agent_start(section, display)
+
+      # Single LLM call with incremental prompt
+      inc_prompt = INCREMENTAL_PROMPT_TEMPLATE.format(
+        previous_output=previous_output[:4000],
+        user_message=message,
+        state_changes=_format_state_changes(state_changes),
+      )
+      settings = get_settings()
+      full_text = ""
+      try:
+        async for chunk in llm_chat_stream(
+          system=MEGA_SYSTEM_PROMPT,
+          messages=[{"role": "user", "content": inc_prompt}],
+          max_tokens=settings.LLM_MAX_TOKENS,
+          model=settings.WRITING_MODEL,
+        ):
+          if chunk:
+            full_text += chunk
+            yield _text(chunk)
+      except Exception as inc_exc:
+        logger.warning("Incremental stream failed: %s, falling back to full", inc_exc)
+        is_incremental = False  # Fall through to full mode below
+
+      if is_incremental and full_text:
+        _mega_cache[session_id] = full_text
+        await session_memory.add_message(session_id, "assistant", full_text)
+        yield _done(session_id)
+        return
+
+    # ── Full mode: Act → parallel LLM + theater performance ──
     yield _thinking("正在分解你的需求为子任务...")
+
+    # Emit all AGENT_START events upfront so user sees agents "activating"
+    # during Stage1 wait. theater_with_sections will skip re-emitting these.
+    early_started: set[str] = set()
+    for section, goal, _ in THEATER_STEPS:
+      yield _agent_start(section, goal)
+      early_started.add(section)
 
     # Gather tool data in parallel (mock tools, fast)
     tool_data = await gather_tool_data(state)
@@ -142,7 +277,8 @@ async def theater_handle(
     )
 
     # Run theater steps + stream text simultaneously
-    async for event in theater_with_sections(llm_task, stream_buffer):
+    # Pass early_started so theater_with_sections skips duplicate AGENT_START
+    async for event in theater_with_sections(llm_task, stream_buffer, early_started):
       yield event
 
     # ── Observe: quality gate ──
@@ -165,6 +301,10 @@ async def theater_handle(
         logger.warning("Fix stream failed: %s", fix_exc)
       if fix_text:
         full_text = fix_text
+
+    # Cache output for potential incremental follow-ups
+    if full_text:
+      _mega_cache[session_id] = full_text
 
     # Save assistant response
     if full_text:
@@ -255,16 +395,20 @@ async def handle_clarify(
 async def theater_with_sections(
   llm_task: asyncio.Task,
   stream_buffer: StreamBuffer,
+  pre_started: set[str] | None = None,
 ) -> AsyncGenerator[dict, None]:
   """Perform theater agent steps while streaming LLM output.
 
   Yields AGENT_START events as "theater" steps, then streams TEXT events
   from the LLM buffer. Detects section markers to emit AGENT_RESULT events.
+
+  Args:
+    pre_started: Steps already emitted as AGENT_START by caller (skip duplicates).
   """
   detector = SectionDetector()
   current_section: Optional[str] = None
   section_content: str = ""
-  started_steps: set[str] = set()
+  started_steps: set[str] = set(pre_started) if pre_started else set()
 
   # Start all theater steps with staggered timing
   step_task = asyncio.create_task(
@@ -554,9 +698,10 @@ _EXPAND_SYSTEM = """\
 - 禁止抒情散文、废话、总结段
 
 篇幅控制（根据骨架复杂度自适应）：
-- 5天以内的行程：总字数控制在1500-2000字
-- 6-7天的行程：总字数控制在2000-2500字
-- 7天以上或多城市：总字数控制在2500-3000字
+- 骨架中有N天行程 → 每天的详细行程不超过4行
+- 每个SECTION用列表/表格，不写段落
+- 总输出控制在骨架字数的1.5-2倍
+- 禁止重复骨架中已有的信息，只做"展开"不做"复制"
 - 每条信息精炼到一行，用数据说话（价格、时间、距离），不堆砌形容词"""
 
 
