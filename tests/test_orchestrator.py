@@ -230,6 +230,39 @@ class TestRouter:
     assert result == "simple"
 
 
+class TestClassifyIntent:
+  """Tests for classify_intent (3-way LLM classifier with fast-paths)."""
+
+  @pytest.mark.asyncio
+  async def test_fact_correction_is_simple(self, mock_llm):
+    """Fact correction/assertion should be routed to simple, not plan."""
+    from agent.orchestrator.router import classify_intent
+
+    # T198: user states a wrong fact about a landmark
+    result = await classify_intent("不对，故宫是在上海的。")
+    assert result["intent"] == "simple"
+    assert result["reason"] == "fact_correction"
+    mock_llm.assert_not_called()
+
+  @pytest.mark.asyncio
+  async def test_fact_assertion_is_simple(self, mock_llm):
+    """Pure fact assertions (X是在Y的) without planning intent → simple."""
+    from agent.orchestrator.router import classify_intent
+
+    result = await classify_intent("长城是在南京的")
+    assert result["intent"] == "simple"
+
+  @pytest.mark.asyncio
+  async def test_correction_with_planning_intent_is_not_simple(self, mock_llm):
+    """Correction + planning intent should NOT be caught by fact_correction."""
+    from agent.orchestrator.router import classify_intent
+
+    # Contains "帮我推荐" → excluded from fact correction fast-path
+    mock_llm.return_value = '{"intent": "plan", "thinking": false, "reason": "test"}'
+    result = await classify_intent("不对，帮我推荐上海的酒店")
+    assert result["intent"] == "plan"
+
+
 class TestIntentClassifier:
   """Tests for the local intent classifier."""
 

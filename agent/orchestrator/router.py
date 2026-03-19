@@ -109,6 +109,19 @@ async def classify_intent(
     logger.info("classify_intent: obvious simple (local fast-path)")
     return {"intent": "simple", "thinking": False, "reason": "obvious_simple"}
 
+  # Fast local pre-check: fact correction/assertion → simple (not a travel request)
+  # Pattern: user disagrees or states a (possibly wrong) fact about a place
+  # e.g. "不对，故宫是在上海的" / "你说错了，长城在南京" / "故宫不是在北京吗"
+  _CORRECTION_PREFIXES = ("不对", "不是", "错了", "你说错", "你搞错", "说错了", "纠正")
+  _ASSERTION_PATTERNS = ("是在", "不是在", "在的", "属于", "不属于", "位于", "不在")
+  _PLANNING_EXCLUSIONS = ("帮我", "规划", "推荐", "搜索", "预订", "安排", "查一下")
+  has_correction = any(p in msg_lower for p in _CORRECTION_PREFIXES)
+  has_assertion = any(p in msg_lower for p in _ASSERTION_PATTERNS)
+  has_planning = any(kw in msg_lower for kw in _PLANNING_EXCLUSIONS)
+  if len(message) < 40 and (has_correction or has_assertion) and not has_planning:
+    logger.info("classify_intent: fact correction/assertion → simple")
+    return {"intent": "simple", "thinking": False, "reason": "fact_correction"}
+
   # Fast local pre-check: obvious destination → plan, skip LLM (~0ms)
   _OBVIOUS_PLAN_DEST = (
     "去日本", "去泰国", "去东京", "去三亚", "去北京", "去上海", "去大阪",
