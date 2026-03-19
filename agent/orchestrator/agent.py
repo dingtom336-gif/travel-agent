@@ -99,11 +99,29 @@ class OrchestratorAgent:
         await heuristic_task  # Ensure heuristic completes before proceeding
         intent = classify_result["intent"]
         use_thinking = classify_result.get("thinking", False)
+        reason = classify_result.get("reason", "")
         logger.info(
           "TIMING stage=theater_classify intent=%s thinking=%s reason=%s duration_ms=%d session=%s",
-          intent, use_thinking, classify_result.get("reason", ""),
+          intent, use_thinking, reason,
           int((time.time() - t0) * 1000), session_id,
         )
+
+        # Unsafe requests: direct refusal without LLM call
+        if reason == "unsafe_request":
+          from agent.orchestrator.synthesis import _smart_fallback
+          refusal = _smart_fallback(message)
+          yield SSEMessage(
+            event=SSEEventType.TEXT,
+            data={"content": refusal},
+          ).format()
+          await session_memory.add_message(session_id, "assistant", refusal)
+          yield SSEMessage(
+            event=SSEEventType.DONE,
+            data={"session_id": session_id},
+          ).format()
+          total_ms = int((time.time() - total_start) * 1000)
+          logger.info("TIMING stage=total_theater_unsafe duration_ms=%d session=%s", total_ms, session_id)
+          return
 
         # Fire-and-forget LLM state extraction for enrichment
         asyncio.ensure_future(
