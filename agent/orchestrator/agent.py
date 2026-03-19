@@ -16,7 +16,7 @@ from agent.memory.session import session_memory
 from agent.memory.state_pool import state_pool
 from agent.models import SSEEventType, SSEMessage
 from agent.orchestrator.constants import AGENT_REGISTRY  # noqa: F401 – re-export for tests
-from agent.orchestrator.context import build_context_with_summary
+from agent.orchestrator.context import build_context_with_summary, update_running_summary
 from agent.orchestrator.react_loop import ReactEngine
 from agent.orchestrator.router import classify_complexity, classify_intent
 from agent.orchestrator.state_extractor import extract_state, heuristic_extract
@@ -35,6 +35,22 @@ class OrchestratorAgent:
   def __init__(self) -> None:
     self._react_engine = ReactEngine()
     self._synthesizer = Synthesizer()
+
+  async def _update_summary_safe(
+    self,
+    session_id: str,
+    message: str,
+  ) -> None:
+    """Update running conversation summary – non-critical, never raises."""
+    try:
+      existing_summary = await session_memory.get_summary(session_id)
+      updated_hist = await session_memory.get_history(session_id)
+      assistant_msgs = [m["content"] for m in updated_hist if m["role"] == "assistant"]
+      last_assistant = assistant_msgs[-1] if assistant_msgs else ""
+      new_summary = update_running_summary(existing_summary, message, last_assistant)
+      await session_memory.update_summary(session_id, new_summary)
+    except Exception:
+      pass  # Non-critical, don't block response
 
   async def handle_message(
     self,
@@ -99,6 +115,7 @@ class OrchestratorAgent:
             session_id, message, history, personalization_ctx,
           ):
             yield chunk
+          await self._update_summary_safe(session_id, message)
           self._learn_from_session_safe(user_id, history)
           total_ms = int((time.time() - total_start) * 1000)
           logger.info("TIMING stage=total_theater_simple duration_ms=%d session=%s", total_ms, session_id)
@@ -111,6 +128,7 @@ class OrchestratorAgent:
             session_id, message, history, state_ctx,
           ):
             yield chunk
+          await self._update_summary_safe(session_id, message)
           self._learn_from_session_safe(user_id, history)
           total_ms = int((time.time() - total_start) * 1000)
           logger.info("TIMING stage=total_theater_clarify duration_ms=%d session=%s", total_ms, session_id)
@@ -123,6 +141,7 @@ class OrchestratorAgent:
         ):
           yield chunk
 
+        await self._update_summary_safe(session_id, message)
         updated_history = await session_memory.get_history(session_id)
         self._learn_from_session_safe(user_id, updated_history)
         total_ms = int((time.time() - total_start) * 1000)

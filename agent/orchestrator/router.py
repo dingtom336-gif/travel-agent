@@ -87,10 +87,22 @@ async def classify_intent(
     "你好", "嗨", "hi", "hello", "再见", "拜拜", "晚安", "谢谢", "感谢",
     "你是谁", "你能做什么", "帮我算", "写首诗", "讲个笑话", "推荐一部",
     "今天周几", "几点了", "我饿了", "夸夸我", "心情不错", "1+1",
+    "早上好", "下午好", "晚上好", "好的", "明白", "知道了", "没问题", "可以", "ok", "好",
   )
-  if any(p in msg_lower for p in _OBVIOUS_SIMPLE) and len(message) < 15:
+  if any(p in msg_lower for p in _OBVIOUS_SIMPLE) and len(message) < 20:
     logger.info("classify_intent: obvious simple (local fast-path)")
     return {"intent": "simple", "thinking": False, "reason": "obvious_simple"}
+
+  # Fast local pre-check: obvious destination → plan, skip LLM (~0ms)
+  _OBVIOUS_PLAN_DEST = (
+    "去日本", "去泰国", "去东京", "去三亚", "去北京", "去上海", "去大阪",
+    "去曼谷", "去新加坡", "去巴厘岛", "去马尔代夫", "去杭州", "去成都",
+    "去西安", "去拉萨", "去云南", "去大理", "去丽江", "去厦门", "去青岛",
+    "去桂林", "去张家界",
+  )
+  if any(d in msg_lower for d in _OBVIOUS_PLAN_DEST):
+    logger.info("classify_intent: obvious destination (local fast-path)")
+    return {"intent": "plan", "thinking": False, "reason": "obvious_destination"}
 
   settings = get_settings()
   try:

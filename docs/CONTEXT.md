@@ -1,50 +1,54 @@
 ## 当前状态
-**v0.9.0 已部署至腾讯云上海。** 6个MCP工具全部接入真实数据源（高德+和风天气+fawazahmed0+增强mock），三层fallback保障可用性。
+**v0.8.0 线上运行 + v0.9.0 本地开发中（速度+上下文+评测体系）。** Theater Mode 两阶段流水线 + SiliconFlow GLM-5/GLM-4-32B。
 
 ## 最近操作记录
 | # | 时间 | 操作摘要 | 类型 |
 |---|------|---------|------|
-| 1 | 2026-02-23 | 迁移至腾讯云上海150.158.192.237，全量部署+验证通过 | 🚀部署 |
-| 2 | 2026-02-13 | 天气工具接入和风天气(primary)+Open-Meteo(fallback) | 🌤️API |
-| 3 | 2026-02-13 | POI+酒店接入高德POI搜索(type=100000) | 🗺️API |
-| 4 | 2026-02-13 | 地图服务接入高德路线规划+共享geocoding | 🗺️API |
-| 5 | 2026-02-13 | 汇率接入fawazahmed0实时汇率CDN | 💱API |
+| 1 | 2026-03-19 | V2评测系统200题+5维评分引擎+运行器，已跑部分baseline | 📊评测 |
+| 2 | 2026-03-19 | 速度优化6文件改造(超时/快速路径/无LLM摘要/running summary) | ⚡优化 |
+| 3 | 2026-03-19 | 空响应fallback安全网+转化闭环提示词增强 | 🔧修复 |
+| 4 | 2026-03-19 | 隐式意图+情绪感知+Theater UI卡片+天气字段兼容 已部署 | 🚀部署 |
+| 5 | 2026-02-23 | 迁移至腾讯云上海150.158.192.237 | 🚀部署 |
 
-## 踩坑记录
-- **【致命】git add捡到168文件删除**：commit前必须只add目标文件，不用git add -A
-- **【致命】PEP 263编码检测**：Python前2行注释含`coding:`会触发编码解析，避免注释中出现
-- **【致命】5并发DeepSeek触发429**：减为4个+stagger解决
+## v0.9.0 改动文件清单（本地未提交）
+- `agent/config/settings.py` — Stage1超时25s/15s, LLM_TIMEOUT 30s
+- `agent/memory/session.py` — running summary API (_summaries/get_summary/update_summary)
+- `agent/orchestrator/context.py` — fast_summarize + update_running_summary (无LLM)
+- `agent/orchestrator/theater.py` — mega_prompt传summary参数 + 近2轮500字 + incremental放宽 + 空响应安全网
+- `agent/orchestrator/agent.py` — _update_summary_safe 3路径调用
+- `agent/orchestrator/router.py` — 扩大本地快速路径 + 目的地直跳plan
+- `agent/config/mega_prompt.py` — 服务闭环要求 + clarify推进感
+- `tests/test_orchestrator.py` — 3个context测试待修（context重写导致断言过时）
+
+## 评测baseline（部分完成）
+| 范围 | 类别 | 通过率 | 平均分 | 状态 |
+|------|------|:------:|:------:|------|
+| T101-110 | 行中即时 | 90% | 3.90 | ✅ |
+| T111-120 | 行中即时 | 60% | 3.14 | ✅ |
+| T161-170 | 交易决策 | 80% | 3.71 | ✅ |
+| T171-180 | 鲁棒性 | 88% | 3.59 | ✅ |
+| T1-40 | 基础事实 | — | — | ⏳ |
+| T41-100 | 多约束规划 | — | — | ⏳ |
+| T121-160 | 行中+交易 | — | — | ⏳ |
+| T181-200 | 鲁棒性 | — | — | ⏳ |
+
+## 已发现系统性问题
+1. **空响应(0字)** — T101/T113/T161/T180, Stage1超时fallback链断裂 → **已修复(待部署)**
+2. **转化/闭环弱** — 全局2.9-3.0分 → **提示词已增强(待部署)**
+3. **平台业务知识缺失** — T168飞猪闪住等概念模型不懂
+4. **答非所问** — T112/T119字多但偏题，模型走了错误推理路径
 
 ## 未完成事项
-- [ ] E2E验证：curl测"去东京5天"，确认source字段为真实API
+- [ ] 3个失败测试修复（context重写导致）
+- [ ] 全部代码commit + push + 部署
+- [ ] 评测baseline跑完（剩余~120题）
+- [ ] 部署后跑评测对比 before/after
 
 ## 环境备忘
 - **本地**：`~/Desktop/new_start/claude-code/travel-agent/`，前端3001，后端8000
-- **本地PG**：Postgres.app 18.1，端口5432，用户xiaozhang，库travelmind
 - **生产**：150.158.192.237（腾讯云上海），前端 /travel (PM2:3003)，后端 /travel-api/ (PM2:8000)
 - **生产用户**：ubuntu (sudo)，SSH密钥已配置
-- **生产venv**：`/opt/travel-agent/venv/`
-- **项目路径(生产)**：`/opt/travel-agent`
 - **GitHub**：github.com/dingtom336-gif/travel-agent
-- **AI引擎**：DeepSeek V3(主) + R1(反思)
-- **测试**：`./agent/venv2/bin/python -m pytest tests/ -v`（200测试）
-- **部署命令**：`ssh ubuntu@150.158.192.237 "cd /opt/travel-agent && git pull && cd web && npm run build && cd .. && pm2 restart all"`
-
-## MCP工具数据源矩阵
-| 工具 | Primary | Fallback | Final | source字段 |
-|------|---------|----------|-------|-----------|
-| 天气 | 和风天气 | Open-Meteo | mock | qweather/open-meteo/mock |
-| POI | 高德POI | Serper | mock | amap/serper/mock |
-| 酒店 | 高德POI(100000) | Serper | mock | amap/serper/mock |
-| 路线 | 高德路线规划 | 查找表 | Haversine | amap/lookup/estimate |
-| 汇率 | fawazahmed0 CDN | - | hardcoded | fawazahmed0/hardcoded |
-| 航班 | Serper(可能被墙) | - | 增强mock(65+航线) | serper/estimated |
-
-## 历史归档
-- Wave 1-8 (02-07)：PRD→前端+后端+地图+UI审查+DeepSeek集成
-- v0.3.2~v0.5.1 POI/语义/GenUI/模拟器/连贯性修复 (02-08~09)
-- v0.6.0~v0.6.2 并发安全+Agent模板化+自测规范强化 (02-09~10)
-- v0.7.0 性能优化11项(intent_classifier/streaming/heuristic/TIMING) (02-10)
-- v0.7.1 生产部署验证+smoke test修复+Claude Code初始化 (02-10~11)
-- v0.8.0 Phase 0-5 开发+本地PG配置+SSE滚动修复+手机端适配 (02-11~12)
-- v0.9.0-dev MCP工具真实API接入(高德+和风+fawazahmed0+增强mock) (02-13)
+- **AI引擎**：GLM-5(reasoning) + GLM-4-32B(writing)，SiliconFlow API
+- **评测系统**：tests/e2e/eval_200.json + eval_v2_scoring.py + run_eval_200.py
+- **测试**：`./agent/venv2/bin/python -m pytest tests/ -v`（199/202通过，3个待修）

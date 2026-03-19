@@ -34,10 +34,13 @@ class Settings(BaseSettings):
 
   LLM_MAX_TOKENS: int = 4096
   LLM_AGENT_TOKENS: int = 1024
-  LLM_TIMEOUT: float = 50.0
-  LLM_TASK_TIMEOUT: float = 40.0
-  LLM_SYNTHESIS_TIMEOUT: float = 60.0
+  LLM_TIMEOUT: float = 30.0
+  LLM_TASK_TIMEOUT: float = 25.0
+  LLM_SYNTHESIS_TIMEOUT: float = 40.0
   LLM_STREAM_CHUNK_TIMEOUT: float = 5.0
+  # Stage 1 (reasoning) timeouts — reduced to cut latency
+  STAGE1_THINKING_TIMEOUT: float = 25.0
+  STAGE1_NO_THINKING_TIMEOUT: float = 15.0
   LLM_CACHE_SIZE: int = 100
   LLM_CACHE_TTL: int = 300
   LLM_RATE_LIMIT_RPM: int = 300

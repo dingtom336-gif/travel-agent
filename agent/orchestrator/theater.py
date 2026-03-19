@@ -27,6 +27,7 @@ from agent.orchestrator.section_parser import (
   parse_section_names,
 )
 from agent.orchestrator.state_extractor import heuristic_extract
+from agent.orchestrator.synthesis import _smart_fallback
 from agent.orchestrator.ui_mapper import extract_ui_components
 
 logger = logging.getLogger(__name__)
@@ -207,7 +208,7 @@ async def theater_handle(
     state_changes = _detect_state_changes(old_state_snapshot, state)
     is_incremental = (
       previous_output
-      and len(state_changes) <= 2
+      and len(state_changes) <= 3  # relaxed from 2 to allow more follow-ups
       and "destination" not in state_changes  # destination change → full replan
     )
 
@@ -296,12 +297,13 @@ async def theater_handle(
           yield ui_event
 
     # Build the mega prompt
-    mega_prompt = build_mega_prompt(message, state_ctx, history, tool_data, personalization_ctx)
+    conversation_summary = await session_memory.get_summary(session_id)
+    mega_prompt = build_mega_prompt(message, state_ctx, history, tool_data, personalization_ctx, conversation_summary=conversation_summary)
 
     # Start two-stage pipeline streaming into a buffer
     stream_buffer = StreamBuffer()
     llm_task = asyncio.create_task(
-      _stream_llm_to_buffer(mega_prompt, stream_buffer, use_thinking=use_thinking)
+      _stream_llm_to_buffer(mega_prompt, stream_buffer, use_thinking=use_thinking, user_message=message)
     )
 
     # Run theater steps + stream text simultaneously
@@ -330,13 +332,17 @@ async def theater_handle(
       if fix_text:
         full_text = fix_text
 
+    # Guard: if full_text is still empty after all stages, use smart fallback
+    if not full_text.strip():
+      logger.warning("THEATER full_text empty after all stages, using _smart_fallback")
+      full_text = _smart_fallback(message)
+      yield _text(full_text)
+
     # Cache output for potential incremental follow-ups
-    if full_text:
-      _mega_cache[session_id] = full_text
+    _mega_cache[session_id] = full_text
 
     # Save assistant response
-    if full_text:
-      await session_memory.add_message(session_id, "assistant", full_text)
+    await session_memory.add_message(session_id, "assistant", full_text)
 
     yield _done(session_id)
 
@@ -623,6 +629,7 @@ def build_mega_prompt(
   history: list[dict[str, Any]],
   tool_data: dict[str, Any],
   personalization_ctx: str = "",
+  conversation_summary: str = "",
 ) -> str:
   """Assemble the final mega prompt for the single LLM call.
 
@@ -631,15 +638,19 @@ def build_mega_prompt(
   """
   parts: list[str] = []
 
-  # Conversation context (recent history summary)
+  # Conversation context: running summary + recent turns (fuller content)
   if history and len(history) > 2:
-    recent = history[-6:]
-    history_lines = []
+    history_parts = []
+    if conversation_summary:
+      history_parts.append(f"[前序对话要点] {conversation_summary}")
+
+    # Recent turns: last 4 messages (2 turns) with 500 char limit
+    recent = history[-4:]
     for msg in recent:
       role = "用户" if msg.get("role") == "user" else "AI"
-      content = msg.get("content", "")[:200]
-      history_lines.append(f"{role}: {content}")
-    parts.append(f"[对话历史]\n" + "\n".join(history_lines))
+      content = msg.get("content", "")[:500]
+      history_parts.append(f"{role}: {content}")
+    parts.append("[对话历史]\n" + "\n".join(history_parts))
 
   # Current travel state
   if state_ctx:
@@ -766,11 +777,13 @@ async def _stream_llm_to_buffer(
   mega_prompt: str,
   buffer: StreamBuffer,
   use_thinking: bool = False,
+  user_message: str = "",
 ) -> None:
   """Two-stage pipeline: GLM-5 reasoning → GLM-4-32B writing.
 
   Stage 1: GLM-5 generates a JSON skeleton (with/without thinking).
   Stage 2: GLM-4-32B expands skeleton into full sectioned response (streamed).
+  Falls back to _smart_fallback if all LLM calls fail (prevents 0-char responses).
   """
   try:
     settings = get_settings()
@@ -790,14 +803,22 @@ async def _stream_llm_to_buffer(
     if not skeleton:
       # Fallback: single-call mode with writing model
       logger.warning("THEATER Stage1 returned empty, falling back to single-call")
-      async for chunk in llm_chat_stream(
-        system=MEGA_SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": mega_prompt}],
-        max_tokens=settings.LLM_MAX_TOKENS,
-        model=settings.WRITING_MODEL,
-      ):
-        if chunk:
-          await buffer.write(chunk)
+      try:
+        async for chunk in llm_chat_stream(
+          system=MEGA_SYSTEM_PROMPT,
+          messages=[{"role": "user", "content": mega_prompt}],
+          max_tokens=settings.LLM_MAX_TOKENS,
+          model=settings.WRITING_MODEL,
+        ):
+          if chunk:
+            await buffer.write(chunk)
+      except Exception as fb_exc:
+        logger.warning("THEATER writing model fallback also failed: %s", fb_exc)
+      # If buffer still empty after writing model fallback, use smart fallback
+      if not buffer.full_text.strip():
+        logger.warning("THEATER all LLM fallbacks failed, using _smart_fallback")
+        fallback_text = _smart_fallback(user_message)
+        await buffer.write(fallback_text)
       return
 
     # ── Stage 2: Writing → streamed sectioned text ──
@@ -816,6 +837,13 @@ async def _stream_llm_to_buffer(
 
   except Exception as exc:
     logger.warning("THEATER pipeline failed: %s", exc)
+    # Last resort: write smart fallback if buffer is empty
+    if not buffer.full_text.strip():
+      try:
+        fallback_text = _smart_fallback(user_message)
+        await buffer.write(fallback_text)
+      except Exception:
+        pass
   finally:
     logger.info("THEATER pipeline finished, calling buffer.finish()")
     buffer.finish()
@@ -848,8 +876,9 @@ async def _call_reasoning(
   if not use_thinking:
     payload["thinking"] = {"type": "disabled"}
 
-  # Thinking mode: allow 60s max; no-thinking: 30s max
-  stage1_timeout = 60.0 if use_thinking else 30.0
+  # Reduced timeouts: thinking 25s, no-thinking 15s (was 60/30)
+  settings = get_settings()
+  stage1_timeout = settings.STAGE1_THINKING_TIMEOUT if use_thinking else settings.STAGE1_NO_THINKING_TIMEOUT
   try:
     async with _httpx.AsyncClient(timeout=_httpx.Timeout(stage1_timeout, connect=10.0)) as client:
       resp = await client.post(
@@ -863,11 +892,11 @@ async def _call_reasoning(
       return content if content else None
   except _httpx.ReadTimeout:
     logger.warning("Stage1 reasoning timeout (%ss), will retry without thinking", stage1_timeout)
-    # Retry without thinking on timeout
+    # Retry without thinking on timeout (reduced to 15s)
     if use_thinking:
       payload["thinking"] = {"type": "disabled"}
       try:
-        async with _httpx.AsyncClient(timeout=_httpx.Timeout(30.0, connect=10.0)) as client:
+        async with _httpx.AsyncClient(timeout=_httpx.Timeout(15.0, connect=10.0)) as client:
           resp = await client.post(
             f"{base_url}/chat/completions",
             json=payload,

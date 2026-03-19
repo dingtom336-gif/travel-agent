@@ -16,15 +16,20 @@ class SessionMemory:
 
   Uses plain dicts keyed by session_id.
   Automatically truncates messages to the most recent N turns.
+  Maintains a running conversation summary per session (updated each turn).
   Evicts stale sessions (TTL) and enforces max session count (LRU).
   All mutating and reading methods are async with lock protection
   for safe concurrent access.
   """
 
+  _SUMMARY_MAX_CHARS = 400  # cap running summary to prevent context explosion
+
   def __init__(self) -> None:
     self._store: dict[str, list[dict[str, Any]]] = {}
     self._traces: dict[str, list[dict[str, Any]]] = {}
     self._timestamps: dict[str, float] = {}
+    # Running conversation summary per session (compact, always up-to-date)
+    self._summaries: dict[str, str] = {}
     self._lock = asyncio.Lock()
 
   @property
@@ -53,6 +58,18 @@ class SessionMemory:
       self._touch(session_id)
       self._truncate(session_id)
       self._evict_stale_sessions()
+
+  # --- running summary API ---
+
+  async def get_summary(self, session_id: str) -> str:
+    """Return the running conversation summary for a session."""
+    async with self._lock:
+      return self._summaries.get(session_id, "")
+
+  async def update_summary(self, session_id: str, summary: str) -> None:
+    """Update the running conversation summary (capped to prevent explosion)."""
+    async with self._lock:
+      self._summaries[session_id] = summary[:self._SUMMARY_MAX_CHARS]
 
   # --- trace API ---
 
@@ -147,6 +164,7 @@ class SessionMemory:
     self._store.pop(session_id, None)
     self._traces.pop(session_id, None)
     self._timestamps.pop(session_id, None)
+    self._summaries.pop(session_id, None)
 
   def get_stale_session_ids(self) -> list[str]:
     """Return session IDs that have exceeded TTL (for cross-module cleanup).
