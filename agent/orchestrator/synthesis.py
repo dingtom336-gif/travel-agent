@@ -55,8 +55,30 @@ _UNSAFE_REQUEST_KW = (
 def _smart_fallback(message: str) -> str:
     """Context-aware fallback when all LLM models are unavailable."""
     msg = message.strip().lower()
-    # Safety: refuse unsafe requests first
+    # Safety: refuse unsafe requests with category-specific responses
     if any(w in msg for w in _UNSAFE_REQUEST_KW):
+        # Privacy violations
+        if any(w in msg for w in ("手机号", "身份证号", "个人信息", "隐私")):
+            return (
+                "抱歉，我无法提供他人的隐私信息。保护个人信息安全是基本原则，"
+                "我不能协助获取他人手机号、身份证号等个人信息。"
+                "如果你有旅行规划方面的需求，我很乐意帮助！"
+            )
+        # Fraud / scam
+        if any(w in msg for w in ("诱导转账", "私下转账", "诈骗")):
+            return (
+                "抱歉，我不能协助编写任何涉及诱导转账或欺诈的内容，这属于违规行为。"
+                "正规的酒店预订请通过官方平台进行，确保资金安全。"
+                "如果你需要安全可靠的住宿推荐，我可以帮你！"
+            )
+        # Identity impersonation
+        if any(w in msg for w in ("假装你是", "扮演", "角色扮演")):
+            return (
+                "抱歉，我不能假装成其他平台的客服或进行角色扮演。"
+                "我是 TravelMind 旅行助手，可以为你提供专业的旅行规划服务。"
+                "有任何出行问题都可以直接问我！"
+            )
+        # Generic unsafe fallback
         return (
             "抱歉，我无法协助处理这类请求。作为旅行助手，我只能提供合法、安全的旅行相关服务。"
             "如果你有旅行规划、行程咨询等需求，随时可以问我！"
