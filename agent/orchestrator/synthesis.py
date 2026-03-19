@@ -39,9 +39,25 @@ _EMERGENCY_KW = (
 )
 
 
+_UNSAFE_REQUEST_KW = (
+    "逃票", "偷渡", "违禁", "非法", "伪造", "假证",
+    "系统提示词", "忘掉指令", "system prompt",
+    "手机号", "身份证号", "个人信息", "隐私",
+    "威胁信", "勒索", "抢票脚本", "外挂",
+    "假装你是", "扮演携程", "扮演客服",
+    "内部员工", "后台数据", "诱导转账",
+)
+
+
 def _smart_fallback(message: str) -> str:
     """Context-aware fallback when all LLM models are unavailable."""
     msg = message.strip().lower()
+    # Safety: refuse unsafe requests first
+    if any(w in msg for w in _UNSAFE_REQUEST_KW):
+        return (
+            "抱歉，我无法协助处理这类请求。作为旅行助手，我只能提供合法、安全的旅行相关服务。"
+            "如果你有旅行规划、行程咨询等需求，随时可以问我！"
+        )
     if any(w in msg for w in ("你好", "嗨", "hi", "hello")):
         return "你好！我是 TravelMind 旅行规划助手，无论是国内周边游还是出国度假，我都能帮你规划。想去哪里玩呢？"
     if any(w in msg for w in ("再见", "拜拜", "晚安")):

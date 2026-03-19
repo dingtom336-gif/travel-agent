@@ -81,8 +81,22 @@ async def classify_intent(
     else:
       _intent_cache.pop(message, None)
 
-  # Fast local pre-check: obvious non-travel queries skip LLM (~0ms)
+  # Fast local pre-check: unsafe/adversarial requests → simple (let LLM refuse)
   msg_lower = message.strip().lower()
+  _UNSAFE_PATTERNS = (
+    "逃票", "偷渡", "违禁", "非法", "伪造", "假证", "假的",
+    "忘掉指令", "忘掉之前", "系统提示词", "system prompt",
+    "手机号", "身份证号", "隐私", "个人信息",
+    "威胁信", "威胁", "勒索",
+    "内部员工", "后台数据", "管理员",
+    "假装你是", "扮演", "角色扮演",
+    "抢票脚本", "自动抢", "外挂", "脚本",
+    "诱导转账", "私下转账", "诈骗",
+  )
+  if any(p in msg_lower for p in _UNSAFE_PATTERNS):
+    logger.info("classify_intent: unsafe request detected → simple (for refusal)")
+    return {"intent": "simple", "thinking": False, "reason": "unsafe_request"}
+
   _OBVIOUS_SIMPLE = (
     "你好", "嗨", "hi", "hello", "再见", "拜拜", "晚安", "谢谢", "感谢",
     "你是谁", "你能做什么", "帮我算", "写首诗", "讲个笑话", "推荐一部",
