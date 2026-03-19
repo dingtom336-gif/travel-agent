@@ -85,13 +85,15 @@ async def classify_intent(
   msg_lower = message.strip().lower()
   _UNSAFE_PATTERNS = (
     "逃票", "偷渡", "违禁", "非法", "伪造", "假证", "假的",
-    "忘掉指令", "忘掉之前", "系统提示词", "system prompt",
+    "忘掉指令", "忘掉之前", "系统提示词", "system prompt", "ignore",
     "手机号", "身份证号", "隐私", "个人信息",
     "威胁信", "威胁", "勒索",
     "内部员工", "后台数据", "管理员",
     "假装你是", "扮演", "角色扮演",
     "抢票脚本", "自动抢", "外挂", "脚本",
     "诱导转账", "私下转账", "诈骗",
+    "政治观点", "政治敏感", "赞美某", "不当观点",
+    "核酸报告", "伪造报告", "假报告",
   )
   if any(p in msg_lower for p in _UNSAFE_PATTERNS):
     logger.info("classify_intent: unsafe request detected → simple (for refusal)")
