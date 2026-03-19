@@ -20,6 +20,39 @@ from agent.orchestrator.ui_mapper import truncate_tool_data_for_synthesis
 
 logger = logging.getLogger(__name__)
 
+# --- Smart fallback when all LLM models fail ---
+_NEGATIVE_EMOTION_KW = (
+    "离婚", "癌症", "去世", "分手", "失恋", "吵架", "冷战",
+    "抑郁", "焦虑", "自闭", "伤心", "难过", "委屈", "压力大",
+    "走了", "离开", "生病", "治疗",
+)
+_POSITIVE_EMOTION_KW = (
+    "上市", "毕业", "博士", "结婚", "升职", "退休", "聚会",
+    "犒劳", "庆祝", "纪念", "拿到", "考上",
+)
+
+
+def _smart_fallback(message: str) -> str:
+    """Context-aware fallback when all LLM models are unavailable."""
+    msg = message.strip().lower()
+    if any(w in msg for w in ("你好", "嗨", "hi", "hello")):
+        return "你好！我是 TravelMind 旅行规划助手，无论是国内周边游还是出国度假，我都能帮你规划。想去哪里玩呢？"
+    if any(w in msg for w in ("再见", "拜拜", "晚安")):
+        return "期待下次为你规划旅行！祝你生活愉快。"
+    if any(w in msg for w in ("谢谢", "感谢")):
+        return "不客气！随时可以找我规划旅行。"
+    if any(w in msg for w in _NEGATIVE_EMOTION_KW):
+        return (
+            "我理解你现在的心情。有时候出去走走，换个环境，确实能让人感觉好一些。"
+            "如果你愿意，可以告诉我想去什么样的地方，我来帮你规划一趟旅行。"
+        )
+    if any(w in msg for w in _POSITIVE_EMOTION_KW):
+        return (
+            "恭喜你！这样的时刻值得好好庆祝。"
+            "想不想来一趟旅行犒劳自己？告诉我你的想法，我来帮你规划！"
+        )
+    return "收到你的消息了！作为旅行助手，我最擅长帮你规划行程和推荐目的地。有什么旅行想法想聊聊吗？"
+
 
 class Synthesizer:
   """Handles simple replies and full synthesis of agent results."""
@@ -84,15 +117,7 @@ class Synthesizer:
       if not got_content:
         # All models failed — generate contextual fallback based on user message
         logger.warning("handle_simple: all models failed, using smart fallback")
-        msg_lower = message.strip().lower()
-        if any(w in msg_lower for w in ("你好", "嗨", "hi", "hello")):
-          fallback = "你好！我是 TravelMind 旅行规划助手 😊 无论是国内周边游还是出国度假，我都能帮你规划。想去哪里玩呢？"
-        elif any(w in msg_lower for w in ("再见", "拜拜", "晚安")):
-          fallback = "期待下次为你规划旅行！祝你生活愉快 ✨"
-        elif any(w in msg_lower for w in ("谢谢", "感谢")):
-          fallback = "不客气！随时可以找我规划旅行 😊"
-        else:
-          fallback = f"收到你的消息了！作为旅行助手，我最擅长帮你规划行程和推荐目的地。有什么旅行想法想聊聊吗？"
+        fallback = _smart_fallback(message)
         full_response = fallback
         yield SSEMessage(
           event=SSEEventType.TEXT,

@@ -27,6 +27,7 @@ from agent.orchestrator.section_parser import (
   parse_section_names,
 )
 from agent.orchestrator.state_extractor import heuristic_extract
+from agent.orchestrator.ui_mapper import extract_ui_components
 
 logger = logging.getLogger(__name__)
 
@@ -266,6 +267,33 @@ async def theater_handle(
 
     # Gather tool data in parallel (mock tools, fast)
     tool_data = await gather_tool_data(state)
+
+    # Emit UI component cards from tool data (same format as old ReAct path)
+    # extract_ui_components expects result_data = {"tool_data": {key: {results:[...]}}}
+    # where key names must match ui_mapper expectations
+    if tool_data:
+      ui_tool_map = {}
+      # transport: ui_mapper looks for "flights" or "transit"
+      if "flights" in tool_data:
+        ui_tool_map["transport"] = {"flights": tool_data["flights"]}
+      # hotel: ui_mapper looks for "hotels" with {results:[...]}
+      if "hotels" in tool_data:
+        ui_tool_map["hotel"] = {"hotels": tool_data["hotels"]}
+      # poi: ui_mapper looks for "pois" with {results:[...]}
+      if "pois" in tool_data:
+        ui_tool_map["poi"] = {"pois": tool_data["pois"]}
+      # weather: ui_mapper looks for "forecast" with {forecast:[...], query:{city}}
+      if "weather" in tool_data:
+        w = tool_data["weather"]
+        ui_tool_map["weather"] = {"forecast": {
+          "forecast": w.get("forecasts", []),
+          "query": w.get("query", {}),
+        }}
+
+      for agent_name, mapped_data in ui_tool_map.items():
+        wrapped = {"tool_data": mapped_data}
+        for ui_event in extract_ui_components(agent_name, wrapped):
+          yield ui_event
 
     # Build the mega prompt
     mega_prompt = build_mega_prompt(message, state_ctx, history, tool_data, personalization_ctx)
@@ -518,6 +546,7 @@ async def gather_tool_data(state: Optional[Any]) -> dict[str, Any]:
       from agent.tools.mcp.weather_api import get_weather_forecast
       tasks.append(("weather", get_weather_forecast(
         city=dest,
+        start_date=start_date or "2026-04-01",
         days=duration or 5,
       )))
     except Exception:
@@ -527,20 +556,28 @@ async def gather_tool_data(state: Optional[Any]) -> dict[str, Any]:
     try:
       from agent.tools.mcp.poi_search import search_pois
       tasks.append(("pois", search_pois(
-        destination=dest,
-        category="all",
+        city=dest,
+        category=None,
         limit=10,
       )))
     except Exception:
       pass
 
-    # Hotel data
+    # Hotel data – needs checkin/checkout dates
     try:
       from agent.tools.mcp.hotel_search import search_hotels
+      checkin = start_date or "2026-04-01"
+      # Calculate checkout from duration
+      try:
+        from datetime import datetime, timedelta
+        ci = datetime.strptime(checkin, "%Y-%m-%d")
+        checkout = (ci + timedelta(days=duration or 3)).strftime("%Y-%m-%d")
+      except Exception:
+        checkout = "2026-04-04"
       tasks.append(("hotels", search_hotels(
-        destination=dest,
-        check_in=start_date or "",
-        nights=duration or 3,
+        city=dest,
+        checkin=checkin,
+        checkout=checkout,
         guests=travelers,
       )))
     except Exception:

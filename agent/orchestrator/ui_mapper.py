@@ -138,10 +138,10 @@ def _map_weather(tool_data: Dict[str, Any]) -> List[dict]:
     events.append(_make_ui_event("weather_card", {
       "city": forecast_obj.get("query", {}).get("city", ""),
       "date": w.get("date", ""),
-      "temperature": {"high": w.get("high_temp", 0), "low": w.get("low_temp", 0)},
+      "temperature": {"high": w.get("temp_high", w.get("high_temp", 0)), "low": w.get("temp_low", w.get("low_temp", 0))},
       "condition": w.get("condition", ""),
       "humidity": w.get("humidity", 0),
-      "suggestion": w.get("suggestion", ""),
+      "suggestion": w.get("travel_advice", w.get("clothing_advice", "")),
     }))
   return events
 
