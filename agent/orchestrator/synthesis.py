@@ -235,6 +235,12 @@ class Synthesizer:
       user_message, results, state_ctx, context_summary, personalization_ctx,
     )
 
+    # Check if agents returned any real content
+    has_agent_content = any(
+      r.data.get("response") or r.summary
+      for r in results.values()
+    )
+
     try:
       got_content = False
       async for chunk in llm_chat_stream(
@@ -246,10 +252,18 @@ class Synthesizer:
           got_content = True
           yield chunk
       if not got_content:
-        yield f"以下是根据分析结果整理的旅行方案：\n\n{combined}"
+        if has_agent_content:
+          yield f"以下是根据分析结果整理的旅行方案：\n\n{combined}"
+        else:
+          # All agents returned empty — answer the user directly via fallback
+          fallback = _smart_fallback(user_message)
+          yield fallback
     except Exception as exc:
       logger.warning("Synthesis stream failed: %s", exc)
-      yield f"以下是为你整理的旅行方案：\n\n{combined}"
+      if has_agent_content:
+        yield f"以下是为你整理的旅行方案：\n\n{combined}"
+      else:
+        yield _smart_fallback(user_message)
 
   async def synthesize(
     self,
@@ -266,6 +280,11 @@ class Synthesizer:
       user_message, results, state_ctx, context_summary, personalization_ctx,
     )
 
+    has_agent_content = any(
+      r.data.get("response") or r.summary
+      for r in results.values()
+    )
+
     try:
       result = await llm_chat(
         system=ORCHESTRATOR_SYSTEM_PROMPT,
@@ -273,11 +292,15 @@ class Synthesizer:
         max_tokens=settings.LLM_MAX_TOKENS,
       )
       if result is None:
-        return f"以下是根据分析结果整理的旅行方案：\n\n{combined}"
+        if has_agent_content:
+          return f"以下是根据分析结果整理的旅行方案：\n\n{combined}"
+        return _smart_fallback(user_message)
       return result
     except Exception as exc:
       logger.warning("Synthesis LLM call failed: %s", exc)
-      return f"以下是为你整理的旅行方案：\n\n{combined}"
+      if has_agent_content:
+        return f"以下是为你整理的旅行方案：\n\n{combined}"
+      return _smart_fallback(user_message)
 
   # ------------------------------------------------------------------ #
   # Internals
