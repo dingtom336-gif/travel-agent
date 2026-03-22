@@ -1,0 +1,542 @@
+{
+  "timestamp": "2026-03-20 03:04:12",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T071",
+      "category": "constrained_plan",
+      "final_score": 3.83,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "火车",
+              "拉萨",
+              "沿途",
+              "西宁",
+              "慢游"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.292,
+          "weighted": 0.875,
+          "reason": "Satisfied 3/5 constraints",
+          "details": {
+            "satisfied": [
+              "火车",
+              "慢游",
+              "拉萨"
+            ],
+            "missed": [
+              "北京出发",
+              "沿途停3个城市"
+            ],
+            "ratio": 0.6
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 1,
+            "response_length": 697
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T071",
+        "cat": "constrained_plan",
+        "query": "从北京出发，想坐火车慢游到拉萨，沿途停3个城市。",
+        "response": "# 🚂 北京→拉萨 火车慢游方案\n\n太棒了！这是一条堪称\"世界级景观\"的经典铁路线，3位旅客一起慢游进藏，体验会非常难忘！\n\n---\n\n## 📍 推荐路线\n\n**北京西 → 兰州 → 西宁 → 格尔木 → 拉萨**\n\n| 站点 | 建议停留 | 必体验亮点 |\n|------|---------|-----------|\n| **兰州** | 1-2天 | 黄河风情线、正宗牛肉面、白塔山俯瞰全城 |\n| **西宁** | 2-3天 | 青海湖、塔尔寺、东关清真大寺 |\n| **格尔木** | 1天 | 昆仑山口、胡杨林、进藏前最后补给站 |\n\n> 💡 **路线设计逻辑**：由低海拔逐步向高海拔过渡，帮助身体适应高原，减少高反风险。\n\n---\n\n## 🎫 购票要点\n\n- **车次**：Z21次（北京西→拉萨，约40小时）\n- **渠道**：12306官网/APP\n- **票种建议**：长途选**硬卧或软卧**，3人正好一个包厢\n- **旺季提醒**：5-10月需提前15天抢票\n\n---\n\n## 🏔️ 进藏必知\n\n**行前准备**\n- 身份证随身携带（沿途多次查验）\n- 提前1周服用红景天\n- 带好防晒霜、墨镜、保暖衣物\n\n**高原适应**\n- 格尔木→拉萨段风景绝美，白天务必靠窗\n- 抵达拉萨首日勿洗澡、勿剧烈运动\n\n---\n\n## ❓ 几个小问题\n\n为了给您更详细的行程规划，想确认一下：\n\n1. **计划什么时候出发？**（不同季节风景和注意事项差异较大）\n2. **全程大概多少天？**（方便安排每个城市的停留时间）\n\n告诉我后，我可以帮您细化每天的行程和住宿推荐！🏔️✨",
+        "total_ms": 70589,
+        "ttfb_ms": 58586,
+        "chars": 697,
+        "has_done": true,
+        "events_count": 434,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T072",
+      "category": "constrained_plan",
+      "final_score": 3.62,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "新疆",
+              "包车",
+              "小团",
+              "国庆"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 2,
+          "weight": 0.292,
+          "weighted": 0.583,
+          "reason": "Satisfied 2/4 constraints",
+          "details": {
+            "satisfied": [
+              "新疆",
+              "包车或小团"
+            ],
+            "missed": [
+              "国庆7天",
+              "不自驾"
+            ],
+            "ratio": 0.5
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 1,
+            "response_length": 920
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "Conversion markers: 5",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "帮您",
+              "推荐",
+              "方案",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T072",
+        "cat": "constrained_plan",
+        "query": "国庆7天去新疆，不想开车，有没有包车或小团推荐？",
+        "response": "# 🚐 新疆国庆7日包车/小团游建议\n\n您好！国庆去新疆看秋景是个绝佳选择！不想自驾的话，**包车或小团**确实更轻松，还能有当地司机兼向导，省心又安全。\n\n---\n\n## 🌤️ 国庆天气速览\n\n| 地区 | 白天 | 夜间 | 特点 |\n|------|------|------|------|\n| 北疆（喀纳斯/禾木） | 8-15°C | -2~5°C | 深秋初冬，可能降雪 |\n| 伊犁（赛里木湖） | 12-18°C | 2-8°C | 秋意浓郁 |\n| 南疆（喀什/和田） | 15-22°C | 5-12°C | 干燥晴朗 |\n\n> 💡 **穿衣建议**：分层穿搭（速干+抓绒+冲锋衣），带厚羽绒服去北疆，墨镜防晒霜必备！\n\n---\n\n## 🚗 包车/小团选择建议\n\n### 推荐渠道\n- **携程/飞猪/马蜂窝**：有正规资质的商家，评价透明\n- **当地旅行社**：乌鲁木齐、喀什都有成熟的地接社\n- **小团类型**：6-8人精品团最常见，人少灵活\n\n### 国庆参考价格（7天）\n| 类型 | 价格区间 | 包含内容 |\n|------|----------|----------|\n| 包车带司机 | ¥1,200-1,800/天 | 车+司机+油费，住宿门票自理 |\n| 精品小团 | ¥5,000-8,000/人 | 住宿+门票+部分餐食+车费 |\n\n---\n\n## 🗺️ 经典7日线路参考\n\n**北疆秋景线**（国庆最热门）：\n> 乌鲁木齐 → 布尔津 → 喀纳斯 → 禾木 → 乌尔禾魔鬼城 → 乌鲁木齐\n\n**南疆人文线**（人相对少）：\n> 乌鲁木齐 → 库尔勒 → 库车 → 阿克苏 → 喀什 → 塔县 → 喀什\n\n---\n\n## ⚠️ 重要提醒\n\n- 🔔 **国庆旺季**：包车和住宿需**提前2-3周预订**\n- 🆔 **边防证**：去塔县、白哈巴等地需办理（可在乌鲁木齐办理）\n- 🕌 **尊重习俗**：新疆多民族聚居，注意清真饮食礼仪\n\n---\n\n为了帮您查询更精准的航班和行程方案，请问：\n\n1. **您从哪个城市出发？**\n2. **更偏好北疆看秋景，还是南疆体验人文风情？** 🍂🏛️",
+        "total_ms": 148234,
+        "ttfb_ms": 135360,
+        "chars": 920,
+        "has_done": true,
+        "events_count": 576,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T073",
+      "category": "constrained_plan",
+      "final_score": 3.33,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "马尔代夫",
+              "水屋",
+              "求婚",
+              "布置",
+              "酒店"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.292,
+          "weighted": 0.292,
+          "reason": "Satisfied 1/3 constraints",
+          "details": {
+            "satisfied": [
+              "求婚"
+            ],
+            "missed": [
+              "马尔代夫水屋",
+              "酒店协助布置"
+            ],
+            "ratio": 0.33
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 871
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "Conversion markers: 5",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "帮您",
+              "推荐",
+              "方案",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T073",
+        "cat": "constrained_plan",
+        "query": "准备求婚，想在马尔代夫水屋布置惊喜，酒店能帮忙吗？",
+        "response": "# 💍 恭喜您！马尔代夫是求婚的绝佳选择！\n\n**好消息：几乎所有马尔代夫度假村都非常乐意协助求婚布置！** 这是他们的\"拿手好戏\"，经验丰富 ✨\n\n---\n\n## 🌸 酒店能帮您做什么\n\n| 服务项目 | 通常费用 | 备注 |\n|---------|---------|------|\n| 水屋露台花瓣布置 | $50-150 | 经典之选 |\n| 蜡烛/灯饰装饰 | $80-200 | 浪漫氛围 |\n| 私人沙滩烛光晚餐 | $200-500 | 求婚后的庆祝 |\n| 香槟+蛋糕 | $100-300 | 完美收尾 |\n| **全套求婚套餐** | $300-800+ | 省心之选 |\n\n> 💡 **小贴士**：高端度假村通常有专属\"浪漫管家\"，可提前邮件沟通，他们会帮您策划每一个细节！\n\n---\n\n## 📝 如何让酒店帮您实现完美求婚\n\n1. **预订后发邮件给酒店**（提前1-2周）\n   - 说明求婚计划、日期、时间\n   - 告知伴侣喜好（花材、音乐风格等）\n   \n2. **确认布置方案和费用**\n   - 可要求发送布置效果图参考\n   \n3. **考虑加购服务**\n   - 📸 摄影师记录珍贵时刻\n   - 🛥️ 日落巡游 + 求婚\n   - 🍽️ 水下餐厅求婚（如港丽岛、维拉岛）\n\n---\n\n## 🏝️ 求婚热门酒店推荐\n\n| 度假村 | 亮点 | 求婚特色 |\n|-------|------|---------|\n| **索尼娃贾尼** | 滑梯水屋 | 私人沙洲求婚 |\n| **四季兰达吉拉瓦鲁** | 服务一流 | 专属浪漫团队 |\n| **港丽伦格里岛** | 双岛体验 | 著名海底餐厅 |\n| **莉莉岛** | 性价比高 | 服务贴心 |\n\n---\n\n为了给您推荐最合适的酒店和航班方案，想了解一下：\n\n1. 📅 **计划什么时候去？**（建议选11月-4月旱季，天气更稳定）\n2. 💰 **预算大概多少？**（马尔代夫酒店从几千到几万一晚都有）\n\n祝您求婚成功！这是一生难忘的时刻 💕",
+        "total_ms": 68018,
+        "ttfb_ms": 56780,
+        "chars": 871,
+        "has_done": true,
+        "events_count": 492,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T074",
+      "category": "constrained_plan",
+      "final_score": 4.29,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "三亚",
+              "亲子",
+              "安全",
+              "省心",
+              "酒店"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.292,
+          "weighted": 1.167,
+          "reason": "Satisfied 4/5 constraints",
+          "details": {
+            "satisfied": [
+              "单亲妈妈",
+              "三亚",
+              "4天",
+              "安全省心"
+            ],
+            "missed": [
+              "2孩子5岁10岁"
+            ],
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.25,
+          "weighted": 1.0,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 3,
+            "geo_logic_markers": 1,
+            "response_length": 833
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.083,
+          "weighted": 0.25,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "卡片",
+              "推荐",
+              "方案",
+              "选择"
+            ],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T074",
+        "cat": "constrained_plan",
+        "query": "单亲妈妈带2个孩子（5岁和10岁）去三亚4天，求安全省心方案。",
+        "response": "您好！作为单亲妈妈带两个孩子出行，我完全理解您对**安全**和**省心**的重视。根据您的情况，我为您定制以下方案：\n\n---\n\n## 🏨 住宿推荐（安全省心首选）\n\n考虑到您独自带两娃，建议选择**亲子友好型度假酒店**，一站式解决吃住玩：\n\n| 区域 | 推荐理由 | 适合人群 |\n|------|----------|----------|\n| **亚龙湾** | 沙滩平缓、水质好、酒店配套成熟 | 首选！适合低龄儿童 |\n| **海棠湾** | 亚特兰蒂斯所在地、水族馆丰富 | 大孩子会更喜欢 |\n| **三亚湾** | 性价比高、离市区近 | 预算有限可选 |\n\n> 💡 **建议**：选择有儿童俱乐部、儿童泳池的酒店，孩子有地方玩，您也能稍作休息。\n\n---\n\n## 🗓️ 4天轻松行程\n\n### 🌅 Day 1：抵达 + 酒店休整\n- 抵达三亚，包车接送至酒店\n- 酒店沙滩漫步、儿童泳池玩水\n- 酒店内晚餐，早休息\n\n### 🌊 Day 2：蜈支洲岛一日游\n- 上午乘船上岛（船程约20分钟）\n- 浅滩戏水、玻璃船观海底世界（5岁孩子也能参与）\n- 岛上简单午餐，下午返程酒店休息\n\n### 🐬 Day 3：亚特兰蒂斯水族馆 + 水世界\n- 上午：失落的空间水族馆（室内凉爽，两孩子都爱）\n- 下午：水世界浅水区玩水（有儿童专属区域）\n- 晚上：返酒店休息\n\n### 🌴 Day 4：酒店悠闲 + 返程\n- 酒店早餐后儿童俱乐部活动\n- 退房、包车送机\n\n---\n\n## ⚠️ 单亲妈妈带娃安全贴士\n\n- **海滩安全**：给孩子穿浮力衣，只在有救生员的海域下水\n- **防走失**：写有您电话的手环/卡片随身带\n- **行程宽松**：每天只安排1-2个活动，预留午休\n- **防晒必备**：儿童防晒霜SPF50+、遮阳帽、防晒衣\n\n---\n\n为给您查询**具体航班和实时天气**，方便告诉我：\n1. 您的出发城市是？\n2. 大概什么时候出行？",
+        "total_ms": 69778,
+        "ttfb_ms": 57846,
+        "chars": 833,
+        "has_done": true,
+        "events_count": 523,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T075",
+      "category": "constrained_plan",
+      "final_score": 3.5,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "丝绸之路",
+              "西安",
+              "敦煌",
+              "自驾",
+              "历史"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.292,
+          "weighted": 0.292,
+          "reason": "Satisfied 1/4 constraints",
+          "details": {
+            "satisfied": [
+              "自驾"
+            ],
+            "missed": [
+              "历史主题",
+              "西安到敦煌",
+              "10天"
+            ],
+            "ratio": 0.25
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.25,
+          "weighted": 1.0,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 3,
+            "geo_logic_markers": 2,
+            "response_length": 911
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T075",
+        "cat": "constrained_plan",
+        "query": "历史迷想走一遍丝绸之路核心段，从西安到敦煌，10天自驾。",
+        "response": "# 🐪 丝绸之路核心段10日自驾方案\n\n作为历史迷，这条路线将带您穿越汉唐盛世的辉煌印记！从长安出发，一路向西，重走古人驼铃古道。\n\n---\n\n## 📜 行程概览\n\n| 天数 | 路线 | 里程 | 历史亮点 |\n|------|------|------|----------|\n| Day 1-2 | 西安 | — | 兵马俑、大雁塔、陕西历史博物馆 |\n| Day 3 | 西安→天水 | 300km | 麦积山石窟（四大石窟之一） |\n| Day 4 | 天水→兰州 | 350km | 黄河风情、甘肃省博物馆 |\n| Day 5 | 兰州→武威 | 280km | 雷台汉墓（马踏飞燕出土地） |\n| Day 6 | 武威→张掖 | 250km | 大佛寺、七彩丹霞 |\n| Day 7 | 张掖→嘉峪关 | 230km | 天下第一雄关 |\n| Day 8-9 | 嘉峪关→敦煌 | 380km | 莫高窟、鸣沙山月牙泉 |\n| Day 10 | 敦煌 | — | 玉门关/阳关遗址 |\n\n---\n\n## 🏛️ 历史迷必打卡\n\n考虑到您对历史文化情有独钟，以下景点值得深度游览：\n\n- **兵马俑** — 秦始皇陵的地下军团，建议请讲解员深度了解\n- **麦积山石窟** — \"东方雕塑馆\"，北朝艺术瑰宝\n- **甘肃省博物馆** — 丝路文物精华，马踏飞燕真品在此\n- **嘉峪关** — 明长城西端起点，感受\"大漠孤烟直\"\n- **莫高窟** — 必须提前预约！建议选A类票（8个洞窟+数字电影）\n- **玉门关/阳关** — \"春风不度玉门关\"的诗意实地\n\n---\n\n## 💡 自驾贴士\n\n- **路况**：全程高速+国道，路况良好；兰州以西注意横风\n- **加油**：每个城市间服务区较远，建议半箱油就补给\n- **门票预约**：莫高窟需提前30天在官网预约，兵马俑建议提前3天\n\n> 📌 **历史迷专属建议**：推荐携带《丝绸之路：一部全新的世界史》或听相关播客，途中更有代入感！\n\n---\n\n请问您大概什么时间出发？我可以帮您确认莫高窟预约时间和更精确的天气情况。另外，是计划敦煌还车还是自驾返程？",
+        "total_ms": 115879,
+        "ttfb_ms": 60724,
+        "chars": 911,
+        "has_done": true,
+        "events_count": 569,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 3.71,
+    "pass_rate": "5/5 (100%)",
+    "category_stats": {
+      "constrained_plan": {
+        "pass": 5,
+        "fail": 0,
+        "count": 5,
+        "avg": 3.71,
+        "min": 3.33,
+        "max": 4.29
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 2.2,
+        "min": 1,
+        "max": 4
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 3.4,
+        "min": 3,
+        "max": 4
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 4.2,
+        "min": 3,
+        "max": 5
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {}
+  }
+}

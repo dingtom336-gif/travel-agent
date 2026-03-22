@@ -1,0 +1,536 @@
+{
+  "timestamp": "2026-03-20 03:13:10",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T051",
+      "category": "constrained_plan",
+      "final_score": 4.12,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "高反",
+              "拉萨",
+              "海拔",
+              "适应",
+              "氧气"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 2,
+          "weight": 0.292,
+          "weighted": 0.583,
+          "reason": "Satisfied 2/4 constraints",
+          "details": {
+            "satisfied": [
+              "60岁老人",
+              "拉萨"
+            ],
+            "missed": [
+              "暑假",
+              "降低高反"
+            ],
+            "ratio": 0.5
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 5,
+          "weight": 0.25,
+          "weighted": 1.25,
+          "reason": "Reasoning score 5/5",
+          "details": {
+            "structure_markers": 3,
+            "geo_logic_markers": 3,
+            "response_length": 987
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "Conversion markers: 5",
+          "details": {
+            "matched_cta": [
+              "立即",
+              "帮您",
+              "推荐",
+              "方案",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T051",
+        "cat": "constrained_plan",
+        "query": "暑假去拉萨，带60岁老人，如何安排能最大程度降低高反风险？",
+        "response": "# 🏔️ 带老人进藏·高反预防方案\n\n带60岁老人暑期游拉萨，**渐进式适应海拔**是核心策略。以下是综合建议：\n\n---\n\n## 🚂 交通方案：缓进缓出\n\n考虑到您带老人出行，**强烈建议选择渐进式进藏路线**：\n\n| 方案 | 路线 | 适应时间 | 推荐度 |\n|------|------|---------|-------|\n| **火车进藏** | 北京→西宁（休整1天）→拉萨（青藏铁路22小时） | 2-3天逐步适应 | ⭐⭐⭐⭐⭐ |\n| **飞机+中转** | 先飞西宁/成都，休整1-2天后飞拉萨 | 1-2天适应 | ⭐⭐⭐⭐ |\n| 直飞拉萨 | 直接飞抵3650米 | 无适应期，风险较高 | ⭐⭐ |\n\n> 💡 **青藏铁路优势**：西宁出发后，海拔从2260m逐步升至3650m，车厢供氧，老人身体可缓慢适应。\n\n---\n\n## 🏨 住宿推荐：供氧酒店是关键\n\n根据您**带老人、优先健康安全**的需求，首推：\n\n**拉萨香格里拉大酒店**（¥1200-2000/晚）\n\n| 优势 | 说明 |\n|------|------|\n| ✅ 弥散式供氧 | 老人睡眠时无需佩戴鼻吸管，更舒适 |\n| ✅ 医疗配套完善 | 紧邻医院，紧急情况5分钟可达 |\n| ✅ 海拔相对较低 | 位于城区低处，减轻高反压力 |\n| ✅ 老人服务经验 | 可安排供氧车接站 |\n\n---\n\n## 📅 前三天适应期安排\n\n| 天数 | 建议活动 | 说明 |\n|------|---------|------|\n| **Day 1** | 抵达后直接入住酒店休息 | 不洗澡、不外出，静卧适应 |\n| **Day 2** | 酒店内活动，傍晚可到八廓街慢走 | 步行不超过30分钟 |\n| **Day 3** | 布达拉宫广场、大昭寺 | 避免爬坡，可租借便携氧气 |\n\n---\n\n## 💊 高反预防清单\n\n- **出发前**：老人做心肺功能体检，咨询医生是否适合进藏\n- **随身携带**：红景天（提前7天服用）、高原安、便携氧气瓶\n- **抵达后**：多喝水、饮食清淡、禁止饮酒、避免洗澡着凉\n- **紧急情况**：如出现剧烈头痛、呼吸困难，立即就医或考虑下撤到林芝（海拔约2900m）\n\n---\n\n请问您从哪个城市出发？我可以帮您规划具体的交通路线和详细行程。",
+        "total_ms": 93894,
+        "ttfb_ms": 80304,
+        "chars": 987,
+        "has_done": true,
+        "events_count": 586,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T052",
+      "category": "constrained_plan",
+      "final_score": 4.71,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "赛里木湖",
+              "喀纳斯",
+              "自驾",
+              "环线",
+              "高峰"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.292,
+          "weighted": 1.167,
+          "reason": "Satisfied 4/5 constraints",
+          "details": {
+            "satisfied": [
+              "10天",
+              "自驾",
+              "赛里木湖",
+              "喀纳斯"
+            ],
+            "missed": [
+              "避人流"
+            ],
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 5,
+          "weight": 0.25,
+          "weighted": 1.25,
+          "reason": "Reasoning score 5/5",
+          "details": {
+            "structure_markers": 4,
+            "geo_logic_markers": 3,
+            "response_length": 1511
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "帮您",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T052",
+        "cat": "constrained_plan",
+        "query": "10天北疆环线自驾，包含赛里木湖和喀纳斯，避开人流高峰建议。",
+        "response": "# 🚗 10天北疆环线自驾攻略\n\n您好！北疆环线是非常经典的自驾路线，赛里木湖和喀纳斯更是精华中的精华。我来为您整合一份完整的避峰方案！\n\n---\n\n## 🗺️ 推荐路线（地理最优、避峰设计）\n\n```\n乌鲁木齐 → 赛里木湖 → 禾木 → 喀纳斯 → 布尔津 → 乌鲁木齐\n```\n\n这条路线**先西后北**，避开大多数人\"先喀纳斯后赛里木湖\"的顺序，可有效错峰。\n\n---\n\n## 📅 10天行程安排\n\n| 天数 | 行程 | 住宿 | 避峰技巧 |\n|------|------|------|----------|\n| D1 | 乌鲁木齐集合，取车 | 乌鲁木齐 | 提前备好物资 |\n| D2 | 乌鲁木齐→赛里木湖（550km，6h） | **湖边营地** | 下午抵达，日落人少 |\n| D3 | 赛里木湖环湖→精河（150km） | 精河 | 早上8点前环湖 |\n| D4 | 精河→禾木（400km，6h） | **禾木村内** | 傍晚进村，避开日间团 |\n| D5 | 禾木晨雾→喀纳斯（60km） | **喀纳斯景区内** | 早6点观景台，人少景美 |\n| D6 | 喀纳斯一日游 | **景区内** | 下午4点后游三湾 |\n| D7 | 喀纳斯→布尔津（150km） | 布尔津 | 途中五彩滩日落 |\n| D8 | 布尔津→乌鲁木齐（680km） | 乌鲁木齐 | 途中可可托海可选 |\n| D9 | 乌鲁木齐休整/周边 | 乌鲁木齐 | 大巴扎、博物馆 |\n| D10 | 还车返程 | — | — |\n\n---\n\n## 💰 预算估算（2人）\n\n| 类型 | 总费用 | 人均 |\n|------|--------|------|\n| 经济型 | ¥10,500-12,000 | ¥5,000-6,000 |\n| 舒适型 | ¥15,500-17,500 | ¥7,500-8,750 |\n\n**主要支出：** 租车SUV约¥4,000-6,000，景区内住宿较贵（¥500-1,200/晚）\n\n---\n\n## ⏰ 避开人流高峰核心策略\n\n> 💡 **黄金法则**：住进景区里，早晚错峰游\n\n### 时间策略\n- **早起！** 景点8点前到达，旅游团通常10点后才到\n- **下午入园**：喀纳斯下午4点后人流减少，光线柔和更适合拍照\n- **避开周末**：核心景点尽量安排在周一至周四\n\n### 路线策略\n- **反向游览**：大多数人先喀纳斯后赛里木湖，您反着走\n- **住景区内**：禾木、喀纳斯住村内，早晚独享美景\n\n---\n\n## 🏨 关键住宿推荐\n\n| 地点 | 推荐住宿 | 价格/晚 | 避峰优势 |\n|------|----------|---------|----------|\n| 赛里木湖 | 点将台星空房车营地 | ¥600-1,000 | 湖畔日落，日间游客走后独享 |\n| 禾木 | 禾木山庄/图瓦人民宿 | ¥400-800 | 早6点步行至观景台看晨雾 |\n| 喀纳斯 | 喀纳斯山庄 | ¥800-1,200 | 步行至观鱼台，避开区间车排队 |\n\n---\n\n## ⚠️ 重要提醒\n\n- **加油**：见站就加，保持半箱以上油量\n- **证件**：身份证必带，白哈巴需边防证（喀纳斯可办）\n- **保暖**：山区昼夜温差15-20°C，9月底可能下雪\n- **预订**：旺季景区内住宿需提前15-30天预订\n\n---\n\n**请问您计划什么时候出发？** 告诉我具体日期，我可以：\n1. 查询实时天气预报和穿衣建议\n2. 帮您关注景区门票预约时间节点",
+        "total_ms": 157450,
+        "ttfb_ms": 135165,
+        "chars": 1511,
+        "has_done": true,
+        "events_count": 895,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T053",
+      "category": "constrained_plan",
+      "final_score": 3.96,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.292,
+          "weighted": 1.167,
+          "reason": "Matched 3/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "山西",
+              "悟空",
+              "取景地"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.6,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.292,
+          "weighted": 0.875,
+          "reason": "Satisfied 2/3 constraints",
+          "details": {
+            "satisfied": [
+              "山西",
+              "5天"
+            ],
+            "missed": [
+              "黑神话悟空取景地"
+            ],
+            "ratio": 0.67
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 5,
+          "weight": 0.25,
+          "weighted": 1.25,
+          "reason": "Reasoning score 5/5",
+          "details": {
+            "structure_markers": 4,
+            "geo_logic_markers": 4,
+            "response_length": 909
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.083,
+          "weighted": 0.25,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T053",
+        "cat": "constrained_plan",
+        "query": "想要一个以《黑神话：悟空》取景地为核心的山西5天路线。",
+        "response": "# 🐵 山西《黑神话：悟空》取景地5天朝圣路线\n\n根据您对**山地景观**的偏好，我为您规划了一条从北向南、不走回头路的精华路线，涵盖游戏中多个经典场景原型！\n\n---\n\n## 📍 路线概览\n\n**大同 → 浑源 → 应县 → 五台山 → 平遥 → 临汾**\n\n---\n\n## 🗓️ 每日行程\n\n### 🌅 Day 1 | 大同·云冈石窟\n- **上午**：云冈石窟（游戏开场取景地，第5-13窟最震撼）\n- **下午**：华严寺、善化寺（辽金建筑典范）\n- **住宿**：大同市区，近古城方便觅食\n\n### 🏔️ Day 2 | 浑源·悬空寺 → 应县木塔\n- **上午**：悬空寺（游戏经典场景，依山而建的奇迹）\n- **下午**：驱车前往应县木塔（车程约1小时）\n- **亮点**：应县木塔是世界最高木塔，游戏中的塔原型之一\n- **住宿**：应县或直接前往五台山脚下\n\n### ⛰️ Day 3 | 五台山·佛光寺&南禅寺\n考虑到您喜欢山地景观，五台山是绝佳之选！\n- **上午**：佛光寺（游戏重要取景地，唐代建筑瑰宝）\n- **下午**：南禅寺（中国现存最古老木构建筑）\n- **住宿**：五台山景区内或台怀镇\n\n### 🏯 Day 4 | 平遥古城\n- **全天**：平遥古城（城墙、日升昌、县衙）\n- **傍晚**：漫步明清街，品尝平遥牛肉\n- **住宿**：古城内客栈，体验晋商风情\n\n### 🎭 Day 5 | 临汾隰县·小西天\n- **上午**：驱车前往隰县小西天（车程约2.5小时）\n- **亮点**：小西天悬塑是游戏中\"小西天\"场景原型，极为震撼\n- **返程**：可从临汾西站乘高铁离开\n\n---\n\n## 💡 实用贴士\n\n> 🌤️ **天气提醒**：初秋昼夜温差大，山区（悬空寺、五台山）更冷，务必带**防风外套**和**舒适防滑鞋**！\n\n- 🚗 **建议自驾或包车**：取景地分布较散，自驾最灵活\n- 📸 **拍照最佳时段**：云冈石窟上午光线最佳\n- ⏰ **悬空寺贴士**：排队人多，建议赶早\n\n---\n\n请问您从哪个城市出发？我可以帮您确认往返交通方式，以及是否需要调整行程节奏～",
+        "total_ms": 149836,
+        "ttfb_ms": 136799,
+        "chars": 909,
+        "has_done": true,
+        "events_count": 596,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T054",
+      "category": "constrained_plan",
+      "final_score": 3.83,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "大阪",
+              "租车",
+              "儿童座椅",
+              "补给",
+              "超市"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.292,
+          "weighted": 0.875,
+          "reason": "Satisfied 3/5 constraints",
+          "details": {
+            "satisfied": [
+              "2娃2老",
+              "大阪",
+              "5天"
+            ],
+            "missed": [
+              "6口人",
+              "租车自驾"
+            ],
+            "ratio": 0.6
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 2,
+            "response_length": 679
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T054",
+        "cat": "constrained_plan",
+        "query": "全家6口人（含2娃2老），在大阪租车自驾5天，求空间大的补给点建议。",
+        "response": "# 🚗 大阪自驾补给点推荐\n\n您好！针对您**6人大家庭（2娃2老）**自驾5天的需求，我为您整理了以下补给点建议：\n\n---\n\n## 🏆 首选推荐：AEON Mall 系列\n\n| 门店 | 停车位 | 家庭友好设施 |\n|------|--------|-------------|\n| **大阪鹤见店** | ~5000个 | 儿童游乐区、母婴室、轮椅租借 |\n| **堺北花田店** | ~4000个 | 关西最大之一，餐饮极丰富 |\n| **伊丹店** | ~3500个 | 近机场，适合首/末日补给 |\n\n> 💡 **为什么推荐AEON**：免费停车2-5小时、超市可采购零食饮料、餐厅选择多老少皆宜、设施齐全适合带娃带老。\n\n---\n\n## 🛣️ 高速公路服务区（SA）\n\n适合中途休息：\n\n- **吹田SA**（名神高速）— 关西最大服务区，餐厅/商店/洗手间一应俱全\n- **岸和田SA**（阪和道）— 往和歌山方向必经，可采购当地特产\n\n---\n\n## ⚠️ 家庭自驾关键提醒\n\n| 项目 | 建议 |\n|------|------|\n| 🚙 车型 | 务必选**7-8座**（推荐丰田Alphard/埃尔法），6人+行李需要大空间 |\n| 👶 儿童座椅 | 日本法律强制要求，租车时需提前租赁 |\n| 🎫 ETC卡 | 强烈建议租用，高速缴费更便捷 |\n| 💳 保险 | 建议购买旅行险（医疗保额≥30万），老人小孩保障更安心 |\n\n---\n\n请问您的**具体出行日期**是？我可以帮您查询天气预报，并进一步规划每日路线和补给点安排！🌤️",
+        "total_ms": 66740,
+        "ttfb_ms": 57837,
+        "chars": 679,
+        "has_done": true,
+        "events_count": 399,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T055",
+      "category": "constrained_plan",
+      "final_score": 3.83,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "推荐",
+              "城市",
+              "预算",
+              "广州",
+              "性价比"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.292,
+          "weighted": 0.875,
+          "reason": "Satisfied 3/4 constraints",
+          "details": {
+            "satisfied": [
+              "3000元",
+              "广州出发",
+              "3个城市"
+            ],
+            "missed": [
+              "国内"
+            ],
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 1,
+            "response_length": 897
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T055",
+        "cat": "constrained_plan",
+        "query": "极简主义：3000元预算，从广州出发能玩得爽的3个国内城市推荐。",
+        "response": "# 🎯 3000元预算 · 广州出发 · 3个城市推荐\n\n根据您的**极简主义**偏好和预算，我为您精选了3个性价比超高的目的地：\n\n---\n\n## 1️⃣ 桂林 🏆 首推\n\n| 项目 | 费用（3人） |\n|------|------------|\n| 高铁往返 | ¥840-1200 |\n| 住宿3晚 | ¥600-900 |\n| 餐饮+门票 | ¥800-1000 |\n| **合计** | **¥2300-3100** ✅ |\n\n> 💡 **为什么选桂林**：交通成本最低、山水绝美、消费水平亲民。漓江竹筏、阳朔西街、龙脊梯田，经典又不踩雷。\n\n---\n\n## 2️⃣ 长沙 🔥 美食天堂\n\n| 项目 | 费用（3人） |\n|------|------------|\n| 高铁往返 | ¥1900-2280 |\n| 住宿2晚 | ¥500-800 |\n| 餐饮+门票 | ¥500-700 |\n| **合计** | **¥2900-3780** ⚠️ |\n\n> 💡 **省钱技巧**：选火车硬卧（¥150/人），往返仅¥900，预算瞬间宽裕！茶颜悦色、臭豆腐、小龙虾管够。\n\n---\n\n## 3️⃣ 贵阳 🌿 小众宝藏\n\n| 项目 | 费用（3人） |\n|------|------------|\n| 高铁往返 | ¥1600-1920 |\n| 住宿2晚 | ¥400-600 |\n| 餐饮+门票 | ¥500-700 |\n| **合计** | **¥2500-3220** ✅ |\n\n> 💡 **贵阳优势**：物价超低、酸汤鱼绝了、天气凉爽。青岩古镇、甲秀楼、黔灵山公园都免费或很便宜！\n\n---\n\n## 🗒️ 极简建议\n\n| 城市 | 适合人群 | 预算友好度 |\n|------|---------|-----------|\n| 桂林 | 喜欢自然风光、轻松度假 | ⭐⭐⭐⭐⭐ |\n| 长沙 | 爱吃辣、爱夜生活、年轻人 | ⭐⭐⭐⭐ |\n| 贵阳 | 想避开人潮、追求性价比 | ⭐⭐⭐⭐⭐ |\n\n---\n\n**您对哪个城市更感兴趣？** 确认后我可以帮您规划具体行程 🗺️",
+        "total_ms": 69817,
+        "ttfb_ms": 58363,
+        "chars": 897,
+        "has_done": true,
+        "events_count": 512,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 4.09,
+    "pass_rate": "5/5 (100%)",
+    "category_stats": {
+      "constrained_plan": {
+        "pass": 5,
+        "fail": 0,
+        "count": 5,
+        "avg": 4.09,
+        "min": 3.83,
+        "max": 4.71
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4.8,
+        "min": 4,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 3,
+        "min": 2,
+        "max": 4
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 4.2,
+        "min": 3,
+        "max": 5
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 4.2,
+        "min": 3,
+        "max": 5
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {}
+  }
+}

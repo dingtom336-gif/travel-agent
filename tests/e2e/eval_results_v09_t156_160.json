@@ -1,0 +1,490 @@
+{
+  "timestamp": "2026-03-20 03:09:05",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T156",
+      "category": "transaction",
+      "final_score": 1.35,
+      "dimensions": {
+        "accuracy": {
+          "score": 1,
+          "weight": 0.261,
+          "weighted": 0.261,
+          "reason": "Matched 0/5 golden keys",
+          "details": {
+            "matched_keys": [],
+            "total_keys": 5,
+            "match_ratio": 0.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.217,
+          "weighted": 0.217,
+          "reason": "No constraints; key echo 0/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 1,
+          "weight": 0.174,
+          "weighted": 0.174,
+          "reason": "Reasoning score 1/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 0
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.261,
+          "weighted": 0.261,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T156",
+        "cat": "transaction",
+        "query": "预订酒店时\"含早\"和\"不含早\"价差值得吗？",
+        "response": "",
+        "total_ms": 18204,
+        "ttfb_ms": null,
+        "chars": 0,
+        "has_done": false,
+        "events_count": 2,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T157",
+      "category": "transaction",
+      "final_score": 4.17,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "购物店",
+              "强制",
+              "自愿",
+              "合同"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.217,
+          "weighted": 0.87,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 491
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T157",
+        "cat": "transaction",
+        "query": "这个跟团游的\"购物店\"是强制的还是自愿的？",
+        "response": "您好！这是个很实际的问题，我来帮您解答 👋\n\n---\n\n## 📋 关于跟团游\"购物店\"安排\n\n### 法律规定\n根据中国《旅游法》，旅行社**不得强制或变相强制**游客购物。正规跟团游的购物店应该是**自愿消费**的。\n\n### 实际情况分类\n\n| 团型 | 购物安排 | 建议 |\n|------|----------|------|\n| **纯玩团** | 无购物店，全程景点 | 价格较高，适合不想购物的人 |\n| **品质购物团** | 有购物店，自愿消费 | 合同确认条款即可 |\n| **低价购物团** | 可能存在隐形压力 | ⚠️ 价格过低需警惕\"负团费\"陷阱 |\n\n### 💡 报名前务必确认\n\n> **要求旅行社书面说明**：购物店数量、每次停留时长、是否强制消费\n\n如果遇到强制购物，可拨打 **12301** 投诉维权。\n\n---\n\n## 🛍️ 顺便提醒\n\n我注意到您的偏好包含**购物兴趣**。如果您告诉我**目的地城市**，我可以帮您推荐当地真正值得一逛的购物场所（特色市集、当地特产店等），而不是旅游团安排的那种购物店哦！\n\n请问您打算去哪里旅游呢？😊",
+        "total_ms": 52599,
+        "ttfb_ms": 46321,
+        "chars": 491,
+        "has_done": true,
+        "events_count": 277,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T158",
+      "category": "transaction",
+      "final_score": 4.43,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "货币转换",
+              "信用卡",
+              "DCC",
+              "汇率"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.217,
+          "weighted": 0.87,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 451
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "下单",
+              "帮您",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T158",
+        "cat": "transaction",
+        "query": "用信用卡订国际酒店会不会有货币转换费？",
+        "response": "这是个很实用的问题！简单来说：**可能会有，但可以避免**。\n\n---\n\n## 💳 不同卡组织的转换费\n\n| 卡类型 | 货币转换费 |\n|-------|-----------|\n| **银联卡** | ✅ 免收 |\n| **Visa/Mastercard** | 通常 1-2%（全币种卡可免） |\n| **JCB/运通** | 约 1-2% |\n\n---\n\n## ⚠️ 最重要的提醒：拒绝 DCC\n\n预订或入住时，网站/前台可能问您是否**用人民币结算**——\n\n> 🚫 **一定要拒绝！选择当地货币结算。**  \n> DCC（动态货币转换）的汇率往往比银行差 3-5%，是一笔隐形损失。\n\n---\n\n## ✅ 省钱建议\n\n- **优先用银联卡或全币种信用卡**（招行、中行等都有免转换费的卡）\n- **第三方平台**（Booking、Agoda）下单前确认结算币种\n- **出发前通知银行**，避免境外刷卡被风控冻结\n\n---\n\n有具体的出行目的地吗？我可以帮您看看当地酒店的价格和支付建议！😊",
+        "total_ms": 41118,
+        "ttfb_ms": 35306,
+        "chars": 451,
+        "has_done": true,
+        "events_count": 251,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T159",
+      "category": "transaction",
+      "final_score": 4.39,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "价格",
+              "规律",
+              "提前",
+              "监控",
+              "建议"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 1,
+            "response_length": 664
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "查看",
+              "下单",
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T159",
+        "cat": "transaction",
+        "query": "机票价格监控：现在买还是等几天？有什么规律？",
+        "response": "## 🎫 机票购买时机全攻略\n\n这是很多旅行者都关心的问题！机票价格确实有一定规律可循——\n\n---\n\n### ⏰ 黄金购票时间\n\n| 航班类型 | 建议提前 |\n|---------|---------|\n| 国内航班 | **2-4周** |\n| 国际短途（日韩泰） | **4-6周** |\n| 国际长途（欧美澳） | **8-12周** |\n| 旺季/节假日 | **3-6个月** |\n\n> 💡 **小技巧**：周二、周三凌晨搜索，往往能刷到刚更新的低价票！\n\n---\n\n### 📊 价格波动规律\n\n```\n早鸟期(3-6月前) → 低位期(6-8周前)✅最佳 → 上涨期(2周前) → 高价期(7天内)\n```\n\n**现在就买的情况：**\n- ✅ 出发日期固定 + 旺季出行\n- ✅ 价格已低于历史均价\n- ✅ 剩余座位紧张\n\n**可以再等等的情况：**\n- ⏳ 淡季出行，座位充足\n- ⏳ 价格明显高于历史均价\n- ⏳ 距离出发还有2个月以上\n\n---\n\n### 🔧 实用监控工具\n\n- **Google Flights** — 查看价格趋势图，一目了然\n- **天巡Skyscanner** — 设置降价提醒\n- **携程/飞猪** — 国内航线价格日历很实用\n- **航司官方公众号** — 第一时间获取促销信息\n\n> ⚠️ **避坑提醒**：用无痕模式搜索，避免\"大数据杀熟\"；促销票通常不可退改，下单前确认好行程。\n\n---\n\n您有具体的出行计划吗？比如目的地和大致日期，我可以帮您分析更精准的购票策略！🛫",
+        "total_ms": 49056,
+        "ttfb_ms": 39046,
+        "chars": 664,
+        "has_done": true,
+        "events_count": 378,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T160",
+      "category": "transaction",
+      "final_score": 4.17,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "超赞房东",
+              "评价",
+              "服务",
+              "区别"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.217,
+          "weighted": 0.87,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 1,
+            "response_length": 573
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "帮你"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T160",
+        "cat": "transaction",
+        "query": "民宿平台上的\"超赞房东\"和普通房东区别大吗？",
+        "response": "这是个很实用的问题！区别确实挺大的，我来帮你梳理一下：\n\n## 🏆 \"超赞房东\"认证标准\n\n这是Airbnb等平台的优质房东认证，**每季度审核**，需同时满足：\n\n| 标准 | 要求 |\n|------|------|\n| 响应率 | ≥90% |\n| 订单取消率 | <1% |\n| 整体评分 | 平均 **4.8分以上** |\n| 接待次数 | 每年至少10次 |\n\n---\n\n## 📊 核心区别\n\n**服务稳定性**：超赞房东通常1小时内回复，极少临时取消；普通房东响应时间不确定。\n\n**房源质量**：超赞房东的房源描述与实际相符度高，设施维护更好。\n\n**问题处理**：遇到突发情况，超赞房东响应更快、解决更积极。\n\n**价格**：超赞房东因口碑好，价格可能略高；普通房东性价比可能更高。\n\n---\n\n## 💡 我的建议\n\n> **优先选超赞房东**：首次住民宿、重要行程（蜜月/纪念日）、带老人小孩、语言不通的目的地。\n\n> **普通房东也可考虑**：预算有限、有筛选经验、能接受一定灵活性、新房东刚上架（还没资格认证）。\n\n---\n\n无论选哪种，预订前记得：\n- ✅ 看评价数量和**差评内容**\n- ✅ 看响应时间（个人资料页有显示）\n- ✅ 提前发消息测试房东反应\n\n你是在计划哪里的民宿住宿呢？我可以帮你一起筛选合适的房源～",
+        "total_ms": 89852,
+        "ttfb_ms": 84529,
+        "chars": 573,
+        "has_done": true,
+        "events_count": 320,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 3.7,
+    "pass_rate": "4/5 (80%)",
+    "category_stats": {
+      "transaction": {
+        "pass": 4,
+        "fail": 1,
+        "count": 5,
+        "avg": 3.7,
+        "min": 1.35,
+        "max": 4.43
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4.2,
+        "min": 1,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 3.6,
+        "min": 1,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 2.6,
+        "min": 1,
+        "max": 3
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 3.6,
+        "min": 1,
+        "max": 5
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {
+      "accuracy": 1
+    }
+  }
+}

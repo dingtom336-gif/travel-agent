@@ -1,0 +1,533 @@
+{
+  "timestamp": "2026-03-20 03:15:50",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T081",
+      "category": "constrained_plan",
+      "final_score": 3.83,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "学生",
+              "武汉",
+              "预算",
+              "推荐"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.292,
+          "weighted": 0.875,
+          "reason": "Satisfied 2/3 constraints",
+          "details": {
+            "satisfied": [
+              "学生",
+              "武汉出发"
+            ],
+            "missed": [
+              "2000预算"
+            ],
+            "ratio": 0.67
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 2,
+            "response_length": 621
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮你",
+              "推荐",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T081",
+        "cat": "constrained_plan",
+        "query": "高考完的学生党，预算2000，从武汉出发能去哪？",
+        "response": "🎉 **首先恭喜你高考结束！** 这是难得的放松时光，2000元预算从武汉出发其实选择很多~\n\n---\n\n## 🌟 推荐目的地一览\n\n| 目的地 | 往返交通 | 适合天数 | 亮点 |\n|--------|----------|----------|------|\n| **长沙** | 高铁¥150 | 3-4天 | 茶颜悦色、橘子洲、夜生活 |\n| **南昌** | 高铁¥160 | 3天 | 滕王阁、八一纪念馆、拌粉 |\n| **宜昌** | 高铁¥80 | 2-3天 | 三峡大坝、清江画廊 |\n| **恩施** | 火车¥75 | 3天 | 大峡谷、土家风情、避暑 |\n| **重庆** | 火车¥140 | 3-4天 | 火锅、洪崖洞、魔幻8D城市 |\n\n---\n\n> 💡 **强烈推荐首选：长沙或南昌**  \n> 交通便宜、高铁2小时内直达，预算充裕，美食多，非常适合学生党毕业旅行！\n\n---\n\n## 🎓 学生党专属省钱攻略\n\n- **带上高考准考证/录取通知书**，多数景点门票**半价甚至免费**\n- 住宿选**青旅床位**（¥40-80/晚）或和同学拼房\n- 吃饭避开景区，去**大学周边/老城区**，便宜又地道\n- 夜间火车硬卧可省一晚住宿费\n\n---\n\n**想更好地帮你规划，想了解：**\n1. 打算玩几天？\n2. 更偏好**美食打卡**、**自然风光**还是**城市逛吃**？\n\n告诉我，帮你出具体行程~ 🗺️",
+        "total_ms": 68270,
+        "ttfb_ms": 60561,
+        "chars": 621,
+        "has_done": true,
+        "events_count": 365,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T082",
+      "category": "constrained_plan",
+      "final_score": 3.83,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "极光",
+              "冰岛",
+              "芬兰",
+              "性价比",
+              "对比"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.292,
+          "weighted": 0.875,
+          "reason": "Satisfied 2/3 constraints",
+          "details": {
+            "satisfied": [
+              "极光",
+              "预算有限"
+            ],
+            "missed": [
+              "冰岛vs芬兰对比"
+            ],
+            "ratio": 0.67
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 606
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "方案",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T082",
+        "cat": "constrained_plan",
+        "query": "想去看极光，预算有限，冰岛和芬兰哪个性价比高？",
+        "response": "# 🌌 冰岛 vs 芬兰极光之旅性价比分析\n\n这是个很棒的问题！两地都是极光胜地，但**芬兰性价比明显更高**。让我帮您详细对比：\n\n| 对比项目 | 🇫🇮 芬兰（拉普兰） | 🇮🇸 冰岛 |\n|---------|------------------|---------|\n| **机票成本** | 较低，直飞赫尔辛基选择多 | 较高，多需转机 |\n| **当地消费** | 中等偏高 | **欧洲最高之一** |\n| **住宿选择** | 丰富，青旅到玻璃屋都有 | 选择少，价格贵 |\n| **极光概率** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |\n| **预计总花费** | **¥1.5-2.5万** | **¥2.5-4万** |\n\n---\n\n> 💡 **我的建议**：预算有限首选**芬兰拉普兰地区**（如罗瓦涅米、伊瓦洛）。极光观测效果同样出色，还能体验圣诞老人村、哈士奇雪橇等特色活动，整体花费可节省30-40%。\n\n---\n\n**芬兰方案亮点**：\n- ✈️ 国内多个城市直飞赫尔辛基\n- 🎿 住宿从青旅¥300/晚到玻璃屋¥2000+/晚都有\n- 🎅 罗瓦涅米可顺访圣诞老人村\n- 🐕 雪地活动丰富且价格合理\n\n---\n\n为了给您更精准的方案，想确认一下：\n\n1. **您从哪个城市出发？**\n2. **计划几月出行？**（极光最佳季节为11月-3月）\n\n这样我可以帮您查具体航班和估算详细预算！",
+        "total_ms": 60205,
+        "ttfb_ms": 51178,
+        "chars": 606,
+        "has_done": true,
+        "events_count": 367,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T083",
+      "category": "constrained_plan",
+      "final_score": 4.17,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "海南",
+              "相邻房",
+              "厨房",
+              "家庭",
+              "过年"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Satisfied 6/6 constraints",
+          "details": {
+            "satisfied": [
+              "8口人",
+              "三代同堂",
+              "过年",
+              "海南",
+              "2间相邻房",
+              "有厨房"
+            ],
+            "missed": [],
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.25,
+          "weighted": 0.5,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 417
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮你",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T083",
+        "cat": "constrained_plan",
+        "query": "三代同堂8口人过年去海南，要2间相邻房且有厨房。",
+        "response": "\n三代同堂8口人过年去海南，寻找2间相邻房且有厨房，这是个温馨又实用的安排！我可以帮你规划住宿和行程。  \n\n### **住宿建议：**  \n1. **三亚湾/海棠湾区域**：靠近海滩，交通方便，很多度假公寓或别墅提供相邻房间+厨房。  \n2. **海口市区**：若喜欢城市活力，市区有不少带厨房的短租公寓，方便家庭聚餐。  \n3. **特色民宿**：部分海南民宿专门为多代家庭设计，可能有独栋带共享厨房的房型。  \n\n### **行程亮点（参考）：**  \n- **海滩时光**：三亚亚龙湾、海棠湾适合游泳和沙滩活动。  \n- **热带风光**：南山文化旅游区、呀诺达雨林景区适合全家游览。  \n- **美食体验**：椰子鸡火锅、海鲜大餐，可在厨房自己制作或外出品尝。  \n\n**需要进一步了解：**  \n- 你们更偏好海边度假还是城市生活？  \n- 预算范围大概是多少（方便筛选性价比高的住宿）？  \n\n期待帮你定制更详细的方案！",
+        "total_ms": 5044,
+        "ttfb_ms": 1458,
+        "chars": 417,
+        "has_done": true,
+        "events_count": 238,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T084",
+      "category": "constrained_plan",
+      "final_score": 3.92,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "越南",
+              "摩托车",
+              "骑行",
+              "驾照",
+              "手续"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.292,
+          "weighted": 0.875,
+          "reason": "Satisfied 3/4 constraints",
+          "details": {
+            "satisfied": [
+              "越南",
+              "从北到南",
+              "手续"
+            ],
+            "missed": [
+              "摩托骑行"
+            ],
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 694
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "方案",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T084",
+        "cat": "constrained_plan",
+        "query": "摩托车爱好者想骑行越南从北到南，需要什么手续？",
+        "response": "# 🏍️ 越南摩托车骑行手续指南\n\n作为摩托车爱好者骑行越南从北到南，您需要准备以下手续：\n\n---\n\n## 📋 必备手续清单\n\n### 1. 签证\n- **中国公民**：需提前申请越南签证（电子签/落地签/使领馆签）\n- **电子签**：约25美元，在线申请，停留期90天\n- **建议**：申请旅游签证即可\n\n### 2. 驾照手续 ⚠️ 重点\n| 方式 | 说明 |\n|------|------|\n| **国际驾照（IDP）** | 最方便，需在国内提前办理 |\n| **越南临时驾照** | 在越南交通局办理，需护照、国内驾照翻译公证 |\n| **中国驾照+翻译件** | ⚠️ 不被官方认可，存在风险 |\n\n> 💡 **强烈建议**：提前办理国际驾照（IDP），省去当地办理的麻烦。\n\n### 3. 摩托车手续\n\n**方案A：当地租车（推荐）**\n- 手续简单：护照复印件 + 押金（约100-200万盾）\n- 无需额外手续，选择多\n\n**方案B：自带摩托车入境**\n- 需办理临时进口手续\n- 准备：车辆登记证、车牌、保险\n- 手续较繁琐，建议找专业代理\n\n### 4. 保险\n- **旅游保险**：务必包含摩托车骑行\n- **意外险**：普通旅游险通常不保摩托车事故，需额外购买\n\n---\n\n## ⚠️ 重要提醒\n\n- 越南交通混乱，新手不建议长途骑行\n- 佩戴头盔是**法律强制要求**\n- 携带护照复印件，原件妥善保管\n- 建议选择 **11月-4月干季** 出行\n\n---\n\n请问您计划**自带摩托车**还是**当地租车**？我可以进一步帮您规划具体路线和预算！🇻🇳",
+        "total_ms": 70851,
+        "ttfb_ms": 59088,
+        "chars": 694,
+        "has_done": true,
+        "events_count": 413,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T085",
+      "category": "constrained_plan",
+      "final_score": 4.21,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.292,
+          "weighted": 1.167,
+          "reason": "Matched 3/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "数字游民",
+              "远程办公",
+              "东南亚"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.6,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Satisfied 4/4 constraints",
+          "details": {
+            "satisfied": [
+              "数字游民",
+              "1个月",
+              "东南亚",
+              "远程办公"
+            ],
+            "missed": [],
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 662
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "方案",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T085",
+        "cat": "constrained_plan",
+        "query": "想找一个能\"数字游民\"远程办公1个月的东南亚城市。",
+        "response": "# 🌴 东南亚数字游民城市推荐\n\n太棒了！一个月的远程办公之旅，东南亚绝对是理想选择。根据我的分析，**泰国清迈**是您的最佳选择：\n\n---\n\n## ✨ 为什么推荐清迈？\n\n| 优势 | 详情 |\n|------|------|\n| 🛂 **签证完美匹配** | 中国护照免签30天，正好满足1个月需求 |\n| 💰 **生活成本低** | 月均消费约¥5000-8000，性价比极高 |\n| ☕ **办公环境优越** | 宁曼路区域咖啡馆、Co-working空间密集 |\n| 👥 **社区活跃** | 全球数字游民聚集地，容易结识同好 |\n| 🌡️ **气候适宜** | 11-2月凉季最舒适，日均25-28°C |\n\n---\n\n## 🏙️ 其他备选城市\n\n| 城市 | 亮点 | 适合人群 |\n|------|------|----------|\n| 🇮🇩 巴厘岛 | 海岛风情、瑜伽文化 | 喜欢海边、追求生活品质 |\n| 🇻🇳 胡志明市 | 网速快、美食丰富 | 注重工作效率、爱探索 |\n| 🇹🇭 曼谷 | 交通便利、国际化 | 需要频繁出行、喜欢都市 |\n\n---\n\n> 💡 **我的建议**：清迈的宁曼路区域有大量适合办公的咖啡馆（如CAMP、Punspace），周边住宿选择丰富，是数字游民的\"大本营\"。\n\n---\n\n为了帮您规划具体方案，请告诉我：\n\n1. **您从哪个城市出发？**\n2. **计划什么时候开始这趟旅程？**\n\n有了这些信息，我可以为您搜索航班、推荐长住住宿，并编排详细的30天行程！🚀",
+        "total_ms": 62827,
+        "ttfb_ms": 53140,
+        "chars": 662,
+        "has_done": true,
+        "events_count": 368,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 3.99,
+    "pass_rate": "5/5 (100%)",
+    "category_stats": {
+      "constrained_plan": {
+        "pass": 5,
+        "fail": 0,
+        "count": 5,
+        "avg": 3.99,
+        "min": 3.83,
+        "max": 4.21
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4.8,
+        "min": 4,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 3.8,
+        "min": 3,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 2.8,
+        "min": 2,
+        "max": 3
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 4.4,
+        "min": 4,
+        "max": 5
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {}
+  }
+}

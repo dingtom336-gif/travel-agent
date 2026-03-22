@@ -1,0 +1,1311 @@
+{
+  "timestamp": "2026-03-19 23:42:20",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 15,
+  "evaluations": [
+    {
+      "question_id": "T056",
+      "category": "constrained_plan",
+      "final_score": 4.17,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "巴厘岛",
+              "悬崖",
+              "泳池",
+              "SPA",
+              "蜜月"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Satisfied 6/6 constraints",
+          "details": {
+            "satisfied": [
+              "蜜月",
+              "巴厘岛",
+              "7天",
+              "2万/人",
+              "悬崖泳池",
+              "SPA"
+            ],
+            "missed": [],
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.25,
+          "weighted": 0.5,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 1939
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "为你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T056",
+        "cat": "constrained_plan",
+        "query": "蜜月旅行，巴厘岛7天，预算2万/人，要有悬崖泳池和SPA。",
+        "response": "以下是为你整理的旅行方案：\n\n### transport agent result:\n[MOCK - transport] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索前往目的地的交通方案\n\n[对话上下文]: user: 蜜月旅行，巴厘岛7天，预算2万/人，要有悬崖泳池和SPA。\n\nCurrent travel state:\nDestination: 巴厘岛\nDuration: 7 day...\n\n### knowledge agent result:\n[MOCK - knowledge] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: User query: 查询目的地签证政策和旅行贴士\n\n[对话上下文]: user: 蜜月旅行，巴厘岛7天，预算2万/人，要有悬崖泳池和SPA。\nDestination: not specified\n\n--- Knowledge Base ...\n\n### weather agent result:\n[MOCK - weather] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 查询旅行期间目的地天气预报\n\n[对话上下文]: user: 蜜月旅行，巴厘岛7天，预算2万/人，要有悬崖泳池和SPA。\n\nCurrent travel state:\nDestination: 巴厘岛\nDuration: 7 da...\n\n### hotel agent result:\n[MOCK - hotel] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索目的地酒店推荐\n\n[对话上下文]: user: 蜜月旅行，巴厘岛7天，预算2万/人，要有悬崖泳池和SPA。\n\nCurrent travel state:\nDestination: 巴厘岛\nDuration: 7 days\nB...\n\n### poi agent result:\n[MOCK - poi] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 推荐目的地热门景点和体验\n\n[对话上下文]: user: 蜜月旅行，巴厘岛7天，预算2万/人，要有悬崖泳池和SPA。\n\nCurrent travel state:\nDestination: 巴厘岛\nDuration: 7 day...\n\n### itinerary agent result:\n[MOCK - itinerary] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 基于酒店位置编排每日行程\n\n[对话上下文]: user: 蜜月旅行，巴厘岛7天，预算2万/人，要有悬崖泳池和SPA。\n\n=== Upstream Agent Results ===\n\n--- transport ---\n\n[MO...",
+        "total_ms": 26214,
+        "ttfb_ms": 22657,
+        "chars": 1939,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T057",
+      "category": "constrained_plan",
+      "final_score": 4.17,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "欧洲",
+              "博物馆",
+              "教堂",
+              "退休"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Satisfied 5/5 constraints",
+          "details": {
+            "satisfied": [
+              "退休夫妻",
+              "20天",
+              "不赶路",
+              "博物馆",
+              "教堂"
+            ],
+            "missed": [],
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.25,
+          "weighted": 0.5,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 1869
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "为你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T057",
+        "cat": "constrained_plan",
+        "query": "退休夫妻想去欧洲，20天，不赶路，主要看博物馆和教堂。",
+        "response": "以下是为你整理的旅行方案：\n\n### weather agent result:\n[MOCK - weather] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 查询旅行期间目的地天气预报\n\n[对话上下文]: user: 退休夫妻想去欧洲，20天，不赶路，主要看博物馆和教堂。\n\nCurrent travel state:\nDuration: 20 days...\n\n### knowledge agent result:\n[MOCK - knowledge] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: User query: 查询目的地签证政策和旅行贴士\n\n[对话上下文]: user: 退休夫妻想去欧洲，20天，不赶路，主要看博物馆和教堂。\nDestination: not specified\n\n--- Knowledge Base Re...\n\n### transport agent result:\n[MOCK - transport] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索前往目的地的交通方案\n\n[对话上下文]: user: 退休夫妻想去欧洲，20天，不赶路，主要看博物馆和教堂。\n\nCurrent travel state:\nDuration: 20 days...\n\n### hotel agent result:\n[MOCK - hotel] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索目的地酒店推荐\n\n[对话上下文]: user: 退休夫妻想去欧洲，20天，不赶路，主要看博物馆和教堂。\n\nCurrent travel state:\nDuration: 20 days...\n\n### poi agent result:\n[MOCK - poi] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 推荐目的地热门景点和体验\n\n[对话上下文]: user: 退休夫妻想去欧洲，20天，不赶路，主要看博物馆和教堂。\n\nCurrent travel state:\nDuration: 20 days...\n\n### itinerary agent result:\n[MOCK - itinerary] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 基于酒店位置编排每日行程\n\n[对话上下文]: user: 退休夫妻想去欧洲，20天，不赶路，主要看博物馆和教堂。\n\n=== Upstream Agent Results ===\n\n--- transport ---\n\n[MOCK...",
+        "total_ms": 26265,
+        "ttfb_ms": 26264,
+        "chars": 1869,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T058",
+      "category": "constrained_plan",
+      "final_score": 1.33,
+      "dimensions": {
+        "accuracy": {
+          "score": 1,
+          "weight": 0.292,
+          "weighted": 0.292,
+          "reason": "Matched 0/5 golden keys",
+          "details": {
+            "matched_keys": [],
+            "total_keys": 5,
+            "match_ratio": 0.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.292,
+          "weighted": 0.292,
+          "reason": "Satisfied 0/5 constraints",
+          "details": {
+            "satisfied": [],
+            "missed": [
+              "5人",
+              "大学生",
+              "15天",
+              "昆明出发",
+              "人均5000"
+            ],
+            "ratio": 0.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 1,
+          "weight": 0.25,
+          "weighted": 0.25,
+          "reason": "Reasoning score 1/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 0
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.083,
+          "weighted": 0.083,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T058",
+        "cat": "constrained_plan",
+        "query": "5个大学生穷游东南亚15天，从昆明出发，预算人均5000。",
+        "response": "",
+        "total_ms": 131877,
+        "ttfb_ms": null,
+        "chars": 0,
+        "has_done": false,
+        "events_count": 11,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T059",
+      "category": "constrained_plan",
+      "final_score": 3.83,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "深圳",
+              "商务",
+              "周末",
+              "景点"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.292,
+          "weighted": 0.875,
+          "reason": "Satisfied 3/4 constraints",
+          "details": {
+            "satisfied": [
+              "5天",
+              "工作日白天开会",
+              "深圳"
+            ],
+            "missed": [
+              "晚上周末自由"
+            ],
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 1939
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "为你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T059",
+        "cat": "constrained_plan",
+        "query": "商务出差顺便玩，在深圳待5天，工作日白天开会，晚上和周末想逛。",
+        "response": "以下是为你整理的旅行方案：\n\n### knowledge agent result:\n[MOCK - knowledge] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: User query: 查询目的地签证政策和旅行贴士\n\n[对话上下文]: user: 商务出差顺便玩，在深圳待5天，工作日白天开会，晚上和周末想逛。\nDestination: not specified\n\n--- Knowledge Bas...\n\n### transport agent result:\n[MOCK - transport] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索前往目的地的交通方案\n\n[对话上下文]: user: 商务出差顺便玩，在深圳待5天，工作日白天开会，晚上和周末想逛。\n\nCurrent travel state:\nDestination: 深圳\nDuration: 5 da...\n\n### weather agent result:\n[MOCK - weather] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 查询旅行期间目的地天气预报\n\n[对话上下文]: user: 商务出差顺便玩，在深圳待5天，工作日白天开会，晚上和周末想逛。\n\nCurrent travel state:\nDestination: 深圳\nDuration: 5 d...\n\n### hotel agent result:\n[MOCK - hotel] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索目的地酒店推荐\n\n[对话上下文]: user: 商务出差顺便玩，在深圳待5天，工作日白天开会，晚上和周末想逛。\n\nCurrent travel state:\nDestination: 深圳\nDuration: 5 days\n...\n\n### poi agent result:\n[MOCK - poi] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 推荐目的地热门景点和体验\n\n[对话上下文]: user: 商务出差顺便玩，在深圳待5天，工作日白天开会，晚上和周末想逛。\n\nCurrent travel state:\nDestination: 深圳\nDuration: 5 da...\n\n### itinerary agent result:\n[MOCK - itinerary] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 基于酒店位置编排每日行程\n\n[对话上下文]: user: 商务出差顺便玩，在深圳待5天，工作日白天开会，晚上和周末想逛。\n\n=== Upstream Agent Results ===\n\n--- transport ---\n\n[...",
+        "total_ms": 9045,
+        "ttfb_ms": 6769,
+        "chars": 1939,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T060",
+      "category": "constrained_plan",
+      "final_score": 0,
+      "pass": false,
+      "error": "TIMEOUT",
+      "dimensions": {},
+      "raw": {
+        "id": "T060",
+        "cat": "constrained_plan",
+        "query": "带8岁孩子的亲子游，想去有恐龙博物馆的城市，3天2晚。",
+        "response": "",
+        "total_ms": 182964,
+        "ttfb_ms": null,
+        "chars": 0,
+        "has_done": false,
+        "events_count": 8,
+        "error": "TIMEOUT"
+      }
+    },
+    {
+      "question_id": "T061",
+      "category": "constrained_plan",
+      "final_score": 3.87,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.292,
+          "weighted": 1.167,
+          "reason": "Matched 3/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "雪景",
+              "推荐",
+              "冬天"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.75,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Satisfied 4/4 constraints",
+          "details": {
+            "satisfied": [
+              "怕冷",
+              "看雪",
+              "国内",
+              "暖和"
+            ],
+            "missed": [],
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.25,
+          "weighted": 0.5,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 1933
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "为你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T061",
+        "cat": "constrained_plan",
+        "query": "冬天想看雪但怕冷的人，国内哪里能又暖和又看到雪景？",
+        "response": "以下是为你整理的旅行方案：\n\n### knowledge agent result:\n[MOCK - knowledge] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: User query: 查询目的地签证政策和旅行贴士\n\n[对话上下文]: user: 冬天想看雪但怕冷的人，国内哪里能又暖和又看到雪景？\nDestination: not specified\n\n--- Knowledge Base Resu...\n\n### weather agent result:\n[MOCK - weather] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 查询旅行期间目的地天气预报\n\n[对话上下文]: user: 冬天想看雪但怕冷的人，国内哪里能又暖和又看到雪景？\n\nCurrent travel state:\nNo travel parameters extracted yet....\n\n### transport agent result:\n[MOCK - transport] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索前往目的地的交通方案\n\n[对话上下文]: user: 冬天想看雪但怕冷的人，国内哪里能又暖和又看到雪景？\n\nCurrent travel state:\nNo travel parameters extracted yet....\n\n### hotel agent result:\n[MOCK - hotel] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索目的地酒店推荐\n\n[对话上下文]: user: 冬天想看雪但怕冷的人，国内哪里能又暖和又看到雪景？\n\nCurrent travel state:\nNo travel parameters extracted yet....\n\n### poi agent result:\n[MOCK - poi] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 推荐目的地热门景点和体验\n\n[对话上下文]: user: 冬天想看雪但怕冷的人，国内哪里能又暖和又看到雪景？\n\nCurrent travel state:\nNo travel parameters extracted yet....\n\n### itinerary agent result:\n[MOCK - itinerary] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 基于酒店位置编排每日行程\n\n[对话上下文]: user: 冬天想看雪但怕冷的人，国内哪里能又暖和又看到雪景？\n\n=== Upstream Agent Results ===\n\n--- transport ---\n\n[MOCK -...",
+        "total_ms": 9313,
+        "ttfb_ms": 9312,
+        "chars": 1933,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T062",
+      "category": "constrained_plan",
+      "final_score": 0,
+      "pass": false,
+      "error": "TIMEOUT",
+      "dimensions": {},
+      "raw": {
+        "id": "T062",
+        "cat": "constrained_plan",
+        "query": "想要一个完全不用规划、到了就能玩的\"懒人旅行\"目的地推荐。",
+        "response": "",
+        "total_ms": 180004,
+        "ttfb_ms": null,
+        "chars": 0,
+        "has_done": false,
+        "events_count": 0,
+        "error": "TIMEOUT"
+      }
+    },
+    {
+      "question_id": "T063",
+      "category": "constrained_plan",
+      "final_score": 3.87,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "长沙",
+              "拍照",
+              "密室",
+              "闺蜜"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.292,
+          "weighted": 1.167,
+          "reason": "Satisfied 5/6 constraints",
+          "details": {
+            "satisfied": [
+              "长沙",
+              "2天1晚",
+              "吃",
+              "拍照",
+              "密室逃脱"
+            ],
+            "missed": [
+              "5人闺蜜"
+            ],
+            "ratio": 0.83
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.25,
+          "weighted": 0.5,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 1939
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "为你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T063",
+        "cat": "constrained_plan",
+        "query": "和4个闺蜜去长沙，2天1晚，重点是吃+拍照+密室逃脱。",
+        "response": "以下是为你整理的旅行方案：\n\n### weather agent result:\n[MOCK - weather] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 查询旅行期间目的地天气预报\n\n[对话上下文]: user: 和4个闺蜜去长沙，2天1晚，重点是吃+拍照+密室逃脱。\n\nCurrent travel state:\nDuration: 2 days\nTravelers: 4\nPre...\n\n### knowledge agent result:\n[MOCK - knowledge] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: User query: 查询目的地签证政策和旅行贴士\n\n[对话上下文]: user: 和4个闺蜜去长沙，2天1晚，重点是吃+拍照+密室逃脱。\nDestination: not specified\n\n--- Knowledge Base Re...\n\n### transport agent result:\n[MOCK - transport] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索前往目的地的交通方案\n\n[对话上下文]: user: 和4个闺蜜去长沙，2天1晚，重点是吃+拍照+密室逃脱。\n\nCurrent travel state:\nDuration: 2 days\nTravelers: 4\nPref...\n\n### poi agent result:\n[MOCK - poi] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 推荐目的地热门景点和体验\n\n[对话上下文]: user: 和4个闺蜜去长沙，2天1晚，重点是吃+拍照+密室逃脱。\n\nCurrent travel state:\nDuration: 2 days\nTravelers: 4\nPref...\n\n### hotel agent result:\n[MOCK - hotel] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索目的地酒店推荐\n\n[对话上下文]: user: 和4个闺蜜去长沙，2天1晚，重点是吃+拍照+密室逃脱。\n\nCurrent travel state:\nDuration: 2 days\nTravelers: 4\nPrefere...\n\n### itinerary agent result:\n[MOCK - itinerary] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 基于酒店位置编排每日行程\n\n[对话上下文]: user: 和4个闺蜜去长沙，2天1晚，重点是吃+拍照+密室逃脱。\n\n=== Upstream Agent Results ===\n\n--- transport ---\n\n[MOCK...",
+        "total_ms": 52129,
+        "ttfb_ms": 52128,
+        "chars": 1939,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T064",
+      "category": "constrained_plan",
+      "final_score": 1.58,
+      "dimensions": {
+        "accuracy": {
+          "score": 1,
+          "weight": 0.292,
+          "weighted": 0.292,
+          "reason": "Matched 0/6 golden keys",
+          "details": {
+            "matched_keys": [],
+            "total_keys": 6,
+            "match_ratio": 0.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.292,
+          "weighted": 0.292,
+          "reason": "Satisfied 0/3 constraints",
+          "details": {
+            "satisfied": [],
+            "missed": [
+              "骑行",
+              "318川藏线",
+              "准备清单"
+            ],
+            "ratio": 0.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 1,
+          "weight": 0.25,
+          "weighted": 0.25,
+          "reason": "Reasoning score 1/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 44
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮你",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T064",
+        "cat": "constrained_plan",
+        "query": "骑行爱好者，想沿318国道川藏线骑行，需要哪些准备？",
+        "response": "收到你的消息了！作为旅行助手，我最擅长帮你规划行程和推荐目的地。有什么旅行想法想聊聊吗？",
+        "total_ms": 4169,
+        "ttfb_ms": 4168,
+        "chars": 44,
+        "has_done": true,
+        "events_count": 3,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T065",
+      "category": "constrained_plan",
+      "final_score": 3.87,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/6 golden keys",
+          "details": {
+            "matched_keys": [
+              "冰岛",
+              "冬天",
+              "安全",
+              "自驾",
+              "天气"
+            ],
+            "total_keys": 6,
+            "match_ratio": 0.83,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.292,
+          "weighted": 1.167,
+          "reason": "Satisfied 4/5 constraints",
+          "details": {
+            "satisfied": [
+              "冰岛",
+              "自驾",
+              "10天",
+              "冬天"
+            ],
+            "missed": [
+              "独自"
+            ],
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.25,
+          "weighted": 0.5,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 1,
+            "response_length": 1939
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "为你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T065",
+        "cat": "constrained_plan",
+        "query": "一个人去冰岛自驾环岛10天，冬天安全吗？",
+        "response": "以下是为你整理的旅行方案：\n\n### knowledge agent result:\n[MOCK - knowledge] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: User query: 查询目的地签证政策和旅行贴士\n\n[对话上下文]: user: 一个人去冰岛自驾环岛10天，冬天安全吗？\nDestination: not specified\n\n--- Knowledge Base Results -...\n\n### weather agent result:\n[MOCK - weather] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 查询旅行期间目的地天气预报\n\n[对话上下文]: user: 一个人去冰岛自驾环岛10天，冬天安全吗？\n\nCurrent travel state:\nDestination: 冰岛\nDuration: 10 days\nPrefer...\n\n### transport agent result:\n[MOCK - transport] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索前往目的地的交通方案\n\n[对话上下文]: user: 一个人去冰岛自驾环岛10天，冬天安全吗？\n\nCurrent travel state:\nDestination: 冰岛\nDuration: 10 days\nPrefere...\n\n### poi agent result:\n[MOCK - poi] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 推荐目的地热门景点和体验\n\n[对话上下文]: user: 一个人去冰岛自驾环岛10天，冬天安全吗？\n\nCurrent travel state:\nDestination: 冰岛\nDuration: 10 days\nPrefere...\n\n### hotel agent result:\n[MOCK - hotel] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索目的地酒店推荐\n\n[对话上下文]: user: 一个人去冰岛自驾环岛10天，冬天安全吗？\n\nCurrent travel state:\nDestination: 冰岛\nDuration: 10 days\nPreference...\n\n### itinerary agent result:\n[MOCK - itinerary] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 基于酒店位置编排每日行程\n\n[对话上下文]: user: 一个人去冰岛自驾环岛10天，冬天安全吗？\n\n=== Upstream Agent Results ===\n\n--- transport ---\n\n[MOCK - tran...",
+        "total_ms": 10523,
+        "ttfb_ms": 10522,
+        "chars": 1939,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T066",
+      "category": "constrained_plan",
+      "final_score": 3.29,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "北海道",
+              "滑雪",
+              "儿童区",
+              "雪场",
+              "春节"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 2,
+          "weight": 0.292,
+          "weighted": 0.583,
+          "reason": "Satisfied 2/4 constraints",
+          "details": {
+            "satisfied": [
+              "春节",
+              "北海道"
+            ],
+            "missed": [
+              "4口之家",
+              "儿童区滑雪"
+            ],
+            "ratio": 0.5
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.25,
+          "weighted": 0.5,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 1939
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "为你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T066",
+        "cat": "constrained_plan",
+        "query": "春节期间去北海道滑雪，全家4口，要求雪场有儿童区。",
+        "response": "以下是为你整理的旅行方案：\n\n### transport agent result:\n[MOCK - transport] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索前往目的地的交通方案\n\n[对话上下文]: user: 春节期间去北海道滑雪，全家4口，要求雪场有儿童区。\n\nCurrent travel state:\nPreferences: {'activity_ski': True, ...\n\n### weather agent result:\n[MOCK - weather] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 查询旅行期间目的地天气预报\n\n[对话上下文]: user: 春节期间去北海道滑雪，全家4口，要求雪场有儿童区。\n\nCurrent travel state:\nPreferences: {'activity_ski': True,...\n\n### knowledge agent result:\n[MOCK - knowledge] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: User query: 查询目的地签证政策和旅行贴士\n\n[对话上下文]: user: 春节期间去北海道滑雪，全家4口，要求雪场有儿童区。\nDestination: not specified\n\n--- Knowledge Base Resu...\n\n### hotel agent result:\n[MOCK - hotel] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索目的地酒店推荐\n\n[对话上下文]: user: 春节期间去北海道滑雪，全家4口，要求雪场有儿童区。\n\nCurrent travel state:\nPreferences: {'activity_ski': True, 'ti...\n\n### poi agent result:\n[MOCK - poi] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 推荐目的地热门景点和体验\n\n[对话上下文]: user: 春节期间去北海道滑雪，全家4口，要求雪场有儿童区。\n\nCurrent travel state:\nPreferences: {'activity_ski': True, ...\n\n### itinerary agent result:\n[MOCK - itinerary] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 基于酒店位置编排每日行程\n\n[对话上下文]: user: 春节期间去北海道滑雪，全家4口，要求雪场有儿童区。\n\n=== Upstream Agent Results ===\n\n--- transport ---\n\n[MOCK -...",
+        "total_ms": 7999,
+        "ttfb_ms": 7998,
+        "chars": 1939,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T067",
+      "category": "constrained_plan",
+      "final_score": 1.33,
+      "dimensions": {
+        "accuracy": {
+          "score": 1,
+          "weight": 0.292,
+          "weighted": 0.292,
+          "reason": "Matched 0/5 golden keys",
+          "details": {
+            "matched_keys": [],
+            "total_keys": 5,
+            "match_ratio": 0.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.292,
+          "weighted": 0.292,
+          "reason": "Satisfied 0/4 constraints",
+          "details": {
+            "satisfied": [],
+            "missed": [
+              "素食主义",
+              "日本",
+              "5天",
+              "吃饭问题"
+            ],
+            "ratio": 0.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 1,
+          "weight": 0.25,
+          "weighted": 0.25,
+          "reason": "Reasoning score 1/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 0
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.083,
+          "weighted": 0.083,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T067",
+        "cat": "constrained_plan",
+        "query": "素食主义者去日本玩5天，怎么解决吃饭问题？",
+        "response": "",
+        "total_ms": 163389,
+        "ttfb_ms": null,
+        "chars": 0,
+        "has_done": false,
+        "events_count": 18,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T068",
+      "category": "constrained_plan",
+      "final_score": 3.29,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 4/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "综艺",
+              "花儿与少年",
+              "目的地",
+              "路线"
+            ],
+            "total_keys": 4,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 2,
+          "weight": 0.292,
+          "weighted": 0.583,
+          "reason": "Satisfied 1/2 constraints",
+          "details": {
+            "satisfied": [
+              "花儿与少年"
+            ],
+            "missed": [
+              "综艺取景地"
+            ],
+            "ratio": 0.5
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.25,
+          "weighted": 0.5,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 1939
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "为你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T068",
+        "cat": "constrained_plan",
+        "query": "想要一个\"跟着综艺去旅行\"的路线，参考《花儿与少年》的目的地。",
+        "response": "以下是为你整理的旅行方案：\n\n### weather agent result:\n[MOCK - weather] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 查询旅行期间目的地天气预报\n\n[对话上下文]: user: 想要一个\"跟着综艺去旅行\"的路线，参考《花儿与少年》的目的地。\n\nCurrent travel state:\nNo travel parameters extracte...\n\n### knowledge agent result:\n[MOCK - knowledge] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: User query: 查询目的地签证政策和旅行贴士\n\n[对话上下文]: user: 想要一个\"跟着综艺去旅行\"的路线，参考《花儿与少年》的目的地。\nDestination: not specified\n\n--- Knowledge Bas...\n\n### transport agent result:\n[MOCK - transport] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索前往目的地的交通方案\n\n[对话上下文]: user: 想要一个\"跟着综艺去旅行\"的路线，参考《花儿与少年》的目的地。\n\nCurrent travel state:\nNo travel parameters extracted...\n\n### hotel agent result:\n[MOCK - hotel] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索目的地酒店推荐\n\n[对话上下文]: user: 想要一个\"跟着综艺去旅行\"的路线，参考《花儿与少年》的目的地。\n\nCurrent travel state:\nNo travel parameters extracted ye...\n\n### poi agent result:\n[MOCK - poi] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 推荐目的地热门景点和体验\n\n[对话上下文]: user: 想要一个\"跟着综艺去旅行\"的路线，参考《花儿与少年》的目的地。\n\nCurrent travel state:\nNo travel parameters extracted...\n\n### itinerary agent result:\n[MOCK - itinerary] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 基于酒店位置编排每日行程\n\n[对话上下文]: user: 想要一个\"跟着综艺去旅行\"的路线，参考《花儿与少年》的目的地。\n\n=== Upstream Agent Results ===\n\n--- transport ---\n\n[...",
+        "total_ms": 6553,
+        "ttfb_ms": 6552,
+        "chars": 1939,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T069",
+      "category": "constrained_plan",
+      "final_score": 3.87,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "桂林",
+              "无障碍",
+              "低盐",
+              "老年",
+              "大巴"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.292,
+          "weighted": 1.167,
+          "reason": "Satisfied 4/5 constraints",
+          "details": {
+            "satisfied": [
+              "桂林",
+              "4天",
+              "无障碍大巴",
+              "低盐饮食"
+            ],
+            "missed": [
+              "12人老年团"
+            ],
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.25,
+          "weighted": 0.5,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 1921
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "为你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T069",
+        "cat": "constrained_plan",
+        "query": "老年团12人去桂林4天，需要无障碍大巴和低盐饮食安排。",
+        "response": "以下是为你整理的旅行方案：\n\n### knowledge agent result:\n[MOCK - knowledge] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: User query: 查询目的地签证政策和旅行贴士\n\n[对话上下文]: user: 老年团12人去桂林4天，需要无障碍大巴和低盐饮食安排。\nDestination: not specified\n\n--- Knowledge Base Re...\n\n### weather agent result:\n[MOCK - weather] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 查询旅行期间目的地天气预报\n\n[对话上下文]: user: 老年团12人去桂林4天，需要无障碍大巴和低盐饮食安排。\n\nCurrent travel state:\nDuration: 4 days\nTravelers: 12...\n\n### transport agent result:\n[MOCK - transport] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索前往目的地的交通方案\n\n[对话上下文]: user: 老年团12人去桂林4天，需要无障碍大巴和低盐饮食安排。\n\nCurrent travel state:\nDuration: 4 days\nTravelers: 12...\n\n### hotel agent result:\n[MOCK - hotel] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索目的地酒店推荐\n\n[对话上下文]: user: 老年团12人去桂林4天，需要无障碍大巴和低盐饮食安排。\n\nCurrent travel state:\nDuration: 4 days\nTravelers: 12...\n\n### poi agent result:\n[MOCK - poi] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 推荐目的地热门景点和体验\n\n[对话上下文]: user: 老年团12人去桂林4天，需要无障碍大巴和低盐饮食安排。\n\nCurrent travel state:\nDuration: 4 days\nTravelers: 12...\n\n### itinerary agent result:\n[MOCK - itinerary] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 基于酒店位置编排每日行程\n\n[对话上下文]: user: 老年团12人去桂林4天，需要无障碍大巴和低盐饮食安排。\n\n=== Upstream Agent Results ===\n\n--- transport ---\n\n[MOCK...",
+        "total_ms": 8319,
+        "ttfb_ms": 8318,
+        "chars": 1921,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T070",
+      "category": "constrained_plan",
+      "final_score": 4.17,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "首尔",
+              "音乐节目",
+              "咖啡厅",
+              "追星",
+              "打卡"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Satisfied 3/3 constraints",
+          "details": {
+            "satisfied": [
+              "首尔",
+              "音乐节目录制",
+              "偶像咖啡厅"
+            ],
+            "missed": [],
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.25,
+          "weighted": 0.5,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 1865
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "为你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T070",
+        "cat": "constrained_plan",
+        "query": "追星族想去韩国首尔，目标是音乐节目录制和偶像咖啡厅打卡。",
+        "response": "以下是为你整理的旅行方案：\n\n### knowledge agent result:\n[MOCK - knowledge] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: User query: 查询目的地签证政策和旅行贴士\n\n[对话上下文]: user: 追星族想去韩国首尔，目标是音乐节目录制和偶像咖啡厅打卡。\nDestination: not specified\n\n--- Knowledge Base R...\n\n### weather agent result:\n[MOCK - weather] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 查询旅行期间目的地天气预报\n\n[对话上下文]: user: 追星族想去韩国首尔，目标是音乐节目录制和偶像咖啡厅打卡。\n\nCurrent travel state:\nDestination: 韩国...\n\n### transport agent result:\n[MOCK - transport] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索前往目的地的交通方案\n\n[对话上下文]: user: 追星族想去韩国首尔，目标是音乐节目录制和偶像咖啡厅打卡。\n\nCurrent travel state:\nDestination: 韩国...\n\n### hotel agent result:\n[MOCK - hotel] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索目的地酒店推荐\n\n[对话上下文]: user: 追星族想去韩国首尔，目标是音乐节目录制和偶像咖啡厅打卡。\n\nCurrent travel state:\nDestination: 韩国...\n\n### poi agent result:\n[MOCK - poi] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 推荐目的地热门景点和体验\n\n[对话上下文]: user: 追星族想去韩国首尔，目标是音乐节目录制和偶像咖啡厅打卡。\n\nCurrent travel state:\nDestination: 韩国...\n\n### itinerary agent result:\n[MOCK - itinerary] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 基于酒店位置编排每日行程\n\n[对话上下文]: user: 追星族想去韩国首尔，目标是音乐节目录制和偶像咖啡厅打卡。\n\n=== Upstream Agent Results ===\n\n--- transport ---\n\n[MOC...",
+        "total_ms": 7542,
+        "ttfb_ms": 7541,
+        "chars": 1865,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 15,
+    "valid": 13,
+    "errors": 2,
+    "avg_score": 3.28,
+    "pass_rate": "10/13 (77%)",
+    "category_stats": {
+      "constrained_plan": {
+        "pass": 10,
+        "fail": 3,
+        "count": 13,
+        "avg": 3.28,
+        "min": 1.33,
+        "max": 4.17
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4,
+        "min": 1,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 3.23,
+        "min": 1,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 1.85,
+        "min": 1,
+        "max": 3
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 3.54,
+        "min": 1,
+        "max": 4
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {
+      "accuracy": 3
+    }
+  }
+}

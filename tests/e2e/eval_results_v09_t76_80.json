@@ -1,0 +1,533 @@
+{
+  "timestamp": "2026-03-20 03:11:10",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T076",
+      "category": "constrained_plan",
+      "final_score": 3.33,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "潜水",
+              "OW",
+              "潜点",
+              "国内",
+              "推荐"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.292,
+          "weighted": 0.292,
+          "reason": "Satisfied 1/3 constraints",
+          "details": {
+            "satisfied": [
+              "OW新手"
+            ],
+            "missed": [
+              "国内潜点",
+              "推荐最佳"
+            ],
+            "ratio": 0.33
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 611
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "方案",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T076",
+        "cat": "constrained_plan",
+        "query": "喜欢潜水，想去国内最好的潜点，OW刚考完。",
+        "response": "恭喜您刚拿到OW证书！🎉 开启水下世界的旅程太棒了！\n\n根据您刚考完OW的情况，我为您推荐国内最适合新手的优质潜点：\n\n---\n\n## 🐠 **国内OW友好潜点推荐**\n\n| 潜点 | 最佳季节 | 能见度 | 适合OW | 特色 |\n|------|----------|--------|--------|------|\n| **海南蜈支洲岛** | 4-10月 | 8-15m | ⭐⭐⭐⭐⭐ | 国内最成熟，配套完善 |\n| **广西涠洲岛** | 5-10月 | 10-20m | ⭐⭐⭐⭐ | 珊瑚礁群，海洋生物丰富 |\n| **广东惠州/深圳** | 5-9月 | 3-8m | ⭐⭐⭐ | 交通便利，适合周末潜水 |\n\n---\n\n> 💡 **首推蜈支洲岛**：作为国内潜水配套最完善的潜点，潜店专业、装备齐全、水况温和，非常适合OW新手积累经验。还能看到小丑鱼、海葵、珊瑚等热带鱼群！\n\n---\n\n## 🎯 **实用贴士**\n\n- **深度控制**：OW限深18米，新手建议先从10-12米开始适应\n- **潜次积累**：建议先在平静水域刷几潜，再挑战较深潜点\n- **最佳出行**：避开台风季（7-9月），选择天气稳定的时段\n\n---\n\n为了帮您制定更详细的行程，想了解一下：\n\n1. **您从哪个城市出发？**\n2. **计划什么时候出行？**（几月或具体日期）\n\n这样我可以为您规划交通和住宿方案！🤿",
+        "total_ms": 63603,
+        "ttfb_ms": 55777,
+        "chars": 611,
+        "has_done": true,
+        "events_count": 357,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T077",
+      "category": "constrained_plan",
+      "final_score": 4.37,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "团建",
+              "杭州",
+              "拓展",
+              "烧烤",
+              "帐篷"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.292,
+          "weighted": 1.167,
+          "reason": "Satisfied 5/6 constraints",
+          "details": {
+            "satisfied": [
+              "杭州周边",
+              "2天1晚",
+              "拓展",
+              "烧烤",
+              "帐篷"
+            ],
+            "missed": [
+              "30人团建"
+            ],
+            "ratio": 0.83
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.25,
+          "weighted": 1.0,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 4,
+            "geo_logic_markers": 1,
+            "response_length": 927
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T077",
+        "cat": "constrained_plan",
+        "query": "公司团建30人，杭州周边2天1晚，要有拓展+烧烤+住帐篷。",
+        "response": "# 🏕️ 杭州周边团建方案（30人·2天1晚）\n\n您好！团建方案来啦～根据您的需求（拓展+烧烤+帐篷），我为您精选了杭州周边最适合的营地：\n\n---\n\n## 🎯 推荐营地\n\n| 营地 | 亮点 | 参考价格 |\n|------|------|----------|\n| **桐庐生仙里竹溪探险乐园** | 拓展项目丰富、专业教练、帐篷营地 | ¥380-480/人 |\n| **临安青山湖水上森林营地** | 湖景帐篷、皮划艇拓展、BBQ区 | ¥350-450/人 |\n| **安吉帐篷客·溪上茶野** | 高端帐篷、茶园拓展、环境优美 | ¥450-600/人 |\n\n> 💡 **推荐首选：桐庐生仙里** —— 性价比高，拓展项目齐全（攀岩、丛林穿越、团队竞技），配套设施完善，适合30人团队。\n\n---\n\n## 📅 行程安排\n\n### 🌞 Day 1\n| 时间 | 活动 |\n|------|------|\n| 09:00-11:30 | 出发前往营地 |\n| 12:00-13:30 | 午餐 & 入住帐篷 |\n| 14:00-17:00 | 🎯 **团队拓展**（破冰游戏、协作挑战） |\n| 18:00-20:30 | 🍖 **户外烧烤BBQ** + 篝火晚会 |\n| 21:00 | 帐篷夜话/观星 |\n\n### 🌅 Day 2\n| 时间 | 活动 |\n|------|------|\n| 07:30-08:30 | 晨练/自由活动 |\n| 08:30-09:30 | 早餐 |\n| 09:30-11:30 | 自由活动或续玩拓展项目 |\n| 12:00-13:30 | 午餐后返程 |\n\n---\n\n## 💰 预算参考（30人）\n\n| 项目 | 费用 |\n|------|------|\n| 住宿（帐篷1晚） | ¥3,000-4,500 |\n| 餐饮（3餐+烧烤） | ¥6,000-9,000 |\n| 拓展活动+教练 | ¥3,000-5,000 |\n| **合计** | **¥12,000-18,500** |\n\n---\n\n> 🔔 **温馨提示**：请问您从哪个城市出发？我可以帮您安排包车或高铁方案～\n\n{{poi_cards}}",
+        "total_ms": 69997,
+        "ttfb_ms": 58454,
+        "chars": 927,
+        "has_done": true,
+        "events_count": 532,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T078",
+      "category": "constrained_plan",
+      "final_score": 2.79,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.292,
+          "weighted": 1.167,
+          "reason": "Matched 3/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "民宿",
+              "接受",
+              "推荐"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.75,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.292,
+          "weighted": 0.292,
+          "reason": "Satisfied 0/2 constraints",
+          "details": {
+            "satisfied": [],
+            "missed": [
+              "带猫旅行",
+              "宠物猫友好民宿"
+            ],
+            "ratio": 0.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.25,
+          "weighted": 0.5,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 2,
+            "response_length": 489
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "帮您",
+              "推荐",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T078",
+        "cat": "constrained_plan",
+        "query": "想带猫去旅行，有哪些城市的民宿接受宠物猫入住？",
+        "response": "带猫咪一起旅行，太有爱了！🐱 以下是国内**宠物友好度较高**的城市推荐：\n\n| 城市 | 推荐理由 | 民宿特点 |\n|------|----------|----------|\n| **厦门** | 文艺氛围浓，海边溜猫惬意 | 曾厝垵、鼓浪屿宠物友好民宿多 |\n| **成都** | 宠物文化最浓厚 | 选择丰富，价格亲民 |\n| **大理** | 庭院民宿，猫可自由活动 | 苍山洱海，适合慢生活 |\n| **杭州** | 西湖周边茶园民宿 | 环境清幽，空气好 |\n| **三亚** | 度假风，部分民宿带院子 | 注意猫咪防晒防暑 |\n\n---\n\n> 💡 **带猫出行小贴士**：\n> - **自驾是最佳选择**——高铁目前不支持宠物随行，飞机托运对猫咪压力较大\n> - 预订前务必**确认房东接受猫咪**（有些民宿只接受狗）\n> - 带好**猫包、便携猫砂盆、疫苗证明**\n\n---\n\n为了帮您搜索具体民宿和规划行程，想了解一下：\n\n1. **您从哪个城市出发？**\n2. **大概什么时候出行、玩几天？**\n\n告诉我这些，我来帮您筛选合适的宠物友好民宿和路线！🐾",
+        "total_ms": 105654,
+        "ttfb_ms": 93669,
+        "chars": 489,
+        "has_done": true,
+        "events_count": 286,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T079",
+      "category": "constrained_plan",
+      "final_score": 4.04,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "景德镇",
+              "瓷器",
+              "体验",
+              "拍照",
+              "文艺"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 2,
+          "weight": 0.292,
+          "weighted": 0.583,
+          "reason": "Satisfied 2/4 constraints",
+          "details": {
+            "satisfied": [
+              "景德镇",
+              "拍照"
+            ],
+            "missed": [
+              "学做瓷器",
+              "5天"
+            ],
+            "ratio": 0.5
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 5,
+          "weight": 0.25,
+          "weighted": 1.25,
+          "reason": "Reasoning score 5/5",
+          "details": {
+            "structure_markers": 3,
+            "geo_logic_markers": 3,
+            "response_length": 1094
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T079",
+        "cat": "constrained_plan",
+        "query": "文艺青年想去景德镇学做瓷器+拍独立电影感的照片，5天。",
+        "response": "# 🎬🏺 景德镇5日文艺之旅\n\n太棒了！**根据您文艺青年的气质**，景德镇简直是为您量身定制的目的地——千年瓷都的烟火气、老厂房改造的文创空间、随处可见的匠心工坊，完美契合\"学陶艺+拍独立电影感照片\"的双重需求。\n\n---\n\n## 🏨 住宿推荐\n\n**考虑到您追求独立电影感的拍摄需求**，我推荐：\n\n| 推荐 | 风格 | 价格 | 文艺指数 |\n|------|------|------|----------|\n| **陶溪川凯悦臻选** | 工业复古，红砖厂房改造 | ¥800-1200/晚 | ⭐⭐⭐⭐⭐ |\n| **三宝国际陶艺村** | 田园文艺，艺术家聚集地 | ¥300-600/晚 | ⭐⭐⭐⭐⭐ |\n| **无语/不空山民宿** | 日式侘寂风，光影感强 | ¥400-700/晚 | ⭐⭐⭐⭐⭐ |\n\n> 💡 **我的建议**：首选陶溪川凯悦，酒店本身就是老瓷厂改造，出门就是陶溪川市集，夜景拍独立电影感绝了。想更接地气可选三宝村，清晨薄雾+老房子的画面超有质感。\n\n---\n\n## 🗓️ 5日行程框架\n\n**考虑到您想学陶艺+拍照双需求**，建议这样安排：\n\n| 日程 | 主题 | 核心安排 |\n|------|------|----------|\n| **Day 1** | 抵达+夜探陶溪川 | 傍晚逛陶溪川创意市集，感受文艺氛围 |\n| **Day 2** | 陶艺沉浸日 | 上午陶艺体验工坊学拉坯，下午继续上釉/彩绘 |\n| **Day 3** | 三宝村文艺漫游 | 三宝国际陶艺村扫街拍照，访艺术家工作室 |\n| **Day 4** | 老城区电影感扫街 | 雕塑瓷厂、御窑厂遗址，拍工业废墟风 |\n| **Day 5** | 收作品+返程 | 取烧制完成的瓷器，返程 |\n\n---\n\n## 🚗 交通方案（假设上海出发）\n\n| 方式 | 时长 | 费用 | 推荐度 |\n|------|------|------|--------|\n| **高铁** | 约3.5-4小时 | ¥250-300 | ⭐⭐⭐⭐⭐ |\n| 飞机 | 约1.5小时 | ¥500-900 | ⭐⭐⭐ |\n| 自驾 | 约6-7小时 | ¥500-600 | ⭐⭐⭐ |\n\n**高铁首选**，时间可控、性价比高，沿途风景也适合找创作灵感。\n\n---\n\n## ❓ 确认两个小细节\n\n1. **您的出发城市是哪里？** 我假设了上海，如需调整请告诉我\n2. **预计什么时候出发？** 我可以帮您查天气、确认陶艺工坊档期\n\n告诉我这些，我帮您细化完整的日程和预算～ 🎞️",
+        "total_ms": 102988,
+        "ttfb_ms": 85122,
+        "chars": 1094,
+        "has_done": true,
+        "events_count": 651,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T080",
+      "category": "constrained_plan",
+      "final_score": 4.42,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "糖尿病",
+              "胰岛素",
+              "飞机",
+              "携带"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Satisfied 3/3 constraints",
+          "details": {
+            "satisfied": [
+              "糖尿病患者",
+              "出国",
+              "胰岛素携带"
+            ],
+            "missed": [],
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 1,
+            "response_length": 769
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T080",
+        "cat": "constrained_plan",
+        "query": "糖尿病患者出国旅行需要注意什么？胰岛素怎么带上飞机？",
+        "response": "# 糖尿病患者出国旅行指南 🌍\n\n您问到了一个很重要的问题！糖尿病患者出国确实需要提前做好充分准备。以下是关键信息：\n\n---\n\n## 💉 胰岛素携带上飞机\n\n| 要点 | 详细说明 |\n|------|----------|\n| **携带方式** | ✅ **必须随身携带**，严禁托运（货舱低温会导致胰岛素失效） |\n| **液体限制** | 胰岛素可豁免100ml液体限制 |\n| **数量建议** | 行程所需量 + 额外1-2周备用量，分装在不同行李中 |\n| **安检准备** | 提前告知安检人员，携带医生处方或诊断证明（建议中英文版） |\n\n> ⚠️ **重要提醒**：X光机扫描对胰岛素无影响，但部分机场可能要求开瓶检查，保留原包装更方便。\n\n---\n\n## 📋 出国必备清单\n\n**文件类：**\n- 📄 医生诊断证明（中英文）— 证明病情及用药必要性\n- 💊 处方复印件（含药品通用名，非商品名）\n- 🔴 医疗应急卡 — 注明病情、过敏史、紧急联系人\n- 🛡️ 旅游保险 — 确认覆盖慢性病相关医疗\n\n**物品类：**\n- 🧊 胰岛素冷藏包/冰袋\n- 🔋 血糖仪 + 备用电池 + 试纸\n- 🍬 快速补糖食品（葡萄糖片、糖果）\n- 💊 常用药 + 晕车/腹泻药（可能影响血糖）\n\n---\n\n## ⚠️ 旅行健康提醒\n\n- **时差调整**：跨时区旅行需咨询医生调整胰岛素注射时间\n- **温度控制**：胰岛素需2-8°C保存，避免阳光直射\n- **饮食变化**：提前了解当地食物碳水含量\n- **运动量增加**：旅行步行较多，注意防范低血糖\n\n---\n\n**请问您计划前往哪个国家或城市呢？** 告诉我目的地后，我可以帮您：\n- 🏥 查询当地医院和药房信息\n- 🏨 推荐配有冰箱的酒店\n- 🗓️ 规划活动强度适中的行程",
+        "total_ms": 60586,
+        "ttfb_ms": 49670,
+        "chars": 769,
+        "has_done": true,
+        "events_count": 456,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 3.79,
+    "pass_rate": "4/5 (80%)",
+    "category_stats": {
+      "constrained_plan": {
+        "pass": 4,
+        "fail": 1,
+        "count": 5,
+        "avg": 3.79,
+        "min": 2.79,
+        "max": 4.42
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4.8,
+        "min": 4,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 2.6,
+        "min": 1,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 3.4,
+        "min": 2,
+        "max": 5
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 4.4,
+        "min": 4,
+        "max": 5
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {
+      "constraint": 1
+    }
+  }
+}

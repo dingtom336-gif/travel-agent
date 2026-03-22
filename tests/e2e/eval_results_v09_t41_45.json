@@ -1,0 +1,530 @@
+{
+  "timestamp": "2026-03-20 03:14:56",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T041",
+      "category": "constrained_plan",
+      "final_score": 4.46,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.292,
+          "weighted": 1.167,
+          "reason": "Matched 3/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "三亚",
+              "亲子",
+              "预算"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.6,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Satisfied 6/6 constraints",
+          "details": {
+            "satisfied": [
+              "预算5000",
+              "5天",
+              "成都出发",
+              "3岁",
+              "看海",
+              "不折腾"
+            ],
+            "missed": [],
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.25,
+          "weighted": 1.0,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 5,
+            "geo_logic_markers": 2,
+            "response_length": 919
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "方案",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T041",
+        "cat": "constrained_plan",
+        "query": "预算5000元，5天时间，成都出发带3岁娃看海，要求不折腾。",
+        "response": "# 🌊 成都出发带娃看海方案\n\n根据您的需求——**带3岁宝宝、不折腾、预算5000元、5天**，我帮您分析一下：\n\n---\n\n## 💡 核心建议\n\n考虑到预算和\"不折腾\"的要求，**国内北海**是最合适的选择：\n\n| 目的地 | 预算匹配 | 不折腾程度 | 亲子友好 |\n|--------|---------|-----------|---------|\n| **北海** | ⭐⭐⭐⭐⭐ 消费低，5000元宽裕 | ⭐⭐⭐⭐⭐ 直飞/高铁可达 | ⭐⭐⭐⭐⭐ 沙滩平缓，适合玩沙 |\n| 三亚 | ⭐⭐⭐ 机票贵，预算紧张 | ⭐⭐⭐⭐ 直飞方便 | ⭐⭐⭐⭐⭐ 度假村成熟 |\n| 泰国 | ⭐⭐ 国际机票+3岁娃机票压力大 | ⭐⭐⭐ 需过关、语言不通 | ⭐⭐⭐⭐ 免签是优势 |\n\n---\n\n## 🏖️ 北海5日亲子行程建议\n\n**推荐住银滩附近度假公寓**，步行到沙滩，带厨房可给宝宝做辅食。\n\n| 天数 | 安排 | 亮点 |\n|------|------|------|\n| Day 1 | 成都→北海，入住银滩 | 下午沙滩踩水，看日落 |\n| Day 2 | 银滩全天玩耍 | 玩沙、挖贝壳，宝宝最爱 |\n| Day 3 | 涠洲岛一日游（可选） | 或继续银滩休闲，不强求 |\n| Day 4 | 北海老街+侨港海滩 | 吃海鲜，逛风情街 |\n| Day 5 | 睡到自然醒，返程 | 轻松收尾 |\n\n---\n\n## 💰 预算估算（2大1小）\n\n| 项目 | 费用 |\n|------|------|\n| 交通（往返机票/高铁） | ¥2000-2500 |\n| 住宿（4晚银滩公寓） | ¥800-1200 |\n| 餐饮 | ¥600-800 |\n| 涠洲岛船票（如去） | ¥300 |\n| 其他（打车、零食） | ¥300 |\n| **合计** | **¥4000-5000** ✅ |\n\n---\n\n> 🎒 **带3岁娃小贴士**：银滩沙子细软，带个小桶小铲子能让宝宝玩一整天；建议带防晒衣和遮阳伞，海边紫外线强。\n\n---\n\n请问您倾向哪个时间段出发呢？我可以帮您查具体的机票/高铁票价，锁定最优方案～",
+        "total_ms": 77912,
+        "ttfb_ms": 64417,
+        "chars": 919,
+        "has_done": true,
+        "events_count": 540,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T042",
+      "category": "constrained_plan",
+      "final_score": 4.42,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "贡嘎",
+              "子梅垭口",
+              "摄影",
+              "日照金山",
+              "新都桥"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Satisfied 5/5 constraints",
+          "details": {
+            "satisfied": [
+              "摄影",
+              "川西",
+              "贡嘎",
+              "7天",
+              "不爬山"
+            ],
+            "missed": [],
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.25,
+          "weighted": 1.0,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 4,
+            "geo_logic_markers": 2,
+            "response_length": 603
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.083,
+          "weighted": 0.083,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T042",
+        "cat": "constrained_plan",
+        "query": "喜欢摄影，想去川西拍贡嘎，给个7天摄影不爬山的动线。",
+        "response": "# 📸 川西贡嘎7天摄影动线（不爬山版）\n\n根据您喜欢摄影且不想爬山的需求，这条路线全程越野车可达核心机位，轻松拍出贡嘎大片！\n\n---\n\n## 🗓️ 7天行程总览\n\n| 天数 | 行程 | 住宿 | 核心机位 |\n|------|------|------|----------|\n| D1 | 成都→康定→新都桥 | 新都桥 | 沿途风光、折多山 |\n| D2 | 新都桥→鱼子西→新都桥 | 新都桥 | 日落金山、360°观景 |\n| D3 | 新都桥→塔公→黑石城 | 新都桥 | 贡嘎群峰、星空银河 |\n| D4 | 新都桥→甲根坝→雅哈垭口 | 甲根坝 | 贡嘎正脸全景 |\n| D5 | 雅哈垭口日出→子梅垭口→新都桥 | 新都桥 | 日照金山、云海 |\n| D6 | 新都桥周边创作→康定 | 康定 | 十里画廊、藏居人文 |\n| D7 | 康定→成都 | — | 返程 |\n\n---\n\n## 🌅 详细行程\n\n**Day 1：成都 → 新都桥（约330km，6-7小时）**\n- 途经：雅安 → 折多山（海拔4298m，可停车拍摄）→ 新都桥\n- 傍晚可在新都桥十里画廊拍摄田园风光\n- 🏨 住宿：新都桥摄友之家客栈（约200-350元，摄影氛围好）\n\n**Day 2：鱼子西日落**\n- 上午：新都桥周边自由创作\n- 下午：前往鱼子西（轿车可达，海拔4200m）\n- 傍晚：拍摄贡嘎+雅拉",
+        "total_ms": 282749,
+        "ttfb_ms": 83768,
+        "chars": 603,
+        "has_done": false,
+        "events_count": 407,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T043",
+      "category": "constrained_plan",
+      "final_score": 3.46,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.292,
+          "weighted": 1.167,
+          "reason": "Matched 3/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "灵隐",
+              "西湖",
+              "东站"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.75,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.292,
+          "weighted": 0.292,
+          "reason": "Satisfied 1/4 constraints",
+          "details": {
+            "satisfied": [
+              "不走回头路"
+            ],
+            "missed": [
+              "3天",
+              "灵隐住宿",
+              "第三天东站"
+            ],
+            "ratio": 0.25
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 5,
+          "weight": 0.25,
+          "weighted": 1.25,
+          "reason": "Reasoning score 5/5",
+          "details": {
+            "structure_markers": 5,
+            "geo_logic_markers": 3,
+            "response_length": 961
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T043",
+        "cat": "constrained_plan",
+        "query": "杭州3日游，第一天住灵隐，第三天要去东站，求不走回头路的行程。",
+        "response": "# 🗺️ 杭州3日不走回头路行程\n\n根据您的需求，我为您规划了一条**一路向东**的路线：灵隐 → 西湖 → 东站，完美衔接！\n\n---\n\n## 🌅 Day 1：灵隐禅修之旅\n\n**住宿区域**：灵隐景区附近\n\n| 时间 | 行程 | 说明 |\n|------|------|------|\n| 上午 | 灵隐寺、飞来峰 | 山区易阵雨，上午游览最佳 |\n| 下午 | 法喜寺 | 步行可达，网红打卡地 |\n| 傍晚 | 永福寺/云栖竹径 | 清幽小众，避开人流 |\n\n> 🏨 **推荐住宿**：如家精选（灵隐寺店）¥200-350/晚，步行10分钟到灵隐寺\n\n---\n\n## 🌤️ Day 2：西湖精华游\n\n**住宿区域**：湖滨商圈（方便第三天去东站）\n\n| 时间 | 行程 | 说明 |\n|------|------|------|\n| 上午 | 曲院风荷 → 苏堤 | 从西向东游览 |\n| 中午 | 雷峰塔、净慈寺 | 雨天可穿插博物馆 |\n| 下午 | 柳浪闻莺 → 湖滨步行街 | 逛街购物、晚餐 |\n\n> 🏨 **推荐住宿**：全季酒店（湖滨步行街店）¥350-500/晚，地铁1号线**直达东站仅需15分钟**\n\n---\n\n## ☀️ Day 3：轻松返程\n\n| 时间 | 行程 | 说明 |\n|------|------|------|\n| 上午 | 河坊街/南宋御街 | 老街早餐、伴手礼 |\n| 中午 | 前往东站 | 打车约30分钟，或地铁直达 |\n\n---\n\n## 📦 实用贴士\n\n- ☔ **天气**：三天都有降雨可能，**必备折叠伞**\n- 👟 **穿着**：防滑运动鞋，灵隐寺多石阶\n- 🚕 **Day3交通**：推荐打车去东站（¥40-60），省心省力；省钱可选地铁\n\n---\n\n## 💰 预算参考\n\n| 项目 | 费用 |\n|------|------|\n| 住宿2晚 | ¥550-850 |\n| 门票 | ¥75（灵隐45+雷峰塔30） |\n| 餐饮 | ¥200-300/人 |\n| 交通 | ¥100左右 |\n\n---\n\n> ✨ **路线亮点**：从山林禅意到湖光山色再到城市烟火，三天体验三种杭州风情，完全不绕路！\n\n请问您的出行日期是哪天？我可以帮您查询酒店的实时价格 📅",
+        "total_ms": 70382,
+        "ttfb_ms": 58078,
+        "chars": 961,
+        "has_done": true,
+        "events_count": 556,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T044",
+      "category": "constrained_plan",
+      "final_score": 3.67,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 4/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "宠物友好",
+              "民宿",
+              "草坪",
+              "安吉"
+            ],
+            "total_keys": 4,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.292,
+          "weighted": 0.875,
+          "reason": "Satisfied 3/4 constraints",
+          "details": {
+            "satisfied": [
+              "宠物友好",
+              "大草坪",
+              "安吉"
+            ],
+            "missed": [
+              "3个推荐"
+            ],
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.25,
+          "weighted": 0.5,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 577
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "查看",
+              "帮您",
+              "推荐",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T044",
+        "cat": "constrained_plan",
+        "query": "带着拉布拉多去安吉，推荐3个宠物友好且有大草坪的民宿。",
+        "response": "# 🐕 安吉宠物友好民宿推荐\n\n带拉布拉多出行真是太棒了！大型犬需要充足的活动空间，我为您精选了3家**宠物友好且有大草坪**的安吉民宿：\n\n{{hotel_cards}}\n\n---\n\n## 📋 民宿对比速览\n\n| 民宿 | 草坪特点 | 宠物政策 | 参考价格 |\n|------|----------|----------|----------|\n| **帐篷客溪谷茶源** | 超大茶园草坪，可自由奔跑 | 中大型犬友好，需提前报备 | **¥800-1500/晚** |\n| **小瘾半日村民宿群** | 村落共享大草坪，围合安全 | 部分院落宠物友好 | **¥600-1200/晚** |\n| **云上草原周边民宿** | 山景草坪，视野开阔 | 多数允许宠物，收取清洁费 | **¥500-1000/晚** |\n\n---\n\n> 💡 **拉布拉多特别提醒**：拉布拉多精力充沛，建议选择草坪封闭性好的民宿，避免毛孩子玩嗨了跑丢。入住前务必确认是否有体型限制哦！\n\n---\n\n## 🎒 出行小贴士\n\n- 📄 带好**疫苗证明**和**犬证**\n- 🦴 拉布拉多食量大，狗粮多备一些\n- 🎾 草坪记得带飞盘，毛孩子会玩疯的！\n- 🧴 山区可能有蜱虫，提前做好驱虫防护\n\n---\n\n请问您计划**什么时候出发**？我可以帮您查看实时房态和价格～ 🐾",
+        "total_ms": 50850,
+        "ttfb_ms": 40964,
+        "chars": 577,
+        "has_done": true,
+        "events_count": 332,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T045",
+      "category": "constrained_plan",
+      "final_score": 3.29,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "大理",
+              "洱海",
+              "民宿",
+              "双廊"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 2,
+          "weight": 0.292,
+          "weighted": 0.583,
+          "reason": "Satisfied 2/5 constraints",
+          "details": {
+            "satisfied": [
+              "情侣",
+              "氛围感"
+            ],
+            "missed": [
+              "人少",
+              "看落日",
+              "非古城"
+            ],
+            "ratio": 0.4
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.25,
+          "weighted": 0.5,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 606
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮你",
+              "推荐",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T045",
+        "cat": "constrained_plan",
+        "query": "情侣去大理，想找那种人少、能看落日、有氛围感的非古城住宿区。",
+        "response": "\n大理确实有很多适合情侣的浪漫住宿区，避开古城人潮是个不错的选择。以下推荐几个区域和特色住宿类型：\n\n### 1. **洱海东岸（双廊、挖色）**\n- **特点**：临海而居，日落时分的海天一线很浪漫，白族民居改建的民宿居多。\n- **推荐**：双廊有部分文艺风民宿，挖色更安静，适合喜欢清静的情侣。\n- **注意**：双廊近年游客增多，可提前住挖色或小普陀附近。\n\n### 2. **苍山脚下（感通索道附近）**\n- **特点**：云雾缭绕，能俯瞰洱海日落，有安静的森林步道。\n- **推荐**：感通寺附近的特色客栈或山景别墅，适合喜欢自然气息的情侣。\n\n### 3. **喜洲古镇外环（湾桥镇方向）**\n- **特点**：比喜洲核心区更宁静，保留原汁原味的白族村落风貌。\n- **推荐**：湾桥方向有临水而建的客栈，适合看日落和田园风光。\n\n### 4. **小普陀周边**\n- **特点**：海景视野开阔，人相对少，适合拍日落和晨雾。\n- **推荐**：选择靠近海边的民宿，部分带私人沙滩。\n\n### 小贴士：\n- **季节建议**：春季（3-5月）和秋季（9-11月）气候最佳，日落时间较长。\n- **交通**：建议租车或包车，部分民宿位置较偏远。\n- **氛围感细节**：可提前联系民宿是否提供香薰、热浴等情侣服务。\n\n需要我推荐具体民宿或帮你规划行程吗？例如预算范围或偏好的风格（文艺/自然/奢华）？",
+        "total_ms": 7070,
+        "ttfb_ms": 1469,
+        "chars": 606,
+        "has_done": true,
+        "events_count": 387,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 3.86,
+    "pass_rate": "5/5 (100%)",
+    "category_stats": {
+      "constrained_plan": {
+        "pass": 5,
+        "fail": 0,
+        "count": 5,
+        "avg": 3.86,
+        "min": 3.29,
+        "max": 4.46
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4.6,
+        "min": 4,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 3.2,
+        "min": 1,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 3.4,
+        "min": 2,
+        "max": 5
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 3.8,
+        "min": 1,
+        "max": 5
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {}
+  }
+}

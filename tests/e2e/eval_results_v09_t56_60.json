@@ -1,0 +1,529 @@
+{
+  "timestamp": "2026-03-20 03:19:11",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T056",
+      "category": "constrained_plan",
+      "final_score": 4.25,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "巴厘岛",
+              "悬崖",
+              "泳池",
+              "SPA",
+              "蜜月"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Satisfied 6/6 constraints",
+          "details": {
+            "satisfied": [
+              "蜜月",
+              "巴厘岛",
+              "7天",
+              "2万/人",
+              "悬崖泳池",
+              "SPA"
+            ],
+            "missed": [],
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 0,
+            "response_length": 994
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 2,
+          "weight": 0.083,
+          "weighted": 0.167,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T056",
+        "cat": "constrained_plan",
+        "query": "蜜月旅行，巴厘岛7天，预算2万/人，要有悬崖泳池和SPA。",
+        "response": "# 💕 恭喜！巴厘岛蜜月计划\n\n根据您的蜜月需求，2万/人的预算非常充裕，可以安排**奢华悬崖酒店+顶级SPA体验**！以下是为您定制的方案：\n\n---\n\n## 🏊 悬崖泳池酒店推荐\n\n| 酒店 | 特色 | 参考价格 |\n|------|------|----------|\n| **Alila Villas Uluwatu** | 绝美悬崖无边泳池，私密别墅 | ¥2,500-3,500/晚 |\n| **Anantara Uluwatu** | 私密性极佳，悬崖海景 | ¥2,000-3,000/晚 |\n| **Karma Kandara** | 网红打卡地，私人海滩缆车 | ¥2,200-3,200/晚 |\n\n> 💡 **蜜月建议**：推荐入住乌鲁瓦图区域，悬崖景观绝佳，且远离喧嚣，私密浪漫。\n\n---\n\n## 💆 SPA体验推荐\n\n- **酒店内SPA**：大多酒店提供蜜月套餐（花瓣浴+双人按摩+香槟）\n- **Lulu Spa**：传统巴厘式按摩，约¥300-500/人\n- **Karsa Spa**：稻田景观SPA，需提前预约\n\n---\n\n## ✈️ 交通方案\n\n| 方案 | 价格 | 舒适度 | 推荐度 |\n|------|------|--------|--------|\n| 直飞航班 | ¥4,000-6,000/人往返 | ⭐⭐⭐⭐⭐ | ✅ 蜜月首选 |\n| 转机航班 | ¥2,500-4,000/人往返 | ⭐⭐⭐ | 价格实惠 |\n\n> 🎯 **蜜月推荐直飞**：减少旅途疲劳，把时间留给浪漫体验！\n\n---\n\n## 📋 签证与实用信息\n\n- **签证**：落地签（VOA），约¥250/人，机场办理即可\n- **时差**：与中国无时差\n- **货币**：印尼盾，建议带信用卡+少量现金\n\n---\n\n## 💰 预算预估（7天/人）\n\n| 项目 | 费用 |\n|------|------|\n| 机票（直飞） | ¥5,000 |\n| 酒店（悬崖别墅4晚） | ¥6,000 |\n| SPA+餐饮+活动 | ¥4,000 |\n| 签证+保险+其他 | ¥1,000 |\n| **合计** | **约¥16,000** |\n\n预算内还有空间升级体验或购物哦～\n\n---\n\n🌸 **请问您从哪个城市出发呢？** 我可以为您查询具体航班时间和最优价格！",
+        "total_ms": 70257,
+        "ttfb_ms": 58369,
+        "chars": 994,
+        "has_done": true,
+        "events_count": 552,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T057",
+      "category": "constrained_plan",
+      "final_score": 4.17,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "欧洲",
+              "博物馆",
+              "教堂",
+              "退休"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Satisfied 5/5 constraints",
+          "details": {
+            "satisfied": [
+              "退休夫妻",
+              "20天",
+              "不赶路",
+              "博物馆",
+              "教堂"
+            ],
+            "missed": [],
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 0,
+            "response_length": 615
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.083,
+          "weighted": 0.083,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "推荐"
+            ],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T057",
+        "cat": "constrained_plan",
+        "query": "退休夫妻想去欧洲，20天，不赶路，主要看博物馆和教堂。",
+        "response": "您好！这是一次非常棒的文化之旅规划！🎯\n\n根据您的偏好——**退休夫妻、20天、不赶路、深度看博物馆和教堂**，我为您设计了一条经典的\"欧洲文化金三角\"路线：\n\n---\n\n## 🗺️ 推荐路线：巴黎 → 罗马 → 佛罗伦萨\n\n| 城市 | 停留天数 | 核心亮点 |\n|------|---------|---------|\n| 🇫🇷 巴黎 | 8天 | 卢浮宫、奥赛、凡尔赛宫、圣母院、圣心大教堂 |\n| 🇮🇹 罗马 | 7天 | 梵蒂冈博物馆、圣彼得大教堂、万神殿、波格赛美术馆 |\n| 🇮🇹 佛罗伦萨 | 5天 | 乌菲兹美术馆、圣母百花大教堂、学院美术馆 |\n\n> 💡 **为什么这样安排？**\n> 三个城市都是博物馆与教堂的\"天花板级\"目的地，且无需频繁换酒店，每个城市住5-8晚，真正实现\"不赶路\"。城市间以火车串联，舒适便捷。\n\n---\n\n## ✨ 行程亮点预览\n\n- **卢浮宫**（巴黎）— 建议分两天参观，避免疲劳\n- **梵蒂冈博物馆+西斯廷礼拜堂**（罗马）— 提前预约免排队\n- **乌菲兹美术馆**（佛罗伦萨）— 文艺复兴瑰宝\n- **圣母百花大教堂**（佛罗伦萨）— 登顶看红顶之城\n\n---\n\n为了给您更精准的建议，想确认两点：\n\n1. 📍 您从国内哪个城市出发？（方便推荐航班）\n2. 💶 预算大概是什么范围？（人均2万/3万/更高？）\n\n收到信息后，我可以为您细化每天的行程安排和住宿推荐！ 😊",
+        "total_ms": 58032,
+        "ttfb_ms": 49322,
+        "chars": 615,
+        "has_done": true,
+        "events_count": 376,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T058",
+      "category": "constrained_plan",
+      "final_score": 4.46,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.292,
+          "weighted": 1.167,
+          "reason": "Matched 3/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "东南亚",
+              "穷游",
+              "昆明"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.6,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Satisfied 5/5 constraints",
+          "details": {
+            "satisfied": [
+              "5人",
+              "大学生",
+              "15天",
+              "昆明出发",
+              "人均5000"
+            ],
+            "missed": [],
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.25,
+          "weighted": 1.0,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 3,
+            "geo_logic_markers": 0,
+            "response_length": 844
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "帮你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T058",
+        "cat": "constrained_plan",
+        "query": "5个大学生穷游东南亚15天，从昆明出发，预算人均5000。",
+        "response": "# 🌏 昆明出发东南亚15天穷游方案\n\n您好！5位大学生穷游东南亚，人均5000元预算完全可以玩得很精彩！昆明出发有个巨大优势——**中老铁路直达老挝**，省下大笔机票钱！\n\n---\n\n## 🗺️ 推荐路线（地理最优，不绕路）\n\n基于昆明地理位置和穷游预算，建议走这条经典陆路环线：\n\n```\n昆明 🚆 琅勃拉邦 🚌 万荣 🚌 万象 🚌 曼谷 🚌 暹粒 🚌 胡志明市 ✈️ 昆明\n```\n\n> 💡 **为什么选这条线？** 中老铁路昆明→琅勃拉邦仅¥300左右，比飞泰国省下近千元！一路陆路南下，最后从越南飞回，不走回头路。\n\n---\n\n## 📅 行程框架与预算预估\n\n| 天数 | 城市 | 亮点 | 日均预算 |\n|------|------|------|----------|\n| Day 1-2 | 琅勃拉邦 | 晨间布施、光西瀑布 | ¥250 |\n| Day 3-4 | 万荣 | 热气球、蓝潟湖 | ¥200 |\n| Day 5-6 | 万象 | 凯旋门、塔銮寺 | ¥200 |\n| Day 7-10 | 曼谷+清迈 | 大皇宫、夜市、大象营 | ¥300 |\n| Day 11-13 | 暹粒 | 吴哥窟三日票 | ¥250 |\n| Day 14-15 | 胡志明市 | 范五老街、湄公河 | ¥200 |\n\n**预估总花费：约¥4,200-4,800/人** ✅ 预算内！\n\n---\n\n## 💰 省钱关键点\n\n- 🚆 **交通**：利用中老铁路+陆路大巴，全程交通约¥1,500\n- 🏨 **住宿**：青旅床位¥40-80/晚，5人可包一间民宿更划算\n- 🍜 **餐饮**：路边摊人均¥20-40，夜市便宜又好吃\n- 🎫 **门票**：学生证部分景点有优惠\n\n---\n\n## ❓ 请确认一下\n\n1. **这条路线感兴趣吗？** 还是更想去泰国海岛/马来西亚等？\n2. **大概什么时候出发？** 我可以帮你查具体天气和预订建议\n\n告诉我你的想法，我来细化每日行程！🎒",
+        "total_ms": 67135,
+        "ttfb_ms": 54326,
+        "chars": 844,
+        "has_done": true,
+        "events_count": 511,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T059",
+      "category": "constrained_plan",
+      "final_score": 3.5,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "深圳",
+              "商务",
+              "夜景",
+              "周末",
+              "景点"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.292,
+          "weighted": 0.292,
+          "reason": "Satisfied 1/4 constraints",
+          "details": {
+            "satisfied": [
+              "深圳"
+            ],
+            "missed": [
+              "5天",
+              "工作日白天开会",
+              "晚上周末自由"
+            ],
+            "ratio": 0.25
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.25,
+          "weighted": 1.0,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 3,
+            "response_length": 567
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T059",
+        "cat": "constrained_plan",
+        "query": "商务出差顺便玩，在深圳待5天，工作日白天开会，晚上和周末想逛。",
+        "response": "您好！商务出差顺便探索城市，很棒的想法！我来帮您规划深圳的\"夜间+周末\"游玩方案。\n\n---\n\n## 🌃 深圳晚间推荐（下班后放松）\n\n考虑到您白天开会比较累，推荐几个**交通便利、适合夜间休闲**的地方：\n\n| 地点 | 特色 | 建议时长 |\n|------|------|----------|\n| **深圳湾公园** | 海风散步、看香港夜景 | 1-2小时 |\n| **海上世界·蛇口** | 邮轮酒吧街、异国风情晚餐 | 2-3小时 |\n| **欢乐海岸** | 水秀表演、美食商圈 | 2-3小时 |\n| **华侨城创意园** | 文艺咖啡馆、Livehouse | 2-3小时 |\n\n> 💡 **小建议**：如果会议在福田/南山CBD，深圳湾公园和欢乐海岸都只需地铁2-3站，非常适合工作日晚上去吹吹风、散散心。\n\n---\n\n## 🎉 周末畅玩推荐\n\n周末时间充裕，可以安排稍微远一点的景点：\n\n- **世界之窗/锦绣中华** — 经典主题公园，一日游\n- **大梅沙海滨** — 看海踏浪，适合放松\n- **大鹏古城+较场尾** — 深圳版\"小鼓浪屿\"，文艺慢逛\n\n---\n\n## ❓ 补充一个小问题\n\n请问您**从哪个城市出发**？这样我可以帮您查一下机票/高铁的参考价格和时长，顺便推荐靠近会场的酒店区域 🚄✈️",
+        "total_ms": 72017,
+        "ttfb_ms": 63608,
+        "chars": 567,
+        "has_done": true,
+        "events_count": 340,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T060",
+      "category": "constrained_plan",
+      "final_score": 4.37,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.292,
+          "weighted": 1.167,
+          "reason": "Matched 3/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "恐龙",
+              "博物馆",
+              "亲子"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.75,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Satisfied 3/3 constraints",
+          "details": {
+            "satisfied": [
+              "8岁",
+              "恐龙博物馆",
+              "3天2晚"
+            ],
+            "missed": [],
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.25,
+          "weighted": 1.0,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 3,
+            "geo_logic_markers": 2,
+            "response_length": 581
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T060",
+        "cat": "constrained_plan",
+        "query": "带8岁孩子的亲子游，想去有恐龙博物馆的城市，3天2晚。",
+        "response": "# 🦕 恐龙主题亲子游推荐\n\n您好！带8岁小朋友去恐龙博物馆，这个主意太棒了！小朋友正是对恐龙充满好奇的年纪~\n\n根据您的亲子游需求，我**强烈推荐江苏常州**！\n\n---\n\n## ✨ 为什么选常州？\n\n> **中华恐龙园** = 恐龙博物馆 + 主题乐园，一站式满足孩子所有恐龙幻想！博物馆内有真实化石，园区还有适合8岁孩子的游乐设施，3天2晚刚好玩透。\n\n---\n\n## 🏨 亲子酒店精选\n\n| 酒店 | 亮点 | 参考价格 |\n|------|------|----------|\n| **恐龙主题度假酒店** | 步行5分钟入园，恐龙主题房超酷！ | ¥600-900/晚 |\n| 维景国际大酒店 | 景区内，专属通道，品质高 | ¥800-1200/晚 |\n\n**带8岁孩子，首推恐龙主题度假酒店** —— 孩子看到恐龙装修会兴奋到不想走！🏨\n\n---\n\n## 📝 初步行程框架\n\n- **Day 1**：抵达常州 → 入住主题酒店 → 晚上逛恐龙小镇\n- **Day 2**：中华恐龙园全天畅玩（博物馆+乐园）\n- **Day 3**：恐龙博物馆深度参观 → 返程\n\n---\n\n为了帮您完善行程，想确认两点：\n\n1. **您从哪个城市出发？** 我来查交通方案\n2. **计划哪几天出行？** 我来看天气并给穿衣建议\n\n期待为您规划完整的亲子之旅！🌈",
+        "total_ms": 70003,
+        "ttfb_ms": 62334,
+        "chars": 581,
+        "has_done": true,
+        "events_count": 334,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 4.15,
+    "pass_rate": "5/5 (100%)",
+    "category_stats": {
+      "constrained_plan": {
+        "pass": 5,
+        "fail": 0,
+        "count": 5,
+        "avg": 4.15,
+        "min": 3.5,
+        "max": 4.46
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4.6,
+        "min": 4,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 4.2,
+        "min": 1,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 3.6,
+        "min": 3,
+        "max": 4
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 3.2,
+        "min": 1,
+        "max": 5
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {}
+  }
+}

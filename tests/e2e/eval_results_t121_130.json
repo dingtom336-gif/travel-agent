@@ -1,0 +1,930 @@
+{
+  "timestamp": "2026-03-19 23:21:22",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 10,
+  "evaluations": [
+    {
+      "question_id": "T121",
+      "category": "in_trip",
+      "final_score": 4.38,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "水母",
+              "急救",
+              "醋",
+              "冲洗"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.238,
+          "weighted": 0.952,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 1,
+            "response_length": 784
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.19,
+          "weighted": 0.952,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "立即",
+              "帮您",
+              "推荐",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T121",
+        "cat": "in_trip",
+        "query": "在海边游泳被水母蜇了，正确的急救方法是什么？",
+        "response": "# 🚑 水母蜇伤急救指南\n\n海边游玩安全很重要！根据您喜欢海滩度假的偏好，了解这些急救知识非常必要。以下是正确的处理方法：\n\n---\n\n## ✅ 正确急救步骤\n\n| 步骤 | 操作 | 注意事项 |\n|:----:|------|----------|\n| 1️⃣ | **立即离水上岸** | 避免再次被蜇或溺水 |\n| 2️⃣ | **用海水冲洗伤口** | ⚠️ 切勿用淡水！淡水会刺激刺细胞释放更多毒素 |\n| 3️⃣ | **用醋/小苏打溶液冲洗** | 可中和毒素，抑制刺细胞活性 |\n| 4️⃣ | **用镊子移除残留触手** | 戴手套或用毛巾，勿用手直接接触 |\n| 5️⃣ | **热水浸泡15-20分钟** | 45-50°C热水可缓解疼痛、分解毒素 |\n| 6️⃣ | **涂抹抗过敏药膏** | 如氢化可的松乳膏减轻炎症 |\n\n---\n\n## ❌ 常见错误做法（千万别做！）\n\n> 🚫 **用淡水冲洗** → 会加重毒素释放  \n> 🚫 **用尿液涂抹** → 无效且可能造成感染  \n> 🚫 **用手揉搓伤口** → 扩大蜇伤范围  \n> 🚫 **用酒精/氨水** → 可能加剧疼痛\n\n---\n\n## ⚠️ 出现以下症状需立即就医\n\n- 呼吸困难、胸闷\n- 面部/喉咙肿胀\n- 恶心呕吐、头晕\n- 被剧毒水母（如箱水母）蜇伤\n- 大面积蜇伤或儿童被蜇\n\n**紧急联系**：当地急救电话或中国领事保护热线 **+86-10-12308**\n\n---\n\n## 🏖️ 海滩安全小贴士\n\n- 下水前留意海滩警示标志\n- 选择有救生员值守的海滩\n- 可穿戴水母防护衣/潜水服\n- 避免清晨/黄昏下水（水母活动高峰期）\n\n---\n\n希望这些信息对您有帮助！如果您正在计划海边旅行，我可以帮您推荐**安全的游泳海滩**或规划行程。祝您海边游玩安全愉快！🌊",
+        "total_ms": 75915,
+        "ttfb_ms": 65371,
+        "chars": 784,
+        "has_done": true,
+        "events_count": 473,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T122",
+      "category": "in_trip",
+      "final_score": 4.24,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "盗刷",
+              "银行",
+              "报警",
+              "冻结",
+              "挂失"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.238,
+          "weighted": 1.19,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 222
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.19,
+          "weighted": 0.762,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "立即",
+              "卡片"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T122",
+        "cat": "in_trip",
+        "query": "信用卡在国外被盗刷了，应该先联系银行还是先报警？",
+        "response": "\n遇到信用卡被盗刷的情况，建议优先联系银行。以下是建议步骤：\n\n1. **联系银行**：立即致电发卡行，冻结或挂失卡片，阻止进一步盗刷。提供交易记录、时间地点等信息。\n2. **报警备案**：联系当地警方（如中国110或目的地报警电话），制作报案记录，保留报警回执，这对后续理赔有帮助。\n3. **保留证据**：保存所有相关邮件、短信、通话录音和银行处理记录。\n\n*需要了解：* 您是在国内发现被盗刷，还是在国外时发生的？以及是否已经联系银行？",
+        "total_ms": 3728,
+        "ttfb_ms": 1890,
+        "chars": 222,
+        "has_done": true,
+        "events_count": 127,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T123",
+      "category": "in_trip",
+      "final_score": 4.19,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "赔偿",
+              "拍照",
+              "平台",
+              "拒绝"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.238,
+          "weighted": 0.952,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 1,
+            "response_length": 489
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.19,
+          "weighted": 0.952,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "立即",
+              "帮您",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T123",
+        "cat": "in_trip",
+        "query": "酒店退房时被要求赔偿一个我没弄坏的杯子，怎么处理？",
+        "response": "## 🏨 遇到这种情况确实让人头疼，别担心，有办法处理\n\n**最重要的一点：现场不要签字承认任何责任！**\n\n---\n\n### 📱 立即做这几件事\n\n1. **拍照取证** — 把被指控\"损坏\"的杯子多角度拍清楚，同时拍下房间整体状况\n2. **要求酒店举证** — 让他们提供：\n   - 入住前的房间检查记录\n   - 物品购买凭证（证明赔偿金额合理）\n3. **拒绝现场付款** — 让酒店出具书面索赔通知，表示需要时间核实\n\n> 💡 如果酒店说\"赶时间就算了\"，千万别妥协，后续追回会更困难\n\n---\n\n### 📞 后续维权渠道\n\n| 时间 | 行动 |\n|------|------|\n| 24小时内 | 联系预订平台（携程/美团等）投诉并请求介入 |\n| 48小时内 | 如涉及信用卡预授权扣款，联系银行争议处理 |\n| 协商无果 | 拨打12315向消费者协会投诉 |\n\n---\n\n**小建议**：以后入住酒店时，可以习惯性地拍几张房间照片，特别是已有瑕疵的地方，能避免很多纠纷～\n\n---\n\n请问现在情况到哪一步了？酒店索赔多少钱？我可以帮您进一步分析处理方案。",
+        "total_ms": 39079,
+        "ttfb_ms": 33164,
+        "chars": 489,
+        "has_done": true,
+        "events_count": 267,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T124",
+      "category": "in_trip",
+      "final_score": 4.0,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "通票",
+              "激活",
+              "罚款",
+              "解释"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.238,
+          "weighted": 0.952,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 521
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T124",
+        "cat": "in_trip",
+        "query": "在欧洲火车上遇到查票，我的通票没有激活，会被罚款吗？",
+        "response": "您好！这是一个比较紧急的情况，我来为您详细解答：\n\n---\n\n## ⚠️ 简短回答\n\n**是的，有被罚款的风险。** 未激活的通票通常会被视为\"无票乘车\"。\n\n---\n\n## 📋 可能的后果\n\n| 情况 | 处理方式 |\n|------|----------|\n| 遇到通情达理的查票员 | 可能允许现场补激活并支付手续费 |\n| 严格执法 | 罚款 **50-200欧元** + 补购当日全价票 |\n\n不同国家执法力度不同——瑞士、德国较严格，南欧国家相对灵活一些。\n\n---\n\n## 💡 现在该怎么办\n\n1. **态度诚恳**：向查票员解释是疏忽，出示购买凭证证明您已购票\n2. **请求补激活**：询问是否可以现场处理\n3. **保留罚单**：如被罚款，后续可尝试向通票发行方申诉\n4. **准备支付方式**：欧洲罚款常需现场支付，备好现金或银行卡\n\n---\n\n> 🔔 **下次提醒**：纸质通票需在火车站窗口激活，电子通票可在官方App内提前激活。建议抵达欧洲后第一时间完成！\n\n---\n\n请问您现在是在哪个国家遇到的这个问题？我可以帮您了解一下当地的具体政策。另外，您的行程接下来还计划去哪些城市？我可以帮您确认后续交通的注意事项。",
+        "total_ms": 52246,
+        "ttfb_ms": 38691,
+        "chars": 521,
+        "has_done": true,
+        "events_count": 292,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T125",
+      "category": "in_trip",
+      "final_score": 4.24,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "暴雨",
+              "靠边停车",
+              "双闪",
+              "安全",
+              "减速"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.238,
+          "weighted": 1.19,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 1,
+            "response_length": 278
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.19,
+          "weighted": 0.762,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "立即",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T125",
+        "cat": "in_trip",
+        "query": "自驾途中遇到暴雨看不清路，最安全的做法是什么？",
+        "response": "\n遇到暴雨导致视线不清时，请保持冷静，采取以下安全措施：\n\n1. **立即减速**：缓慢降低车速，避免紧急刹车。\n2. **打开双闪灯**：提示后方车辆注意。\n3. **靠边停车**：在确保安全的情况下驶离行车道（如应急车道），不要停在弯道或坡道。\n4. **保持车距**：与前车保持至少3秒以上的距离。\n5. **避免涉水**：如果积水深度不明，切勿强行通过。\n6. **等待雨势减弱**：可通过导航或车内屏幕了解路况。\n\n**额外建议**：提前检查雨刮器、轮胎和刹车是否正常。如果可能，选择暂停行程或改乘公共交通。\n\n需要我提供更多暴雨行车安全提示吗？",
+        "total_ms": 47436,
+        "ttfb_ms": 38085,
+        "chars": 278,
+        "has_done": true,
+        "events_count": 166,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T126",
+      "category": "in_trip",
+      "final_score": 4.19,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "退税",
+              "机场",
+              "免税",
+              "药妆"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.238,
+          "weighted": 0.952,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 583
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.19,
+          "weighted": 0.762,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T126",
+        "cat": "in_trip",
+        "query": "在日本药妆店买的东西能在机场退税吗？流程是什么？",
+        "response": "## 🛒 日本药妆店退税指南\n\n**可以退税！** 而且大多数情况下比机场退税更方便——直接在店内办理**免税**即可。\n\n---\n\n### ✅ 退税条件\n\n| 项目 | 要求 |\n|------|------|\n| 消费金额 | 单店当日满 **5,000日元**（不含税）|\n| 适用人群 | 持短期签证的外国游客（停留≤6个月）|\n| 商品类型 | 药妆、化妆品属于\"消耗品\"，需密封包装 |\n\n---\n\n### 🔄 两种方式对比\n\n**方式一：店内直接免税（推荐）**\n\n1. 结账时出示护照原件\n2. 告知店员\"免税でお願いします\"（免税请）\n3. 直接以免税价格结算，省去10%消费税\n4. 商品装入密封袋，离境前不可拆封\n\n**方式二：机场退税**\n\n仅部分商场（如大丸、伊势丹）采用此方式，需先付款后到机场办理，较麻烦。\n\n> 💡 **小贴士**：松本清、大国药妆、唐吉诃德等大型连锁店都支持店内免税，且有中文服务，推荐选择！\n\n---\n\n### ⚠️ 重要提醒\n\n- 📋 **护照必须随身** — 结账时需要扫描\n- 📦 **密封袋不可拆** — 消耗品在日本境内使用会被追缴税款\n- 🧾 **保留小票** — 以备海关抽查\n\n---\n\n如果您正在规划日本行程，我可以帮您安排购物路线或推荐更多好去处！请问您计划什么时候去日本，想去哪些城市呢？ 🗾",
+        "total_ms": 74365,
+        "ttfb_ms": 66176,
+        "chars": 583,
+        "has_done": true,
+        "events_count": 350,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T127",
+      "category": "in_trip",
+      "final_score": 1.38,
+      "dimensions": {
+        "accuracy": {
+          "score": 1,
+          "weight": 0.286,
+          "weighted": 0.286,
+          "reason": "Matched 0/4 golden keys",
+          "details": {
+            "matched_keys": [],
+            "total_keys": 4,
+            "match_ratio": 0.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.238,
+          "weighted": 0.238,
+          "reason": "No constraints; key echo 0/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 1,
+          "weight": 0.19,
+          "weighted": 0.19,
+          "reason": "Reasoning score 1/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 47
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.19,
+          "weighted": 0.19,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "方案"
+            ],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T127",
+        "cat": "in_trip",
+        "query": "帮我查一下从我现在的位置到最近的中国驻外使馆怎么走。",
+        "response": "以下是根据分析结果整理的旅行方案：\n\n### transport agent result:\n",
+        "total_ms": 124139,
+        "ttfb_ms": 124136,
+        "chars": 47,
+        "has_done": true,
+        "events_count": 9,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T128",
+      "category": "in_trip",
+      "final_score": 3.1,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.286,
+          "weighted": 1.143,
+          "reason": "Matched 3/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "药店",
+              "肠胃",
+              "24小时"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.6,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.238,
+          "weighted": 0.714,
+          "reason": "No constraints; key echo 3/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.6
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 1,
+          "weight": 0.19,
+          "weighted": 0.19,
+          "reason": "Reasoning score 1/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 1,
+            "response_length": 64
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T128",
+        "cat": "in_trip",
+        "query": "刚吃了路边摊食物感觉肚子不舒服，附近有没有24小时药店？",
+        "response": "\n很抱歉听到您肠胃不适！为了找到附近的24小时药店，我需要确认您目前所在的城市或具体位置，这样我可以帮您查询。您方便分享一下吗？",
+        "total_ms": 8080,
+        "ttfb_ms": 3804,
+        "chars": 64,
+        "has_done": true,
+        "events_count": 39,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T129",
+      "category": "in_trip",
+      "final_score": 4.81,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "暴雨",
+              "室内",
+              "替代",
+              "调整",
+              "乌布"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.238,
+          "weighted": 1.19,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.19,
+          "weighted": 0.762,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 3,
+            "geo_logic_markers": 1,
+            "response_length": 2725
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.19,
+          "weighted": 0.952,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "帮您",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T129",
+        "cat": "in_trip",
+        "query": "在巴厘岛突然下暴雨，原定的乌布梯田行程怎么调整？",
+        "response": "以下是根据分析结果整理的旅行方案：\n\n### weather agent result:\n# 🌧️ 巴厘岛暴雨天气应对方案\n\n## 天气概况\n巴厘岛当前正值**雨季**（11月-3月），暴雨多为短时强降雨，通常持续1-3小时。乌布地区因地处内陆山区，降雨可能比沿海更持久。\n\n---\n\n## 🔄 乌布梯田行程调整建议\n\n### 方案一：顺延调整（推荐）\n- 暴雨通常下午较多，可改至**清晨6:00-9:00**前往梯田\n- 雨后梯田反而更翠绿，拍照效果更佳\n\n### 方案二：室内替代活动\n\n| 活动类型 | 推荐地点 | 特点 |\n|---------|---------|------|\n| 🎨 艺术文化 | 乌布皇宫、ARMA博物馆 | 室内避雨+文化体验 |\n| 🧘 身心疗愈 | 瑜伽馆、SPA按摩 | 雨天放松最佳 |\n| 🍽️ 美食体验 | Locavore、Mozaic餐厅 | 享受精致餐饮 |\n| 🛍️ 购物 | 乌布艺术市场 | 可讨价还价 |\n\n---\n\n## ☔ 雨天出行贴士\n\n**必备物品：**\n- 轻便雨衣/折叠伞\n- 防水手机袋\n- 防滑凉鞋\n\n**注意事项：**\n- 梯田步道雨后湿滑，务必穿防滑鞋\n- 避免涉水，防止滑倒\n- 关注当地天气APP（AccuWeather较准确）\n\n---\n\n需要我帮您查询具体某天的天气预报或推荐更多雨天活动吗？\n\n### poi agent result:\n我来帮您搜索巴厘岛适合雨天的室内景点和体验，特别是乌布地区的替代方案。\n\n### transport agent result:\n# 🌧️ 巴厘岛暴雨天行程调整建议\n\n您好！看起来您已经在巴厘岛，遇到了暴雨天气需要调整乌布梯田的行程。这不是一个交通搜索需求，但我可以为您提供一些雨天替代方案：\n\n---\n\n## 🏛️ 室内替代活动推荐\n\n### 1. 乌布地区室内景点\n| 活动 | 特点 | 预计费用 |\n|------|------|----------|\n| **乌布皇宫** | 历史文化景点，部分有遮蔽 | 免费 |\n| **普里鲁基桑博物馆** | 当地艺术收藏，完全室内 | 约50,000印尼盾 |\n| **ARMA博物馆** | 传统绘画与舞蹈表演 | 约80,000印尼盾 |\n| **乌布传统市场** | 室内购物，可避雨逛手工艺品 | 视购物而定 |\n\n### 2. SPA/瑜伽体验\n- 乌布是巴厘岛的瑜伽中心，雨天正是体验**SPA按摩**或**瑜伽课程**的好时机\n- 价格：约200,000-500,000印尼盾/次\n\n### 3. 精品咖啡馆\n- 乌布有众多特色咖啡馆，可以悠闲度过雨天下午\n- 推荐：Seniman Coffee, Tis Cafe\n\n---\n\n## 💡 实用建议\n\n1. **关注天气预报** - 巴厘岛雨通常来得快去得快，可能是阵雨\n2. **备选方案** - 上午下雨可改为室内活动，下午雨停再前往梯田\n3. **交通提示** - 雨天路滑，建议叫Grab或包车，不建议租摩托车\n\n---\n\n如需查询具体交通方式（如从酒店到某景点的路线），请告诉我您的**出发地点**和**想去的室内景点**，我可以为您搜索具体方案！ 🚗\n\n### knowledge agent result:\n您好！根据您的查询，我注意到您之前询问的是**巴厘岛（印度尼西亚）**的行程问题，但目前我的知识库中暂无印尼的签证和旅行信息。\n\n以下是我为您整理的**知识库中可查询的目的地信息**：\n\n---\n\n## 📍 可查询的目的地\n\n| 目的地 | 签证政策 | 旅行贴士 |\n|--------|----------|----------|\n| 🇯🇵 日本 | ✅ 详细 | ✅ 详细 |\n| 🇹🇭 泰国 | ✅ 详细 | ✅ 详细 |\n| 🇰🇷 韩国 | ✅ 详细 | ❌ 暂无 |\n\n---\n\n## 🇯🇵 日本签证政策（中国公民）\n\n### 签证类型\n| 类型 | 有效期 | 停留时间 | 财务要求 |\n|------|--------|----------|----------|\n| 单次旅游签证 | 3个月 | 15天 | 年收入10万+ |\n| 三年多次签证 | 3年 | 每次30天 | 年收入20万+（首次须含冲绳/东北六县住宿） |\n| 五年多次签证 | 5年 | 每次90天 | 年收入50万+ |\n\n### 办理须知\n- **办理周期**：5-7个工作日\n- **办理方式**：须通过指定旅行社代办，不接受个人申请\n- **免签条件**：持有美、加、澳等有效签证可申请72小时过境免签（限特定口岸）\n\n---\n\n## 🇹🇭 泰国签证政策（中国公民）\n\n### 签证选项\n| 类型 | 停留时间 | 备注 |\n|------|----------|------|\n| **免签入境（2024年起）** | 30天 | 中国护照可直接入境 |\n| 落地签 | 15天 | 费用2000泰铢，需往返机票、酒店预订、2万泰铢现金证明 |\n| 旅游签证（提前办理） | 60天 | 可延期30天 |\n\n### 入境注意事项\n- ⚠️ **禁止携带电子烟**（违者可能被罚款或监禁）\n- 🚬 每人限带200支香烟、1升酒\n- 💰 携带超过2万美元等值外币须申报\n\n---\n\n## 🇰🇷 韩国签证政策（中国公民）\n\n### 签证选项\n| 类型 | 停留时间 | 备注 |\n|------|----------|------|\n| 单次旅游签证（C-3-9） | 90天以内 | 需在职证明、收入证明 |\n| 五年多次签证 | 每次90天 | 高收入或曾多次访韩者可申请 |\n| **济州岛免签** | 30天 | 仅限济州岛范围 |\n| 过境免签 | 72小时 | 仁川机场区域，需联程机票 |\n\n### 办理须知\n- **审核周期**：通常5-7个工作日（旺季可能延长）\n- **办理方式**：韩国驻华使领馆或签证代办机构\n\n---\n\n## 💡 请问您具体想了解哪个目的地？\n\n如果您需要**巴厘岛（印度尼西亚）**的签证和旅行信息，我可以根据我的知识为您补充：\n\n> **印尼对中国公民实行免签政策**（停留30天），巴厘岛雨季建议备好雨具，户外行程可调整为室内活动如博物馆、SPA、咖啡馆等。\n\n请告诉我您想深入了解哪个目的地，我可以提供更详细的信息！ 🌏\n\n### hotel agent result:\n\n\n### itinerary agent result:\n",
+        "total_ms": 99459,
+        "ttfb_ms": 99458,
+        "chars": 2725,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T130",
+      "category": "in_trip",
+      "final_score": 4.24,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 4/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "充电宝",
+              "共享",
+              "景区",
+              "租借"
+            ],
+            "total_keys": 4,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.238,
+          "weighted": 1.19,
+          "reason": "No constraints; key echo 4/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 231
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.19,
+          "weighted": 0.762,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "入口",
+              "帮你"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T130",
+        "cat": "in_trip",
+        "query": "景区里手机没电了也没带充电宝，附近有没有共享充电宝？",
+        "response": "\n在景区手机没电确实挺麻烦的！很多景区内或附近都有共享充电宝，通常可以在以下地方找到：\n\n1. **景区入口/售票处**  \n2. **游客中心**  \n3. **热门景点附近**（如餐厅、商店、景点出口）  \n4. **通过App查找**（如支付宝、微信小程序搜索“共享充电宝”）  \n\n**建议**：提前在手机上下载“共享充电宝”小程序或App，方便导航和租借。或者问景区工作人员，他们通常很乐意帮忙！  \n\n需要我帮你查某个具体景区的信息吗？比如景区名称？",
+        "total_ms": 18674,
+        "ttfb_ms": 1017,
+        "chars": 231,
+        "has_done": true,
+        "events_count": 133,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 10,
+    "valid": 10,
+    "errors": 0,
+    "avg_score": 3.88,
+    "pass_rate": "9/10 (90%)",
+    "category_stats": {
+      "in_trip": {
+        "pass": 9,
+        "fail": 1,
+        "count": 10,
+        "avg": 3.88,
+        "min": 1.38,
+        "max": 4.81
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4.5,
+        "min": 1,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 4,
+        "min": 1,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 2.3,
+        "min": 1,
+        "max": 4
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 3.8,
+        "min": 1,
+        "max": 5
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {
+      "accuracy": 1
+    }
+  }
+}

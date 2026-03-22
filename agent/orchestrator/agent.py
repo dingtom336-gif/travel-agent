@@ -79,6 +79,24 @@ class OrchestratorAgent:
 
       await session_memory.add_message(session_id, "user", message)
 
+      # Early unsafe check — works regardless of Theater/ReAct mode
+      from agent.orchestrator.synthesis import _smart_fallback, _UNSAFE_REQUEST_KW
+      msg_lower = message.strip().lower()
+      if any(w in msg_lower for w in _UNSAFE_REQUEST_KW):
+        refusal = _smart_fallback(message)
+        yield SSEMessage(
+          event=SSEEventType.TEXT,
+          data={"content": refusal},
+        ).format()
+        await session_memory.add_message(session_id, "assistant", refusal)
+        yield SSEMessage(
+          event=SSEEventType.DONE,
+          data={"session_id": session_id},
+        ).format()
+        total_ms = int((time.time() - total_start) * 1000)
+        logger.info("TIMING stage=total_unsafe_early duration_ms=%d session=%s", total_ms, session_id)
+        return
+
       user_id = session_id
       personalization_ctx = profile_manager.get_personalization_context(user_id)
 

@@ -1,0 +1,487 @@
+{
+  "timestamp": "2026-03-20 03:15:20",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T021",
+      "category": "basic_info",
+      "final_score": 3.62,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.476,
+          "weighted": 1.905,
+          "reason": "Matched 3/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "海拔",
+              "米",
+              "高反"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.75,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.143,
+          "weighted": 0.571,
+          "reason": "No constraints; key echo 3/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 161
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.095,
+          "weighted": 0.286,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "帮你"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T021",
+        "cat": "basic_info",
+        "query": "云南大理的海拔高度是多少？会不会有高反？",
+        "response": "\n大理的海拔约为**2000米左右**（具体会因具体地点略有差异）。  \n\n关于高反：  \n- 大多数人在这个海拔会有轻微不适感（如轻微头痛、疲劳），但通常不严重。  \n- 建议初到时避免剧烈运动，多喝水，保持清淡饮食，让身体逐步适应。  \n\n你打算在云南待多久？有具体的行程计划吗？我可以帮你规划更科学的高原适应节奏哦！",
+        "total_ms": 2918,
+        "ttfb_ms": 2098,
+        "chars": 161,
+        "has_done": true,
+        "events_count": 98,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T022",
+      "category": "basic_info",
+      "final_score": 4.71,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.476,
+          "weighted": 2.381,
+          "reason": "Matched 4/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "机场快线",
+              "公交",
+              "泰铢",
+              "出租"
+            ],
+            "total_keys": 4,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.143,
+          "weighted": 0.714,
+          "reason": "No constraints; key echo 4/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.19,
+          "weighted": 0.762,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 3,
+            "response_length": 556
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T022",
+        "cat": "basic_info",
+        "query": "从曼谷素万那普机场到市中心最便宜的交通方式是什么？",
+        "response": "## 🚗 素万那普机场 → 市中心交通方式\n\n您好！以下是按价格从低到高排列的交通选项：\n\n| 交通方式 | 价格 | 时间 | 适合人群 |\n|----------|------|------|----------|\n| **公交车** | 约 24-35 泰铢 (≈5-7元) | 60-90分钟 | 极致省钱、有时间 |\n| **Airport Rail Link** | 15-45 泰铢 (≈3-9元) | 25-30分钟 | 性价比首选 ⭐ |\n| **机场巴士 S1** | 约 60 泰铢 (≈12元) | 60-90分钟 | 预算有限、不赶时间 |\n| **网约车** | 250-400 泰铢 | 45-90分钟 | 方便透明 |\n| **出租车** | 300-500 泰铢 | 45-90分钟 | 行李多、深夜抵达 |\n\n---\n\n### 💰 最便宜方式\n\n**公交车** 确实最便宜，但需要换乘且不太方便携带行李。\n\n> 💡 **我的建议**：多花几泰铢选择 **Airport Rail Link（机场快线）**，从机场B层出发，直达Phaya Thai站可换乘BTS，仅25-30分钟，性价比最高！\n\n---\n\n请问您是第一次去曼谷吗？如果需要，我可以帮您推荐住宿区域或规划行程 😊",
+        "total_ms": 62180,
+        "ttfb_ms": 54200,
+        "chars": 556,
+        "has_done": true,
+        "events_count": 306,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T023",
+      "category": "basic_info",
+      "final_score": 4.0,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.476,
+          "weighted": 1.905,
+          "reason": "Matched 3/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "午餐",
+              "晚餐",
+              "coperto"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.75,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.143,
+          "weighted": 0.571,
+          "reason": "No constraints; key echo 3/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.19,
+          "weighted": 0.762,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 4,
+            "geo_logic_markers": 0,
+            "response_length": 645
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.095,
+          "weighted": 0.286,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T023",
+        "cat": "basic_info",
+        "query": "意大利的餐厅一般几点开始营业？有coperto吗？",
+        "response": "## 🍝 意大利餐厅营业时间\n\n意大利人用餐时间非常固定，和国内差别挺大的：\n\n| 餐别 | 时间 |\n|------|------|\n| **午餐** | 12:30 - 14:30（最晚15:00关门） |\n| **下午休息** | 15:00 - 19:00 ⚠️ 多数餐厅关门 |\n| **晚餐** | 19:30 - 22:30（很多店19:30才开门） |\n\n> 💡 **重要提示**：下午3点到晚上7点之间很难找到正餐餐厅！如果这个时段饿了，可以去酒吧喝咖啡配点心，或者找 **Tavola Calda**（热食柜台）买些简餐。\n\n---\n\n## 💶 关于 Coperto（餐位费）\n\n**是的，意大利有 coperto！** 这是意大利特有的餐饮文化，完全合法且普遍。\n\n| 项目 | 说明 |\n|------|------|\n| **费用** | 每人 **€2-3**（高级餐厅可能更高） |\n| **包含内容** | 面包、餐具、餐巾、餐桌清洁费 |\n| **是否必须支付** | ✅ 必须支付，账单会单独列出 |\n\n### 🔍 费用区分小贴士\n\n- **Coperto（餐位费）** → 必付，每人€2-3 ✅\n- **Servizio（服务费）** → 约10%，旅游区餐厅常见，可质疑 ⚠️\n- **小费** → 非必须，凑整即可（比如€27付€30）❌\n\n---\n\n还有其他关于意大利旅行的问题吗？比如想了解哪个城市的具体餐厅推荐，或者需要帮忙规划行程？ 🇮🇹",
+        "total_ms": 91665,
+        "ttfb_ms": 53905,
+        "chars": 645,
+        "has_done": true,
+        "events_count": 367,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T024",
+      "category": "basic_info",
+      "final_score": 3.81,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.476,
+          "weighted": 1.905,
+          "reason": "Matched 3/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "天",
+              "有效期",
+              "门票"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.75,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.143,
+          "weighted": 0.571,
+          "reason": "No constraints; key echo 3/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 286
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.095,
+          "weighted": 0.286,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T024",
+        "cat": "basic_info",
+        "query": "张家界国家森林公园的门票有效期是几天？",
+        "response": "您好！张家界国家森林公园的门票有效期是 **4天**（自首次入园之日起计算）。\n\n## 📌 关键信息\n\n- **多次进出**：有效期内可反复进出景区\n- **指纹验证**：首次入园时录入指纹，后续凭指纹入园\n- **环保车包含**：门票已含景区内环保车费用\n\n## 💡 游览建议\n\n建议安排 **2-3天** 游览比较合适，4天有效期让您时间充裕，不用担心赶行程。\n\n热门景点主要集中在：袁家界、天子山、黄石寨、金鞭溪等区域。\n\n---\n\n> ⚠️ **提醒**：索道、百龙天梯等需另外购票，不包含在门票内。\n\n请问您计划什么时候去张家界？我可以帮您规划具体的行程安排！😊",
+        "total_ms": 30656,
+        "ttfb_ms": 26702,
+        "chars": 286,
+        "has_done": true,
+        "events_count": 174,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T025",
+      "category": "basic_info",
+      "final_score": 4.62,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.476,
+          "weighted": 2.381,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "日元",
+              "人民币",
+              "7天",
+              "价格",
+              "JR"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.143,
+          "weighted": 0.714,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.19,
+          "weighted": 0.762,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 3,
+            "geo_logic_markers": 0,
+            "response_length": 484
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.095,
+          "weighted": 0.286,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T025",
+        "cat": "basic_info",
+        "query": "日本JR Pass全国版7天券的最新价格是多少？",
+        "response": "## 🎫 JR Pass全国版7天券最新价格\n\n您好！以下是2023年10月涨价后的最新价格：\n\n| 票种 | 价格（日元） | 约人民币 |\n|------|-------------|---------|\n| **大人（12岁以上）** | ¥33,610 | 约¥1,600 |\n| **儿童（6-11岁）** | ¥16,800 | 约¥800 |\n\n---\n\n> ⚠️ **重要提醒**：2023年10月1日起价格大幅上涨约69%，购买前务必计算是否划算！\n\n## 💡 是否值得购买？\n\n**简单判断公式**：您的行程交通总费用是否超过 ¥33,610日元？\n\n| 典型场景 | 是否划算 |\n|---------|---------|\n| 东京→京都→大阪→东京（往返长途） | ✅ 划算 |\n| 东京↔大阪单程 + 区域内移动 | ❓ 刚好回本或略亏 |\n| 仅关东/关西区域内旅行 | ❌ 不划算，建议买单程票或区域券 |\n\n---\n\n您计划去日本的哪些城市呢？告诉我您的行程安排，我可以帮您精确计算是否值得购买JR Pass，顺便给您规划最佳路线！😊",
+        "total_ms": 61507,
+        "ttfb_ms": 55653,
+        "chars": 484,
+        "has_done": true,
+        "events_count": 268,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 4.15,
+    "pass_rate": "5/5 (100%)",
+    "category_stats": {
+      "basic_info": {
+        "pass": 5,
+        "fail": 0,
+        "count": 5,
+        "avg": 4.15,
+        "min": 3.62,
+        "max": 4.71
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4.4,
+        "min": 4,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 4.4,
+        "min": 4,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 3.4,
+        "min": 2,
+        "max": 4
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 3.2,
+        "min": 3,
+        "max": 4
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {}
+  }
+}

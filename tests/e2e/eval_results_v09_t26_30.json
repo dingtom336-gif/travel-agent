@@ -1,0 +1,492 @@
+{
+  "timestamp": "2026-03-20 03:19:28",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T026",
+      "category": "basic_info",
+      "final_score": 4.48,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.476,
+          "weighted": 2.381,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "卡帕多奇亚",
+              "季节",
+              "预订",
+              "天气"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.143,
+          "weighted": 0.571,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 1,
+            "response_length": 656
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "帮您",
+              "推荐",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T026",
+        "cat": "basic_info",
+        "query": "土耳其卡帕多奇亚热气球飞行的最佳季节和预订渠道。",
+        "response": "## 🎈 卡帕多奇亚热气球飞行指南\n\n好问题！卡帕多奇亚的热气球体验绝对是土耳其之旅的亮点。以下是关键信息：\n\n---\n\n### 🌤️ 最佳飞行季节\n\n| 季节 | 时间 | 推荐指数 |\n|------|------|----------|\n| **春季** | 4-5月 | ⭐⭐⭐⭐⭐ 气温宜人，野花盛开 |\n| **秋季** | 9-10月 | ⭐⭐⭐⭐⭐ 天气稳定，能见度高 |\n| 夏季 | 6-8月 | ⭐⭐⭐⭐ 天气稳定但炎热 |\n| 冬季 | 12-2月 | ⭐⭐⭐ 雪景绝美但取消率高 |\n\n---\n\n### 📱 预订渠道推荐\n\n**推荐的热气球公司（官网直订）：**\n- **Butterfly Balloons** — 服务好，小篮筐体验佳\n- **Royal Balloon** — 高端品牌，VIP服务\n- **Kapadokya Balloons** — 老牌公司，经验丰富\n\n**在线平台：** Klook、GetYourGuide、Viator（支持中文，可免费取消）\n\n---\n\n### 💡 实用贴士\n\n- **价格参考**：标准飞行约 150-250 欧元/人，延长飞行约 90 分钟\n- **提前预订**：旺季建议提前 2-4 周\n- **预留时间**：在卡帕多奇亚至少留 2-3 天，以防天气取消\n\n> ⚠️ 热气球高度依赖天气，任何季节都可能因风力或能见度取消，建议选择可免费取消的预订方式。\n\n---\n\n请问您计划什么时候去土耳其呢？我可以帮您进一步规划行程！ 🗺️",
+        "total_ms": 67003,
+        "ttfb_ms": 57271,
+        "chars": 656,
+        "has_done": true,
+        "events_count": 369,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T027",
+      "category": "basic_info",
+      "final_score": 4.52,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.476,
+          "weighted": 2.381,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "ETA",
+              "在线",
+              "护照",
+              "费用",
+              "澳元"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.143,
+          "weighted": 0.714,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 2,
+            "response_length": 666
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T027",
+        "cat": "basic_info",
+        "query": "澳大利亚ETA签证的申请流程和费用。",
+        "response": "# 🇦🇺 澳大利亚ETA签证指南\n\n您好！很高兴为您解答ETA签证的相关信息：\n\n---\n\n## 📋 什么是ETA？\n\nETA（Electronic Travel Authority）是澳大利亚的**电子旅行授权**，适合短期旅游或商务访问。\n\n| 项目 | 说明 |\n|------|------|\n| 有效期 | 12个月 |\n| 停留时间 | 每次入境最多3个月 |\n| 入境次数 | 多次往返 |\n\n---\n\n## 📱 申请流程（4步搞定）\n\n1. **下载官方APP**  \n   搜索「Australian ETA」（iOS/Android均有）\n\n2. **填写信息 + 上传护照**  \n   系统会自动识别护照信息\n\n3. **支付服务费**  \n   通过APP在线支付\n\n4. **等待审核**  \n   通常**几分钟至几小时**出结果，建议提前2周申请\n\n---\n\n## 💰 费用一览\n\n| 费用项目 | 金额 |\n|----------|------|\n| ETA签证费 | **免费** ✅ |\n| APP服务费 | **20澳元**（约¥95-100） |\n\n---\n\n## ⚠️ 重要提醒\n\n> 💡 **必须使用官方APP申请**，谨防第三方代办诈骗！获批后会收到邮件确认，入境时自动关联护照。\n\n如果ETA申请不通过，可以考虑申请**600类访客签证**（约190澳元，需2-4周）。\n\n---\n\n还有其他关于澳大利亚旅行的问题吗？比如想了解悉尼、墨尔本等城市的景点推荐，或者需要帮您规划行程？😊",
+        "total_ms": 52770,
+        "ttfb_ms": 46327,
+        "chars": 666,
+        "has_done": true,
+        "events_count": 333,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T028",
+      "category": "basic_info",
+      "final_score": 4.43,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.476,
+          "weighted": 2.381,
+          "reason": "Matched 4/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "万元",
+              "免税",
+              "额度",
+              "离岛"
+            ],
+            "total_keys": 4,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.143,
+          "weighted": 0.714,
+          "reason": "No constraints; key echo 4/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 368
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.095,
+          "weighted": 0.286,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T028",
+        "cat": "basic_info",
+        "query": "三亚免税店的年度免税额度是多少？",
+        "response": "您好！关于三亚免税店的额度问题，为您解答如下：\n\n---\n\n## 💰 海南离岛免税购物额度\n\n| 项目 | 规定 |\n|------|------|\n| **年度免税额度** | **每人每年 10 万元人民币** |\n| 购买次数 | 不限次数，额度内可多次购买 |\n| 额度重置 | 每年1月1日重新计算 |\n\n---\n\n## ⚠️ 单次购买数量限制\n\n| 商品类别 | 限购数量 |\n|---------|---------|\n| 化妆品 | 30件 |\n| 手机 | 4部 |\n| 酒类 | 1500毫升 |\n\n> 💡 **小贴士**：购物时需凭离岛信息（机票/火车票/船票）购买，提货方式可选机场提货或邮寄送达。\n\n---\n\n如果您正在计划三亚行程，我可以帮您规划完整的行程安排～ 请问您打算什么时候出发、从哪个城市过去呢？😊",
+        "total_ms": 86169,
+        "ttfb_ms": 85419,
+        "chars": 368,
+        "has_done": true,
+        "events_count": 213,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T029",
+      "category": "basic_info",
+      "final_score": 4.52,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.476,
+          "weighted": 2.381,
+          "reason": "Matched 4/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "国际驾照",
+              "中国驾照",
+              "翻译件",
+              "认可"
+            ],
+            "total_keys": 4,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.143,
+          "weighted": 0.714,
+          "reason": "No constraints; key echo 4/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 1,
+            "response_length": 589
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T029",
+        "cat": "basic_info",
+        "query": "冰岛自驾需要国际驾照吗？中国驾照能用吗？",
+        "response": "您好！这是很多去冰岛自驾的朋友都会关心的问题，我来帮您梳理一下：\n\n---\n\n## 🪪 中国驾照在冰岛能用吗？\n\n**可以，但不能单独使用。**\n\n| 情况 | 是否可行 |\n|------|----------|\n| 仅持中国驾照原件 | ❌ 不被认可 |\n| 中国驾照 + 国际驾照(IDP) | ❌ 中国无法办理正规IDP |\n| **中国驾照 + 英文翻译件** | ✅ **正确方案** |\n\n---\n\n## 📋 您需要准备的材料\n\n- **中国驾照原件**（有效期内）\n- **英文翻译认证件**（二选一）：\n  - 国内公证处办理的英文公证件（约100-200元，1-2周出件）\n  - 租车平台提供的国际驾照翻译认证件（如租租车等）\n- 护照原件\n- 国际信用卡（租车押金预授权）\n\n> ⚠️ **提醒**：驾照持证时间通常需满 **1-2年**，部分租车公司对25岁以下驾驶员会收取年轻驾驶员附加费。\n\n---\n\n## 💡 冰岛自驾小贴士\n\n- 建议购买**全险或超级全险**，冰岛路况复杂、天气多变\n- **F路（高原道路）**仅限四驱车通行，普通保险不覆盖\n- 冬季部分道路会封闭，出发前查好路况\n- 下载离线地图（如Maps.me），偏远地区可能无信号\n\n---\n\n请问您计划什么时候去冰岛？大概自驾几天呢？我可以帮您规划具体路线和推荐合适的租车方案 😊",
+        "total_ms": 34908,
+        "ttfb_ms": 26810,
+        "chars": 589,
+        "has_done": true,
+        "events_count": 334,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T030",
+      "category": "basic_info",
+      "final_score": 3.05,
+      "dimensions": {
+        "accuracy": {
+          "score": 3,
+          "weight": 0.476,
+          "weighted": 1.429,
+          "reason": "Matched 2/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "地铁",
+              "分钟"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.5,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 2,
+          "weight": 0.143,
+          "weighted": 0.286,
+          "reason": "No constraints; key echo 2/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.5
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 4,
+            "response_length": 171
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.095,
+          "weighted": 0.286,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "帮你"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T030",
+        "cat": "basic_info",
+        "query": "长沙黄花机场到橘子洲头最快怎么走？",
+        "response": "\n从长沙黄花机场到橘子洲头，最快捷的方式是乘坐地铁和公交的组合路线：\n\n1. **地铁**：先乘坐2号线（往梅溪湖西方向）到五一广场站。\n2. **换乘公交**：从五一广场站出站后，步行至“橘子洲头”公交站，乘坐 **旅游2号线** 或 **立珊专线** 直达橘子洲头。\n\n全程约需40-50分钟，非常方便。需要我帮你查实时公交或地铁信息吗？",
+        "total_ms": 58438,
+        "ttfb_ms": 6246,
+        "chars": 171,
+        "has_done": true,
+        "events_count": 111,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 4.2,
+    "pass_rate": "5/5 (100%)",
+    "category_stats": {
+      "basic_info": {
+        "pass": 5,
+        "fail": 0,
+        "count": 5,
+        "avg": 4.2,
+        "min": 3.05,
+        "max": 4.52
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4.6,
+        "min": 3,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 4.2,
+        "min": 2,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 3,
+        "min": 3,
+        "max": 3
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 3.8,
+        "min": 3,
+        "max": 5
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {}
+  }
+}

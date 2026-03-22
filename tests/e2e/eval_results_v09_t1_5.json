@@ -1,0 +1,488 @@
+{
+  "timestamp": "2026-03-20 03:00:30",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T001",
+      "category": "basic_info",
+      "final_score": 3.14,
+      "dimensions": {
+        "accuracy": {
+          "score": 3,
+          "weight": 0.476,
+          "weighted": 1.429,
+          "reason": "Matched 2/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "工作日",
+              "材料"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.5,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 2,
+          "weight": 0.143,
+          "weighted": 0.286,
+          "reason": "No constraints; key echo 2/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.5
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 458
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T001",
+        "cat": "basic_info",
+        "query": "2026年春节期间日本个人旅游签证的办理周期。",
+        "response": "## 🇯🇵 日本个人旅游签证办理周期\n\n您好！关于2026年春节期间日本个人旅游签证，以下是关键信息：\n\n---\n\n### ⏰ 办理时间\n\n| 情况 | 预计时长 |\n|-----|---------|\n| 标准办理 | **5-7个工作日** |\n| 春节旺季 | 建议**预留10-15天**（含材料准备） |\n\n> 💡 **春节出行建议**：2026年春节是2月17日，建议**2025年12月底至2026年1月初**开始办理，避开春节前代办机构放假高峰。\n\n---\n\n### 📌 重要须知\n\n- 日本签证**必须通过指定旅行社代办**，不能个人直接申请\n- 单次签证资产要求：年收入10万以上\n- 签证有效期从签发日起算，建议规划好出行日期再办理\n\n---\n\n### 🎯 您的下一步\n\n如果您正在规划这次日本春节之旅，我可以帮您：\n\n1. ✈️ 查询航班价格和推荐出行方案\n2. 🏨 推荐适合春节的酒店\n3. 📅 编排完整行程\n\n**请问您从哪个城市出发？计划去日本哪里？** 告诉我这些信息，我来帮您规划！",
+        "total_ms": 54785,
+        "ttfb_ms": 48486,
+        "chars": 458,
+        "has_done": true,
+        "events_count": 266,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T002",
+      "category": "basic_info",
+      "final_score": 4.1,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.476,
+          "weighted": 1.905,
+          "reason": "Matched 3/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "摆渡",
+              "地铁",
+              "免费"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.75,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.143,
+          "weighted": 0.571,
+          "reason": "No constraints; key echo 3/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 5,
+          "weight": 0.19,
+          "weighted": 0.952,
+          "reason": "Reasoning score 5/5",
+          "details": {
+            "structure_markers": 3,
+            "geo_logic_markers": 4,
+            "response_length": 543
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 2,
+          "weight": 0.095,
+          "weighted": 0.19,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "推荐",
+              "方案",
+              "选择"
+            ],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T002",
+        "cat": "basic_info",
+        "query": "上海虹桥机场T1和T2航站楼之间如何接驳？",
+        "response": "## 🚇 上海虹桥机场T1↔T2接驳方案\n\n您好！两个航站楼相距约1.5公里，以下是三种接驳方式：\n\n| 方式 | 费用 | 耗时 | 推荐指数 |\n|------|------|------|----------|\n| **地铁10号线** | ¥3 | 2-3分钟 | ⭐⭐⭐⭐⭐ |\n| **免费摆渡车** | 免费 | 15-20分钟 | ⭐⭐⭐ |\n| 出租车/网约车 | ¥15-25 | 10-15分钟 | ⭐⭐ |\n\n---\n\n### ✅ 首选推荐：地铁10号线\n\n- **站点**：T1→虹桥1号航站楼站 / T2→虹桥2号航站楼站\n- **班次**：高峰期约5分钟一班\n- **运营时间**：约6:00-22:30\n- 仅需1站，**最快最经济**\n\n---\n\n### 🚌 备选：免费摆渡车\n\n| 项目 | 详情 |\n|------|------|\n| 运营时间 | 6:30-23:00 |\n| 发车间隔 | 约10-15分钟 |\n| 乘车点 | T1/T2到达层1号门外 |\n\n> 💡 **建议**：赶时间首选地铁；携带大件行李或地铁已停运时，选择免费摆渡车更舒适。\n\n---\n\n如需进一步规划上海行程，欢迎告诉我您的游玩天数和兴趣偏好，我可以为您定制详细行程！",
+        "total_ms": 67828,
+        "ttfb_ms": 51051,
+        "chars": 543,
+        "has_done": true,
+        "events_count": 335,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T003",
+      "category": "basic_info",
+      "final_score": 3.71,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.476,
+          "weighted": 1.905,
+          "reason": "Matched 3/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "限流",
+              "预约",
+              "万"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.75,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.143,
+          "weighted": 0.571,
+          "reason": "No constraints; key echo 3/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 149
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "查看",
+              "帮你"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T003",
+        "cat": "basic_info",
+        "query": "故宫现在的每日限额是多少？",
+        "response": "\n故宫博物院的每日限流人数为8万人次，平日和周末的预约规则有所不同：\n\n- **工作日**：通常可预约人数较多，建议提前安排。\n- **周末及节假日**：名额竞争更激烈，需尽早预约。\n\n目前可以通过故宫博物院官方渠道或\"数字故宫\"小程序查询实时预约情况。需要我帮你查看其他相关开放时间或门票信息吗？",
+        "total_ms": 2189,
+        "ttfb_ms": 889,
+        "chars": 149,
+        "has_done": true,
+        "events_count": 84,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T004",
+      "category": "basic_info",
+      "final_score": 3.9,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.476,
+          "weighted": 1.905,
+          "reason": "Matched 3/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "周二",
+              "闭馆",
+              "周一"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.75,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.143,
+          "weighted": 0.571,
+          "reason": "No constraints; key echo 3/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 0,
+            "response_length": 484
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T004",
+        "cat": "basic_info",
+        "query": "巴黎卢浮宫周二开馆吗？",
+        "response": "您好！关于卢浮宫的开放时间：\n\n## ❌ 卢浮宫周二闭馆\n\n很遗憾，**卢浮宫每周二不对外开放**。\n\n---\n\n### 📅 开放时间一览\n\n| 日期 | 时间 |\n|------|------|\n| 周一、四、六、日 | 09:00 - 18:00 |\n| 周三、五 | 09:00 - 21:45（晚间人少，推荐！） |\n| **周二** | ❌ 闭馆 |\n\n---\n\n### 🔄 周二替代推荐\n\n如果您的行程恰逢周二，这些景点当天开放：\n\n| 景点 | 开放时间 | 门票 |\n|------|----------|------|\n| **奥赛博物馆** | 09:30-18:00 | 16€ |\n| **埃菲尔铁塔** | 09:30-22:30 | 26.80€ |\n| **凯旋门** | 10:00-23:00 | 13€ |\n| **圣心大教堂** | 06:00-22:30 | 免费 |\n\n---\n\n> 💡 **小贴士**：周三或周五晚间去卢浮宫人最少，体验更佳！\n\n请问您的巴黎行程是哪几天呢？我可以帮您合理安排卢浮宫和其他景点的游览顺序！🇫🇷",
+        "total_ms": 52041,
+        "ttfb_ms": 46249,
+        "chars": 484,
+        "has_done": true,
+        "events_count": 290,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T005",
+      "category": "basic_info",
+      "final_score": 3.33,
+      "dimensions": {
+        "accuracy": {
+          "score": 3,
+          "weight": 0.476,
+          "weighted": 1.429,
+          "reason": "Matched 2/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "地铁",
+              "分钟"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.5,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 2,
+          "weight": 0.143,
+          "weighted": 0.286,
+          "reason": "No constraints; key echo 2/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.5
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.19,
+          "weighted": 0.762,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 3,
+            "response_length": 459
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T005",
+        "cat": "basic_info",
+        "query": "从杭州东站到西湖景区最快的交通方式。",
+        "response": "## 🚄 杭州东站 → 西湖景区 最快交通方案\n\n**答案：打车最快，地铁最稳**\n\n| 方式 | 时长 | 费用 | 推荐指数 |\n|------|------|------|----------|\n| **打车/网约车** | 约 **20-35分钟** | ¥30-50 | ⭐⭐⭐⭐ |\n| **地铁1号线** | 约 **25-30分钟** | ¥4 | ⭐⭐⭐⭐⭐ |\n\n---\n\n### 🚇 地铁详细路线（推荐）\n\n1. 杭州东站 → 乘坐 **地铁1号线**（湘湖方向）\n2. 坐 **6站** → **龙翔桥站** 下车\n3. C口出站 → 步行约5分钟即达西湖湖滨区域\n\n> 💡 **小贴士**：龙翔桥站出来就是西湖音乐喷泉和湖滨步行街，是游览西湖的最佳起点。地铁不受路况影响，高峰期反而比打车更快！\n\n---\n\n### 🚕 什么时候选打车？\n\n- 携带大件行李\n- 3-4人同行（分摊后更划算）\n- 非高峰时段出行\n\n---\n\n您是计划当天游览西湖吗？如果需要，我可以帮您推荐游览路线或附近酒店～",
+        "total_ms": 62988,
+        "ttfb_ms": 56915,
+        "chars": 459,
+        "has_done": true,
+        "events_count": 281,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 3.64,
+    "pass_rate": "5/5 (100%)",
+    "category_stats": {
+      "basic_info": {
+        "pass": 5,
+        "fail": 0,
+        "count": 5,
+        "avg": 3.64,
+        "min": 3.14,
+        "max": 4.1
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 3.6,
+        "min": 3,
+        "max": 4
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 3.2,
+        "min": 2,
+        "max": 4
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 3.4,
+        "min": 2,
+        "max": 5
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 3.6,
+        "min": 2,
+        "max": 4
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {}
+  }
+}

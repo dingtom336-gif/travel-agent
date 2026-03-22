@@ -1,0 +1,927 @@
+{
+  "timestamp": "2026-03-19 23:08:18",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 10,
+  "evaluations": [
+    {
+      "question_id": "T161",
+      "category": "transaction",
+      "final_score": 1.35,
+      "dimensions": {
+        "accuracy": {
+          "score": 1,
+          "weight": 0.261,
+          "weighted": 0.261,
+          "reason": "Matched 0/5 golden keys",
+          "details": {
+            "matched_keys": [],
+            "total_keys": 5,
+            "match_ratio": 0.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.217,
+          "weighted": 0.217,
+          "reason": "No constraints; key echo 0/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 1,
+          "weight": 0.174,
+          "weighted": 0.174,
+          "reason": "Reasoning score 1/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 0
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.261,
+          "weighted": 0.261,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T161",
+        "cat": "transaction",
+        "query": "买了不可退的特价机票，行程变了怎么办？",
+        "response": "",
+        "total_ms": 163376,
+        "ttfb_ms": null,
+        "chars": 0,
+        "has_done": false,
+        "events_count": 5,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T162",
+      "category": "transaction",
+      "final_score": 4.39,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "邮轮",
+              "阳台房",
+              "海景房",
+              "差价",
+              "建议"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 800
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T162",
+        "cat": "transaction",
+        "query": "邮轮旅行的\"阳台房\"和\"海景房\"差价大吗？值得升级吗？",
+        "response": "## 🚢 阳台房 vs 海景房：差价与升级建议\n\n这是一个很经典的问题！让我帮您分析一下：\n\n---\n\n### 📊 两种房型核心对比\n\n| 项目 | 海景房 | 阳台房 |\n|------|--------|--------|\n| **窗户** | 封闭式舷窗，无法打开 | 落地门 + 私人阳台 |\n| **空间** | 约12-16㎡ | 约15-22㎡ + 阳台 |\n| **体验** | 透过玻璃看海，无法通风 | 可走出房间吹海风、看日出日落 |\n| **价格** | 基准价格 | 通常贵 **30%-50%** |\n\n---\n\n### 💰 差价范围\n\n| 航线类型 | 每人差价（约） |\n|---------|---------------|\n| 短途航线（3-5天） | $50 - $150 / 航程 |\n| 长途航线（7天+） | $200 - $500 / 航程 |\n| 旺季/热门航线 | 可能翻倍 |\n\n---\n\n### ✅ 什么时候值得升级？\n\n> **推荐升级阳台房：**\n> - 航行天数较长（5天以上）\n> - 温暖海域航线（加勒比海、地中海、东南亚）\n> - 喜欢私密空间，想在房间看日出日落\n> - 差价在每人 $100 以内/航程\n\n> **海景房就够了：**\n> - 短途航线，船上活动丰富\n> - 寒冷航线（如阿拉斯加），阳台使用率低\n> - 预算有限，大部分时间在公共区域活动\n> - 容易晕船（阳台开海风可能加重）\n\n---\n\n### 💡 我的建议\n\n**如果差价不大（每人$100以内）**，阳台房体验提升明显，值得升级！\n\n**如果差价较大**，选海景房也完全OK——邮轮的公共甲板、餐厅、酒吧都能欣赏海景，不会影响旅行体验。\n\n---\n\n您是否已经有意向的邮轮航线或目的地？告诉我您的计划，我可以帮您进一步分析航线特点、停靠港口的玩法推荐！🛳️",
+        "total_ms": 59713,
+        "ttfb_ms": 48942,
+        "chars": 800,
+        "has_done": true,
+        "events_count": 459,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T163",
+      "category": "transaction",
+      "final_score": 4.17,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "官方",
+              "第三方",
+              "价格",
+              "退改"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.217,
+          "weighted": 0.87,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 0,
+            "response_length": 466
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮你",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T163",
+        "cat": "transaction",
+        "query": "景点门票在官方渠道和第三方平台买有什么区别？",
+        "response": "这是个很实用的问题！两种渠道各有优劣，我来帮你梳理一下：\n\n## 📋 快速对比\n\n| 对比项 | 官方渠道 | 第三方平台 |\n|--------|----------|------------|\n| **价格** | 原价为主 | 常有折扣、套票优惠 |\n| **可靠性** | ⭐⭐⭐⭐⭐ 最高 | ⭐⭐⭐⭐ 需选正规平台 |\n| **退改政策** | 通常较灵活 | 部分特价票有限制 |\n| **支付方式** | 可能需当地支付 | 支持支付宝/微信 |\n| **语言界面** | 可能为当地语言 | 中文友好 |\n\n---\n\n## 💡 简单建议\n\n> **热门/限量景点**（迪士尼、故宫、演唱会等）→ 优先官方渠道，确保入园有保障\n> \n> **普通景点** → 可选正规第三方平台，省钱省心\n\n**选第三方平台时注意：**\n- 选择可靠平台（携程、飞猪、Klook等）\n- 购买前看清退改条款\n- 确认出票时间和入园方式\n\n---\n\n你最近在计划去哪里玩呢？如果有具体的目的地或景点，我可以给你更有针对性的购票建议！🎫",
+        "total_ms": 48059,
+        "ttfb_ms": 40691,
+        "chars": 466,
+        "has_done": true,
+        "events_count": 252,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T164",
+      "category": "transaction",
+      "final_score": 4.39,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "自由行",
+              "跟团",
+              "老人",
+              "对比",
+              "建议"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 1,
+            "response_length": 643
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T164",
+        "cat": "transaction",
+        "query": "自由行和跟团游，带老人的话哪个更合适？",
+        "response": "## 带老人出行：自由行 vs 跟团游\n\n这是个很棒的问题！根据您**有老人同行**的情况，我来帮您分析一下：\n\n| 对比项 | 🚌 跟团游 | 🚶 自由行 |\n|--------|---------|---------|\n| **行程规划** | ✅ 全程安排好，省心 | ❌ 需自己做攻略 |\n| **节奏控制** | ⚠️ 固定，可能较赶 | ✅ 随时可休息调整 |\n| **安全保障** | ✅ 有导游、团队照应 | ⚠️ 需自己应对突发 |\n| **景点讲解** | ✅ 导游讲解，老人易理解 | ❌ 需自己查资料 |\n| **灵活性** | ❌ 时间固定 | ✅ 想停就停 |\n\n---\n\n### 💡 我的建议\n\n> **带老人出行，首选\"跟团游\"或\"半自由行\"**（部分行程跟团 + 部分自由活动）\n\n**原因**：\n- 老人体力有限，跟团可以避免频繁找路、排队买票的消耗\n- 有专业导游讲解，旅行体验更丰富\n- 紧急情况有专人协助，更安心\n\n**如果选择自由行**，建议：\n- 每天只安排 2-3 个景点\n- 预留中午回酒店休息的时间\n- 选择交通便利、设施完善的目的地（如日本、新加坡）\n\n---\n\n### 🎯 下一步\n\n为了给您更具体的建议，想了解一下：\n\n1. **您计划去哪个目的地？**（国内还是国外？具体城市？）\n2. **老人的年龄和身体状况如何？**（是否需要无障碍设施、能否长时间步行？）\n\n有了这些信息，我可以帮您推荐最适合的出行方式和行程安排！🧳✨",
+        "total_ms": 127179,
+        "ttfb_ms": 58616,
+        "chars": 643,
+        "has_done": true,
+        "events_count": 368,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T165",
+      "category": "transaction",
+      "final_score": 4.39,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "钟点房",
+              "全日房",
+              "场景",
+              "价格",
+              "适合"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 1,
+            "response_length": 520
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T165",
+        "cat": "transaction",
+        "query": "酒店的\"钟点房\"和\"全日房\"分别适合什么场景？",
+        "response": "## 🏨 钟点房 vs 全日房：如何选择？\n\n这是个很实用的问题！简单来说，两者的核心区别在于**用途时长**和**性价比**：\n\n| 项目 | 钟点房 | 全日房 |\n|------|--------|--------|\n| **计费** | 按小时（2-6小时为主） | 按天（24小时） |\n| **价格** | 约全日房的30%-50% | 全价 |\n| **适合** | 短暂休息、不过夜 | 过夜住宿 |\n\n---\n\n### ⏰ 钟点房适合场景\n\n- ✈️ **航班/火车中转**：等待时间长，想躺下休息\n- 💼 **商务临时需求**：洽谈、会议、处理紧急工作\n- 🧳 **提前抵达目的地**：存行李+洗漱+休息\n- 💑 **短时间私密空间**：情侣或家庭小聚\n\n> 💡 **小提示**：钟点房通常只在白天开放（如10:00-18:00），且并非所有酒店都提供，建议提前电话确认。\n\n---\n\n### 🛏️ 全日房适合场景\n\n- 🌙 需要过夜住宿\n- 🏊 想享受酒店设施（泳池、早餐、健身房）\n- 👨‍👩‍👧 多人同行或行李较多\n\n---\n\n如果您有具体的旅行计划，我可以帮您判断哪种更划算！比如您打算去哪里、行程怎么安排？ 😊",
+        "total_ms": 94178,
+        "ttfb_ms": 39636,
+        "chars": 520,
+        "has_done": true,
+        "events_count": 296,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T166",
+      "category": "transaction",
+      "final_score": 4.13,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "行李额",
+              "公斤",
+              "超重",
+              "费用",
+              "航空公司"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 602
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.261,
+          "weighted": 0.783,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T166",
+        "cat": "transaction",
+        "query": "国际航班的行李额怎么算？超重费用一般多少？",
+        "response": "您好！关于国际航班的行李额，这里为您整理了关键信息：\n\n---\n\n## 📦 托运行李额（常见标准）\n\n| 舱位/航线 | 免费额度 |\n|----------|---------|\n| 经济舱（中美/中欧） | **2件 × 23公斤** |\n| 经济舱（东南亚/日韩） | **20-30公斤**（总量） |\n| 商务舱 | **2件 × 32公斤** |\n| 头等舱 | **3件 × 32公斤** |\n\n> ⚠️ **注意**：廉价航空（如亚航、春秋）通常**无免费托运行李**，需提前购买。\n\n---\n\n## 🎒 随身行李\n\n- **重量**：通常 5-10 公斤\n- **尺寸**：不超过 55×40×20cm\n- **件数**：经济舱一般 1件 + 1个小包\n\n---\n\n## 💰 超重费用参考\n\n| 类型 | 费用范围 |\n|-----|---------|\n| 超重（按公斤） | **$10-50/公斤** |\n| 超件（多一件） | 中美/中欧约 **$100-200/件** |\n\n---\n\n## 💡 省钱小贴士\n\n- ✅ 提前在官网购买额外行李额（比机场现场便宜 **30-50%**）\n- ✅ 会员等级可能享有额外额度\n- ✅ 重物可放入随身行李（注意重量限制）\n\n---\n\n由于每家航司规定差异较大，如果您告诉我**具体的航空公司和航线**，我可以帮您查询更精准的行李政策！😊",
+        "total_ms": 45960,
+        "ttfb_ms": 38199,
+        "chars": 602,
+        "has_done": true,
+        "events_count": 341,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T167",
+      "category": "transaction",
+      "final_score": 4.39,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "全险",
+              "基本险",
+              "区别",
+              "建议",
+              "理赔"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 1,
+            "response_length": 526
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T167",
+        "cat": "transaction",
+        "query": "租车时的全险和基本险区别是什么？建议买哪个？",
+        "response": "这是个很实用的问题！租车保险确实容易让人困惑，让我帮您梳理清楚 👇\n\n---\n\n## 📋 基本险 vs 全险 核心区别\n\n| 对比项 | 基本险（通常已含） | 全险（额外购买） |\n|--------|------------------|------------------|\n| **免赔额** | 有，需自付500-3000美元 | 降至0或很低 |\n| **覆盖范围** | 仅车辆碰撞、盗抢 | 含轮胎、玻璃、底盘等 |\n| **道路救援** | 通常不含 | ✅ 包含 |\n| **人身保障** | ❌ 不含 | 部分包含 |\n\n---\n\n## 💡 我的建议\n\n> **强烈推荐购买全险**，尤其是以下情况：\n> - 首次海外自驾或对当地路况不熟\n> - 前往右舵国家（日本、英国、澳洲等）\n> - 目的地医疗/维修费用高（美国、欧洲）\n\n### 💰 省钱小技巧：\n第三方平台的全险（约50-100元/天）比租车公司的（15-30美元/天）便宜很多，理赔时需先垫付再报销，但性价比更高。\n\n### 📸 取车时记得：\n拍照录像记录已有划痕，避免还车时被误扣款！\n\n---\n\n请问您计划在哪个国家/地区租车呢？我可以给您更有针对性的建议～ 🚗",
+        "total_ms": 39959,
+        "ttfb_ms": 31462,
+        "chars": 526,
+        "has_done": true,
+        "events_count": 292,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T168",
+      "category": "transaction",
+      "final_score": 2.83,
+      "dimensions": {
+        "accuracy": {
+          "score": 2,
+          "weight": 0.261,
+          "weighted": 0.522,
+          "reason": "Matched 1/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "闪住"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.2,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.217,
+          "weighted": 0.217,
+          "reason": "No constraints; key echo 1/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.2
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.174,
+          "weighted": 0.348,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 213
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "下单",
+              "帮你",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T168",
+        "cat": "transaction",
+        "query": "飞猪上标注的\"闪住\"是什么意思？有什么好处？",
+        "response": "\n\"闪住\"是飞猪推出的一个住宿预订功能，主要特点是**快速预订、灵活变更**。具体好处包括：  \n\n- **即时确认**：下单后通常秒速确认，适合行程紧急的情况。  \n- **免费取消**：多数支持随时取消或改期，灵活性高。  \n- **价格优惠**：部分房源会有专属折扣，性价比不错。  \n- **操作简便**：适合手机用户，一键搞定，无需繁琐步骤。  \n\n你最近有计划出行吗？我可以帮你根据目的地推荐一些\"闪住\"的房源哦！",
+        "total_ms": 7694,
+        "ttfb_ms": 6075,
+        "chars": 213,
+        "has_done": true,
+        "events_count": 123,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T169",
+      "category": "transaction",
+      "final_score": 4.22,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "担保",
+              "扣款",
+              "信用卡",
+              "取消",
+              "政策"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.174,
+          "weighted": 0.348,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 230
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "查看",
+              "预订",
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T169",
+        "cat": "transaction",
+        "query": "预订时看到\"担保预订\"需要提前扣款吗？",
+        "response": "\n您好！很高兴为您解答关于\"担保预订\"的问题。  \n\n\"担保预订\"通常不需要提前扣款，它主要是指酒店或房东要求您在预订时提供**信用卡信息作为担保**，以确保您会按时付款或履行预订。这意味着：  \n- **不会提前扣款**：只有在您入住或预订成功后才可能产生费用。  \n- **防止预订失效**：若您最终取消，酒店可能会根据政策扣取部分费用。  \n\n如果您对费用安排有疑问，建议查看预订条款或直接联系平台客服确认。  \n需要我帮您进一步了解其他预订细节吗？ 😊",
+        "total_ms": 2914,
+        "ttfb_ms": 1051,
+        "chars": 230,
+        "has_done": true,
+        "events_count": 130,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T170",
+      "category": "transaction",
+      "final_score": 3.52,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Matched 3/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "接送机",
+              "客服",
+              "退款"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.6,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.217,
+          "weighted": 0.652,
+          "reason": "No constraints; key echo 3/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.6
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.174,
+          "weighted": 0.348,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 289
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "立即",
+              "帮你"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T170",
+        "cat": "transaction",
+        "query": "我在飞猪买了接送机，司机不来怎么赔？",
+        "response": "\n很抱歉听到这个情况。飞猪上的接送机服务如果司机无故失约，通常的处理方式如下：\n\n1. **联系飞猪客服**：立即通过飞猪App或官网联系客服，提供订单号和具体情况，说明司机未到的情况。\n2. **退款或补偿**：根据飞猪的服务协议，一般会全额退款或提供同等价值的代金券作为补偿，具体看订单条款。\n3. **证据留存**：保留与司机的沟通记录（如未接电话、未回复消息等），以便客服核实。\n\n**建议**：  \n- 尽快联系客服，避免延误处理；  \n- 如果行程因此受到影响（如错过后续交通），可一并说明，争取额外补偿。  \n\n需要我帮你整理联系客服的要点吗？或者还有其他问题吗？",
+        "total_ms": 5617,
+        "ttfb_ms": 3220,
+        "chars": 289,
+        "has_done": true,
+        "events_count": 170,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 10,
+    "valid": 10,
+    "errors": 0,
+    "avg_score": 3.78,
+    "pass_rate": "8/10 (80%)",
+    "category_stats": {
+      "transaction": {
+        "pass": 8,
+        "fail": 2,
+        "count": 10,
+        "avg": 3.78,
+        "min": 1.35,
+        "max": 4.39
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4.2,
+        "min": 1,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 3.9,
+        "min": 1,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 2.5,
+        "min": 1,
+        "max": 3
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 3.7,
+        "min": 1,
+        "max": 5
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {
+      "accuracy": 1,
+      "constraint": 1
+    }
+  }
+}

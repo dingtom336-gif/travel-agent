@@ -1,0 +1,481 @@
+{
+  "timestamp": "2026-03-20 03:05:23",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T011",
+      "category": "basic_info",
+      "final_score": 2.86,
+      "dimensions": {
+        "accuracy": {
+          "score": 3,
+          "weight": 0.476,
+          "weighted": 1.429,
+          "reason": "Matched 2/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "洞窟",
+              "预约"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.5,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 2,
+          "weight": 0.143,
+          "weighted": 0.286,
+          "reason": "No constraints; key echo 2/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.5
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 142
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.095,
+          "weighted": 0.286,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T011",
+        "cat": "basic_info",
+        "query": "莫高窟A类票包含几个洞窟？",
+        "response": "\n莫高窟A类票通常包含8个精华洞窟的参观。这些洞窟都是经过精心挑选的代表性作品。  \n\n**温馨提示**：  \n- A类票需要提前预约，建议您通过官方渠道购买。  \n- 每次参观人数有限，请合理安排时间。  \n\n您对莫高窟的参观还有其他问题吗？或者需要我为您规划包含莫高窟的敦煌行程？",
+        "total_ms": 2536,
+        "ttfb_ms": 891,
+        "chars": 142,
+        "has_done": true,
+        "events_count": 89,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T012",
+      "category": "basic_info",
+      "final_score": 4.43,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.476,
+          "weighted": 2.381,
+          "reason": "Matched 4/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "医疗",
+              "急救",
+              "航站楼",
+              "24小时"
+            ],
+            "total_keys": 4,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.143,
+          "weighted": 0.714,
+          "reason": "No constraints; key echo 4/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 1,
+            "response_length": 485
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.095,
+          "weighted": 0.286,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T012",
+        "cat": "basic_info",
+        "query": "北京大兴机场有没有24小时核酸点或医疗站？",
+        "response": "您好！根据查询结果，为您整理如下：\n\n## 🏥 北京大兴机场医疗服务\n\n### ✅ 医疗急救站（24小时）\n\n| 项目 | 详情 |\n|------|------|\n| **位置** | 航站楼一层、二层均有医疗站点 |\n| **服务时间** | **24小时值班** |\n| **服务内容** | 基础诊疗、急救处理、常用药品 |\n| **联系电话** | 010-81690120 |\n\n---\n\n### ❌ 核酸检测点\n\n> **目前大兴机场已无常规核酸检测点。**\n\n自2023年起，国内出行不再需要核酸检测证明。如您有特殊需求（如出境要求），建议提前在北京市内的医院或检测机构完成。\n\n---\n\n## 💡 快速参考\n\n- 🆘 **紧急医疗**：直接前往航站楼医疗站或拨打 **010-81690120**\n- 💊 **常用药品**：医疗站可提供基础药品，航站楼便利店也有售\n- 📞 **机场咨询**：服务热线 **96158**\n\n---\n\n请问您是出行前有特殊需求，还是旅途中遇到了健康方面的顾虑？如果需要北京市内的医院或检测机构信息，我可以帮您进一步查询。",
+        "total_ms": 32586,
+        "ttfb_ms": 27161,
+        "chars": 485,
+        "has_done": true,
+        "events_count": 265,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T013",
+      "category": "basic_info",
+      "final_score": 2.52,
+      "dimensions": {
+        "accuracy": {
+          "score": 2,
+          "weight": 0.476,
+          "weighted": 0.952,
+          "reason": "Matched 1/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "免税"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.25,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.143,
+          "weighted": 0.143,
+          "reason": "No constraints; key echo 1/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.25
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 381
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T013",
+        "cat": "basic_info",
+        "query": "迪拜免税店买iPhone比国内便宜吗？",
+        "response": "## 📱 迪拜免税店 iPhone 购买指南\n\n**简短回答：是的，通常便宜约 5%-15%，能省 ¥500-1500 左右。**\n\n但有几个关键点需要注意：\n\n---\n\n### ⚠️ 购买前必看\n\n| 项目 | 说明 |\n|-----|------|\n| **版本差异** | 中东版可能**不支持 FaceTime 语音通话**功能 |\n| **双卡问题** | 中东版多为单实体 SIM + eSIM，与国行双实体卡不同 |\n| **保修** | 全球联保有效，但部分售后可能需返回购买地 |\n\n---\n\n> 💡 **建议**：如果您需要双实体 SIM 卡或经常使用 FaceTime 语音，建议还是在国内购买。如果只是追求性价比、对版本差异不敏感，迪拜免税店是个不错的选择！\n\n---\n\n您是计划去迪拜旅行吗？需要我帮您规划行程或推荐其他购物地点吗？ 🛫",
+        "total_ms": 10592,
+        "ttfb_ms": 6780,
+        "chars": 381,
+        "has_done": true,
+        "events_count": 204,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T014",
+      "category": "basic_info",
+      "final_score": 2.67,
+      "dimensions": {
+        "accuracy": {
+          "score": 3,
+          "weight": 0.476,
+          "weighted": 1.429,
+          "reason": "Matched 2/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "公里",
+              "小时"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.5,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 2,
+          "weight": 0.143,
+          "weighted": 0.286,
+          "reason": "No constraints; key echo 2/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.5
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 2,
+            "response_length": 167
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.095,
+          "weighted": 0.095,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T014",
+        "cat": "basic_info",
+        "query": "洱海骑行一圈需要多长时间？",
+        "response": "\n洱海骑行一圈的时间取决于几个因素，比如骑行速度和停留时间。一般来说：\n\n- **全程约46公里**，如果全程不停留，以中等速度骑行，大约需要 **3-4小时**。\n- 如果计划沿途停留打卡（如喜洲古镇、双廊等），建议预留 **1天时间**，这样你可以更悠闲地体验风景。\n\n你希望全程骑行还是分段完成？或者对沿途的风景点有特别偏好吗？",
+        "total_ms": 4397,
+        "ttfb_ms": 2197,
+        "chars": 167,
+        "has_done": true,
+        "events_count": 99,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T015",
+      "category": "basic_info",
+      "final_score": 4.1,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.476,
+          "weighted": 1.905,
+          "reason": "Matched 3/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "喂食",
+              "早",
+              "活动"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.75,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.143,
+          "weighted": 0.571,
+          "reason": "No constraints; key echo 3/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.19,
+          "weighted": 0.762,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 4,
+            "geo_logic_markers": 0,
+            "response_length": 482
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T015",
+        "cat": "basic_info",
+        "query": "成都大熊猫繁育基地哪几个时间段最能看到熊猫活动？",
+        "response": "## 🐼 成都大熊猫繁育基地最佳观览时间\n\n这是个很棒的问题！熊猫是\"早起党\"，选对时间非常关键：\n\n| 时间段 | 推荐指数 | 熊猫状态 |\n|--------|:--------:|----------|\n| **8:00-10:00** | ⭐⭐⭐⭐⭐ | 最活跃！喂食时间，吃东西、玩耍 |\n| **10:00-12:00** | ⭐⭐⭐ | 逐渐开始午休 |\n| **12:00-14:00** | ⭐⭐ | 基本在睡觉💤 |\n| **14:00-16:00** | ⭐⭐⭐ | 活动逐渐增多 |\n| **16:00-17:00** | ⭐⭐⭐⭐ | 傍晚喂食，次佳时段 |\n\n---\n\n> 💡 **专业建议**：早上 **7:30 前到达基地门口排队**，8:00 开门后**直奔幼年熊猫别墅**——那里最热门，先去避开人流高峰！\n\n---\n\n### 🎯 推荐游览顺序\n幼年熊猫别墅 → 成年熊猫区 → 太阳产房 → 月亮产房\n\n---\n\n您打算什么时候去成都呢？告诉我出行日期和出发城市，我可以帮您规划完整的行程，包括交通、住宿和周边景点安排～ 🐼",
+        "total_ms": 26940,
+        "ttfb_ms": 22350,
+        "chars": 482,
+        "has_done": true,
+        "events_count": 288,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 3.32,
+    "pass_rate": "2/5 (40%)",
+    "category_stats": {
+      "basic_info": {
+        "pass": 2,
+        "fail": 3,
+        "count": 5,
+        "avg": 3.32,
+        "min": 2.52,
+        "max": 4.43
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 3.4,
+        "min": 2,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 2.8,
+        "min": 1,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 2.8,
+        "min": 2,
+        "max": 4
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 3,
+        "min": 1,
+        "max": 4
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {
+      "constraint": 2,
+      "conversion": 1
+    }
+  }
+}

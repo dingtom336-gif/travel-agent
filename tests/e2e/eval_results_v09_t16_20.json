@@ -1,0 +1,483 @@
+{
+  "timestamp": "2026-03-20 03:10:50",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T016",
+      "category": "basic_info",
+      "final_score": 1.38,
+      "dimensions": {
+        "accuracy": {
+          "score": 1,
+          "weight": 0.476,
+          "weighted": 0.476,
+          "reason": "Matched 0/5 golden keys",
+          "details": {
+            "matched_keys": [],
+            "total_keys": 5,
+            "match_ratio": 0.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.143,
+          "weighted": 0.143,
+          "reason": "No constraints; key echo 0/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 1,
+          "weight": 0.19,
+          "weighted": 0.19,
+          "reason": "Reasoning score 1/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 0
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.095,
+          "weighted": 0.095,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T016",
+        "cat": "basic_info",
+        "query": "东京迪士尼乐园和迪士尼海洋的区别是什么？适合几岁的孩子？",
+        "response": "",
+        "total_ms": 152417,
+        "ttfb_ms": null,
+        "chars": 0,
+        "has_done": false,
+        "events_count": 9,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T017",
+      "category": "basic_info",
+      "final_score": 4.38,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.476,
+          "weighted": 2.381,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "蛇口",
+              "船",
+              "分钟",
+              "航班"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.143,
+          "weighted": 0.571,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 2,
+            "response_length": 703
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "帮您",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T017",
+        "cat": "basic_info",
+        "query": "从深圳蛇口码头到香港机场的航线时刻表和价格。",
+        "response": "## 🚢 深圳蛇口码头 → 香港机场 航线信息\n\n| 项目 | 详情 |\n|------|------|\n| **航程时间** | 约 **30分钟** |\n| **票价** | 普通舱 **¥390-420** / 商务舱 **¥550+** |\n| **运营时间** | 约 **07:30 - 18:30** |\n| **航班频率** | 每30-60分钟一班，日均10-12班 |\n\n---\n\n## ✨ 核心优势\n\n> **首选船运！** 直达香港机场海天客运码头，**免入境香港**，部分航司支持在蛇口直接办理值机和行李托运，还可享受**离境税退税约120港币**。\n\n---\n\n## 📝 出行提醒\n\n- **提前到达**：建议航班起飞前 **2.5小时** 到达蛇口码头办理手续\n- **所需证件**：护照 + 机票行程单，或港澳通行证\n- **天气影响**：恶劣天气可能停航，出行前请确认\n- **预订渠道**：微信公众号「**蛇口邮轮母港**」或「**珠江客运**」、携程/飞猪\n\n---\n\n## 📍 蛇口码头附近推荐\n\n如果您时间充裕，蛇口还有这些好去处：\n\n| 景点 | 特色 | 建议游玩 |\n|------|------|----------|\n| **海上世界** | 明华轮+餐饮购物 | 傍晚看夜景 |\n| **海上世界文化艺术中心** | 建筑大师设计，艺术展 | 1-2小时 |\n| **深圳湾公园** | 沿海骑行、观日落 | 2小时 |\n\n---\n\n{{poi_cards}}\n\n需要我帮您查询**具体日期的实时航班**吗？或者您想了解香港机场有哪些航司支持预办登机？",
+        "total_ms": 79787,
+        "ttfb_ms": 63252,
+        "chars": 703,
+        "has_done": true,
+        "events_count": 405,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T018",
+      "category": "basic_info",
+      "final_score": 4.38,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.476,
+          "weighted": 2.381,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "护照",
+              "照片",
+              "美元",
+              "落地签"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.143,
+          "weighted": 0.571,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 733
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T018",
+        "cat": "basic_info",
+        "query": "越南芽庄落地签需要准备哪些材料？费用多少？",
+        "response": "# 🇻🇳 越南芽庄落地签指南\n\n您好！很高兴为您解答越南落地签的相关问题，以下是详细说明：\n\n---\n\n## 📋 所需材料清单\n\n| 材料 | 具体要求 |\n|------|----------|\n| **护照** | 有效期6个月以上，至少2页空白页 |\n| **落地签批文** | 提前在线申请（需约2个工作日） |\n| **照片** | 2张4×6cm白底彩照 |\n| **入出境申请表** | 机场现场填写即可 |\n| **往返机票行程单** | 打印纸质版 |\n| **签证费现金** | 建议携带美元 |\n\n---\n\n## 💰 费用明细\n\n| 项目 | 费用 |\n|------|------|\n| 批文申请费 | 约 **$10-20 美元**（在线平台） |\n| 落地签盖章费 | **$25 美元**（单次）/ **$50 美元**（多次） |\n| 加急服务 | 额外 $10-20（当天出批文） |\n\n---\n\n> ⚠️ **重要提醒**：\n> - 落地签**仅限飞机入境**，芽庄金兰机场（CXR）支持办理\n> - **不能直接到机场才办**，必须提前在线获取批文\n> - 建议准备**美元现金**，部分机场不收人民币或信用卡\n\n---\n\n## 💡 实用小贴士\n\n- **最佳旅行季节**：1-8月为旱季，阳光充足适合海滩\n- **货币建议**：国内换好美元，到越南再换越南盾\n- **插座**：与中国两脚插头通用，无需转换器\n- **必体验**：泥浆浴🧖、珍珠岛🎢、潜水🤿\n\n---\n\n如果您确定要前往芽庄，可以告诉我：\n1. **出发城市**是哪里？\n2. **计划什么时候出发，行程几天？**\n\n我可以帮您规划详细的行程和交通方案！ ✈️",
+        "total_ms": 57262,
+        "ttfb_ms": 51625,
+        "chars": 733,
+        "has_done": true,
+        "events_count": 432,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T019",
+      "category": "basic_info",
+      "final_score": 4.33,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.476,
+          "weighted": 2.381,
+          "reason": "Matched 4/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "提前",
+              "旺季",
+              "预订",
+              "山顶"
+            ],
+            "total_keys": 4,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.143,
+          "weighted": 0.714,
+          "reason": "No constraints; key echo 4/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 134
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T019",
+        "cat": "basic_info",
+        "query": "黄山山顶住宿（如白云宾馆）需要提前多久预订？",
+        "response": "\n黄山山顶住宿（如白云宾馆）建议至少提前1-3个月预订，尤其是**法定节假日和旺季（如春季和秋季）**，可能需要提前3-6个月以确保有房。  \n\n**小贴士：**\n- 山顶酒店数量有限，旺季时可能更紧张。\n- 您有具体的出行日期或人数吗？我可以帮您查更准确的预订建议！",
+        "total_ms": 2418,
+        "ttfb_ms": 993,
+        "chars": 134,
+        "has_done": true,
+        "events_count": 83,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T020",
+      "category": "basic_info",
+      "final_score": 2.67,
+      "dimensions": {
+        "accuracy": {
+          "score": 3,
+          "weight": 0.476,
+          "weighted": 1.429,
+          "reason": "Matched 2/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "旺季",
+              "淡季"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.4,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 2,
+          "weight": 0.143,
+          "weighted": 0.286,
+          "reason": "No constraints; key echo 2/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.4
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 51
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.095,
+          "weighted": 0.095,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T020",
+        "cat": "basic_info",
+        "query": "马尔代夫旺季和淡季分别是哪几个月？价格差多少？",
+        "response": "## 🏝️ 马尔代夫旺季与淡季\n\n| 季节 | 时间 | 天气特点 |\n|------|------|",
+        "total_ms": 136336,
+        "ttfb_ms": 75255,
+        "chars": 51,
+        "has_done": false,
+        "events_count": 44,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 3.43,
+    "pass_rate": "3/5 (60%)",
+    "category_stats": {
+      "basic_info": {
+        "pass": 3,
+        "fail": 2,
+        "count": 5,
+        "avg": 3.43,
+        "min": 1.38,
+        "max": 4.38
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 3.8,
+        "min": 1,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 3.2,
+        "min": 1,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 2.2,
+        "min": 1,
+        "max": 3
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 2.8,
+        "min": 1,
+        "max": 4
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {
+      "accuracy": 1,
+      "conversion": 1
+    }
+  }
+}

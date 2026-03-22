@@ -1,0 +1,484 @@
+{
+  "timestamp": "2026-03-20 03:04:41",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T151",
+      "category": "transaction",
+      "final_score": 1.35,
+      "dimensions": {
+        "accuracy": {
+          "score": 1,
+          "weight": 0.261,
+          "weighted": 0.261,
+          "reason": "Matched 0/5 golden keys",
+          "details": {
+            "matched_keys": [],
+            "total_keys": 5,
+            "match_ratio": 0.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.217,
+          "weighted": 0.217,
+          "reason": "No constraints; key echo 0/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 1,
+          "weight": 0.174,
+          "weighted": 0.174,
+          "reason": "Reasoning score 1/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 0
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.261,
+          "weighted": 0.261,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T151",
+        "cat": "transaction",
+        "query": "同一家酒店，直接官网订和通过飞猪订哪个划算？",
+        "response": "",
+        "total_ms": 7961,
+        "ttfb_ms": null,
+        "chars": 0,
+        "has_done": false,
+        "events_count": 2,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T152",
+      "category": "transaction",
+      "final_score": 4.17,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "经济舱",
+              "超级经济舱",
+              "行李",
+              "区别"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.217,
+          "weighted": 0.87,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 1,
+            "response_length": 576
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T152",
+        "cat": "transaction",
+        "query": "机票的\"经济舱\"和\"超级经济舱\"到底差在哪里？",
+        "response": "这是个非常实用的问题！很多旅客都在纠结这个选择，让我帮您梳理清楚：\n\n## 🪑 核心区别一览\n\n| 对比项 | 经济舱 | 超级经济舱 |\n|--------|--------|------------|\n| **座椅间距** | 28-32英寸 | 34-38英寸 |\n| **座椅宽度** | 约17-18英寸 | 约18-20英寸 |\n| **后仰角度** | 较小 | 多5-8厘米 |\n| **托运行李** | 20-23公斤 | 23-30公斤 |\n| **餐饮** | 标准餐食 | 升级菜单+优先送餐 |\n| **其他福利** | — | 优先登机、优先行李、更多里程累积 |\n| **价格** | 基准 | 约为经济舱 **1.3-1.8倍** |\n\n---\n\n## 💡 我的选择建议\n\n> **短途航班（<3小时）**：经济舱足够，省下的钱可以吃顿好的 ✅\n> \n> **长途航班（>6小时）**：超级经济舱值得考虑，多出的腿部空间能让您睡得更舒服，比商务舱便宜很多，性价比高 ✅\n\n**特别适合超级经济舱的人群：**\n- 身高175cm以上，需要腿部空间\n- 有额外行李需求\n- 想体验升级服务但预算有限\n\n---\n\n您近期有出行计划吗？可以告诉我目的地和大致时间，我帮您看看实际航班的价格差异，这样能更直观地判断值不值得升级 😊",
+        "total_ms": 46521,
+        "ttfb_ms": 39673,
+        "chars": 576,
+        "has_done": true,
+        "events_count": 325,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T153",
+      "category": "transaction",
+      "final_score": 4.39,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "选座",
+              "靠窗",
+              "免费",
+              "值机",
+              "提前"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 1,
+            "response_length": 476
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T153",
+        "cat": "transaction",
+        "query": "我的航班可以免费选座吗？怎么选到靠窗位置？",
+        "response": "您好！关于航班选座，我来为您详细解答：\n\n---\n\n## 🆓 免费选座规则\n\n**是否免费取决于航空公司和票价类型**：\n\n| 情况 | 选座费用 |\n|------|---------|\n| 网上值机开放后（起飞前24-48小时） | 通常免费 |\n| 航司高级会员 | 免费优先选座 |\n| 提前锁定热门位置（靠窗/靠走道） | 通常需付费 |\n| 低折扣经济舱 | 可能需付费 |\n\n---\n\n## 🪟 靠窗座位选择技巧\n\n**座位号识别**：\n- 座位号 **A** 通常是左侧靠窗\n- 座位号 **L** 或 **K/F**（取决于机型）通常是右侧靠窗\n\n**选座渠道**：\n1. 航空公司官网/APP → 座位图最清晰\n2. 携程、飞猪等平台 → 部分支持在线选座\n3. 机场值机柜台 → 可现场询问工作人员\n\n> 💡 **小贴士**：想看风景的话，尽量选择**机翼前方**的位置，视野更好且飞行更平稳；避开厕所附近，减少噪音和异味干扰。\n\n---\n\n如果您能告诉我**具体的航空公司和航班号**，我可以帮您查询该航班的精准选座政策哦！✈️",
+        "total_ms": 42398,
+        "ttfb_ms": 35993,
+        "chars": 476,
+        "has_done": true,
+        "events_count": 277,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T154",
+      "category": "transaction",
+      "final_score": 3.74,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "退改",
+              "携程",
+              "飞猪",
+              "政策"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.217,
+          "weighted": 0.87,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.174,
+          "weighted": 0.348,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 331
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.261,
+          "weighted": 0.783,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "为你"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T154",
+        "cat": "transaction",
+        "query": "携程和飞猪的退改政策有什么不同？",
+        "response": "\n你好！我很乐意为你比较携程和飞猪的退改政策。这两大平台在退改规则上确实有一些关键区别：\n\n**携程 (Ctrip) 特点：**\n- 通常提供更灵活的\"超值/灵活\"房型选项\n- 商务酒店退改政策相对宽松一些\n- 对会员有更多专属退改权益\n\n**飞猪 (Fliggy) 特点：**\n- 侧重与品牌酒店的深度合作，部分高端酒店退改政策更友好\n- 旅游套餐产品（酒店+门票等）的退改规则相对统一\n\n**需要注意的共性：**\n1. 两平台都遵循酒店供应商的原始政策\n2. 特价/预售类产品通常不可退改\n3. 节假日期间退改政策普遍更严格\n\n如果你想了解特定酒店在这两家平台的退改差异，可以告诉我酒店名称或品牌，我可以为你做更具体的比较。或者你有其他旅行安排需要我协助吗？",
+        "total_ms": 6663,
+        "ttfb_ms": 2052,
+        "chars": 331,
+        "has_done": true,
+        "events_count": 202,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T155",
+      "category": "transaction",
+      "final_score": 2.96,
+      "dimensions": {
+        "accuracy": {
+          "score": 3,
+          "weight": 0.261,
+          "weighted": 0.783,
+          "reason": "Matched 2/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "旅行保险",
+              "保障"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.4,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 2,
+          "weight": 0.217,
+          "weighted": 0.435,
+          "reason": "No constraints; key echo 2/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.4
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 1,
+            "response_length": 550
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.261,
+          "weighted": 0.783,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T155",
+        "cat": "transaction",
+        "query": "旅行保险值得买吗？应该买哪种？",
+        "response": "## 🛡️ 关于旅行保险\n\n这是个很实用的问题！让我来帮您分析一下：\n\n---\n\n### 旅行保险值得买吗？\n\n**短期旅行：** 如果是国内短途游，且已有医保和意外险，可以不买。但如果是自驾，建议加个**自驾意外险**（很便宜，几块钱）。\n\n**以下情况强烈建议购买：**\n- ✈️ 出境游（医疗费用海外极高）\n- 🏔️ 高风险活动（滑雪、潜水、徒步）\n- 👨‍👩‍👧 亲子/老人出行\n- 📦 有贵重物品或行李托运\n- ✈️ 机票/酒店不可退改\n\n---\n\n### 应该买哪种？\n\n| 险种 | 适合场景 | 关注重点 |\n|------|---------|---------|\n| **境内旅行险** | 国内游 | 意外医疗、航班延误 |\n| **境外旅行险** | 出境游 | 医疗保额（建议≥50万）、医疗垫付、紧急救援 |\n| **申根签证险** | 欧洲申根国 | 医疗保额≥3万欧元（签证硬性要求） |\n| **高风险运动险** | 滑雪/潜水等 | 确认是否承保该运动项目 |\n\n---\n\n> 💡 **小贴士**：买保险时注意看**免责条款**，特别是既往症、极限运动、高风险地区等是否在保障范围内。\n\n---\n\n您近期有出行计划吗？告诉我目的地和行程，我可以给您更具体的建议！😊",
+        "total_ms": 51345,
+        "ttfb_ms": 43710,
+        "chars": 550,
+        "has_done": true,
+        "events_count": 330,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 3.32,
+    "pass_rate": "3/5 (60%)",
+    "category_stats": {
+      "transaction": {
+        "pass": 3,
+        "fail": 2,
+        "count": 5,
+        "avg": 3.32,
+        "min": 1.35,
+        "max": 4.39
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 3.8,
+        "min": 1,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 3.2,
+        "min": 1,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 2.4,
+        "min": 1,
+        "max": 3
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 3,
+        "min": 1,
+        "max": 4
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {
+      "accuracy": 1,
+      "constraint": 1
+    }
+  }
+}

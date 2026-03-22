@@ -1,0 +1,534 @@
+{
+  "timestamp": "2026-03-20 03:01:40",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T046",
+      "category": "constrained_plan",
+      "final_score": 4.42,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 4/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "古镇",
+              "周末",
+              "上海周边",
+              "推荐"
+            ],
+            "total_keys": 4,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.292,
+          "weighted": 0.875,
+          "reason": "Satisfied 3/4 constraints",
+          "details": {
+            "satisfied": [
+              "周末2天",
+              "上海出发",
+              "古镇"
+            ],
+            "missed": [
+              "不商业化"
+            ],
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 5,
+          "weight": 0.25,
+          "weighted": 1.25,
+          "reason": "Reasoning score 5/5",
+          "details": {
+            "structure_markers": 4,
+            "geo_logic_markers": 5,
+            "response_length": 901
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "入口",
+              "帮您",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T046",
+        "cat": "constrained_plan",
+        "query": "只有周末2天，从上海出发，想找个能看古镇又不商业化的地方。",
+        "response": "您好！周末2天想找个清静的古镇放松，这个想法太棒了！根据您的偏好，我为您精选了上海周边**商业化程度较低**的古镇方案。\n\n---\n\n## 🏆 首推：南浔古镇（浙江湖州）\n\n> 相比乌镇、西塘的热闹喧嚣，南浔保留了更多原汁原味的江南水乡韵味，游客少、节奏慢，非常适合周末\"慢游\"。\n\n| 项目 | 详情 |\n|------|------|\n| 🚄 **交通** | 上海虹桥→湖州站（高铁约1.5小时），打车至古镇约20分钟 |\n| 🎫 **门票** | ¥100（含小莲庄、张石铭旧宅等景点） |\n| ✨ **特色** | 中西合璧建筑、百间楼原住民区、清晨无人的石板路 |\n\n---\n\n## 🌤️ 周末天气提醒\n\n| 日期 | 天气 | 温度 | 建议 |\n|------|------|------|------|\n| 周六 | 多云转阴 | 18-25°C | 户外漫步佳 |\n| 周日 | 小雨 | 16-22°C | 烟雨江南意境，记得带伞 ☔ |\n\n---\n\n## 🏨 住宿推荐\n\n**首选：花间堂·求恕里**\n- 📍 位置：古镇核心区，百年老宅改建\n- 💰 价格：¥600-900/晚\n- 💡 理由：推窗即见水乡风情，文化氛围浓厚\n\n**性价比：南浔花园名都大酒店**\n- 📍 位置：距景区步行10分钟\n- 💰 价格：¥400-600/晚\n- 💡 理由：园林式环境，适合自驾游客\n\n---\n\n## 🗺️ 2天行程建议\n\n**Day 1（周六）**\n- 上午：上海出发 → 抵达南浔，入住酒店\n- 下午：小莲庄 → 张石铭旧宅 → 嘉业堂藏书楼\n- 傍晚：百间楼漫步，看夕阳倒影\n\n**Day 2（周日）**\n- 清晨：沿河早茶，感受当地生活气息\n- 上午：摇橹船游水巷（雨天更有韵味）\n- 下午：返程上海\n\n---\n\n## 💡 小贴士\n\n- 📸 百间楼是**无商业街**的原住民区，最能感受古镇真实生活\n- 🍜 必尝：双交面、南浔蹄、定胜糕\n- 🚫 避开景区入口的商业街，往深处走才是精华\n\n---\n\n需要我帮您查询具体车次时间，或者了解**安昌古镇**（绍兴，腊味飘香）作为备选吗？😊",
+        "total_ms": 68352,
+        "ttfb_ms": 54857,
+        "chars": 901,
+        "has_done": true,
+        "events_count": 573,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T047",
+      "category": "constrained_plan",
+      "final_score": 4.04,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 4/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "兵马俑",
+              "回民街",
+              "西安",
+              "轻松"
+            ],
+            "total_keys": 4,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 2,
+          "weight": 0.292,
+          "weighted": 0.583,
+          "reason": "Satisfied 2/4 constraints",
+          "details": {
+            "satisfied": [
+              "兵马俑",
+              "回民街"
+            ],
+            "missed": [
+              "4天",
+              "不要走太多路"
+            ],
+            "ratio": 0.5
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 5,
+          "weight": 0.25,
+          "weighted": 1.25,
+          "reason": "Reasoning score 5/5",
+          "details": {
+            "structure_markers": 3,
+            "geo_logic_markers": 5,
+            "response_length": 1117
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T047",
+        "cat": "constrained_plan",
+        "query": "给一个西安4天游，必须包含兵马俑和回民街，但不要每天都走2万步。",
+        "response": "# 🏯 西安4日轻松游\n\n根据您的需求，我为您设计了一个**轻松省力**的行程，包含兵马俑和回民街，每天步数控制在**8000-12000步**以内。\n\n---\n\n## 📋 行程概览\n\n| 天数 | 主题 | 核心景点 | 预估步数 |\n|-----|------|---------|---------|\n| Day 1 | 初识长安 | 回民街 + 钟鼓楼 | ~5000步 |\n| Day 2 | 历史震撼 | 兵马俑 + 华清宫 | ~8000步 |\n| Day 3 | 盛唐风华 | 古城墙 + 大雁塔 + 大唐不夜城 | ~10000步 |\n| Day 4 | 文化拾遗 | 陕西历史博物馆 | ~6000步 |\n\n---\n\n## 🗓️ 每日详情\n\n### 🌅 Day 1：抵达 · 回民街美食之旅\n\n**下午抵达后：**\n- 入住酒店稍作休息\n- 前往**回民街**（地铁2号线钟楼站）\n- 晚餐品尝：肉夹馍、羊肉泡馍、红柳烤肉、酸梅汤\n\n> 💡 **省力贴士**：回民街人流密集，建议傍晚前往，边逛边吃，轻松不累。\n\n---\n\n### 🏛️ Day 2：兵马俑 · 穿越秦朝\n\n**上午：**\n- 乘坐旅游专线或包车前往兵马俑（约1小时车程）\n- 游览兵马俑博物馆（3-4小时）\n- **省步技巧**：景区电瓶车往返，节省约2000步\n\n**下午（可选）：**\n- 华清宫或返回市区休息\n\n> 💡 **建议**：兵马俑游客较多，建议早出发避开人流高峰。\n\n---\n\n### 🌃 Day 3：古城墙 + 大唐不夜城\n\n**上午：** 古城墙骑行\n- 从南门上城墙，租自行车骑行（约2小时）\n- 骑行代替步行，轻松又有趣\n\n**傍晚：** 大雁塔 + 大唐不夜城\n- 地铁3/4号线直达大雁塔站\n- 欣赏夜景、音乐喷泉\n\n> 💡 **省力贴士**：城墙骑行既省力又能体验古城风貌，大唐不夜城夜景更佳！\n\n---\n\n### 🏺 Day 4：博物馆 + 返程\n\n**上午：** 陕西历史博物馆（免费但需预约）\n- 镇馆之宝：镶金兽首玛瑙杯、舞马衔杯纹银壶\n\n**下午：** 返程\n\n---\n\n## 🏨 住宿建议\n\n推荐入住**钟楼/回民街附近**：\n- 交通便利，地铁1/2/4号线交汇\n- 晚上可步行到回民街觅食\n- 预算参考：¥300-600/晚\n\n---\n\n## 🚄 交通提示\n\n您还未告诉我出发城市。如从**北京/上海/成都**等地出发，高铁是首选，4-6小时直达，省时省心。\n\n> 📍 **请问您从哪个城市出发？** 我可以提供更精准的交通方案和票价信息。\n\n---\n\n这个行程安排合理吗？需要我调整任何部分吗？ 😊",
+        "total_ms": 76101,
+        "ttfb_ms": 60645,
+        "chars": 1117,
+        "has_done": true,
+        "events_count": 690,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T048",
+      "category": "constrained_plan",
+      "final_score": 3.75,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "京都",
+              "染色",
+              "米其林",
+              "体验",
+              "深度"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.292,
+          "weighted": 0.875,
+          "reason": "Satisfied 3/4 constraints",
+          "details": {
+            "satisfied": [
+              "京都深度",
+              "手工染色",
+              "米其林餐厅"
+            ],
+            "missed": [
+              "非寺庙"
+            ],
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.25,
+          "weighted": 0.75,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 1,
+            "response_length": 781
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.083,
+          "weighted": 0.25,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "推荐",
+              "方案",
+              "选择"
+            ],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T048",
+        "cat": "constrained_plan",
+        "query": "深度游京都，除了寺庙，想体验手工染色和米其林餐厅，预算充足。",
+        "response": "# 🌸 京都深度游规划\n\n您的需求非常棒！京都的手工染色和米其林美食都是极具特色的深度体验。根据您的偏好，我为您整理了以下核心信息：\n\n---\n\n## 🎨 手工染色体验精选\n\n| 体验类型 | 推荐地点 | 时长 | 费用参考 |\n|---------|---------|------|---------|\n| **京友禅染** | 丸益西村屋（中京区）| 2-3小时 | 3,000-8,000日元 |\n| **蓝染** | 蓝染工房京都 | 2小时 | 2,000-5,000日元 |\n\n> 💡 **预订建议**：热门工坊周末名额紧张，建议提前1-2周预约。可制作手帕、围巾等成品带走，是独一无二的旅行纪念！\n\n---\n\n## 🍽️ 米其林餐厅指南\n\n京都米其林选择丰富，预算充足可考虑：\n\n- ⭐⭐⭐ **菊乃井 本店** — 怀石料理巅峰，需提前2个月预订\n- ⭐⭐ **吉泉** — 性价比更高的二星之选\n- ⭐ 众多一星餐厅 — 更易预订，品质依然出色\n\n> 🔔 **预订渠道**：酒店礼宾代订、TableCheck、Pocket Concierge，取消政策通常需提前48-72小时\n\n---\n\n## 📋 行程框架预览\n\n基于地理位置优化，建议按区域游玩：\n\n- **东山区**：清水寺 → 手工染色体验 → 祇园 → 米其林晚餐\n- **岚山区**：竹林晨景 → 天龙寺 → 桂川游船\n- **北区**：金阁寺 → 龙安寺枯山水 → 茶道体验\n- **南区**：伏见稻荷千本鸟居 → 东福寺\n\n---\n\n## ❓ 请补充以下信息\n\n为了给您完整的行程和交通方案，请告诉我：\n\n1. **您从哪个城市出发？**（方便查询航班/交通）\n2. **计划游玩几天？**（推荐4-5天深度体验）\n\n确认后我将为您生成详细的逐日行程、交通方案和酒店推荐！✨",
+        "total_ms": 69651,
+        "ttfb_ms": 59778,
+        "chars": 781,
+        "has_done": true,
+        "events_count": 465,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T049",
+      "category": "constrained_plan",
+      "final_score": 4.92,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "故宫",
+              "天安门",
+              "烤鸭",
+              "24小时"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Satisfied 4/4 constraints",
+          "details": {
+            "satisfied": [
+              "24小时",
+              "故宫",
+              "天安门",
+              "烤鸭"
+            ],
+            "missed": [],
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 5,
+          "weight": 0.25,
+          "weighted": 1.25,
+          "reason": "Reasoning score 5/5",
+          "details": {
+            "structure_markers": 3,
+            "geo_logic_markers": 4,
+            "response_length": 748
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.083,
+          "weighted": 0.333,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T049",
+        "cat": "constrained_plan",
+        "query": "24小时过境北京，如何打卡故宫+天安门+吃正宗烤鸭？",
+        "response": "# 🇨🇳 北京24小时过境精华游\n\n您好！24小时打卡故宫+天安门+烤鸭，时间紧凑但完全可行！根据您是**美食爱好者**的偏好，我特别为您优化了路线。\n\n---\n\n## ⏰ 推荐行程路线\n\n```\n机场 → 天安门广场 → 故宫博物院 → 四季民福烤鸭 → 返程机场\n```\n\n| 时间 | 行程 | 交通贴士 |\n|------|------|----------|\n| 08:00 | 机场出发 | 地铁机场线→2号线，约70分钟 |\n| 09:30 | **天安门广场** | 步行游览，约1小时 |\n| 11:00 | **故宫博物院** | 午门进→神武门出，约3-4小时 |\n| 15:00 | **景山公园**（可选） | 登高俯瞰故宫全景，门票仅2元 |\n| 16:30 | **四季民福故宫店** | 打车约10分钟 |\n| 18:30 | 返程机场 | 预留至少90分钟 |\n\n---\n\n## 🦆 烤鸭推荐（美食必看！）\n\n**强烈推荐：四季民福故宫店** ⭐4.7\n\n> 🪟 **景观位**：靠窗位置可边吃烤鸭边看故宫，完美契合您的打卡需求！\n> \n> 💰 人均约¥120-180，性价比优于全聚德\n\n**备选：全聚德前门店** — 百年老字号情怀之选，距天安门步行10分钟\n\n---\n\n## ⚠️ 关键提醒\n\n- 🎫 **故宫门票必须提前7天预约**！微信搜索\"故宫博物院\"小程序抢票\n- 📱 **天安门广场也需预约**：微信小程序\"天安门广场预约参观\"\n- 🚫 **故宫周一闭馆**，请确认您的过境日期\n- 🛂 如需过境免签，可申请144小时免签政策\n\n---\n\n## 💡 一个小问题\n\n请问您的**具体航班时间**是什么时候？我可以帮您更精确地规划时间，确保不误机！😊",
+        "total_ms": 68178,
+        "ttfb_ms": 57807,
+        "chars": 748,
+        "has_done": true,
+        "events_count": 456,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T050",
+      "category": "constrained_plan",
+      "final_score": 4.42,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.292,
+          "weighted": 1.458,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "无障碍",
+              "轮椅",
+              "香港",
+              "电梯",
+              "地铁"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.292,
+          "weighted": 0.875,
+          "reason": "Satisfied 3/4 constraints",
+          "details": {
+            "satisfied": [
+              "无障碍",
+              "轮椅友好",
+              "香港"
+            ],
+            "missed": [
+              "2天"
+            ],
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 5,
+          "weight": 0.25,
+          "weighted": 1.25,
+          "reason": "Reasoning score 5/5",
+          "details": {
+            "structure_markers": 4,
+            "geo_logic_markers": 3,
+            "response_length": 979
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "方案",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.083,
+          "weighted": 0.417,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T050",
+        "cat": "constrained_plan",
+        "query": "想要一个完全无障碍（轮椅友好）的香港2日游方案。",
+        "response": "## ♿ 香港无障碍2日游方案\n\n您好！很高兴为您规划轮椅友好的香港之旅。根据您的无障碍需求，我特别筛选了设施完善、通行便利的景点和酒店。\n\n---\n\n### 🏨 无障碍友好住宿推荐\n\n| 酒店 | 位置 | 参考价格 | 无障碍亮点 |\n|------|------|----------|-----------|\n| **帝苑酒店** | 尖沙咀 | ¥900-1,300/晚 | 专为轮椅设计，直连地铁站 |\n| JW万豪 | 金钟 | ¥1,500-2,200/晚 | 国际标准设施，商场连通 |\n| 如心海景 | 荃湾 | ¥500-800/晚 | 性价比高，房间宽敞 |\n\n> 💡 **首选推荐：帝苑酒店** — 位于尖沙咀核心区，无障碍设施最完善，周边景点集中，减少舟车劳顿。\n\n---\n\n### 🗓️ 2日无障碍行程\n\n**🌅 Day 1 | 尖沙咀 → 中环 → 太平山顶**\n\n| 时间 | 行程 | 无障碍说明 |\n|------|------|-----------|\n| 上午 | 星光大道 | 设有无障碍通道，平坦海滨步道 |\n| 中午 | 海港城午餐 | 商场无障碍设施完善，电梯覆盖 |\n| 下午 | 天星小轮→中环 | 轮椅可登船，约5分钟航程 |\n| 傍晚 | 太平山顶缆车 | 缆车有轮椅专区，观景台无障碍 |\n| 晚上 | 返回尖沙咀 | 欣赏维港夜景 |\n\n**🌅 Day 2 | 主题乐园二选一**\n\n| 选择 | 特色 | 无障碍亮点 |\n|------|------|-----------|\n| **香港迪士尼** | 经典童话体验 | 全园无障碍，轮椅租赁、专用通道 |\n| 海洋公园 | 海洋生物+机动游戏 | 缆车/登山电梯轮椅友好，部分设施受限 |\n\n> 🎯 **推荐迪士尼** — 无障碍覆盖率100%，轮椅游客体验最佳。\n\n---\n\n### 📋 无障碍出行贴士\n\n- 🚇 港铁：所有车站设有轮椅通道和升降机，可向站员申请协助\n- 🚌 巴士：低地台巴士有轮椅踏板，上车向司机示意\n- 💳 建议申请**残疾人士八达通**，享车费优惠\n- 🌂 香港多雨，备好雨衣（比雨伞更方便操作）\n\n---\n\n请问您的**出发城市**是哪里？我可以帮您查询无障碍航班或高铁方案。另外，您更倾向于迪士尼还是海洋公园呢？",
+        "total_ms": 73881,
+        "ttfb_ms": 61382,
+        "chars": 979,
+        "has_done": true,
+        "events_count": 554,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 4.31,
+    "pass_rate": "5/5 (100%)",
+    "category_stats": {
+      "constrained_plan": {
+        "pass": 5,
+        "fail": 0,
+        "count": 5,
+        "avg": 4.31,
+        "min": 3.75,
+        "max": 4.92
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 3.2,
+        "min": 2,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 4.6,
+        "min": 3,
+        "max": 5
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 4.2,
+        "min": 3,
+        "max": 5
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {}
+  }
+}

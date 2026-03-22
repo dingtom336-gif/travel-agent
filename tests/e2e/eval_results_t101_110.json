@@ -1,0 +1,926 @@
+{
+  "timestamp": "2026-03-19 22:55:41",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 10,
+  "evaluations": [
+    {
+      "question_id": "T101",
+      "category": "in_trip",
+      "final_score": 1.38,
+      "dimensions": {
+        "accuracy": {
+          "score": 1,
+          "weight": 0.286,
+          "weighted": 0.286,
+          "reason": "Matched 0/5 golden keys",
+          "details": {
+            "matched_keys": [],
+            "total_keys": 5,
+            "match_ratio": 0.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.238,
+          "weighted": 0.238,
+          "reason": "No constraints; key echo 0/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 1,
+          "weight": 0.19,
+          "weighted": 0.19,
+          "reason": "Reasoning score 1/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 0
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.19,
+          "weighted": 0.19,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T101",
+        "cat": "in_trip",
+        "query": "救命，我在曼谷把护照丢了，明天下午的飞机，现在该怎么办？",
+        "response": "",
+        "total_ms": 202482,
+        "ttfb_ms": null,
+        "chars": 0,
+        "has_done": false,
+        "events_count": 14,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T102",
+      "category": "in_trip",
+      "final_score": 4.38,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "投诉",
+              "平台",
+              "退款",
+              "客服"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.238,
+          "weighted": 0.952,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 2,
+            "response_length": 709
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.19,
+          "weighted": 0.952,
+          "reason": "Conversion markers: 5",
+          "details": {
+            "matched_cta": [
+              "预订",
+              "立即",
+              "入口",
+              "帮你",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T102",
+        "cat": "in_trip",
+        "query": "刚到酒店发现房间有烟味且临街很吵，前台说没房了，怎么撕？",
+        "response": "## 🏨 酒店房间问题维权指南\n\n遇到这种情况确实很糟心！别急，按以下步骤来，成功率很高：\n\n---\n\n### 📱 立即行动（现在就做）\n\n**第一步：现场取证**\n- 拍摄房间视频，重点记录烟味痕迹（烟蒂、烟灰、黄渍）\n- 录制临街噪音（开窗/关窗各一段）\n- 保留前台沟通记录\n\n**第二步：再次与前台协商（态度坚定但有礼）**\n- 明确表达：房间状况与预订承诺不符\n- 若确实无房可换，要求：**降价补偿 / 赠送早餐 / 延迟退房**\n\n**第三步：同步联系预订平台**\n- 携程/飞猪/Booking等平台客服立即介入\n- 平台比你有更强的话语权\n\n---\n\n> **💡 核心话术**：\n> \"我预订的是无烟房/安静房型，实际入住条件严重不符。酒店无法提供替代房间，我要求房价折扣补偿（30%-50%）或平台协助更换同区域同级酒店。请在1小时内给出解决方案，否则我将向文旅部门投诉。\"\n\n---\n\n### ⏱️ 维权升级路径\n\n| 步骤 | 时限 |\n|------|------|\n| 前台协商 | 30分钟内 |\n| 平台介入 | 2小时响应 |\n| 平台高级客服 | 24小时 |\n| 12345/文旅局投诉 | 3-7工作日 |\n\n---\n\n### 📋 需要保存的证据\n\n- ✅ 订单截图（显示房型、无烟房承诺）\n- ✅ 房间视频/照片\n- ✅ 前台沟通记录（时间、工号）\n- ✅ 平台客服沟通记录\n\n---\n\n**小贴士**：保持冷静理性，证据在手，平台和监管部门都会支持合理诉求。大多数情况下平台介入后就能获得部分退款或补偿。\n\n请问是通过哪个平台预订的？我可以帮你梳理具体的投诉入口和联系方式。",
+        "total_ms": 43698,
+        "ttfb_ms": 33817,
+        "chars": 709,
+        "has_done": true,
+        "events_count": 408,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T103",
+      "category": "in_trip",
+      "final_score": 4.19,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "电子身份证",
+              "高铁",
+              "香港",
+              "证件"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.238,
+          "weighted": 0.952,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 1,
+            "response_length": 492
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.19,
+          "weighted": 0.762,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "立即",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T103",
+        "cat": "in_trip",
+        "query": "在香港坐高铁发现证件忘带了，只有电子身份证能上车吗？",
+        "response": "## 🚨 很遗憾，电子身份证不能用于跨境高铁\n\n这是一个紧急情况，我直接告诉您关键信息：\n\n---\n\n### ❌ 为什么不行？\n\n**广深港高铁是跨境线路**，需要同时完成：\n- 内地出境检查\n- 香港入境检查\n\n两道海关都需要扫描**实体证件芯片**，电子身份证目前仅适用于内地境内部分场景，不支持跨境通关。\n\n| 证件类型 | 跨境高铁是否接受 |\n|---------|----------------|\n| 港澳通行证 + 有效签注 | ✅ |\n| 护照 | ✅ |\n| 电子身份证 | ❌ |\n\n---\n\n### ⏰ 建议您立即行动\n\n1. **返回取证件** — 如果时间允许，这是最稳妥的方式\n2. **改签车票** — 打开12306 App改签到有时间取证件的班次\n3. **联系家人送证件** — 让家人帮忙送到车站\n4. **咨询车站派出所** — 说明紧急情况，看是否有其他应急方案\n\n> ⚠️ **注意**：车站办理的临时身份证明只适用于内地境内高铁，**无法通过香港海关**。\n\n---\n\n希望您能顺利解决！如果之后成功抵达香港需要行程建议，随时告诉我 🍀",
+        "total_ms": 65508,
+        "ttfb_ms": 59371,
+        "chars": 492,
+        "has_done": true,
+        "events_count": 265,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T104",
+      "category": "in_trip",
+      "final_score": 4.24,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 4/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "退货",
+              "日语",
+              "便利店",
+              "沟通"
+            ],
+            "total_keys": 4,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.238,
+          "weighted": 1.19,
+          "reason": "No constraints; key echo 4/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 478
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T104",
+        "cat": "in_trip",
+        "query": "在日本便利店买错东西了，想退货，帮我写一段地道的日语沟通。",
+        "response": "在便利店买错东西确实很常见！别担心，我来帮您准备一段地道的日语：\n\n---\n\n## 🗣️ 退货沟通用语\n\n**直接给店员看这句：**\n\n> **「すみません、これ、買い間違えてしまったんですけど、返品できますか？」**\n> \n> （Sumimasen, kore, kaimachigaete shimattandesu kedo, henpin dekimasu ka?）\n> \n> 意思：不好意思，这个我买错了，可以退货吗？\n\n---\n\n## ⚠️ 几个实用提醒\n\n- **带上小票** — レシート（reisito），必须出示\n- **商品未开封** — 已拆封的一般不退\n- **食品类** — 非质量问题通常不接受退货，要有心理准备\n\n---\n\n## 💬 可能的回复\n\n| 店员说 | 意思 |\n|-------|------|\n| はい、大丈夫です | 好的没问题 |\n| 現金でお返しします | 退现金给您 |\n| 申し訳ございません、返品できません | 抱歉，无法退货 |\n\n---\n\n祝您沟通顺利！如果还有其他日本旅行的问题，随时问我 🗾",
+        "total_ms": 88178,
+        "ttfb_ms": 62313,
+        "chars": 478,
+        "has_done": true,
+        "events_count": 265,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T105",
+      "category": "in_trip",
+      "final_score": 4.24,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "退款",
+              "环球影城",
+              "天气",
+              "政策",
+              "客服"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.238,
+          "weighted": 1.19,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 248
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.19,
+          "weighted": 0.762,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "查看",
+              "帮您",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T105",
+        "cat": "in_trip",
+        "query": "环球影城雨太大，所有项目停运，我可以申请部分退款吗？",
+        "response": "\n非常抱歉听到您在环球影城遇到了这样的不便！确实，恶劣天气导致项目停运，您有权了解退款政策。  \n\n**一般来说**，环球影城的门票通常不提供部分退款，但个别情况（如长时间停运）可能会有特殊处理。您可以通过以下方式尝试解决：  \n1. **联系影城官方客服**：说明具体停运项目和时长，询问是否有补偿方案（如代金券）。  \n2. **查看购票条款**：确认是否包含不可抗力条款，或是否有“顺延门票”选项。  \n\n需要我帮您查找具体影城的官方联系方式吗？或者您有购票渠道（如App/官网）的信息吗？",
+        "total_ms": 3110,
+        "ttfb_ms": 1028,
+        "chars": 248,
+        "has_done": true,
+        "events_count": 146,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T106",
+      "category": "in_trip",
+      "final_score": 4.05,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "高反",
+              "氧气",
+              "医院",
+              "症状",
+              "处理"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.238,
+          "weighted": 1.19,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 289
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T106",
+        "cat": "in_trip",
+        "query": "在拉萨突然头疼胸闷，是高反吗？我要买氧气还是去医院？",
+        "response": "\n很关心您的情况！高原反应确实可能导致头疼胸闷，尤其是在拉萨这种海拔较高的地方。\n\n**建议先尝试以下方法：**\n- **静养休息**：找个安静的地方休息，减少活动。\n- **补充氧气**：可以临时使用便携氧气瓶缓解症状，药店或景区常有售。\n- **多喝水**：补充水分有助于缓解不适。\n\n如果症状持续或加重，**强烈建议去医院**。拉萨有专业的医院（如西藏自治区人民医院）可以处理高反问题。\n\n**为了更准确地帮助您，可以告诉我：**\n1. 您刚到拉萨多久？之前有高反经历吗？\n2. 目前症状是否严重？有没有恶心、呕吐等其他症状？\n\n保持联系，我会根据您的反馈提供更具体建议！",
+        "total_ms": 3134,
+        "ttfb_ms": 923,
+        "chars": 289,
+        "has_done": true,
+        "events_count": 158,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T107",
+      "category": "in_trip",
+      "final_score": 4.62,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "接机",
+              "迟到",
+              "报销",
+              "客服",
+              "投诉"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.238,
+          "weighted": 1.19,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 1,
+            "response_length": 484
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.19,
+          "weighted": 0.952,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "点击",
+              "预订",
+              "立即",
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T107",
+        "cat": "in_trip",
+        "query": "预订的接机司机迟到半小时了，电话打不通，我能打车报销吗？",
+        "response": "理解您现在一定很焦急，先给您一个明确答案：\n\n## ✅ 能否报销打车费用？\n\n**可以，但需要先完成一个关键步骤**：联系平台客服并获得确认。\n\n---\n\n### 🔴 现在立即这样做（按顺序）\n\n1. **联系平台客服**\n   - 打开预订App → 我的订单 → 找到该接机订单 → 点击\"联系客服\"\n   - 告知：司机迟到30分钟+电话无法接通\n   - 让客服确认\"司机无法履约\"（这是报销的关键依据）\n\n2. **保留证据**\n   - 📸 截图订单状态、司机信息页面\n   - 📸 截图通话记录（显示拨打时间和次数）\n   - 💬 保存与客服的沟通记录\n\n3. **打车并保留票据**\n   - 打车后索要发票+行程单\n   - 保留支付凭证\n\n---\n\n> 💡 **关键提示**：如果行程紧急，您可以直接先打车走，但要确保在打车前至少尝试联系过平台客服并保留记录。这样后续申诉成功率更高。\n\n---\n\n**请问您的行程是否紧急？** 如果需要，我可以帮您整理一份完整的投诉材料清单，方便后续跟进。工单号 **CS-B80B6AC9** 已为您建立记录。",
+        "total_ms": 42671,
+        "ttfb_ms": 35130,
+        "chars": 484,
+        "has_done": true,
+        "events_count": 270,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T108",
+      "category": "in_trip",
+      "final_score": 3.86,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "警察局",
+              "报案",
+              "巴黎",
+              "流程",
+              "保险"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.238,
+          "weighted": 1.19,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 774
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.19,
+          "weighted": 0.19,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T108",
+        "cat": "in_trip",
+        "query": "在巴黎手机被抢了，请告诉我最近的警察局位置和报案流程。",
+        "response": "非常抱歉听到这个消息！别着急，以下是紧急处理指南：\n\n---\n\n## 🚨 紧急报警方式\n\n| 方式 | 号码 |\n|------|------|\n| 法国报警电话 | **17** |\n| 欧洲通用紧急电话 | **112** |\n\n> 💡 拨通后可要求 **\"English service\"** 获取英语协助\n\n---\n\n## 📍 找到最近的警察局\n\n**最快方式：**\n- 借他人手机打开 Google Maps 搜索 **\"Commissariat de police\"**\n- 询问酒店前台或路人\n\n**巴黎主要警局参考：**\n\n| 区域 | 地址 | 附近地标 |\n|------|------|----------|\n| 1区 | 6 Rue de l'Amiral-de-Coligny | 卢浮宫 |\n| 4区 | 19 Boulevard Beaumarchais | 玛黑区 |\n| 8区 | 12 Rue de la Faisanderie | 香榭丽舍 |\n\n---\n\n## 📋 报案流程\n\n1. **前往警局** — 带好护照，无需预约\n2. **填写报案单** — 描述被盗时间、地点、经过（可要求英语协助）\n3. **索要回执** — **非常重要！** 用于保险理赔\n\n---\n\n## ⚠️ 其他紧急处理\n\n- 📱 **手机追踪**：借他人手机登录 Find My iPhone / Find My Device\n- 💳 **冻结银行账户**：如有 Apple Pay/支付宝绑定\n- 📞 **挂失 SIM 卡**：联系您的运营商\n- 🏛️ **中国领事馆**：+33 1 49 52 19 50 或全球热线 +86 10 12308\n\n---\n\n希望您能顺利解决问题！处理完后如需继续规划巴黎行程，随时告诉我。🙏",
+        "total_ms": 115649,
+        "ttfb_ms": 71704,
+        "chars": 774,
+        "has_done": true,
+        "events_count": 378,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T109",
+      "category": "in_trip",
+      "final_score": 3.81,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "飞猪",
+              "客服",
+              "订单",
+              "二维码"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.238,
+          "weighted": 0.952,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.19,
+          "weighted": 0.571,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 384
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "二维码",
+              "方案"
+            ],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T109",
+        "cat": "in_trip",
+        "query": "下单了飞猪门票，但在门口刷不出来，急！",
+        "response": "## 🚨 别急！现在立刻这样做：\n\n### 第一步：快速排查（30秒内）\n\n1. **切换网络** → 关WiFi，用手机4G/5G刷新页面\n2. **找二维码位置** → 飞猪APP → 我的 → 全部订单 → 点开订单看「入园凭证」\n3. **截图保存证据** → 订单详情页 + 错误提示 + 景区门口照片\n\n---\n\n### 第二步：双线求助\n\n| 渠道 | 方式 | 备注 |\n|------|------|------|\n| **飞猪客服** | 拨打 **9510208** 或 APP内输入\"人工\" | 让客服远程刷新订单 |\n| **景区售票处** | 出示订单截图说明情况 | 请工作人员协助核验入园 |\n\n---\n\n### 💡 最快入园方案\n\n> 如果系统一时恢复不了，建议**先现场买票入园**，保留两张票凭证，飞猪会为您办理原订单退款+可能的",
+        "total_ms": 190681,
+        "ttfb_ms": 33111,
+        "chars": 384,
+        "has_done": false,
+        "events_count": 210,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T110",
+      "category": "in_trip",
+      "final_score": 4.24,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.286,
+          "weighted": 1.429,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "药店",
+              "药膏",
+              "新加坡",
+              "蚊虫",
+              "Guardian"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.238,
+          "weighted": 1.19,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 4,
+          "weight": 0.19,
+          "weighted": 0.762,
+          "reason": "Reasoning score 4/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 3,
+            "response_length": 739
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "立即",
+              "推荐",
+              "选择"
+            ],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T110",
+        "cat": "in_trip",
+        "query": "在新加坡被蚊虫咬了，附近哪家药店能买到有效的药膏？",
+        "response": "被蚊虫叮咬确实很烦人，别担心，新加坡药店遍地都是，买药非常方便！🦟\n\n## 💊 快速购买指南\n\n**最方便的药店连锁：**\n\n| 药店 | 特点 | 怎么找 |\n|------|------|--------|\n| **Guardian** ⭐首选 | 分店最多，药品全 | Google Maps搜\"Guardian\" |\n| **Watsons 屈臣氏** | 大型连锁，价格实惠 | 各大商场都有 |\n| **Unity Pharmacy** | NTUC旗下，价格亲民 | 常在超市旁 |\n| **7-Eleven** | 24小时营业 | 应急可选，药品较少 |\n\n---\n\n## 🧴 推荐药膏\n\n| 药品 | 功效 | 价格 |\n|------|------|------|\n| **Mopidick 无比滴** ⭐最推荐 | 止痒消肿，见效快 | SGD 5-8 |\n| **Tiger Balm 虎标万金油** | 清凉止痒，经典款 | SGD 6-10 |\n| **Calamine Lotion 炉甘石洗剂** | 温和止痒，敏感肌适用 | SGD 3-5 |\n\n---\n\n> 💡 **立即行动**：打开 Google Maps 搜索 \"Guardian\"，选择最近的一家，步行通常10分钟内可达。跟店员说 \"Mosquito bite\" 或直接问 \"Mopidick\" 即可。\n\n---\n\n**小贴士：**\n- 新加坡高温多雨，蚊虫较多，建议顺便买一瓶含 **DEET成分的驱蚊喷雾** 预防再次叮咬\n- 如果红肿严重或出现发烧，建议去诊所就医（可用 **Doctor Anywhere** App查找附近诊所）\n\n祝早日康复！还有其他旅行问题随时问我 🙏",
+        "total_ms": 83058,
+        "ttfb_ms": 67459,
+        "chars": 739,
+        "has_done": true,
+        "events_count": 390,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 10,
+    "valid": 10,
+    "errors": 0,
+    "avg_score": 3.9,
+    "pass_rate": "9/10 (90%)",
+    "category_stats": {
+      "in_trip": {
+        "pass": 9,
+        "fail": 1,
+        "count": 10,
+        "avg": 3.9,
+        "min": 1.38,
+        "max": 4.62
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4.6,
+        "min": 1,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 4.3,
+        "min": 1,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 2.7,
+        "min": 1,
+        "max": 4
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 3,
+        "min": 1,
+        "max": 5
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {
+      "accuracy": 1
+    }
+  }
+}

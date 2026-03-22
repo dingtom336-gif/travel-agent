@@ -1,0 +1,495 @@
+{
+  "timestamp": "2026-03-20 03:15:31",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T161",
+      "category": "transaction",
+      "final_score": 3.96,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Matched 3/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "不可退",
+              "特价",
+              "改签"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.6,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.217,
+          "weighted": 0.652,
+          "reason": "No constraints; key echo 3/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.6
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 1,
+            "response_length": 540
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "查看",
+              "帮您",
+              "方案",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T161",
+        "cat": "transaction",
+        "query": "买了不可退的特价机票，行程变了怎么办？",
+        "response": "理解您的困扰，特价机票确实限制较多，但别急，还是有几个应对方向的：\n\n---\n\n## 🔍 先确认三件事\n\n1. **票规细则**：登录购票平台查看订单详情，\"不可退\"≠完全无法操作，很多特价票仍允许**改签**\n2. **变更原因**：是您主动想改，还是航司航班变动？\n3. **时间节点**：距起飞还有多久？越早处理选择越多\n\n---\n\n## 📋 按情形处理\n\n| 情形 | 可行方案 |\n|------|----------|\n| **您主动变更** | 尝试改签（付改签费+票价差额），或计算\"弃票重买\"哪个更划算 |\n| **航司取消/延误** | ✅ 可申请**全额退款**或免费改期，这是最佳情况 |\n| **生病/拒签等不可抗力** | 提供证明材料，部分航司可酌情处理 |\n\n---\n\n## 💡 几个实用建议\n\n- 即使票不可退，**燃油费和机场建设税**通常可退\n- 如购买了退票险/旅行险，及时申请理赔\n- 联系客服时态度友善但立场坚定，记录沟通时间和工号\n\n---\n\n> ⏰ 温馨提示：尽早处理！起飞前改签费用通常低于起飞后。\n\n---\n\n方便告诉我：**是哪家航空公司的票？距离起飞还有多久？** 我可以帮您查一下具体的改签费用和政策，看看哪种方案最划算。",
+        "total_ms": 101932,
+        "ttfb_ms": 94113,
+        "chars": 540,
+        "has_done": true,
+        "events_count": 321,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T162",
+      "category": "transaction",
+      "final_score": 4.39,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "邮轮",
+              "阳台房",
+              "海景房",
+              "差价",
+              "建议"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 570
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T162",
+        "cat": "transaction",
+        "query": "邮轮旅行的\"阳台房\"和\"海景房\"差价大吗？值得升级吗？",
+        "response": "这是个很常见也很实用的问题！让我帮您梳理一下：\n\n---\n\n## 🚢 阳台房 vs 海景房 核心对比\n\n| 项目 | 海景房 | 阳台房 |\n|------|--------|--------|\n| **窗户** | 密封舷窗（无法打开） | 落地窗 + 私人阳台 |\n| **面积** | 约12-18㎡ | 约18-25㎡（含阳台） |\n| **通风采光** | 较局限 | 可开窗透气，自然光充足 |\n| **私密观景** | 需去甲板 | 房间内即可私密看海 |\n| **差价** | 基准价 | 通常贵 **$50-150/人/晚**（约总价30%-50%） |\n\n---\n\n## 💡 是否值得升级？\n\n**✅ 推荐升级的情况：**\n- 航线风景优美（阿拉斯加、地中海、挪威峡湾等）\n- 行程较长（5晚以上）\n- 喜欢在房间内私密观景、看日出日落\n- 预算充足，追求舒适体验\n\n**⏸️ 不必升级的情况：**\n- 短途航线（3-4晚）\n- 白天大部分时间在甲板或岸上游\n- 预算有限，宁愿把钱花在岸上观光/餐饮升级\n\n> **小建议**：如果差价在总价的 **15-20%以内**，升级阳台房体验提升明显，值得考虑！\n\n---\n\n请问您有计划好的邮轮航线吗？比如去哪里、大概什么时候出发？我可以根据具体航线给您更针对性的建议~ 🌊",
+        "total_ms": 52740,
+        "ttfb_ms": 45518,
+        "chars": 570,
+        "has_done": true,
+        "events_count": 344,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T163",
+      "category": "transaction",
+      "final_score": 3.91,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "官方",
+              "第三方",
+              "价格",
+              "退改"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.217,
+          "weighted": 0.87,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 0,
+            "response_length": 510
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.261,
+          "weighted": 0.783,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T163",
+        "cat": "transaction",
+        "query": "景点门票在官方渠道和第三方平台买有什么区别？",
+        "response": "这是个很实用的问题！简单来说：\n\n## 📊 官方 vs 第三方平台对比\n\n| 维度 | 官方渠道 | 第三方平台 |\n|------|---------|-----------|\n| **价格** | 原价无折扣 | 常有优惠、套餐 |\n| **可靠性** | ⭐⭐⭐ 最高 | ⭐⭐ 选大平台无虞 |\n| **退改政策** | 更灵活 | 特价票可能受限 |\n| **信息准确度** | 实时更新 | 可能有延迟 |\n| **附加权益** | 会员积分、年卡 | 平台积分返现 |\n\n---\n\n## 💡 我的建议\n\n> **热门限流景区（故宫、国家博物馆等）→ 官方渠道优先**  \n> 确保名额，避免第三方\"有票但约不上\"的尴尬\n\n> **多景点游玩 → 第三方平台更划算**  \n> 套餐组合（景点+交通+餐饮）性价比高\n\n> **海外景点 → Klook、GetYourGuide**  \n> 中文界面、支付方便、即时确认\n\n---\n\n**小提醒**：无论哪个渠道，买完记得确认是否需要预约入园时段，热门景点通常要提前1-7天预约哦！\n\n---\n\n有计划去哪里玩吗？我可以根据具体目的地给你更针对性的购票建议 😊",
+        "total_ms": 124767,
+        "ttfb_ms": 39065,
+        "chars": 510,
+        "has_done": true,
+        "events_count": 272,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T164",
+      "category": "transaction",
+      "final_score": 4.39,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "自由行",
+              "跟团",
+              "老人",
+              "对比",
+              "建议"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 531
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T164",
+        "cat": "transaction",
+        "query": "自由行和跟团游，带老人的话哪个更合适？",
+        "response": "## 🧓 带老人出行：自由行 vs 跟团游\n\n这是一个很贴心的考虑！根据您带老人出行的需求，我来帮您分析一下：\n\n| 对比维度 | 自由行 | 跟团游 |\n|---------|--------|--------|\n| **行程节奏** | ✅ 可随时调整，老人累了就休息 | ⚠️ 固定行程，需跟上团队 |\n| **操心程度** | ❌ 需自己规划交通、住宿、路线 | ✅ 全程有导游安排 |\n| **安全保障** | ⚠️ 需自己了解当地医疗资源 | ✅ 有团队协助突发情况 |\n| **餐饮口味** | ✅ 可选老人适合的餐厅 | ⚠️ 团餐可能不合口味 |\n| **性价比** | ⚠️ 临时订可能较贵 | ✅ 团购价更经济 |\n\n---\n\n> 💡 **我的建议**：如果老人身体硬朗、您有时间做攻略，自由行可以更好地照顾老人节奏；如果希望省心省力，选择\"夕阳红\"或\"慢游\"类跟团产品更安心。\n\n**带老人出行小贴士：**\n- 选择休闲目的地：温泉、海滨、古镇、邮轮\n- 每日安排2-3个景点，预留充足休息\n- 确认景点有无障碍设施（电梯、观光车）\n\n---\n\n请问您**计划去哪里**旅游呢？告诉我目的地，我可以帮您推荐适合老人的具体景点和行程安排！😊",
+        "total_ms": 52414,
+        "ttfb_ms": 46932,
+        "chars": 531,
+        "has_done": true,
+        "events_count": 311,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T165",
+      "category": "transaction",
+      "final_score": 4.39,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "钟点房",
+              "全日房",
+              "场景",
+              "价格",
+              "适合"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 1,
+            "response_length": 627
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "推荐",
+              "选择"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T165",
+        "cat": "transaction",
+        "query": "酒店的\"钟点房\"和\"全日房\"分别适合什么场景？",
+        "response": "这是个很实用的问题！两种房型各有适用场景，我来帮您梳理一下：\n\n---\n\n## 📋 核心区别\n\n| 对比项 | 钟点房 | 全日房 |\n|--------|--------|--------|\n| **计费** | 按小时（通常2-4小时起） | 按天（约22小时） |\n| **价格** | 约全日房的30%-50% | 全价 |\n| **过夜** | ❌ 不支持 | ✅ 包含过夜 |\n\n---\n\n## ⏰ 钟点房适合场景\n\n- ✈️ **中转等待** — 航班/火车长时间中转，临时休息\n- 💼 **商务洽谈** — 需要私密空间开会\n- 😴 **短暂休整** — 长途旅行后洗漱、小憩恢复精力\n- 📝 **临时办公/备考** — 需要安静环境处理事务\n\n> 💡 **小提示**：高峰时段部分酒店可能不提供钟点房，建议提前电话确认。\n\n---\n\n## 🏨 全日房适合场景\n\n- 🏖️ **深度旅游** — 目的地停留1天以上\n- 🚗 **商务出差** — 多日行程安排\n- 👨‍👩‍👧 **家庭出游** — 需要完整设施和更大空间\n- 🎉 **纪念日/度假** — 享受酒店配套服务（早餐、泳池、健身房等）\n\n---\n\n## 🎯 快速选择指南\n\n> 停留 **< 6小时且不过夜** → 钟点房更划算  \n> 需要 **过夜或使用酒店设施** → 全日房更合适\n\n---\n\n您是在规划具体的行程吗？如果有中转或住宿需求，我可以帮您推荐合适的选择 😊",
+        "total_ms": 40304,
+        "ttfb_ms": 31883,
+        "chars": 627,
+        "has_done": true,
+        "events_count": 352,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 4.21,
+    "pass_rate": "5/5 (100%)",
+    "category_stats": {
+      "transaction": {
+        "pass": 5,
+        "fail": 0,
+        "count": 5,
+        "avg": 4.21,
+        "min": 3.91,
+        "max": 4.39
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4.8,
+        "min": 4,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 4.4,
+        "min": 3,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 3,
+        "min": 3,
+        "max": 3
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 4,
+        "min": 3,
+        "max": 5
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {}
+  }
+}

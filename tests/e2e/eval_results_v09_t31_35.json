@@ -1,0 +1,484 @@
+{
+  "timestamp": "2026-03-20 02:46:57",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T031",
+      "category": "basic_info",
+      "final_score": 3.71,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.476,
+          "weighted": 1.905,
+          "reason": "Matched 3/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "开放",
+              "金字塔",
+              "门票"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.75,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.143,
+          "weighted": 0.571,
+          "reason": "No constraints; key echo 3/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 1825
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "为你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T031",
+        "cat": "basic_info",
+        "query": "埃及金字塔景区的门票价格及开放时间。",
+        "response": "以下是为你整理的旅行方案：\n\n### weather agent result:\n[MOCK - weather] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 查询旅行期间目的地天气预报\n\n[对话上下文]: user: 埃及金字塔景区的门票价格及开放时间。\n\nCurrent travel state:\nDestination: 埃及...\n\n### knowledge agent result:\n[MOCK - knowledge] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: User query: 查询目的地签证政策和旅行贴士\n\n[对话上下文]: user: 埃及金字塔景区的门票价格及开放时间。\nDestination: not specified\n\n--- Knowledge Base Results ---...\n\n### transport agent result:\n[MOCK - transport] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索前往目的地的交通方案\n\n[对话上下文]: user: 埃及金字塔景区的门票价格及开放时间。\n\nCurrent travel state:\nDestination: 埃及...\n\n### poi agent result:\n[MOCK - poi] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 推荐目的地热门景点和体验\n\n[对话上下文]: user: 埃及金字塔景区的门票价格及开放时间。\n\nCurrent travel state:\nDestination: 埃及...\n\n### hotel agent result:\n[MOCK - hotel] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索目的地酒店推荐\n\n[对话上下文]: user: 埃及金字塔景区的门票价格及开放时间。\n\nCurrent travel state:\nDestination: 埃及...\n\n### itinerary agent result:\n[MOCK - itinerary] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 基于酒店位置编排每日行程\n\n[对话上下文]: user: 埃及金字塔景区的门票价格及开放时间。\n\n=== Upstream Agent Results ===\n\n--- transport ---\n\n[MOCK - transp...",
+        "total_ms": 7666,
+        "ttfb_ms": 7666,
+        "chars": 1825,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T032",
+      "category": "basic_info",
+      "final_score": 1.67,
+      "dimensions": {
+        "accuracy": {
+          "score": 1,
+          "weight": 0.476,
+          "weighted": 0.476,
+          "reason": "Matched 0/4 golden keys",
+          "details": {
+            "matched_keys": [],
+            "total_keys": 4,
+            "match_ratio": 0.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.143,
+          "weighted": 0.143,
+          "reason": "No constraints; key echo 0/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 1,
+          "weight": 0.19,
+          "weighted": 0.19,
+          "reason": "Reasoning score 1/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 44
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮你",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T032",
+        "cat": "basic_info",
+        "query": "台湾入境需要什么证件？最新政策是什么？",
+        "response": "收到你的消息了！作为旅行助手，我最擅长帮你规划行程和推荐目的地。有什么旅行想法想聊聊吗？",
+        "total_ms": 3538,
+        "ttfb_ms": 3537,
+        "chars": 44,
+        "has_done": true,
+        "events_count": 3,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T033",
+      "category": "basic_info",
+      "final_score": 3.71,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.476,
+          "weighted": 1.905,
+          "reason": "Matched 3/4 golden keys",
+          "details": {
+            "matched_keys": [
+              "电压",
+              "插座",
+              "转换器"
+            ],
+            "total_keys": 4,
+            "match_ratio": 0.75,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.143,
+          "weighted": 0.571,
+          "reason": "No constraints; key echo 3/4",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.75
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 1841
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "为你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T033",
+        "cat": "basic_info",
+        "query": "挪威的插座制式和电压是多少？需要带转换器吗？",
+        "response": "以下是为你整理的旅行方案：\n\n### weather agent result:\n[MOCK - weather] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 查询旅行期间目的地天气预报\n\n[对话上下文]: user: 挪威的插座制式和电压是多少？需要带转换器吗？\n\nCurrent travel state:\nDestination: 挪威...\n\n### knowledge agent result:\n[MOCK - knowledge] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: User query: 查询目的地签证政策和旅行贴士\n\n[对话上下文]: user: 挪威的插座制式和电压是多少？需要带转换器吗？\nDestination: not specified\n\n--- Knowledge Base Results...\n\n### transport agent result:\n[MOCK - transport] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索前往目的地的交通方案\n\n[对话上下文]: user: 挪威的插座制式和电压是多少？需要带转换器吗？\n\nCurrent travel state:\nDestination: 挪威...\n\n### hotel agent result:\n[MOCK - hotel] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索目的地酒店推荐\n\n[对话上下文]: user: 挪威的插座制式和电压是多少？需要带转换器吗？\n\nCurrent travel state:\nDestination: 挪威...\n\n### poi agent result:\n[MOCK - poi] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 推荐目的地热门景点和体验\n\n[对话上下文]: user: 挪威的插座制式和电压是多少？需要带转换器吗？\n\nCurrent travel state:\nDestination: 挪威...\n\n### itinerary agent result:\n[MOCK - itinerary] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 基于酒店位置编排每日行程\n\n[对话上下文]: user: 挪威的插座制式和电压是多少？需要带转换器吗？\n\n=== Upstream Agent Results ===\n\n--- transport ---\n\n[MOCK - tr...",
+        "total_ms": 7428,
+        "ttfb_ms": 7427,
+        "chars": 1841,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T034",
+      "category": "basic_info",
+      "final_score": 1.86,
+      "dimensions": {
+        "accuracy": {
+          "score": 1,
+          "weight": 0.476,
+          "weighted": 0.476,
+          "reason": "Matched 0/5 golden keys",
+          "details": {
+            "matched_keys": [],
+            "total_keys": 5,
+            "match_ratio": 0.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.143,
+          "weighted": 0.143,
+          "reason": "No constraints; key echo 0/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 1939
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "为你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T034",
+        "cat": "basic_info",
+        "query": "从西安到华山有哪些交通方式？各要多长时间？",
+        "response": "以下是为你整理的旅行方案：\n\n### knowledge agent result:\n[MOCK - knowledge] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: User query: 查询目的地签证政策和旅行贴士\n\n[对话上下文]: user: 从西安到华山有哪些交通方式？各要多长时间？\nDestination: not specified\n\n--- Knowledge Base Results ...\n\n### weather agent result:\n[MOCK - weather] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 查询旅行期间目的地天气预报\n\n[对话上下文]: user: 从西安到华山有哪些交通方式？各要多长时间？\n\nCurrent travel state:\nDestination: 西安\nPreferences: {'scene_mo...\n\n### transport agent result:\n[MOCK - transport] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索前往目的地的交通方案\n\n[对话上下文]: user: 从西安到华山有哪些交通方式？各要多长时间？\n\nCurrent travel state:\nDestination: 西安\nPreferences: {'scene_mou...\n\n### poi agent result:\n[MOCK - poi] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 推荐目的地热门景点和体验\n\n[对话上下文]: user: 从西安到华山有哪些交通方式？各要多长时间？\n\nCurrent travel state:\nDestination: 西安\nPreferences: {'scene_mou...\n\n### hotel agent result:\n[MOCK - hotel] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索目的地酒店推荐\n\n[对话上下文]: user: 从西安到华山有哪些交通方式？各要多长时间？\n\nCurrent travel state:\nDestination: 西安\nPreferences: {'scene_mounta...\n\n### itinerary agent result:\n[MOCK - itinerary] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 基于酒店位置编排每日行程\n\n[对话上下文]: user: 从西安到华山有哪些交通方式？各要多长时间？\n\n=== Upstream Agent Results ===\n\n--- transport ---\n\n[MOCK - tra...",
+        "total_ms": 5830,
+        "ttfb_ms": 5830,
+        "chars": 1939,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T035",
+      "category": "basic_info",
+      "final_score": 2.33,
+      "dimensions": {
+        "accuracy": {
+          "score": 2,
+          "weight": 0.476,
+          "weighted": 0.952,
+          "reason": "Matched 1/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "药妆"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.2,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.143,
+          "weighted": 0.143,
+          "reason": "No constraints; key echo 1/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.2
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.19,
+          "weighted": 0.381,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 1817
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.095,
+          "weighted": 0.381,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "为你",
+              "推荐",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.095,
+          "weighted": 0.476,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T035",
+        "cat": "basic_info",
+        "query": "日本药妆店什么时候打折力度最大？",
+        "response": "以下是为你整理的旅行方案：\n\n### weather agent result:\n[MOCK - weather] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 查询旅行期间目的地天气预报\n\n[对话上下文]: user: 日本药妆店什么时候打折力度最大？\n\nCurrent travel state:\nDestination: 日本...\n\n### transport agent result:\n[MOCK - transport] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索前往目的地的交通方案\n\n[对话上下文]: user: 日本药妆店什么时候打折力度最大？\n\nCurrent travel state:\nDestination: 日本...\n\n### knowledge agent result:\n[MOCK - knowledge] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: User query: 查询目的地签证政策和旅行贴士\n\n[对话上下文]: user: 日本药妆店什么时候打折力度最大？\nDestination: not specified\n\n--- Knowledge Base Results ---\n#...\n\n### hotel agent result:\n[MOCK - hotel] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 搜索目的地酒店推荐\n\n[对话上下文]: user: 日本药妆店什么时候打折力度最大？\n\nCurrent travel state:\nDestination: 日本...\n\n### poi agent result:\n[MOCK - poi] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 推荐目的地热门景点和体验\n\n[对话上下文]: user: 日本药妆店什么时候打折力度最大？\n\nCurrent travel state:\nDestination: 日本...\n\n### itinerary agent result:\n[MOCK - itinerary] (API error: Error code: 403 - {'code': 30001, 'message': 'Sorry, your account balance is insufficient', 'data': None}) This is a simulated response for: Task: 基于酒店位置编排每日行程\n\n[对话上下文]: user: 日本药妆店什么时候打折力度最大？\n\n=== Upstream Agent Results ===\n\n--- transport ---\n\n[MOCK - transpor...",
+        "total_ms": 5799,
+        "ttfb_ms": 5798,
+        "chars": 1817,
+        "has_done": true,
+        "events_count": 19,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 2.66,
+    "pass_rate": "2/5 (40%)",
+    "category_stats": {
+      "basic_info": {
+        "pass": 2,
+        "fail": 3,
+        "count": 5,
+        "avg": 2.66,
+        "min": 1.67,
+        "max": 3.71
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 2.4,
+        "min": 1,
+        "max": 4
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 2.2,
+        "min": 1,
+        "max": 4
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 1.8,
+        "min": 1,
+        "max": 2
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 4,
+        "min": 4,
+        "max": 4
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {
+      "accuracy": 2,
+      "constraint": 1
+    }
+  }
+}

@@ -9,6 +9,7 @@ agent/venv/
 .env.*.local
 
 # Build
+.next/
 web/.next/
 web/out/
 __pycache__/
@@ -35,6 +36,9 @@ CLAUDE.local.md
 
 # Test screenshots
 tests/screenshots/
+
+# Eval backups
+tests/e2e/*_backup.json
 
 # Playwright
 /test-results/

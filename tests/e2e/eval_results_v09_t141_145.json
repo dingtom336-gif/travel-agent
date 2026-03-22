@@ -1,0 +1,489 @@
+{
+  "timestamp": "2026-03-20 02:59:12",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T141",
+      "category": "transaction",
+      "final_score": 4.39,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "价格保护",
+              "比价",
+              "平台",
+              "客服",
+              "政策"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 405
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "查看",
+              "帮您",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T141",
+        "cat": "transaction",
+        "query": "同一个航班，飞猪比某平台贵20元，能申请价格保护吗？",
+        "response": "您好！关于飞猪价格保护的问题，我来帮您解答：\n\n---\n\n## 🔍 核心结论\n\n**跨平台比价通常不适用飞猪官方价格保护政策。** 飞猪的价格保护一般要求是平台内降价，而非与其他平台对比。\n\n---\n\n## ✅ 您可以尝试的方案\n\n| 方案 | 操作建议 | 适用情况 |\n|------|---------|---------|\n| 退重买 | 查看退票手续费，若≤20元可考虑退后重买 | 退票成本低的情况 |\n| 联系客服 | 拨打 **9510208** 或APP在线客服，询问是否有优惠券补偿 | 尝试争取一些补偿 |\n| 放弃追差 | 20元金额较小，时间成本可能更高 | 手续费>差价的情况 |\n\n---\n\n> 💡 **建议**：先打开飞猪APP查看您订单的退票规则，确认手续费金额后再做决定。部分情况客服会以优惠券形式给予一定补偿，值得问问看！\n\n---\n\n还有其他旅行相关的问题需要帮忙吗？😊",
+        "total_ms": 37016,
+        "ttfb_ms": 31215,
+        "chars": 405,
+        "has_done": true,
+        "events_count": 224,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T142",
+      "category": "transaction",
+      "final_score": 3.74,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "房型",
+              "区别",
+              "设施",
+              "面积"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.217,
+          "weighted": 0.87,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.174,
+          "weighted": 0.348,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 182
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.261,
+          "weighted": 0.783,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "帮你"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T142",
+        "cat": "transaction",
+        "query": "这个\"高级房\"和\"尊享房\"除了楼层，内部设施有什么区别？",
+        "response": "\n你好！很高兴帮你了解房型区别。一般来说，\"高级房\"和\"尊享房\"主要区别在于：\n\n- **空间大小**：尊享房通常面积更大\n- **设施品质**：尊享房有更高级的床品、卫浴用品等\n- **景观视野**：可能更好的窗外景观\n- **增值服务**：可能包含早餐、延迟退房等\n\n不过不同酒店的定义可能不同。你想了解哪家酒店的具体房型区别呢？或者你对房型有什么特别偏好吗？",
+        "total_ms": 2468,
+        "ttfb_ms": 881,
+        "chars": 182,
+        "has_done": true,
+        "events_count": 110,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T143",
+      "category": "transaction",
+      "final_score": 4.17,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "F3",
+              "权益",
+              "萧山",
+              "会员"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.217,
+          "weighted": 0.87,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 2,
+            "geo_logic_markers": 0,
+            "response_length": 478
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "查看",
+              "帮您",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T143",
+        "cat": "transaction",
+        "query": "我是飞猪F3会员，在杭州萧山机场有哪些权益可以用？",
+        "response": "您好！很高兴为您解答飞猪F3会员在杭州萧山机场的权益问题 ✈️\n\n---\n\n## 🛫 飞猪F3会员 · 杭州萧山机场权益\n\n| 权益项目 | 说明 |\n|---------|------|\n| 🛋️ **贵宾休息室** | 每年可享 **2次免费** 休息室权益（国内航站楼） |\n| 🚀 **快速安检通道** | 优先安检，节省排队时间 |\n| ✈️ **优先登机** | 部分航班可享优先登机服务 |\n| 🅿️ **停车优惠** | 机场停车场折扣或积分抵扣 |\n| 📞 **专属客服** | 机场服务热线优先接入 |\n\n---\n\n### 💡 使用方式\n\n> 打开 **飞猪App** → 「我的」→「会员中心」→「机场权益」查看详情并预约使用\n\n---\n\n### ⚠️ 温馨提示\n\n具体权益可能因合作航司和当前活动有所调整，建议出行前在App内确认最新权益详情，或致电飞猪客服核实。\n\n---\n\n看到您偏好山景，如果您这次来杭州有游玩计划，我也可以帮您推荐一些不错的山景景点（如灵隐寺飞来峰、北高峰、九溪十八涧等），需要的话告诉我您的行程天数就好！😊",
+        "total_ms": 61056,
+        "ttfb_ms": 54915,
+        "chars": 478,
+        "has_done": true,
+        "events_count": 292,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T144",
+      "category": "transaction",
+      "final_score": 4.39,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "88vip",
+              "优惠",
+              "计算",
+              "划算",
+              "三亚"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 457
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 2",
+          "details": {
+            "matched_cta": [
+              "帮您",
+              "马上"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T144",
+        "cat": "transaction",
+        "query": "帮我算一下，买这个88vip联名卡，定这趟去三亚的行程划算吗？",
+        "response": "您好！我很乐意帮您算算88VIP联名卡是否划算 🧮\n\n不过要精确计算，我需要先了解几个关键信息：\n\n---\n\n## 📋 请告诉我\n\n1. **出发城市**：您从哪里飞三亚？\n2. **出行日期 & 天数**：计划几号出发、玩几天？\n\n---\n\n## 💡 88VIP联名卡三亚行程权益参考\n\n| 权益类型 | 大致优惠 | 备注 |\n|---------|---------|------|\n| ✈️ 飞猪机票券 | 通常有满减 | 如满500减30等 |\n| 🏨 飞猪酒店券 | 满减/折扣券 | 高端酒店优惠更明显 |\n| 🛍️ 免税店权益 | 部分联名卡有折扣 | 海南免税购物 |\n| 🎫 景点门票 | 偶有专属优惠 | 视具体活动而定 |\n\n---\n\n**初步判断**：\n如果您计划入住亚龙湾/海棠湾的高端酒店 **3晚以上**，或者机票金额较高（**单程超过800元**），88VIP的优惠大概率能覆盖卡费并省钱。\n\n---\n\n请告诉我您的出发城市和大致出行时间，我马上帮您搜索实时价格，算出具体差价！🌴",
+        "total_ms": 52716,
+        "ttfb_ms": 47039,
+        "chars": 457,
+        "has_done": true,
+        "events_count": 265,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T145",
+      "category": "transaction",
+      "final_score": 1.35,
+      "dimensions": {
+        "accuracy": {
+          "score": 1,
+          "weight": 0.261,
+          "weighted": 0.261,
+          "reason": "Matched 0/5 golden keys",
+          "details": {
+            "matched_keys": [],
+            "total_keys": 5,
+            "match_ratio": 0.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.217,
+          "weighted": 0.217,
+          "reason": "No constraints; key echo 0/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 1,
+          "weight": 0.174,
+          "weighted": 0.174,
+          "reason": "Reasoning score 1/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 0
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.261,
+          "weighted": 0.261,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T145",
+        "cat": "transaction",
+        "query": "为什么我搜出来的机票价格每分钟都在变？",
+        "response": "",
+        "total_ms": 9957,
+        "ttfb_ms": null,
+        "chars": 0,
+        "has_done": false,
+        "events_count": 2,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 3.61,
+    "pass_rate": "4/5 (80%)",
+    "category_stats": {
+      "transaction": {
+        "pass": 4,
+        "fail": 1,
+        "count": 5,
+        "avg": 3.61,
+        "min": 1.35,
+        "max": 4.39
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4.2,
+        "min": 1,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 3.8,
+        "min": 1,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 2.4,
+        "min": 1,
+        "max": 3
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 3.2,
+        "min": 1,
+        "max": 4
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {
+      "accuracy": 1
+    }
+  }
+}

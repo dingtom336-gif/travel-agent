@@ -1,0 +1,488 @@
+{
+  "timestamp": "2026-03-20 03:01:54",
+  "server": "http://150.158.192.237/travel-api",
+  "total_questions": 5,
+  "evaluations": [
+    {
+      "question_id": "T146",
+      "category": "transaction",
+      "final_score": 4.43,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 4/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "套餐",
+              "退款",
+              "差价",
+              "政策"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.8,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 4,
+          "weight": 0.217,
+          "weighted": 0.87,
+          "reason": "No constraints; key echo 4/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.8
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 0,
+            "response_length": 445
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Conversion markers: 4",
+          "details": {
+            "matched_cta": [
+              "查看",
+              "预订",
+              "帮您",
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T146",
+        "cat": "transaction",
+        "query": "这个自由行套餐如果不去其中的景点，可以退部分差价吗？",
+        "response": "您好！关于**自由行套餐景点退差价**的问题，这涉及到具体平台的套餐政策，我无法直接查询您的订单详情。\n\n---\n\n## 💡 建议您这样处理：\n\n**1. 查看套餐详情页**\n- 找\"费用说明\"或\"退改规则\"栏目\n- 看景点是否为\"打包优惠价\"（通常不可单独退）\n\n**2. 联系预订平台客服**\n- 携程/飞猪/马蜂窝等平台都有在线客服\n- 直接询问\"放弃部分景点是否有退款\"\n\n**3. 查看是否有\"不参加声明\"选项**\n- 部分套餐允许提前声明不参加某项，可退小额费用\n\n> ⚠️ **经验提示**：大多数自由行套餐的景点门票是打包优惠价，单独放弃通常无法退款，除非是可选升级项目。\n\n---\n\n## 🌟 我能帮您做的事\n\n虽然我无法处理套餐退费问题，但如果您告诉我：\n- 📍 **目的地**\n- 📅 **出行日期**\n- 🎯 **您的兴趣偏好**\n\n我可以帮您：\n- 推荐当地必玩景点和隐藏玩法\n- 规划最优游览路线\n- 提供天气、签证、交通等实用信息\n\n请问您计划去哪里旅行呢？😊",
+        "total_ms": 53398,
+        "ttfb_ms": 47100,
+        "chars": 445,
+        "has_done": true,
+        "events_count": 274,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T147",
+      "category": "transaction",
+      "final_score": 3.26,
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Matched 3/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "税费",
+              "现金",
+              "城市税"
+            ],
+            "total_keys": 5,
+            "match_ratio": 0.6,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 3,
+          "weight": 0.217,
+          "weighted": 0.652,
+          "reason": "No constraints; key echo 3/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.6
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.174,
+          "weighted": 0.348,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 403
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.261,
+          "weighted": 0.783,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "帮您"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T147",
+        "cat": "transaction",
+        "query": "酒店显示的\"不含税费\"具体是多少？现场需要付现金吗？",
+        "response": "您好！关于酒店房价\"不含税费\"的问题，我来帮您解答：\n\n---\n\n## 💰 税费情况说明\n\n\"不含税费\"通常指**房价未包含当地政府征收的税费**，金额因目的地而异：\n\n| 地区 | 常见税费 | 支付方式 |\n|------|----------|----------|\n| 中国内地 | 大多已含税，少数城市有城市税 | 通常无需额外支付 |\n| 日本 | 住宿税（东京/大阪等，¥100-300/晚） | 现场支付，现金或刷卡 |\n| 欧洲 | 城市税（€1-7/人/晚） | **现场现金支付为主** |\n| 东南亚 | 通常含税，少数有10%服务费 | 前台确认 |\n\n---\n\n## 💡 实用建议\n\n> **欧洲酒店特别注意**：城市税几乎都是现场现金支付，建议提前准备当地货币小额现金。\n\n---\n\n如果您能告诉我**具体是哪家酒店或哪个城市**，我可以帮您查询更准确的税费金额和支付方式！😊",
+        "total_ms": 32679,
+        "ttfb_ms": 23119,
+        "chars": 403,
+        "has_done": true,
+        "events_count": 223,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T148",
+      "category": "transaction",
+      "final_score": 1.35,
+      "dimensions": {
+        "accuracy": {
+          "score": 1,
+          "weight": 0.261,
+          "weighted": 0.261,
+          "reason": "Matched 0/5 golden keys",
+          "details": {
+            "matched_keys": [],
+            "total_keys": 5,
+            "match_ratio": 0.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 1,
+          "weight": 0.217,
+          "weighted": 0.217,
+          "reason": "No constraints; key echo 0/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 0.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 1,
+          "weight": 0.174,
+          "weighted": 0.174,
+          "reason": "Reasoning score 1/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 0
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 1,
+          "weight": 0.261,
+          "weighted": 0.261,
+          "reason": "Conversion markers: 0",
+          "details": {
+            "matched_cta": [],
+            "has_next_step": false
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": false,
+      "raw": {
+        "id": "T148",
+        "cat": "transaction",
+        "query": "我想预订能看到洱海的房间，帮我给酒店写一段备注要求。",
+        "response": "",
+        "total_ms": 11881,
+        "ttfb_ms": null,
+        "chars": 0,
+        "has_done": false,
+        "events_count": 2,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T149",
+      "category": "transaction",
+      "final_score": 4.39,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "改名",
+              "退票",
+              "费用",
+              "航空公司",
+              "政策"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 3,
+          "weight": 0.174,
+          "weighted": 0.522,
+          "reason": "Reasoning score 3/5",
+          "details": {
+            "structure_markers": 1,
+            "geo_logic_markers": 1,
+            "response_length": 567
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 4,
+          "weight": 0.261,
+          "weighted": 1.043,
+          "reason": "Conversion markers: 3",
+          "details": {
+            "matched_cta": [
+              "立即",
+              "帮您",
+              "方案"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": true,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T149",
+        "cat": "transaction",
+        "query": "机票名字填反了，改名费多少？还是必须退票重买？",
+        "response": "## ✈️ 机票名字填反了怎么办？\n\n别着急，这种情况很常见，处理方式取决于**航司政策**和**票型**：\n\n---\n\n### 📊 快速判断表\n\n| 票型/航司 | 改名可能性 | 建议方案 |\n|-----------|------------|----------|\n| **廉价航空**（春秋、亚航等） | ❌ 大多不支持 | 退票重买 |\n| **特价/促销票** | ❌ 通常不可改名 | 退票重买 |\n| **全价票/正价票** | ✅ 可付费改名 | 改名费约 ¥200-800 |\n| **姓名顺序颠倒** | ✅ 部分航司免费更正 | 联系客服申请 |\n\n---\n\n### ⚡ 立即行动步骤\n\n1. **确认订单状态** — 是否已出票？起飞前多久？\n2. **致电航司客服** — 直接问：*\"姓名顺序填反能否更正？费用多少？\"*\n3. **算一笔账**：\n   > 改名费 vs 退票手续费 + 新票差价，选成本低的方案\n\n---\n\n### 💡 实用建议\n\n> 🔔 **关键提醒**：姓名错误可能无法过安检，务必在**起飞前**处理好。如果航班在24小时内，建议**同时**提交改名申请 + 买张新票保底。\n\n---\n\n请问您订的是**哪家航空公司**的机票？是什么舱位类型？我可以帮您查具体的改名/退票政策～",
+        "total_ms": 48279,
+        "ttfb_ms": 39848,
+        "chars": 567,
+        "has_done": true,
+        "events_count": 319,
+        "error": ""
+      }
+    },
+    {
+      "question_id": "T150",
+      "category": "transaction",
+      "final_score": 3.96,
+      "dimensions": {
+        "accuracy": {
+          "score": 5,
+          "weight": 0.261,
+          "weighted": 1.304,
+          "reason": "Matched 5/5 golden keys",
+          "details": {
+            "matched_keys": [
+              "举牌",
+              "出口",
+              "接机",
+              "服务",
+              "确认"
+            ],
+            "total_keys": 5,
+            "match_ratio": 1.0,
+            "hallucination_detected": false
+          },
+          "label": "准确性"
+        },
+        "constraint": {
+          "score": 5,
+          "weight": 0.217,
+          "weighted": 1.087,
+          "reason": "No constraints; key echo 5/5",
+          "details": {
+            "mode": "fallback",
+            "ratio": 1.0
+          },
+          "label": "约束遵循"
+        },
+        "reasoning": {
+          "score": 2,
+          "weight": 0.174,
+          "weighted": 0.348,
+          "reason": "Reasoning score 2/5",
+          "details": {
+            "structure_markers": 0,
+            "geo_logic_markers": 0,
+            "response_length": 104
+          },
+          "label": "逻辑合理"
+        },
+        "conversion": {
+          "score": 3,
+          "weight": 0.261,
+          "weighted": 0.783,
+          "reason": "Conversion markers: 1",
+          "details": {
+            "matched_cta": [
+              "推荐"
+            ],
+            "has_next_step": true
+          },
+          "label": "转化/闭环"
+        },
+        "safety": {
+          "score": 5,
+          "weight": 0.087,
+          "weighted": 0.435,
+          "reason": "No safety issues detected",
+          "details": {
+            "expected_behavior": "normal",
+            "has_refusal": false,
+            "has_harmful": false
+          },
+          "label": "安全性"
+        }
+      },
+      "pass": true,
+      "raw": {
+        "id": "T150",
+        "cat": "transaction",
+        "query": "接送机服务包含举牌吗？在哪个出口接？",
+        "response": "\n您好！接送机服务通常包含举牌服务，但具体细节可能因服务商而异。关于接机地点，一般会在指定出口（如到达口A、B区等）举牌等候。建议您出行前与具体服务商确认，以确保顺利接驳。需要我为您推荐可靠的接送机服务商吗？",
+        "total_ms": 3253,
+        "ttfb_ms": 1165,
+        "chars": 104,
+        "has_done": true,
+        "events_count": 70,
+        "error": ""
+      }
+    }
+  ],
+  "summary": {
+    "count": 5,
+    "valid": 5,
+    "errors": 0,
+    "avg_score": 3.48,
+    "pass_rate": "4/5 (80%)",
+    "category_stats": {
+      "transaction": {
+        "pass": 4,
+        "fail": 1,
+        "count": 5,
+        "avg": 3.48,
+        "min": 1.35,
+        "max": 4.43
+      }
+    },
+    "dimension_stats": {
+      "accuracy": {
+        "label": "准确性",
+        "avg": 4,
+        "min": 1,
+        "max": 5
+      },
+      "constraint": {
+        "label": "约束遵循",
+        "avg": 3.6,
+        "min": 1,
+        "max": 5
+      },
+      "reasoning": {
+        "label": "逻辑合理",
+        "avg": 2.2,
+        "min": 1,
+        "max": 3
+      },
+      "conversion": {
+        "label": "转化/闭环",
+        "avg": 3.2,
+        "min": 1,
+        "max": 5
+      },
+      "safety": {
+        "label": "安全性",
+        "avg": 5,
+        "min": 5,
+        "max": 5
+      }
+    },
+    "failure_attribution": {
+      "accuracy": 1
+    }
+  }
+}
