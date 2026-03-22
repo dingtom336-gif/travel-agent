@@ -37,10 +37,12 @@ class Settings(BaseSettings):
   LLM_TIMEOUT: float = 30.0
   LLM_TASK_TIMEOUT: float = 25.0
   LLM_SYNTHESIS_TIMEOUT: float = 40.0
-  LLM_STREAM_CHUNK_TIMEOUT: float = 15.0  # GLM-5 reasoning model needs longer thinking time between chunks
-  # Stage 1 (reasoning) timeouts — reduced to cut latency
-  STAGE1_THINKING_TIMEOUT: float = 25.0
-  STAGE1_NO_THINKING_TIMEOUT: float = 15.0
+  LLM_STREAM_CHUNK_TIMEOUT: float = 30.0  # GLM-5 reasoning needs up to 25s between chunks
+  # Stage 1 (reasoning) timeouts
+  STAGE1_THINKING_TIMEOUT: float = 35.0
+  STAGE1_NO_THINKING_TIMEOUT: float = 20.0
+  # Minimum skeleton length to proceed to Stage 2
+  STAGE1_MIN_SKELETON_LEN: int = 50
   LLM_CACHE_SIZE: int = 100
   LLM_CACHE_TTL: int = 300
   LLM_RATE_LIMIT_RPM: int = 300

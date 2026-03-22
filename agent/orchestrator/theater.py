@@ -800,9 +800,13 @@ async def _stream_llm_to_buffer(
     s1_ms = int((time.time() - t1) * 1000)
     logger.info("THEATER Stage1 done: %dms skeleton=%d chars thinking=%s", s1_ms, len(skeleton or ""), use_thinking)
 
-    if not skeleton:
-      # Fallback: single-call mode with writing model
-      logger.warning("THEATER Stage1 returned empty, falling back to single-call")
+    min_skeleton = getattr(settings, "STAGE1_MIN_SKELETON_LEN", 50)
+    if not skeleton or len(skeleton.strip()) < min_skeleton:
+      # Skeleton empty or too short — skip Stage2, go direct to single-call fallback
+      logger.warning(
+        "THEATER Stage1 skeleton too short (%d chars < %d), falling back to single-call",
+        len(skeleton or ""), min_skeleton,
+      )
       try:
         async for chunk in llm_chat_stream(
           system=MEGA_SYSTEM_PROMPT,
@@ -823,7 +827,7 @@ async def _stream_llm_to_buffer(
 
     # ── Stage 2: Writing → streamed sectioned text ──
     t2 = time.time()
-    logger.info("THEATER Stage2 start: model=%s", settings.WRITING_MODEL)
+    logger.info("THEATER Stage2 start: model=%s skeleton=%d chars", settings.WRITING_MODEL, len(skeleton))
     async for chunk in llm_chat_stream(
       system=_EXPAND_SYSTEM,
       messages=[{"role": "user", "content": f"请基于以下骨架写出完整旅行方案：\n\n{skeleton}"}],
@@ -833,7 +837,13 @@ async def _stream_llm_to_buffer(
       if chunk:
         await buffer.write(chunk)
     s2_ms = int((time.time() - t2) * 1000)
-    logger.info("THEATER Stage2 done: %dms", s2_ms)
+    logger.info("THEATER Stage2 done: %dms output=%d chars", s2_ms, len(buffer.full_text))
+
+    # Stage2 output guard — if still too short, fallback
+    if len(buffer.full_text.strip()) < 20:
+      logger.warning("THEATER Stage2 output too short (%d chars), using _smart_fallback", len(buffer.full_text))
+      fallback_text = _smart_fallback(user_message)
+      await buffer.write("\n\n" + fallback_text)
 
   except Exception as exc:
     logger.warning("THEATER pipeline failed: %s", exc)
