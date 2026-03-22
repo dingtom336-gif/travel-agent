@@ -55,60 +55,113 @@ _UNSAFE_REQUEST_KW = (
 def _smart_fallback(message: str) -> str:
     """Context-aware fallback when all LLM models are unavailable."""
     msg = message.strip().lower()
+
+    # --- Robustness: gibberish / garbled input ---
+    # Detect non-meaningful input (random chars, pure punctuation, very short noise)
+    stripped = msg.replace("？", "").replace("?", "").replace("！", "").replace("!", "").replace(".", "").replace(" ", "")
+    if len(stripped) < 2 or not any('\u4e00' <= c <= '\u9fff' or c.isalpha() for c in stripped):
+      return (
+        "看起来你的消息可能发送有误，我没能理解具体内容。\n"
+        "如果你有旅行相关的问题，可以试试这样问我：\n"
+        "- 「帮我规划一个三亚5天的行程」\n"
+        "- 「去日本需要什么签证？」\n"
+        "- 「推荐一个适合带孩子的目的地」\n\n"
+        "有什么旅行想法都可以告诉我！"
+      )
+
+    # --- Robustness: competitor comparison ---
+    _COMPETITOR_KW = ("携程", "去哪儿", "美团", "马蜂窝", "途牛", "同程", "某平台", "某某平台", "比你好")
+    if any(w in msg for w in _COMPETITOR_KW) and any(w in msg for w in ("好用", "客服", "比你", "为什么", "不如")):
+      return (
+        "每个平台都有各自的特色和优势，我没办法对其他平台做评价。\n"
+        "我是 TravelMind 旅行助手，专注于帮你做个性化的旅行规划——从目的地推荐到逐日行程安排。\n"
+        "有什么旅行需求可以直接告诉我，让我展示一下实力？😊"
+      )
+
+    # --- Robustness: user challenges/corrects the AI ---
+    _CHALLENGE_KW = ("你确定", "真的吗", "不对吧", "搞错了", "你说错了", "胡说", "瞎说", "不准确")
+    if any(w in msg for w in _CHALLENGE_KW):
+      return (
+        "感谢你的反馈！如果我之前的信息有不准确的地方，我很愿意核实和修正。\n"
+        "能告诉我具体是哪部分信息有问题吗？我会重新确认后给你更准确的回答。"
+      )
+
+    # --- Robustness: fictional / non-existent destinations ---
+    _FICTIONAL_KW = ("赛博坦", "霍格沃茨", "中土世界", "纳尼亚", "瓦坎达", "潘多拉星球", "银河系", "火星")
+    if any(w in msg for w in _FICTIONAL_KW):
+      return (
+        "这是一个虚构的地点，目前还没有开通旅游线路呢 😄\n"
+        "不过如果你喜欢科幻/奇幻风格的旅行体验，我可以推荐一些现实中的替代目的地：\n"
+        "- 冰岛（外星地貌）、摩洛哥（沙漠奇观）、新西兰（中土世界取景地）\n\n"
+        "想去哪种风格的地方？我来帮你规划！"
+      )
+
+    # --- Robustness: overly long input ---
+    if len(msg) > 2000:
+      return (
+        "你发送的内容比较长，我来帮你梳理一下核心需求。\n"
+        "能用一两句话告诉我你最想解决的旅行问题吗？比如：\n"
+        "- 目的地选择\n"
+        "- 行程安排\n"
+        "- 交通/住宿推荐\n"
+        "- 预算规划\n\n"
+        "这样我能更精准地帮到你！"
+      )
+
     # Safety: refuse unsafe requests with category-specific responses
     if any(w in msg for w in _UNSAFE_REQUEST_KW):
-        # Privacy violations
-        if any(w in msg for w in ("手机号", "身份证号", "个人信息", "隐私")):
-            return (
-                "抱歉，我无法提供他人的隐私信息。保护个人信息安全是基本原则，"
-                "我不能协助获取他人手机号、身份证号等个人信息。"
-                "如果你有旅行规划方面的需求，我很乐意帮助！"
-            )
-        # Fraud / scam
-        if any(w in msg for w in ("诱导转账", "私下转账", "诈骗")):
-            return (
-                "抱歉，我不能协助编写任何涉及诱导转账或欺诈的内容，这属于违规行为。"
-                "正规的酒店预订请通过官方平台进行，确保资金安全。"
-                "如果你需要安全可靠的住宿推荐，我可以帮你！"
-            )
-        # Identity impersonation
-        if any(w in msg for w in ("假装你是", "扮演", "角色扮演")):
-            return (
-                "抱歉，我不能假装成其他平台的客服或进行角色扮演。"
-                "我是 TravelMind 旅行助手，可以为你提供专业的旅行规划服务。"
-                "有任何出行问题都可以直接问我！"
-            )
-        # Generic unsafe fallback
+      # Privacy violations
+      if any(w in msg for w in ("手机号", "身份证号", "个人信息", "隐私")):
         return (
-            "抱歉，我无法协助处理这类请求。作为旅行助手，我只能提供合法、安全的旅行相关服务。"
-            "如果你有旅行规划、行程咨询等需求，随时可以问我！"
+          "抱歉，我无法提供他人的隐私信息。保护个人信息安全是基本原则，"
+          "我不能协助获取他人手机号、身份证号等个人信息。\n\n"
+          "如果你有旅行规划方面的需求，我很乐意帮助！"
         )
+      # Fraud / scam
+      if any(w in msg for w in ("诱导转账", "私下转账", "诈骗")):
+        return (
+          "抱歉，我不能协助编写任何涉及诱导转账或欺诈的内容，这属于违规行为。"
+          "正规的酒店预订请通过官方平台进行，确保资金安全。\n\n"
+          "如果你需要安全可靠的住宿推荐，我可以帮你！"
+        )
+      # Identity impersonation
+      if any(w in msg for w in ("假装你是", "扮演", "角色扮演")):
+        return (
+          "抱歉，我不能假装成其他平台的客服或进行角色扮演。"
+          "我是 TravelMind 旅行助手，可以为你提供专业的旅行规划服务。\n\n"
+          "有任何出行问题都可以直接问我！"
+        )
+      # Generic unsafe fallback
+      return (
+        "抱歉，我无法协助处理这类请求。作为旅行助手，我只能提供合法、安全的旅行相关服务。\n\n"
+        "如果你有旅行规划、行程咨询等需求，随时可以问我！"
+      )
     if any(w in msg for w in ("你好", "嗨", "hi", "hello")):
-        return "你好！我是 TravelMind 旅行规划助手，无论是国内周边游还是出国度假，我都能帮你规划。想去哪里玩呢？"
+      return "你好！我是 TravelMind 旅行规划助手，无论是国内周边游还是出国度假，我都能帮你规划。想去哪里玩呢？"
     if any(w in msg for w in ("再见", "拜拜", "晚安")):
-        return "期待下次为你规划旅行！祝你生活愉快。"
+      return "期待下次为你规划旅行！祝你生活愉快。"
     if any(w in msg for w in ("谢谢", "感谢")):
-        return "不客气！随时可以找我规划旅行。"
+      return "不客气！随时可以找我规划旅行。"
     if any(w in msg for w in _EMERGENCY_KW):
-        return (
-            "这是紧急情况，请注意安全！以下是通用建议：\n"
-            "1. **人身安全优先** — 如受伤请立即就医，拨打当地急救电话\n"
-            "2. **证件丢失** — 联系最近的中国大使馆/领事馆，电话可查 cs.mfa.gov.cn\n"
-            "3. **财物被盗** — 向当地警方报案并保留报案回执\n"
-            "4. **航班/退票问题** — 联系航空公司客服，保留订单截图\n"
-            "5. **遇到诈骗** — 不要转账，联系当地警方和银行冻结账户\n\n"
-            "请告诉我具体情况，我会尽力提供更有针对性的帮助。"
-        )
+      return (
+        "这是紧急情况，请注意安全！以下是通用建议：\n"
+        "1. **人身安全优先** — 如受伤请立即就医，拨打当地急救电话\n"
+        "2. **证件丢失** — 联系最近的中国大使馆/领事馆，电话可查 cs.mfa.gov.cn\n"
+        "3. **财物被盗** — 向当地警方报案并保留报案回执\n"
+        "4. **航班/退票问题** — 联系航空公司客服，保留订单截图\n"
+        "5. **遇到诈骗** — 不要转账，联系当地警方和银行冻结账户\n\n"
+        "请告诉我具体情况，我会尽力提供更有针对性的帮助。"
+      )
     if any(w in msg for w in _NEGATIVE_EMOTION_KW):
-        return (
-            "我理解你现在的心情。有时候出去走走，换个环境，确实能让人感觉好一些。"
-            "如果你愿意，可以告诉我想去什么样的地方，我来帮你规划一趟旅行。"
-        )
+      return (
+        "我理解你现在的心情。有时候出去走走，换个环境，确实能让人感觉好一些。\n"
+        "如果你愿意，可以告诉我想去什么样的地方，我来帮你规划一趟旅行。"
+      )
     if any(w in msg for w in _POSITIVE_EMOTION_KW):
-        return (
-            "恭喜你！这样的时刻值得好好庆祝。"
-            "想不想来一趟旅行犒劳自己？告诉我你的想法，我来帮你规划！"
-        )
+      return (
+        "恭喜你！这样的时刻值得好好庆祝。\n"
+        "想不想来一趟旅行犒劳自己？告诉我你的想法，我来帮你规划！"
+      )
     return "收到你的消息了！作为旅行助手，我最擅长帮你规划行程和推荐目的地。有什么旅行想法想聊聊吗？"
 
 
