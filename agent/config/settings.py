@@ -15,7 +15,7 @@ class Settings(BaseSettings):
 
   # --- App ---
   APP_NAME: str = "TravelMind Agent Service"
-  APP_VERSION: str = "0.8.0"
+  APP_VERSION: str = "0.9.0"
   DEBUG: bool = True
 
   # --- AI (SiliconFlow – OpenAI-compatible, two-stage pipeline) ---
