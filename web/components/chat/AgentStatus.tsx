@@ -19,17 +19,17 @@ const agentDisplayNames: Record<string, string> = {
   customer_service: "客服专家",
 };
 
-// Map agent names to icon colors
+// Agent colors — unified to primary/secondary for Aurora theme
 const agentColors: Record<string, string> = {
-  orchestrator: "text-blue-500",
-  transport: "text-sky-500",
-  hotel: "text-purple-500",
-  poi: "text-green-500",
-  itinerary: "text-orange-500",
-  budget: "text-yellow-500",
-  knowledge: "text-indigo-500",
-  weather: "text-cyan-500",
-  customer_service: "text-pink-500",
+  orchestrator: "text-primary",
+  transport: "text-primary",
+  hotel: "text-secondary",
+  poi: "text-primary",
+  itinerary: "text-secondary",
+  budget: "text-primary",
+  knowledge: "text-secondary",
+  weather: "text-primary",
+  customer_service: "text-secondary",
 };
 
 /**
@@ -42,42 +42,23 @@ export default function AgentStatus({ statuses }: AgentStatusProps) {
     <div className="flex w-full justify-start animate-fade-in" role="status" aria-live="polite">
       <div className="flex max-w-[85%] gap-3 sm:max-w-[75%]">
         {/* AI Avatar */}
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 text-sm font-medium text-white" aria-hidden="true">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full message-gradient text-sm font-medium text-white" aria-hidden="true">
           AI
         </div>
 
         {/* Status list */}
-        <div className="min-w-0 space-y-2 rounded-2xl bg-bubble-ai px-3 py-2.5 sm:px-4 sm:py-3">
+        <div className="min-w-0 space-y-2 rounded-2xl glass-panel ghost-border px-3 py-2.5 sm:px-4 sm:py-3">
           {statuses.map((status, index) => (
             <div
               key={`${status.agent}-${index}`}
               className="flex min-w-0 items-center gap-2 text-sm"
             >
-              {/* Spinner or checkmark */}
+              {/* Pulsing dot or checkmark */}
               {status.status === "running" ? (
-                <svg
-                  className={`h-4 w-4 animate-spin ${agentColors[status.agent] || "text-primary"}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  />
-                </svg>
+                <div className="h-2 w-2 shrink-0 rounded-full bg-primary animate-aurora-pulse" aria-hidden="true" />
               ) : status.status === "done" ? (
                 <svg
-                  className="h-4 w-4 text-green-500"
+                  className="h-4 w-4 text-primary"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="2"
@@ -92,7 +73,7 @@ export default function AgentStatus({ statuses }: AgentStatusProps) {
                 </svg>
               ) : (
                 <svg
-                  className="h-4 w-4 text-red-500"
+                  className="h-4 w-4 text-error"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="2"
@@ -111,7 +92,7 @@ export default function AgentStatus({ statuses }: AgentStatusProps) {
               <span className={`shrink-0 font-medium ${agentColors[status.agent] || "text-primary"}`}>
                 {agentDisplayNames[status.agent] || status.agent}
               </span>
-              <span className="truncate text-muted-foreground">{status.task}</span>
+              <span className="truncate text-on-surface-variant">{status.task}</span>
             </div>
           ))}
         </div>

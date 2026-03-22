@@ -15,23 +15,23 @@ export default memo(function FlightCard({ data, onSelect }: FlightCardProps) {
   return (
     <button
       type="button"
-      className="group w-full cursor-pointer rounded-xl border border-border bg-card p-3 text-left transition-all duration-200 hover:border-primary/30 hover:shadow-md hover:scale-[1.01] sm:p-4"
+      className="group w-full cursor-pointer bg-surface-container-high ghost-border rounded-xl p-3 text-left transition-all duration-200 hover:shadow-[0_8px_30px_rgba(83,221,252,0.1)] hover:scale-[1.01] sm:p-4"
       onClick={onSelect}
     >
       {/* Header: airline + flight number */}
       <div className="mb-2 flex items-center justify-between sm:mb-3">
         <div className="flex min-w-0 items-center gap-2">
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400 sm:h-8 sm:w-8">
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-surface-container-highest text-primary sm:h-8 sm:w-8">
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
             </svg>
           </div>
           <div className="min-w-0">
-            <p className="truncate text-sm font-medium text-card-foreground">{data.airline}</p>
-            <p className="text-xs text-muted-foreground">{data.flightNo}</p>
+            <p className="truncate text-sm font-medium text-on-surface">{data.airline}</p>
+            <p className="text-xs text-on-surface-variant">{data.flightNo}</p>
           </div>
         </div>
-        <span className="text-base font-bold text-primary sm:text-lg">
+        <span className="text-base text-primary font-semibold sm:text-lg">
           {data.currency}{data.price}
         </span>
       </div>
@@ -40,19 +40,19 @@ export default memo(function FlightCard({ data, onSelect }: FlightCardProps) {
       <div className="flex items-center justify-between">
         {/* Departure */}
         <div className="text-center">
-          <p className="text-sm font-bold text-card-foreground sm:text-lg">{data.departTime}</p>
-          <p className="max-w-[60px] truncate text-xs text-muted-foreground sm:max-w-none">{data.departure}</p>
+          <p className="text-sm font-bold text-on-surface sm:text-lg">{data.departTime}</p>
+          <p className="max-w-[60px] truncate text-xs text-on-surface-variant sm:max-w-none">{data.departure}</p>
         </div>
 
         {/* Duration + line */}
         <div className="flex flex-1 flex-col items-center px-3">
-          <p className="mb-1 text-xs text-muted-foreground">{data.duration}</p>
+          <p className="mb-1 text-xs text-on-surface-variant">{data.duration}</p>
           <div className="relative w-full">
-            <div className="h-px w-full bg-border" />
+            <div className="h-px w-full bg-outline-variant" />
             <div className="absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-primary" />
             <div className="absolute right-0 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-primary" />
             <svg
-              className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 text-muted-foreground"
+              className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 text-on-surface-variant"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
@@ -62,13 +62,13 @@ export default memo(function FlightCard({ data, onSelect }: FlightCardProps) {
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
             </svg>
           </div>
-          <p className="mt-1 text-xs text-muted-foreground">直飞</p>
+          <p className="mt-1 text-xs text-on-surface-variant">直飞</p>
         </div>
 
         {/* Arrival */}
         <div className="text-center">
-          <p className="text-sm font-bold text-card-foreground sm:text-lg">{data.arriveTime}</p>
-          <p className="max-w-[60px] truncate text-xs text-muted-foreground sm:max-w-none">{data.arrival}</p>
+          <p className="text-sm font-bold text-on-surface sm:text-lg">{data.arriveTime}</p>
+          <p className="max-w-[60px] truncate text-xs text-on-surface-variant sm:max-w-none">{data.arrival}</p>
         </div>
       </div>
     </button>

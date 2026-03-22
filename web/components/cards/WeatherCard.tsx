@@ -16,12 +16,12 @@ const conditionLabels: Record<string, string> = {
 };
 
 // Map weather condition to icon and color
-const weatherIcons: Record<string, { icon: string; color: string; bg: string }> = {
-  sunny: { icon: "sun", color: "text-yellow-500", bg: "from-yellow-50 to-orange-50 dark:from-yellow-950/30 dark:to-orange-950/20" },
-  cloudy: { icon: "cloud", color: "text-gray-400", bg: "from-gray-50 to-slate-50 dark:from-gray-900/30 dark:to-slate-900/20" },
-  rainy: { icon: "rain", color: "text-blue-400", bg: "from-blue-50 to-cyan-50 dark:from-blue-950/30 dark:to-cyan-950/20" },
-  snowy: { icon: "snow", color: "text-blue-200", bg: "from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/20" },
-  overcast: { icon: "cloud", color: "text-gray-500", bg: "from-gray-100 to-slate-100 dark:from-gray-900/30 dark:to-slate-800/20" },
+const weatherIcons: Record<string, { icon: string; color: string }> = {
+  sunny: { icon: "sun", color: "text-primary" },
+  cloudy: { icon: "cloud", color: "text-on-surface-variant" },
+  rainy: { icon: "rain", color: "text-secondary" },
+  snowy: { icon: "snow", color: "text-secondary" },
+  overcast: { icon: "cloud", color: "text-on-surface-variant" },
 };
 
 /**
@@ -31,11 +31,11 @@ export default memo(function WeatherCard({ data }: WeatherCardProps) {
   const weather = weatherIcons[data.condition] || weatherIcons.sunny;
 
   return (
-    <div className={`rounded-xl border border-border bg-gradient-to-br ${weather.bg} p-3 sm:p-4`}>
+    <div className="bg-surface-container-high ghost-border rounded-xl p-3 sm:p-4">
       <div className="mb-2 flex items-center justify-between gap-2">
         <div className="min-w-0">
-          <h3 className="truncate text-sm font-semibold text-card-foreground">{data.city}</h3>
-          <p className="text-xs text-muted-foreground">{data.date}</p>
+          <h3 className="truncate text-sm font-semibold text-on-surface">{data.city}</h3>
+          <p className="text-xs text-on-surface-variant">{data.date}</p>
         </div>
         {/* Weather icon */}
         <div className={`${weather.color}`}>
@@ -45,23 +45,23 @@ export default memo(function WeatherCard({ data }: WeatherCardProps) {
 
       {/* Temperature */}
       <div className="mb-2 flex items-baseline gap-1 sm:mb-3">
-        <span className="text-xl font-bold text-card-foreground sm:text-2xl">
+        <span className="text-xl font-bold text-on-surface sm:text-2xl">
           {data.temperature.high}&deg;
         </span>
-        <span className="text-sm text-muted-foreground">
+        <span className="text-sm text-on-surface-variant">
           / {data.temperature.low}&deg;C
         </span>
       </div>
 
       {/* Details */}
-      <div className="flex items-center justify-between text-xs text-muted-foreground">
+      <div className="flex items-center justify-between text-xs text-on-surface-variant">
         <span>湿度 {data.humidity}%</span>
         <span>{conditionLabels[data.condition] || "阴"}</span>
       </div>
 
       {/* Suggestion */}
       {data.suggestion && (
-        <div className="mt-2 rounded-lg bg-card/60 p-2 text-xs text-muted-foreground">
+        <div className="mt-2 rounded-lg bg-surface-container-highest/60 p-2 text-xs text-on-surface-variant">
           {data.suggestion}
         </div>
       )}

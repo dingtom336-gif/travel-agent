@@ -146,21 +146,21 @@ export default function ItineraryPage() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-background">
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-surface">
         <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-background">
+    <div className="min-h-[calc(100vh-4rem)] bg-surface">
       {/* Header section */}
-      <header className="border-b border-border bg-card">
+      <header className="border-b border-outline-variant/30 bg-surface-container-high">
         <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
           {/* Back link */}
           <button
             onClick={() => router.back()}
-            className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            className="mb-4 inline-flex items-center gap-1 text-sm text-on-surface-variant transition-colors hover:text-on-surface"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -171,10 +171,10 @@ export default function ItineraryPage() {
           {/* Title row */}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0 flex-1">
-              <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
+              <h1 className="text-2xl font-bold font-headline text-on-surface sm:text-3xl">
                 {itinerary.title}
               </h1>
-              <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+              <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-on-surface-variant">
                 {/* Destination */}
                 <span className="inline-flex items-center gap-1">
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
@@ -203,7 +203,7 @@ export default function ItineraryPage() {
             {/* Status badge */}
             <div className="flex items-center gap-2">
               {!isFromSession && (
-                <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                <span className="ghost-border rounded-full px-3 py-1 text-xs font-medium text-on-surface-variant">
                   示例行程
                 </span>
               )}
@@ -229,14 +229,17 @@ export default function ItineraryPage() {
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors ${
+                className={`relative inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap px-4 py-3 text-sm font-medium transition-colors ${
                   activeTab === tab.key
-                    ? "border-primary text-primary"
-                    : "border-transparent text-muted-foreground hover:border-border hover:text-foreground"
+                    ? "text-primary"
+                    : "text-on-surface-variant hover:text-on-surface"
                 }`}
               >
                 {tab.icon}
                 {tab.label}
+                {activeTab === tab.key && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary" />
+                )}
               </button>
             ))}
           </div>
@@ -284,10 +287,10 @@ function StatusBadge({
   status: "draft" | "confirmed" | "in_progress" | "completed";
 }) {
   const styles: Record<string, string> = {
-    draft: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
-    confirmed: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
-    in_progress: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
-    completed: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
+    draft: "bg-secondary/10 text-secondary",
+    confirmed: "bg-primary/10 text-primary",
+    in_progress: "bg-primary/10 text-primary",
+    completed: "bg-surface-container-highest text-on-surface-variant",
   };
   const labels: Record<string, string> = {
     draft: "草稿",
@@ -308,9 +311,9 @@ function StatusBadge({
 /** Small stat chip */
 function StatChip({ label, value }: { label: string; value: string }) {
   return (
-    <div className="inline-flex items-center gap-2 rounded-lg bg-muted px-3 py-1.5">
-      <span className="text-xs text-muted-foreground">{label}</span>
-      <span className="text-sm font-semibold text-card-foreground">
+    <div className="inline-flex items-center gap-2 ghost-border rounded-full px-3 py-1.5">
+      <span className="text-xs text-on-surface-variant">{label}</span>
+      <span className="text-sm text-primary font-semibold">
         {value}
       </span>
     </div>
@@ -332,14 +335,14 @@ function ActionBar({
   itineraryId: string;
 }) {
   return (
-    <div className="sticky bottom-0 border-t border-border bg-card/80 backdrop-blur-md safe-bottom">
+    <div className="sticky bottom-0 border-t border-outline-variant/30 bg-surface-container-high/80 backdrop-blur-md safe-bottom">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 px-3 py-3 sm:px-6">
         {/* Left actions */}
         <div className="flex items-center gap-2">
           {/* Share */}
           <button
             onClick={onShare}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border px-2 py-2 text-sm text-card-foreground transition-colors hover:bg-muted sm:px-3"
+            className="inline-flex items-center gap-1.5 rounded-lg ghost-border px-2 py-2 text-sm text-on-surface transition-colors hover:bg-surface-container-highest sm:px-3"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
@@ -350,7 +353,7 @@ function ActionBar({
           {/* Export PDF */}
           <button
             onClick={() => window.print()}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border px-2 py-2 text-sm text-card-foreground transition-colors hover:bg-muted sm:px-3"
+            className="inline-flex items-center gap-1.5 rounded-lg ghost-border px-2 py-2 text-sm text-on-surface transition-colors hover:bg-surface-container-highest sm:px-3"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -361,10 +364,10 @@ function ActionBar({
           {/* Save / Bookmark */}
           <button
             onClick={onToggleSave}
-            className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm transition-colors ${
+            className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm transition-colors ${
               isSaved
-                ? "border-primary bg-primary/10 text-primary"
-                : "border-border text-card-foreground hover:bg-muted"
+                ? "bg-primary/10 text-primary ghost-border"
+                : "ghost-border text-on-surface hover:bg-surface-container-highest"
             }`}
           >
             <svg
@@ -385,7 +388,7 @@ function ActionBar({
         {/* Right action - back to chat */}
         <button
           onClick={onBackToChat}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-dark"
+          className="inline-flex items-center gap-1.5 gradient-btn rounded-full px-4 py-2 text-sm font-medium transition-all"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />

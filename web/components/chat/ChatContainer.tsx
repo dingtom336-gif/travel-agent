@@ -57,16 +57,16 @@ export default function ChatContainer() {
   }, [cleanup]);
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col bg-surface aurora-glow">
       <ConnectionBanner state={connectionState} />
 
       {/* Messages area with scroll tracking */}
       <div
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="relative flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 sm:px-4 sm:py-6"
+        className="relative flex-1 overflow-y-auto overflow-x-hidden px-3 py-4 sm:px-6 sm:py-8"
       >
-        <div className="mx-auto max-w-4xl space-y-6">
+        <div className="mx-auto max-w-4xl space-y-8">
           {messages.length === 0 && <EmptyState />}
           {messages.map((msg) => (
             <ChatMessage key={msg.id} message={msg} />
@@ -78,7 +78,7 @@ export default function ChatContainer() {
         {showScrollBtn && (
           <button
             onClick={() => scrollToBottom("smooth")}
-            className="sticky bottom-4 left-1/2 z-10 flex h-10 w-10 -translate-x-1/2 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-opacity hover:opacity-90"
+            className="sticky bottom-4 left-1/2 z-10 flex h-10 w-10 -translate-x-1/2 items-center justify-center rounded-full message-gradient text-white shadow-lg shadow-primary/20 transition-opacity hover:opacity-90"
             aria-label="滚动到底部"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">

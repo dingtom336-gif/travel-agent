@@ -21,17 +21,17 @@ const agentDisplayNames: Record<string, string> = {
   customer_service: "客服专家",
 };
 
-// Agent colors for visual distinction
+// Agent colors — unified to primary/secondary for Aurora theme
 const agentColors: Record<string, string> = {
-  orchestrator: "text-blue-500",
-  transport: "text-sky-500",
-  hotel: "text-purple-500",
-  poi: "text-green-500",
-  itinerary: "text-orange-500",
-  budget: "text-yellow-500",
-  knowledge: "text-indigo-500",
-  weather: "text-cyan-500",
-  customer_service: "text-pink-500",
+  orchestrator: "text-primary",
+  transport: "text-primary",
+  hotel: "text-secondary",
+  poi: "text-primary",
+  itinerary: "text-secondary",
+  budget: "text-primary",
+  knowledge: "text-secondary",
+  weather: "text-primary",
+  customer_service: "text-secondary",
 };
 
 /**
@@ -78,21 +78,14 @@ export default function ThinkingSteps({ steps, isStreaming }: ThinkingStepsProps
       {/* Collapsed header bar */}
       <button
         onClick={handleToggle}
-        className="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left transition-colors hover:bg-amber-500/5"
+        className="flex w-full items-center gap-2 rounded-xl bg-surface-container-low ghost-border px-3 py-2 text-left transition-colors hover:bg-surface-container-high/50"
       >
-        {/* Icon: spinner when streaming, sparkle when done */}
+        {/* Icon: pulsing dot when streaming, sparkle when done */}
         {isStreaming && runningSteps.length > 0 ? (
-          <svg
-            className="h-3.5 w-3.5 shrink-0 animate-spin text-amber-500"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-          </svg>
+          <div className="h-2 w-2 shrink-0 rounded-full bg-primary animate-aurora-pulse" />
         ) : (
           <svg
-            className="h-3.5 w-3.5 shrink-0 text-amber-500"
+            className="h-3.5 w-3.5 shrink-0 text-primary"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth="2"
@@ -103,13 +96,13 @@ export default function ThinkingSteps({ steps, isStreaming }: ThinkingStepsProps
         )}
 
         {/* Summary text */}
-        <span className="flex-1 truncate text-xs font-medium text-amber-600 dark:text-amber-400">
+        <span className="flex-1 truncate text-xs font-medium text-primary">
           {summaryText}
         </span>
 
         {/* Chevron */}
         <svg
-          className={`h-3.5 w-3.5 shrink-0 text-amber-500/60 transition-transform duration-200 ${
+          className={`h-3.5 w-3.5 shrink-0 text-on-surface-variant transition-transform duration-200 ${
             isOpen ? "rotate-90" : ""
           }`}
           fill="none"
@@ -123,7 +116,7 @@ export default function ThinkingSteps({ steps, isStreaming }: ThinkingStepsProps
 
       {/* Expanded step list */}
       {isOpen && (
-        <div className="mt-1 space-y-1 border-l-2 border-amber-500/20 pl-3 ml-2">
+        <div className="mt-1.5 space-y-1 border-l border-primary/20 pl-3 ml-3">
           {steps.map((step, i) => (
             <div
               key={`${step.agent}-${i}`}
@@ -131,17 +124,10 @@ export default function ThinkingSteps({ steps, isStreaming }: ThinkingStepsProps
             >
               {/* Status icon */}
               {step.status === "running" ? (
-                <svg
-                  className={`h-3.5 w-3.5 shrink-0 animate-spin ${agentColors[step.agent] || "text-primary"}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
+                <div className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary animate-aurora-pulse" />
               ) : step.status === "done" ? (
                 <svg
-                  className="h-3.5 w-3.5 shrink-0 text-green-500"
+                  className="h-3.5 w-3.5 shrink-0 text-primary"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="2"
@@ -151,7 +137,7 @@ export default function ThinkingSteps({ steps, isStreaming }: ThinkingStepsProps
                 </svg>
               ) : (
                 <svg
-                  className="h-3.5 w-3.5 shrink-0 text-red-500"
+                  className="h-3.5 w-3.5 shrink-0 text-error"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="2"
@@ -167,7 +153,7 @@ export default function ThinkingSteps({ steps, isStreaming }: ThinkingStepsProps
               </span>
 
               {/* Task description */}
-              <span className="text-muted-foreground truncate">{step.task}</span>
+              <span className="text-on-surface-variant truncate">{step.task}</span>
             </div>
           ))}
         </div>

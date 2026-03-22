@@ -17,14 +17,11 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <nav className="sticky top-0 z-50 bg-slate-950/50 backdrop-blur-xl shadow-[0_20px_40px_rgba(6,182,212,0.08)]">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white text-sm font-bold">
-            T
-          </div>
-          <span className="text-xl font-bold text-foreground">
+          <span className="text-2xl font-bold gradient-text font-headline">
             TravelMind
           </span>
         </Link>
@@ -40,7 +37,7 @@ export default function Navbar() {
                 className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                   isActive
                     ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    : "text-on-surface-variant hover:text-on-surface"
                 }`}
               >
                 {link.label}
@@ -52,7 +49,7 @@ export default function Navbar() {
         {/* Mobile menu button */}
         <button
           type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-slate-800/50 transition-all md:hidden"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -70,9 +67,12 @@ export default function Navbar() {
         </button>
       </div>
 
+      {/* Bottom gradient border line */}
+      <div className="bg-gradient-to-r from-cyan-500/20 to-purple-500/20 h-[1px] w-full" />
+
       {/* Mobile navigation */}
       {mobileMenuOpen && (
-        <div className="border-t border-border md:hidden animate-fade-in">
+        <div className="bg-slate-950/80 backdrop-blur-xl md:hidden animate-fade-in">
           <div className="space-y-1 px-4 py-3">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
@@ -83,7 +83,7 @@ export default function Navbar() {
                   className={`block rounded-lg px-3 py-3 text-base font-medium transition-colors ${
                     isActive
                       ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                      : "text-on-surface-variant hover:text-on-surface"
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >

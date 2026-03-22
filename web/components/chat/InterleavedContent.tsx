@@ -61,18 +61,18 @@ function parseContentSegments(content: string): ContentSegment[] {
 
 function InlineFlightCard({ data }: { data: FlightData }) {
   return (
-    <div className="flex items-center gap-2 rounded-xl border border-border/50 bg-background/50 px-2.5 py-2 sm:gap-3 sm:px-3 sm:py-2.5">
-      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 text-sky-500 sm:h-8 sm:w-8">
+    <div className="flex items-center gap-2 rounded-xl bg-surface-container-highest/50 ghost-border px-2.5 py-2 sm:gap-3 sm:px-3 sm:py-2.5">
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary sm:h-8 sm:w-8">
         <svg className="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
         </svg>
       </div>
       <div className="flex-1 min-w-0 overflow-hidden">
         <div className="flex items-center gap-1.5">
-          <span className="text-xs font-semibold text-card-foreground truncate">{data.airline}</span>
-          <span className="shrink-0 text-[10px] text-muted-foreground">{data.flightNo}</span>
+          <span className="text-xs font-semibold text-on-surface truncate">{data.airline}</span>
+          <span className="shrink-0 text-[10px] text-on-surface-variant">{data.flightNo}</span>
         </div>
-        <div className="truncate text-[11px] text-muted-foreground">
+        <div className="truncate text-[11px] text-on-surface-variant">
           {data.departure} {data.departTime} → {data.arrival} {data.arriveTime} ({data.duration})
         </div>
       </div>
@@ -83,25 +83,25 @@ function InlineFlightCard({ data }: { data: FlightData }) {
 
 function InlineHotelCard({ data }: { data: HotelData }) {
   return (
-    <div className="flex items-center gap-2 rounded-xl border border-border/50 bg-background/50 px-2.5 py-2 sm:gap-3 sm:px-3 sm:py-2.5">
-      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-purple-500/10 text-purple-500 sm:h-8 sm:w-8">
+    <div className="flex items-center gap-2 rounded-xl bg-surface-container-highest/50 ghost-border px-2.5 py-2 sm:gap-3 sm:px-3 sm:py-2.5">
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-secondary/10 text-secondary sm:h-8 sm:w-8">
         <svg className="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3H21m-3.75 3H21" />
         </svg>
       </div>
       <div className="flex-1 min-w-0 overflow-hidden">
         <div className="flex items-center gap-1.5">
-          <span className="text-xs font-semibold text-card-foreground truncate">{data.name}</span>
-          <span className="shrink-0 text-[10px] text-amber-500">{"★".repeat(Math.min(data.stars, 5))}</span>
+          <span className="text-xs font-semibold text-on-surface truncate">{data.name}</span>
+          <span className="shrink-0 text-[10px] text-primary">{"★".repeat(Math.min(data.stars, 5))}</span>
         </div>
-        <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+        <div className="flex items-center gap-1.5 text-[11px] text-on-surface-variant">
           <span className="truncate">{data.location}</span>
-          {data.rating > 0 && <span className="shrink-0 text-green-500">{data.rating}分</span>}
+          {data.rating > 0 && <span className="shrink-0 text-primary">{data.rating}分</span>}
         </div>
       </div>
       <div className="shrink-0 text-right">
-        <span className="text-xs font-bold text-primary sm:text-sm">{data.currency}{data.pricePerNight}</span>
-        <span className="block text-[10px] text-muted-foreground">/晚</span>
+        <span className="text-xs font-bold text-secondary sm:text-sm">{data.currency}{data.pricePerNight}</span>
+        <span className="block text-[10px] text-on-surface-variant">/晚</span>
       </div>
     </div>
   );
@@ -115,26 +115,26 @@ function InlinePOICard({ data }: { data: POIData }) {
   const emoji = typeEmoji[data.type] || "📍";
 
   return (
-    <div className="flex items-center gap-2 rounded-xl border border-border/50 bg-background/50 px-2.5 py-2 sm:gap-3 sm:px-3 sm:py-2.5">
-      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-green-500/10 text-sm sm:h-8 sm:w-8 sm:text-base">
+    <div className="flex items-center gap-2 rounded-xl bg-surface-container-highest/50 ghost-border px-2.5 py-2 sm:gap-3 sm:px-3 sm:py-2.5">
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-sm sm:h-8 sm:w-8 sm:text-base">
         {emoji}
       </div>
       <div className="flex-1 min-w-0 overflow-hidden">
         <div className="flex items-center gap-1.5">
-          <span className="text-xs font-semibold text-card-foreground truncate">{data.name}</span>
-          <span className="shrink-0 rounded bg-muted px-1 py-0.5 text-[10px] text-muted-foreground">{data.type}</span>
+          <span className="text-xs font-semibold text-on-surface truncate">{data.name}</span>
+          <span className="shrink-0 rounded bg-surface-container-high px-1 py-0.5 text-[10px] text-on-surface-variant">{data.type}</span>
         </div>
-        <div className="text-[11px] text-muted-foreground truncate">{data.description}</div>
+        <div className="text-[11px] text-on-surface-variant truncate">{data.description}</div>
       </div>
       <div className="shrink-0 flex flex-col items-end gap-0.5">
         {data.rating > 0 && (
           <span className="flex items-center gap-0.5 text-xs">
-            <span className="text-amber-500">★</span>
-            <span className="font-medium text-card-foreground">{data.rating}</span>
+            <span className="text-primary">★</span>
+            <span className="font-medium text-on-surface">{data.rating}</span>
           </span>
         )}
         {data.ticketPrice != null && data.ticketPrice > 0 && (
-          <span className="text-[10px] text-muted-foreground">{data.currency || "CNY"}{data.ticketPrice}</span>
+          <span className="text-[10px] text-on-surface-variant">{data.currency || "CNY"}{data.ticketPrice}</span>
         )}
       </div>
     </div>
@@ -143,15 +143,15 @@ function InlinePOICard({ data }: { data: POIData }) {
 
 function InlineWeatherCard({ data }: { data: WeatherData }) {
   return (
-    <div className="flex items-center gap-2 rounded-xl border border-border/50 bg-background/50 px-2.5 py-2 sm:gap-3 sm:px-3 sm:py-2.5">
-      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-cyan-500/10 text-sm sm:h-8 sm:w-8 sm:text-base">
+    <div className="flex items-center gap-2 rounded-xl bg-surface-container-highest/50 ghost-border px-2.5 py-2 sm:gap-3 sm:px-3 sm:py-2.5">
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-sm sm:h-8 sm:w-8 sm:text-base">
         🌤️
       </div>
       <div className="flex-1 min-w-0 overflow-hidden">
-        <div className="text-xs font-semibold text-card-foreground truncate">{data.city} · {data.date}</div>
-        <div className="text-[11px] text-muted-foreground truncate">{data.condition} · 湿度{data.humidity}%</div>
+        <div className="text-xs font-semibold text-on-surface truncate">{data.city} · {data.date}</div>
+        <div className="text-[11px] text-on-surface-variant truncate">{data.condition} · 湿度{data.humidity}%</div>
       </div>
-      <span className="shrink-0 text-xs font-bold text-card-foreground sm:text-sm">{data.temperature.low}°~{data.temperature.high}°</span>
+      <span className="shrink-0 text-xs font-bold text-on-surface sm:text-sm">{data.temperature.low}°~{data.temperature.high}°</span>
     </div>
   );
 }
@@ -161,7 +161,7 @@ function InlineWeatherCard({ data }: { data: WeatherData }) {
  */
 function InlineCard({ payload }: { payload: UIPayload }) {
   if (payload.status === "loading") {
-    return <div className="h-12 w-full animate-pulse rounded-xl bg-muted/50" />;
+    return <div className="h-12 w-full animate-pulse rounded-xl bg-surface-container-high/50" />;
   }
   switch (payload.type) {
     case "flight_card":
@@ -182,7 +182,7 @@ function InlineCard({ payload }: { payload: UIPayload }) {
  */
 function StandaloneCard({ payload }: { payload: UIPayload }) {
   if (payload.status === "loading") {
-    return <div className="h-32 w-full animate-pulse rounded-xl bg-muted" />;
+    return <div className="h-32 w-full animate-pulse rounded-xl bg-surface-container-high" />;
   }
   switch (payload.type) {
     case "timeline_card":
@@ -229,21 +229,18 @@ function ThinkingPlaceholder() {
   const progress = Math.min((stageIdx + 1) / THINKING_STAGES.length * 100, 95);
 
   return (
-    <div className="rounded-2xl px-3 py-2.5 text-sm leading-relaxed bg-bubble-ai text-card-foreground overflow-hidden sm:px-4 sm:py-3">
+    <div className="glass-panel ghost-border rounded-2xl px-3 py-2.5 text-sm leading-relaxed text-on-surface overflow-hidden sm:px-4 sm:py-3">
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
-          <svg className="h-3.5 w-3.5 shrink-0 animate-spin text-amber-500" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-          </svg>
-          <span className="flex-1 text-xs font-medium text-amber-600 dark:text-amber-400 transition-all duration-300">
+          <div className="h-2 w-2 shrink-0 rounded-full bg-primary animate-aurora-pulse" />
+          <span className="flex-1 text-xs font-medium text-primary transition-all duration-300">
             {stage.text}
           </span>
-          <span className="text-[10px] tabular-nums text-muted-foreground">{elapsed}s</span>
+          <span className="text-[10px] tabular-nums text-on-surface-variant">{elapsed}s</span>
         </div>
-        <div className="h-1 w-full overflow-hidden rounded-full bg-amber-500/10">
+        <div className="h-1 w-full overflow-hidden rounded-full bg-primary/10">
           <div
-            className="h-full rounded-full bg-amber-500/50 transition-all duration-700 ease-out"
+            className="h-full rounded-full bg-primary/50 transition-all duration-700 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -277,7 +274,7 @@ function CopyButton({ text }: { text: string }) {
   return (
     <button
       onPointerDown={(e) => { e.preventDefault(); handleCopy(); }}
-      className="mt-0.5 inline-flex items-center gap-1 self-start rounded-md px-1.5 py-1 text-[11px] text-muted-foreground opacity-60 transition-opacity hover:bg-muted hover:text-foreground touch-manipulation sm:opacity-0 sm:group-hover/msg:opacity-100"
+      className="mt-0.5 inline-flex items-center gap-1 self-start rounded-md px-1.5 py-1 text-[11px] text-on-surface-variant opacity-60 transition-opacity hover:bg-surface-container-high hover:text-on-surface touch-manipulation sm:opacity-0 sm:group-hover/msg:opacity-100"
       aria-label="复制回答"
     >
       {copied ? (
@@ -418,7 +415,7 @@ export default function InterleavedContent({
       {showPlaceholder && <ThinkingPlaceholder />}
 
       {hasThinking && (
-        <div className="rounded-2xl px-4 py-3 text-sm leading-relaxed bg-bubble-ai text-card-foreground overflow-hidden">
+        <div className="glass-panel ghost-border rounded-2xl rounded-tl-sm px-4 py-3 text-sm leading-relaxed text-on-surface overflow-hidden">
           <ThinkingSteps steps={thinkingSteps} isStreaming={isStreaming} />
         </div>
       )}
@@ -427,7 +424,7 @@ export default function InterleavedContent({
       {hasBubbleContent && (
         <div>
           <div
-            className={`rounded-2xl px-3 py-2.5 text-sm leading-relaxed bg-bubble-ai text-card-foreground flex flex-col gap-3 overflow-hidden break-words sm:px-4 sm:py-3 ${
+            className={`glass-panel ghost-border rounded-2xl rounded-tl-sm px-3 py-2.5 text-sm leading-relaxed text-on-surface flex flex-col gap-3 overflow-hidden break-words sm:px-4 sm:py-3 ${
               isStreaming ? "cursor-blink" : ""
             }`}
           >

@@ -96,31 +96,31 @@ export default memo(function BudgetChart({ data }: BudgetChartProps) {
   return (
     <div className="space-y-6">
       {/* Overall budget bar */}
-      <div className="rounded-xl border border-border bg-card p-4">
+      <div className="bg-surface-container-high ghost-border rounded-xl p-4">
         <div className="mb-3 flex items-center justify-between">
-          <span className="text-sm font-medium text-card-foreground">
+          <span className="text-sm font-medium text-on-surface">
             总预算使用
           </span>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm text-on-surface-variant">
             {usagePercent}%
           </span>
         </div>
-        <div className="h-3 w-full overflow-hidden rounded-full bg-muted">
+        <div className="h-3 w-full overflow-hidden rounded-full bg-surface-container-highest">
           <div
             className="h-full rounded-full bg-primary transition-all duration-500"
             style={{ width: `${Math.min(usagePercent, 100)}%` }}
           />
         </div>
-        <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
+        <div className="mt-2 flex items-center justify-between text-xs text-on-surface-variant">
           <span>
             已用{" "}
-            <span className="font-semibold text-card-foreground">
+            <span className="text-primary font-semibold">
               {data.currency} {data.totalSpent.toLocaleString()}
             </span>
           </span>
           <span>
             预算{" "}
-            <span className="font-semibold text-card-foreground">
+            <span className="font-semibold text-on-surface">
               {data.currency} {data.totalBudget.toLocaleString()}
             </span>
           </span>
@@ -128,8 +128,8 @@ export default memo(function BudgetChart({ data }: BudgetChartProps) {
       </div>
 
       {/* Category breakdown - horizontal bar chart */}
-      <div className="rounded-xl border border-border bg-card p-4">
-        <h4 className="mb-4 text-sm font-semibold text-card-foreground">
+      <div className="bg-surface-container-high ghost-border rounded-xl p-4">
+        <h4 className="mb-4 text-sm font-semibold text-on-surface">
           分类占比
         </h4>
 
@@ -152,21 +152,21 @@ export default memo(function BudgetChart({ data }: BudgetChartProps) {
               <div
                 className={`h-3 w-3 shrink-0 rounded-full ${cat.bgClass}`}
               />
-              <span className="w-8 shrink-0 text-xs font-medium text-card-foreground sm:w-10">
+              <span className="w-8 shrink-0 text-xs font-medium text-on-surface sm:w-10">
                 {cat.label}
               </span>
               <div className="flex-1 min-w-0">
-                <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+                <div className="h-2 w-full overflow-hidden rounded-full bg-surface-container-highest">
                   <div
                     className={`h-full rounded-full ${cat.bgClass} transition-all duration-500`}
                     style={{ width: `${cat.percentage}%` }}
                   />
                 </div>
               </div>
-              <span className="hidden shrink-0 text-right text-xs text-muted-foreground sm:inline w-20">
+              <span className="hidden shrink-0 text-right text-xs text-on-surface-variant sm:inline w-20">
                 {data.currency} {cat.amount.toLocaleString()}
               </span>
-              <span className="w-10 shrink-0 text-right text-xs font-medium text-card-foreground">
+              <span className="w-10 shrink-0 text-right text-xs font-medium text-on-surface">
                 {cat.percentage}%
               </span>
             </div>
@@ -175,16 +175,16 @@ export default memo(function BudgetChart({ data }: BudgetChartProps) {
       </div>
 
       {/* Detail table */}
-      <div className="rounded-xl border border-border bg-card">
-        <div className="border-b border-border p-4">
-          <h4 className="text-sm font-semibold text-card-foreground">
+      <div className="bg-surface-container-high ghost-border rounded-xl">
+        <div className="border-b border-outline-variant/30 p-4">
+          <h4 className="text-sm font-semibold text-on-surface">
             明细清单
           </h4>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border text-left text-xs text-muted-foreground">
+              <tr className="border-b border-outline-variant/30 text-left text-xs text-on-surface-variant">
                 <th className="px-2.5 py-2 font-medium sm:px-4 sm:py-3">项目</th>
                 <th className="px-2.5 py-2 font-medium sm:px-4 sm:py-3">分类</th>
                 <th className="hidden px-4 py-3 font-medium sm:table-cell">
@@ -199,9 +199,9 @@ export default memo(function BudgetChart({ data }: BudgetChartProps) {
                 return (
                   <tr
                     key={item.id}
-                    className="border-b border-border/50 last:border-b-0"
+                    className="border-b border-outline-variant/20 last:border-b-0"
                   >
-                    <td className="max-w-[120px] truncate px-2.5 py-2 text-card-foreground sm:max-w-none sm:px-4 sm:py-3">
+                    <td className="max-w-[120px] truncate px-2.5 py-2 text-on-surface sm:max-w-none sm:px-4 sm:py-3">
                       {item.name}
                     </td>
                     <td className="px-2.5 py-2 sm:px-4 sm:py-3">
@@ -214,10 +214,10 @@ export default memo(function BudgetChart({ data }: BudgetChartProps) {
                         {cfg.label}
                       </span>
                     </td>
-                    <td className="hidden px-4 py-3 text-xs text-muted-foreground sm:table-cell">
+                    <td className="hidden px-4 py-3 text-xs text-on-surface-variant sm:table-cell">
                       {item.note || "-"}
                     </td>
-                    <td className="whitespace-nowrap px-2.5 py-2 text-right font-medium text-card-foreground sm:px-4 sm:py-3">
+                    <td className="whitespace-nowrap px-2.5 py-2 text-right font-medium text-on-surface sm:px-4 sm:py-3">
                       {item.currency} {item.amount.toLocaleString()}
                     </td>
                   </tr>
@@ -227,11 +227,11 @@ export default memo(function BudgetChart({ data }: BudgetChartProps) {
           </table>
         </div>
         {/* Footer total */}
-        <div className="flex items-center justify-between border-t border-border px-4 py-3">
-          <span className="text-sm font-medium text-card-foreground">
+        <div className="flex items-center justify-between border-t border-outline-variant/30 px-4 py-3">
+          <span className="text-sm font-medium text-on-surface">
             合计
           </span>
-          <span className="text-sm font-bold text-primary">
+          <span className="text-sm text-primary font-semibold">
             {data.currency} {data.totalSpent.toLocaleString()}
           </span>
         </div>

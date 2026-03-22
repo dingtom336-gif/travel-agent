@@ -47,9 +47,9 @@ export default function ChatInput({
   };
 
   return (
-    <div className="border-t border-border bg-background p-3 sm:p-4 safe-bottom">
-      <div className="mx-auto flex max-w-4xl items-end gap-2">
-        <div className="flex flex-1 items-end rounded-2xl border border-border bg-card px-4 py-2 transition-colors focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/20">
+    <div className="glass-panel border-t border-white/[0.08] p-4 sm:p-6 safe-bottom">
+      <div className="mx-auto flex max-w-4xl items-end gap-3">
+        <div className="glass-panel ghost-border flex flex-1 items-end rounded-3xl px-4 py-2 transition-all focus-within:border-primary/30 focus-within:shadow-[0_0_15px_rgba(83,221,252,0.1)]">
           <textarea
             ref={textareaRef}
             value={value}
@@ -59,7 +59,7 @@ export default function ChatInput({
             disabled={disabled}
             rows={1}
             aria-label="输入你的旅行需求"
-            className="max-h-[150px] w-full resize-none bg-transparent py-1 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none disabled:opacity-50"
+            className="max-h-[150px] w-full resize-none bg-transparent py-1.5 text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none disabled:opacity-50"
           />
         </div>
 
@@ -68,7 +68,7 @@ export default function ChatInput({
             e.preventDefault();
             handleSubmit();
           }}
-          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary text-white transition-all hover:bg-primary-dark touch-manipulation ${(disabled || !value.trim()) ? "opacity-40" : ""}`}
+          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl message-gradient text-white transition-all hover:shadow-[0_0_20px_rgba(83,221,252,0.3)] active:scale-90 touch-manipulation ${(disabled || !value.trim()) ? "opacity-40" : ""}`}
           aria-label="Send message"
         >
           {disabled ? (
@@ -78,15 +78,15 @@ export default function ChatInput({
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
             </svg>
           ) : (
-            // Send icon
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+            // Send icon — arrow upward like the stitch
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18" />
             </svg>
           )}
         </button>
       </div>
 
-      <p className="mx-auto mt-2 max-w-4xl text-center text-xs text-muted-foreground hidden sm:block">
+      <p className="mx-auto mt-2.5 max-w-4xl text-center text-xs text-on-surface-variant/50 hidden sm:block">
         按 Enter 发送，Shift + Enter 换行
       </p>
     </div>

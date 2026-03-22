@@ -110,27 +110,27 @@ export default function ProfilePage() {
   ];
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-background">
+    <div className="min-h-[calc(100vh-4rem)] bg-surface">
       {/* User profile header */}
-      <header className="border-b border-border bg-card">
+      <header className="border-b border-outline-variant/30 bg-surface-container-high">
         <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
             {/* Avatar */}
-            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-2xl font-bold text-white">
+            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-secondary ring-2 ring-primary/30 text-2xl font-bold text-white">
               {user.name.charAt(0)}
             </div>
 
             {/* User info */}
             <div className="flex-1 text-center sm:text-left">
               <div className="flex flex-col items-center gap-2 sm:flex-row">
-                <h1 className="text-xl font-bold text-foreground sm:text-2xl">
+                <h1 className="text-xl font-bold text-on-surface sm:text-2xl">
                   {user.name}
                 </h1>
-                <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+                <span className="inline-flex items-center rounded-full bg-secondary/10 px-2.5 py-0.5 text-xs font-medium text-secondary">
                   {user.memberLevel}
                 </span>
               </div>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="mt-1 text-sm text-on-surface-variant">
                 {user.email}
               </p>
 
@@ -154,14 +154,17 @@ export default function ProfilePage() {
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium transition-colors ${
+                className={`relative inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap px-4 py-3 text-sm font-medium transition-colors ${
                   activeTab === tab.key
-                    ? "border-primary text-primary"
-                    : "border-transparent text-muted-foreground hover:border-border hover:text-foreground"
+                    ? "text-primary"
+                    : "text-on-surface-variant hover:text-on-surface"
                 }`}
               >
                 {tab.icon}
                 {tab.label}
+                {activeTab === tab.key && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary" />
+                )}
               </button>
             ))}
           </div>
@@ -193,9 +196,9 @@ export default function ProfilePage() {
 /** Small stat badge for user header */
 function StatBadge({ label, value }: { label: string; value: string }) {
   return (
-    <div className="inline-flex items-center gap-1.5 rounded-lg bg-muted px-3 py-1.5">
-      <span className="text-xs text-muted-foreground">{label}</span>
-      <span className="text-sm font-semibold text-card-foreground">
+    <div className="inline-flex items-center gap-1.5 ghost-border rounded-full px-3 py-1.5">
+      <span className="text-xs text-on-surface-variant">{label}</span>
+      <span className="text-sm text-primary font-semibold">
         {value}
       </span>
     </div>

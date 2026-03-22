@@ -9,15 +9,15 @@ const typeMap: Record<
 > = {
   attraction: {
     label: "景点",
-    className: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+    className: "bg-primary/10 text-primary",
   },
   hotel: {
     label: "酒店",
-    className: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
+    className: "bg-secondary/10 text-secondary",
   },
   guide: {
     label: "攻略",
-    className: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+    className: "bg-primary/10 text-primary",
   },
 };
 
@@ -64,7 +64,7 @@ function FavoriteCard({
   const gradient = placeholderGradients[colorIndex % placeholderGradients.length];
 
   return (
-    <div className="group overflow-hidden rounded-xl border border-border bg-card transition-all hover:border-primary/30 hover:shadow-md">
+    <div className="group overflow-hidden bg-surface-container-high ghost-border rounded-xl transition-all hover:shadow-[0_8px_30px_rgba(83,221,252,0.1)]">
       {/* Image placeholder */}
       <div
         className={`flex h-36 items-center justify-center bg-gradient-to-br ${gradient}`}
@@ -75,7 +75,7 @@ function FavoriteCard({
       {/* Content */}
       <div className="p-4">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="text-sm font-semibold text-card-foreground group-hover:text-primary transition-colors">
+          <h3 className="text-sm font-semibold text-on-surface group-hover:text-primary transition-colors">
             {item.name}
           </h3>
           <span
@@ -85,18 +85,18 @@ function FavoriteCard({
           </span>
         </div>
 
-        <p className="mt-1 text-xs text-muted-foreground">{item.location}</p>
+        <p className="mt-1 text-xs text-on-surface-variant">{item.location}</p>
 
         {/* Rating */}
         <div className="mt-2 flex items-center gap-1">
           <svg
-            className="h-4 w-4 text-amber-400"
+            className="h-4 w-4 text-primary"
             fill="currentColor"
             viewBox="0 0 24 24"
           >
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
           </svg>
-          <span className="text-sm font-medium text-card-foreground">
+          <span className="text-sm font-medium text-primary">
             {item.rating}
           </span>
         </div>
@@ -133,9 +133,9 @@ function TypeIcon({ type }: { type: FavoriteItem["type"] }) {
 /** Empty state when no favorites */
 function EmptyState() {
   return (
-    <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-muted/30 px-6 py-16">
+    <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-outline-variant/30 bg-surface-container-low px-6 py-16">
       <svg
-        className="mb-4 h-14 w-14 text-muted-foreground/50"
+        className="mb-4 h-14 w-14 text-on-surface-variant/50"
         fill="none"
         viewBox="0 0 24 24"
         strokeWidth="1"
@@ -147,10 +147,10 @@ function EmptyState() {
           d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
         />
       </svg>
-      <h3 className="mb-1 text-base font-semibold text-card-foreground">
+      <h3 className="mb-1 text-base font-semibold text-on-surface">
         还没有收藏内容
       </h3>
-      <p className="max-w-sm text-center text-sm text-muted-foreground">
+      <p className="max-w-sm text-center text-sm text-on-surface-variant">
         浏览行程时可以收藏喜欢的景点、酒店和攻略
       </p>
     </div>

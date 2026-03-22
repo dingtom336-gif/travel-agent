@@ -78,22 +78,22 @@ export default function Home() {
   };
 
   return (
-    <div className="flex min-h-[calc(100dvh-4rem)] flex-col">
+    <div className="flex min-h-[calc(100dvh-4rem)] flex-col bg-surface aurora-glow">
       {/* Hero section */}
-      <section className="hero-gradient flex flex-1 flex-col items-center justify-center px-4 py-8 sm:py-24">
+      <section className="flex flex-1 flex-col items-center justify-center px-4 py-8 sm:py-24">
         <div className="mx-auto w-full max-w-3xl text-center">
           {/* Logo animation area */}
-          <div className="mb-4 sm:mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
+          <div className="mb-4 sm:mb-6 inline-flex items-center gap-2 rounded-full bg-surface-container-high ghost-border px-4 py-2 text-sm font-medium text-primary">
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z" />
             </svg>
             AI 驱动的智能旅行规划
           </div>
 
-          <h1 className="mb-3 sm:mb-4 text-3xl sm:text-4xl font-bold tracking-tight text-foreground lg:text-6xl">
-            你的 AI 旅行规划助手
+          <h1 className="mb-3 sm:mb-4 text-3xl sm:text-4xl font-bold tracking-tight font-headline lg:text-6xl">
+            你的 <span className="gradient-text">AI 旅行规划助手</span>
           </h1>
-          <p className="mb-6 sm:mb-10 text-base sm:text-lg text-muted-foreground lg:text-xl">
+          <p className="mb-6 sm:mb-10 text-base sm:text-lg text-on-surface-variant lg:text-xl">
             告诉我你的旅行想法，我来帮你规划完美行程。
             <br className="hidden sm:block" />
             机票、酒店、景点、预算，一次对话全搞定。
@@ -101,22 +101,22 @@ export default function Home() {
 
           {/* Main input area */}
           <div className="relative mx-auto w-full max-w-2xl">
-            <div className="flex items-center gap-2 rounded-2xl border border-border bg-card p-2 shadow-lg transition-shadow focus-within:shadow-xl focus-within:ring-2 focus-within:ring-primary/20">
+            <div className="flex items-center gap-2 glass-panel ghost-border rounded-full p-2 transition-shadow focus-within:shadow-[0_0_20px_rgba(83,221,252,0.2)] focus-within:ring-2 focus-within:ring-primary/20">
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="描述你的旅行计划，例如：去日本5天..."
+                placeholder="想去哪里？比如：春节去日本看雪..."
                 aria-label="输入你的旅行计划"
-                className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none sm:px-4 sm:text-base"
+                className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none sm:px-4 sm:text-base"
               />
               <button
                 onPointerDown={(e) => {
                   e.preventDefault();
                   if (inputValue.trim()) handleNavigateToChat();
                 }}
-                className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary text-white transition-colors hover:bg-primary-dark touch-manipulation ${!inputValue.trim() ? "opacity-40" : ""}`}
+                className={`flex h-12 w-12 shrink-0 items-center justify-center gradient-btn rounded-full transition-all touch-manipulation ${!inputValue.trim() ? "opacity-40" : ""}`}
                 aria-label="发送"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -124,7 +124,7 @@ export default function Home() {
                 </svg>
               </button>
             </div>
-            <p className="mt-3 text-xs text-muted-foreground">
+            <p className="mt-3 text-xs text-on-surface-variant">
               按 Enter 开始对话，或点击下方卡片快速开始
             </p>
           </div>
@@ -132,9 +132,9 @@ export default function Home() {
       </section>
 
       {/* Guide cards section */}
-      <section className="bg-background px-4 py-10 sm:py-16">
+      <section className="bg-surface px-4 py-10 sm:py-16">
         <div className="mx-auto max-w-5xl">
-          <h2 className="mb-8 text-center text-2xl font-bold text-foreground">
+          <h2 className="mb-8 text-center text-2xl font-bold font-headline text-on-surface">
             不知道从哪开始？试试这些
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -142,15 +142,15 @@ export default function Home() {
               <button
                 key={card.title}
                 onClick={() => handleNavigateToChat(card.prompt)}
-                className={`group flex flex-col items-start gap-3 rounded-2xl bg-gradient-to-br ${card.color} border border-border/50 p-4 text-left transition-all hover:border-border hover:shadow-md sm:p-6`}
+                className="group flex flex-col items-start gap-3 bg-surface-container-high ghost-border rounded-xl p-4 text-left transition-all hover:shadow-[0_8px_30px_rgba(83,221,252,0.1)] sm:p-6"
               >
-                <div className={`${card.iconColor}`}>
+                <div className="text-primary">
                   {card.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-foreground">
+                <h3 className="text-lg font-semibold text-on-surface">
                   {card.title}
                 </h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-on-surface-variant">
                   {card.description}
                 </p>
                 <span className="mt-auto inline-flex items-center gap-1 text-sm font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">

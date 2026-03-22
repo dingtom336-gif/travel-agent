@@ -19,8 +19,8 @@ export default function ConnectionBanner({ state }: ConnectionBannerProps) {
     <div
       className={`flex items-center justify-center gap-2 px-4 py-2 text-xs font-medium ${
         isReconnecting
-          ? "bg-yellow-50 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-300"
-          : "bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300"
+          ? "bg-primary/10 text-primary"
+          : "bg-error/10 text-error"
       }`}
     >
       {isReconnecting ? (

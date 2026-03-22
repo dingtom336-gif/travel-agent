@@ -14,11 +14,11 @@ const typeStyles: Record<
   TimelineItem["type"],
   { color: string; bgColor: string; dotColor: string }
 > = {
-  transport: { color: "text-sky-500", bgColor: "bg-sky-100", dotColor: "bg-sky-500" },
-  attraction: { color: "text-green-500", bgColor: "bg-green-100", dotColor: "bg-green-500" },
-  hotel: { color: "text-purple-500", bgColor: "bg-purple-100", dotColor: "bg-purple-500" },
-  food: { color: "text-orange-500", bgColor: "bg-orange-100", dotColor: "bg-orange-500" },
-  activity: { color: "text-pink-500", bgColor: "bg-pink-100", dotColor: "bg-pink-500" },
+  transport: { color: "text-primary", bgColor: "bg-primary/10", dotColor: "bg-primary" },
+  attraction: { color: "text-secondary", bgColor: "bg-secondary/10", dotColor: "bg-secondary" },
+  hotel: { color: "text-primary", bgColor: "bg-primary/10", dotColor: "bg-primary" },
+  food: { color: "text-secondary", bgColor: "bg-secondary/10", dotColor: "bg-secondary" },
+  activity: { color: "text-primary", bgColor: "bg-primary/10", dotColor: "bg-primary" },
 };
 
 interface DraggableTimelineProps {
@@ -71,14 +71,14 @@ export default function DraggableTimeline({
       <div className="flex items-center justify-end gap-2">
         <button
           onClick={onExpandAll}
-          className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+          className="text-xs text-on-surface-variant transition-colors hover:text-on-surface"
         >
           全部展开
         </button>
-        <span className="text-xs text-border">|</span>
+        <span className="text-xs text-outline-variant">|</span>
         <button
           onClick={onCollapseAll}
-          className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+          className="text-xs text-on-surface-variant transition-colors hover:text-on-surface"
         >
           全部折叠
         </button>
@@ -92,21 +92,21 @@ export default function DraggableTimeline({
               {/* Day header */}
               <button
                 onClick={() => onToggleDay(day.day)}
-                className="flex w-full items-center gap-3 rounded-xl border border-border bg-card p-4 text-left transition-colors hover:bg-muted/50"
+                className="flex w-full items-center gap-3 bg-surface-container-high ghost-border rounded-xl p-4 text-left transition-colors hover:bg-surface-container-highest"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
                   D{day.day}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-sm font-semibold text-card-foreground">
+                  <h3 className="text-sm font-semibold text-on-surface">
                     {day.title}
                   </h3>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-on-surface-variant">
                     {day.date} &middot; {day.items.length} 项活动
                   </p>
                 </div>
                 <svg
-                  className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-200 ${
+                  className={`h-5 w-5 shrink-0 text-on-surface-variant transition-transform duration-200 ${
                     isExpanded ? "rotate-180" : ""
                   }`}
                   fill="none"
@@ -125,10 +125,10 @@ export default function DraggableTimeline({
                     <div
                       ref={provided.innerRef}
                       {...provided.droppableProps}
-                      className={`mt-2 rounded-xl border p-4 transition-colors ${
+                      className={`mt-2 rounded-xl p-4 transition-colors ${
                         snapshot.isDraggingOver
-                          ? "border-primary/50 bg-primary/5"
-                          : "border-border bg-card"
+                          ? "bg-primary/5 ghost-border"
+                          : "bg-surface-container-high ghost-border"
                       }`}
                     >
                       {/* Day label */}
@@ -137,13 +137,13 @@ export default function DraggableTimeline({
                           D{day.day}
                         </div>
                         <div>
-                          <h3 className="text-sm font-semibold text-card-foreground">{day.title}</h3>
-                          <p className="text-xs text-muted-foreground">{day.date}</p>
+                          <h3 className="text-sm font-semibold text-on-surface">{day.title}</h3>
+                          <p className="text-xs text-on-surface-variant">{day.date}</p>
                         </div>
                       </div>
 
                       <div className="relative ml-5 space-y-0">
-                        <div className="absolute left-0 top-0 h-full w-px bg-border" />
+                        <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-primary to-transparent" />
                         {day.items.map((item, index) => (
                           <Draggable
                             key={`${day.day}-${index}`}
@@ -159,7 +159,7 @@ export default function DraggableTimeline({
                                   {...dragProvided.dragHandleProps}
                                   className={`relative flex gap-3 pb-4 last:pb-0 rounded-lg transition-shadow ${
                                     dragSnapshot.isDragging
-                                      ? "shadow-lg bg-card z-50 ring-2 ring-primary/30"
+                                      ? "shadow-lg bg-surface-container-high z-50 ring-2 ring-primary/30"
                                       : ""
                                   }`}
                                 >
@@ -168,17 +168,17 @@ export default function DraggableTimeline({
                                   </div>
                                   <div className="-mt-0.5 flex-1">
                                     <div className="flex items-center gap-2">
-                                      <span className="text-xs font-medium text-muted-foreground">
+                                      <span className="text-xs font-medium text-on-surface-variant">
                                         {item.time}
                                       </span>
                                       {item.duration && (
-                                        <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
+                                        <span className="bg-surface-container-highest text-on-surface-variant rounded-full px-2 py-0.5 text-xs">
                                           {item.duration}
                                         </span>
                                       )}
                                       {/* Drag handle indicator */}
                                       <svg
-                                        className="ml-auto h-4 w-4 text-muted-foreground/40"
+                                        className="ml-auto h-4 w-4 text-on-surface-variant/40"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         strokeWidth="1.5"
@@ -187,10 +187,10 @@ export default function DraggableTimeline({
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
                                       </svg>
                                     </div>
-                                    <p className="text-sm font-medium text-card-foreground">
+                                    <p className="text-sm font-medium text-on-surface">
                                       {item.title}
                                     </p>
-                                    <p className="text-xs text-muted-foreground">
+                                    <p className="text-xs text-on-surface-variant">
                                       {item.description}
                                     </p>
                                   </div>

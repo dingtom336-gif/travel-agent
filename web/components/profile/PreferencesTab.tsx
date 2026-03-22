@@ -166,7 +166,7 @@ export default function PreferencesTab({ initialPreferences }: PreferencesTabPro
       </PreferenceSection>
 
       {/* Save button */}
-      <div className="flex items-center justify-end gap-3 border-t border-border pt-6">
+      <div className="flex items-center justify-end gap-3 border-t border-outline-variant/30 pt-6">
         {saved && (
           <span className="text-xs text-amber-500 animate-fade-in">
             偏好设置功能即将上线，敬请期待
@@ -211,14 +211,14 @@ function PreferenceSection({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-5">
+    <div className="bg-surface-container-high ghost-border rounded-xl p-5">
       <div className="mb-4 flex items-start gap-3">
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
           {icon}
         </div>
         <div>
-          <h3 className="text-sm font-semibold text-card-foreground">{title}</h3>
-          <p className="text-xs text-muted-foreground">{description}</p>
+          <h3 className="text-sm font-semibold text-on-surface">{title}</h3>
+          <p className="text-xs text-on-surface-variant">{description}</p>
         </div>
       </div>
       {children}
@@ -239,10 +239,10 @@ function ChipButton({
   return (
     <button
       onClick={onClick}
-      className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-all ${
+      className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
         selected
-          ? "border-primary bg-primary/10 text-primary"
-          : "border-border text-muted-foreground hover:border-primary/30 hover:text-foreground"
+          ? "bg-primary/10 text-primary ghost-border"
+          : "ghost-border text-on-surface-variant hover:text-on-surface"
       }`}
     >
       {label}
@@ -265,16 +265,16 @@ function RadioCard({
   return (
     <button
       onClick={onClick}
-      className={`flex flex-col items-start rounded-lg border p-3 text-left transition-all ${
+      className={`flex flex-col items-start rounded-lg p-3 text-left transition-all ${
         selected
-          ? "border-primary bg-primary/5 ring-1 ring-primary/20"
-          : "border-border hover:border-primary/30"
+          ? "bg-primary/5 ghost-border ring-1 ring-primary/20"
+          : "ghost-border hover:bg-surface-container-highest"
       }`}
     >
       <div className="flex w-full items-center justify-between">
         <span
           className={`text-sm font-semibold ${
-            selected ? "text-primary" : "text-card-foreground"
+            selected ? "text-primary" : "text-on-surface"
           }`}
         >
           {label}
@@ -285,7 +285,7 @@ function RadioCard({
           </svg>
         )}
       </div>
-      <span className="mt-0.5 text-xs text-muted-foreground">{description}</span>
+      <span className="mt-0.5 text-xs text-on-surface-variant">{description}</span>
     </button>
   );
 }

@@ -9,11 +9,11 @@ interface TimelineCardProps {
 
 // Map item type to icon and color
 const typeStyles: Record<TimelineItem["type"], { color: string; bgColor: string; dotColor: string }> = {
-  transport: { color: "text-sky-500", bgColor: "bg-sky-100", dotColor: "bg-sky-500" },
-  attraction: { color: "text-green-500", bgColor: "bg-green-100", dotColor: "bg-green-500" },
-  hotel: { color: "text-purple-500", bgColor: "bg-purple-100", dotColor: "bg-purple-500" },
-  food: { color: "text-orange-500", bgColor: "bg-orange-100", dotColor: "bg-orange-500" },
-  activity: { color: "text-pink-500", bgColor: "bg-pink-100", dotColor: "bg-pink-500" },
+  transport: { color: "text-primary", bgColor: "bg-primary/10", dotColor: "bg-primary" },
+  attraction: { color: "text-secondary", bgColor: "bg-secondary/10", dotColor: "bg-secondary" },
+  hotel: { color: "text-primary", bgColor: "bg-primary/10", dotColor: "bg-primary" },
+  food: { color: "text-secondary", bgColor: "bg-secondary/10", dotColor: "bg-secondary" },
+  activity: { color: "text-primary", bgColor: "bg-primary/10", dotColor: "bg-primary" },
 };
 
 /**
@@ -21,22 +21,22 @@ const typeStyles: Record<TimelineItem["type"], { color: string; bgColor: string;
  */
 export default memo(function TimelineCard({ data }: TimelineCardProps) {
   return (
-    <div className="rounded-xl border border-border bg-card p-4">
+    <div className="bg-surface-container-high ghost-border rounded-xl p-4">
       {/* Day header */}
       <div className="mb-4 flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
           D{data.day}
         </div>
         <div>
-          <h3 className="text-sm font-semibold text-card-foreground">{data.title}</h3>
-          <p className="text-xs text-muted-foreground">{data.date}</p>
+          <h3 className="text-sm font-semibold text-on-surface">{data.title}</h3>
+          <p className="text-xs text-on-surface-variant">{data.date}</p>
         </div>
       </div>
 
       {/* Timeline items */}
       <div className="relative ml-5 space-y-0">
         {/* Vertical line */}
-        <div className="absolute left-0 top-0 h-full w-px bg-border" />
+        <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-primary to-transparent" />
 
         {data.items.map((item, index) => {
           const style = typeStyles[item.type] || typeStyles.activity;
@@ -50,15 +50,15 @@ export default memo(function TimelineCard({ data }: TimelineCardProps) {
               {/* Content */}
               <div className="-mt-0.5 flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-medium text-muted-foreground">{item.time}</span>
+                  <span className="text-xs font-medium text-on-surface-variant">{item.time}</span>
                   {item.duration && (
-                    <span className="shrink-0 rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
+                    <span className="shrink-0 bg-surface-container-highest text-on-surface-variant rounded-full px-2 py-0.5 text-xs">
                       {item.duration}
                     </span>
                   )}
                 </div>
-                <p className="text-sm font-medium text-card-foreground break-words">{item.title}</p>
-                <p className="text-xs text-muted-foreground break-words">{item.description}</p>
+                <p className="text-sm font-medium text-on-surface break-words">{item.title}</p>
+                <p className="text-xs text-on-surface-variant break-words">{item.description}</p>
               </div>
             </div>
           );
