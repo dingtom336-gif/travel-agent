@@ -154,7 +154,39 @@ async def search_hotels(
   """
   query_meta = {"city": city, "checkin": checkin, "checkout": checkout, "guests": guests}
 
-  # 1. Amap POI search (hotel category, <80ms)
+  # 1. FlyAI real hotel data (Fliggy)
+  try:
+    from agent.tools.flyai.client import search_hotels_flyai
+    from agent.tools.flyai.adapters import convert_hotels
+    star_str = str(stars_min) if stars_min else None
+    raw_items = await search_hotels_flyai(
+      dest_name=city,
+      check_in=checkin,
+      check_out=checkout,
+      hotel_stars=star_str,
+      max_price=price_max,
+    )
+    if raw_items:
+      hotels = convert_hotels(raw_items, city, checkin, checkout)
+      if hotels:
+        if stars_min:
+          hotels = [h for h in hotels if h.get("stars", 0) >= stars_min]
+        if price_max:
+          hotels = [h for h in hotels if h.get("price_per_night", 0) <= price_max or h.get("price_per_night", 0) == 0]
+        hotels = hotels[:max_results]
+        prices = [h["price_per_night"] for h in hotels if h["price_per_night"] > 0] or [0]
+        return {
+          "success": True,
+          "source": "flyai",
+          "query": query_meta,
+          "results": hotels,
+          "total_count": len(hotels),
+          "price_summary": _price_summary(prices),
+        }
+  except Exception as exc:
+    logger.debug("FlyAI hotel search failed for %s: %s", city, exc)
+
+  # 2. Amap POI search (hotel category, <80ms)
   try:
     raw_hotels = await amap_search_poi(city, keywords="酒店", types="100000", page_size=max_results + 3)
     if raw_hotels:
@@ -177,7 +209,7 @@ async def search_hotels(
   except Exception as exc:
     logger.debug("Amap hotel search failed for %s: %s", city, exc)
 
-  # 2. Serper (may be blocked in China)
+  # 3. Serper (may be blocked in China)
   try:
     from agent.tools.serper.client import search_places
     from agent.tools.serper.parsers import parse_hotel_results
@@ -202,7 +234,7 @@ async def search_hotels(
   except Exception:
     pass
 
-  # 3. Mock fallback
+  # 4. Mock fallback
   try:
     await asyncio.sleep(random.uniform(0.1, 0.3))
     pool = _HOTEL_POOLS.get(city, _generate_generic_pool(city))

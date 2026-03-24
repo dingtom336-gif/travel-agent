@@ -61,6 +61,10 @@ class Settings(BaseSettings):
   DATABASE_MAX_OVERFLOW: int = 10
   DATABASE_ECHO: bool = False
 
+  # --- FlyAI (Fliggy real travel data) ---
+  FLYAI_APP_KEY: str = ""
+  FLYAI_PROXY: str = ""
+
   # --- Serper API ---
   SERPER_API_KEY: str = ""
 

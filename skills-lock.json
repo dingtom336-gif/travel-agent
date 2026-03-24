@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "flyai": {
+      "source": "alibaba-flyai/flyai-skill",
+      "sourceType": "github",
+      "computedHash": "7dddcb1e55543de38036feed1766b3b7a5d163ceda074cafa982947d3db41d42"
+    }
+  }
+}

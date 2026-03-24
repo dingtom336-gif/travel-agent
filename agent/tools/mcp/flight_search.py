@@ -254,7 +254,28 @@ async def search_flights(
   Returns:
     Dict with flight list, search metadata, and price summary
   """
-  # Try Serper real search first
+  # 1. FlyAI real flight data (Fliggy)
+  try:
+    from agent.tools.flyai.client import search_flights_flyai
+    from agent.tools.flyai.adapters import convert_flights
+    raw_items = await search_flights_flyai(departure, arrival, date)
+    if raw_items:
+      flights = convert_flights(raw_items, departure, arrival, date, cabin, passengers)
+      if flights:
+        flights = flights[:max_results]
+        prices = [f["price"] for f in flights]
+        return {
+          "success": True,
+          "source": "flyai",
+          "query": {"departure": departure, "arrival": arrival, "date": date, "passengers": passengers, "cabin": cabin},
+          "results": flights,
+          "total_count": len(flights),
+          "price_summary": {"min_price": min(prices), "max_price": max(prices), "avg_price": int(sum(prices) / len(prices)), "currency": "CNY"},
+        }
+  except Exception:
+    pass
+
+  # 2. Serper search
   try:
     from agent.tools.serper.client import search as serper_search
     from agent.tools.serper.parsers import parse_flight_results

@@ -123,7 +123,28 @@ async def search_pois(
   """
   query_meta = {"city": city, "category": category, "limit": limit, "sort_by": sort_by}
 
-  # 1. Amap POI search (China-native, <80ms)
+  # 1. FlyAI real POI data (Fliggy)
+  try:
+    from agent.tools.flyai.client import search_pois_flyai
+    from agent.tools.flyai.adapters import convert_pois, get_flyai_poi_category
+    flyai_cat = get_flyai_poi_category(category)
+    raw_items = await search_pois_flyai(city_name=city, category=flyai_cat)
+    if raw_items:
+      results = convert_pois(raw_items, city)
+      if results:
+        results = _sort_pois(results, sort_by)[:limit]
+        return {
+          "success": True,
+          "source": "flyai",
+          "query": query_meta,
+          "results": results,
+          "total_count": len(results),
+          "available_categories": list(set(p.get("category", "") for p in results)),
+        }
+  except Exception as exc:
+    logger.debug("FlyAI POI search failed for %s: %s", city, exc)
+
+  # 2. Amap POI search (China-native, <80ms)
   try:
     keywords = _CATEGORY_TO_AMAP.get(category or "", "景点 餐厅 公园")
     raw_pois = await amap_search_poi(city, keywords=keywords, page_size=limit)
@@ -141,7 +162,7 @@ async def search_pois(
   except Exception as exc:
     logger.debug("Amap POI search failed for %s: %s", city, exc)
 
-  # 2. Serper (may be blocked in China)
+  # 3. Serper (may be blocked in China)
   try:
     from agent.tools.serper.client import search_places
     from agent.tools.serper.parsers import parse_poi_results
@@ -164,7 +185,7 @@ async def search_pois(
   except Exception:
     pass
 
-  # 3. Mock fallback
+  # 4. Mock fallback
   try:
     await asyncio.sleep(random.uniform(0.1, 0.2))
     pool = _POI_POOLS.get(city, [])
