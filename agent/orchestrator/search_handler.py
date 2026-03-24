@@ -8,7 +8,7 @@ import time
 from datetime import datetime, timedelta
 from typing import Any, AsyncGenerator, Dict, List, Optional
 
-from agent.memory.session_memory import session_memory
+from agent.memory.session import session_memory
 from agent.memory.state_pool import state_pool
 from agent.models import SSEEventType, SSEMessage
 
