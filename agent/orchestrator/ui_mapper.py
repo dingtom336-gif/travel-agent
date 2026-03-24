@@ -230,14 +230,96 @@ def _map_budget(tool_data: Dict[str, Any]) -> List[dict]:
 
 
 def truncate_tool_data_for_synthesis(result_data: Dict[str, Any]) -> str:
-  """Build a compact summary of tool_data for synthesis prompt."""
+  """Build a compact key-facts summary of tool_data for synthesis prompt.
+
+  Instead of dumping raw JSON and truncating, extract critical fields
+  per agent type so the Synthesizer LLM can reference specific details
+  (flight numbers, hotel names, prices, etc.) without data loss.
+  """
   tool_data = result_data.get("tool_data", {})
   if not tool_data:
     return ""
   try:
-    raw = json.dumps(tool_data, ensure_ascii=False, default=str)
-    if len(raw) > 1500:
-      raw = raw[:1500] + "..."
-    return f"\nStructured data: {raw}"
+    lines: List[str] = []
+
+    # -- Flights --
+    for key in ("transit", "flights"):
+      obj = tool_data.get(key, {})
+      results = obj.get("results", []) if isinstance(obj, dict) else []
+      for f in results:
+        parts = [
+          f.get("flight_number", ""),
+          f.get("airline", ""),
+          f"{f.get('departure_city', '')}→{f.get('arrival_city', '')}",
+          f"{f.get('departure_time', '')}-{f.get('arrival_time', '')}",
+          f.get("duration_display", ""),
+          f"¥{f.get('price', 0)}",
+        ]
+        lines.append("✈ " + " | ".join(p for p in parts if p and p != "→" and p != "-" and p != "¥0"))
+
+    # -- Hotels --
+    hotels_obj = tool_data.get("hotels", {})
+    hotels = hotels_obj.get("results", []) if isinstance(hotels_obj, dict) else []
+    for h in hotels:
+      parts = [
+        h.get("name", ""),
+        f"{h.get('stars', '')}星" if h.get("stars") else "",
+        f"评分{h.get('rating', '')}" if h.get("rating") else "",
+        h.get("area", h.get("location", "")),
+        f"¥{h.get('price_per_night', 0)}/晚" if h.get("price_per_night") else "",
+      ]
+      lines.append("🏨 " + " | ".join(p for p in parts if p and p != "星" and p != "¥0/晚"))
+
+    # -- POIs --
+    pois_obj = tool_data.get("pois", {})
+    pois = pois_obj.get("results", []) if isinstance(pois_obj, dict) else []
+    for p in pois:
+      parts = [
+        p.get("name", ""),
+        p.get("category", ""),
+        f"评分{p.get('rating', '')}" if p.get("rating") else "",
+        f"¥{p.get('price', 0)}" if p.get("price") else "免费",
+        p.get("hours", ""),
+      ]
+      lines.append("📍 " + " | ".join(p_item for p_item in parts if p_item))
+
+    # -- Weather --
+    forecast_obj = tool_data.get("forecast", {})
+    if isinstance(forecast_obj, dict):
+      city = forecast_obj.get("query", {}).get("city", "")
+      for w in forecast_obj.get("forecast", []):
+        parts = [
+          city,
+          w.get("date", ""),
+          w.get("condition", ""),
+          f"{w.get('temp_low', w.get('low_temp', ''))}~{w.get('temp_high', w.get('high_temp', ''))}°C",
+        ]
+        lines.append("🌤 " + " | ".join(p for p in parts if p and p != "~°C"))
+
+    # -- Budget --
+    budget = tool_data.get("budget_allocation", {})
+    if isinstance(budget, dict) and budget.get("success"):
+      alloc = budget.get("allocation", {})
+      total = budget.get("total_budget", 0)
+      items = [f"{k}:¥{v}" for k, v in alloc.items() if isinstance(v, (int, float))]
+      if items:
+        lines.append(f"💰 总预算¥{total} → " + ", ".join(items))
+
+    # -- Itinerary --
+    itin = tool_data.get("optimized_itinerary", {})
+    if isinstance(itin, dict):
+      for day in itin.get("days", []):
+        pois_names = [s.get("poi_name", "") for s in day.get("schedule", []) if s.get("poi_name")]
+        if pois_names:
+          lines.append(f"📅 Day{day.get('day', '?')}: " + " → ".join(pois_names))
+
+    # -- Fallback: unknown data types not covered above --
+    if not lines:
+      raw = json.dumps(tool_data, ensure_ascii=False, default=str)
+      if len(raw) > 3000:
+        raw = raw[:3000] + "..."
+      return f"\nStructured data: {raw}"
+
+    return "\nKey facts:\n" + "\n".join(lines)
   except Exception:
     return ""

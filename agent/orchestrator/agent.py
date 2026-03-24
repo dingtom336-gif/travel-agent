@@ -198,6 +198,29 @@ class OrchestratorAgent:
         logger.info("TIMING stage=total_theater_plan duration_ms=%d session=%s", total_ms, session_id)
         return
 
+      # ── Search fast-path for deep_reasoning mode ──
+      # Search queries (flights/hotels/POIs) need tool calls, not ReAct planning.
+      # Reuse the Theater classify_intent to detect search, then route directly.
+      if deep_reasoning:
+        dr_classify = await classify_intent(message, history, has_travel_context)
+        dr_intent = dr_classify["intent"]
+        if dr_intent == "search":
+          await heuristic_extract(session_id, message, existing_state)
+          asyncio.ensure_future(
+            extract_state(session_id, message, history, existing_state)
+          )
+          state_ctx = await state_pool.to_prompt_context(session_id)
+          from agent.orchestrator.search_handler import handle_search
+          async for chunk in handle_search(
+            session_id, message, history, state_ctx,
+          ):
+            yield chunk
+          await self._update_summary_safe(session_id, message)
+          self._learn_from_session_safe(user_id, history)
+          total_ms = int((time.time() - total_start) * 1000)
+          logger.info("TIMING stage=total_dr_search duration_ms=%d session=%s", total_ms, session_id)
+          return
+
       # ── Legacy ReAct path (THEATER_MODE=false) ──
       if has_travel_context:
         complexity = "complex"
