@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 import time
 from collections import OrderedDict
 from typing import Any
@@ -24,11 +25,12 @@ _CLASSIFY_SYSTEM = """\
 你是意图分类器。根据用户消息，判断意图类型并提取关键信息。
 
 只输出JSON，不要解释。格式：
-{"intent": "simple|clarify|plan", "thinking": true|false, "reason": "一句话理由"}
+{"intent": "simple|clarify|search|plan", "thinking": true|false, "reason": "一句话理由"}
 
 分类规则：
 - simple: 非旅行意图（问候、闲聊、写诗、讲笑话、问天气、问你是谁等日常对话）
 - clarify: 有旅行意图但关键信息严重不足，需要追问才能规划（如只说"想散心"没有任何约束）
+- search: 用户要查询具体旅行信息，不需要完整规划（查航班、查酒店、查景点门票、查机票价格）
 - plan: 有足够信息可以开始规划（有目的地，或有2个以上可推理的约束如时间+人群+偏好）
 
 thinking字段（仅plan时有意义）：
@@ -36,9 +38,11 @@ thinking字段（仅plan时有意义）：
 - false: 标准规划（有明确目的地、信息充分）
 
 关键判断原则：
-- 有明确目的地（日本/三亚/北京等）→ plan, thinking=false
+- "查/搜/找+航班/机票/酒店/景点/门票"→ search（用户要查具体信息，不是要做旅行规划）
+- "X到Y的航班/机票"→ search
+- "X酒店推荐/X住哪里"→ search
+- 有明确目的地+要做行程规划 → plan, thinking=false
 - 无目的地但约束丰富（过年+全家+海边+5天+预算）→ plan, thinking=true
-- 情感诉求+有具体约束（分手+散心+3天+预算不多）→ plan, thinking=true
 - 情感诉求+几乎无约束（"想逃离""工作太累"）→ clarify
 - 完全无旅行意图 → simple"""
 
@@ -122,6 +126,18 @@ async def classify_intent(
     logger.info("classify_intent: fact correction/assertion → simple")
     return {"intent": "simple", "thinking": False, "reason": "fact_correction"}
 
+  # Fast local pre-check: specific search queries → search, skip LLM (~0ms)
+  _SEARCH_KEYWORDS = (
+    "查航班", "查机票", "查酒店", "查景点", "查门票", "查火车", "查高铁",
+    "搜航班", "搜机票", "搜酒店", "搜景点",
+    "找航班", "找机票", "找酒店", "找景点",
+    "航班查", "机票查", "酒店查",
+  )
+  _SEARCH_ROUTE_PATTERN = re.compile(r".{2,6}(?:到|飞).{2,6}(?:的|最早|最晚|最便宜)?(?:航班|机票|飞机)")
+  if any(k in msg_lower for k in _SEARCH_KEYWORDS) or _SEARCH_ROUTE_PATTERN.search(message):
+    logger.info("classify_intent: search query detected (local fast-path)")
+    return {"intent": "search", "thinking": False, "reason": "search_query"}
+
   # Fast local pre-check: obvious destination → plan, skip LLM (~0ms)
   _OBVIOUS_PLAN_DEST = (
     "去日本", "去泰国", "去东京", "去三亚", "去北京", "去上海", "去大阪",
@@ -158,7 +174,7 @@ async def classify_intent(
     reason = parsed.get("reason", "")
 
     # Validate intent value
-    if intent not in ("simple", "clarify", "plan"):
+    if intent not in ("simple", "clarify", "search", "plan"):
       intent = "simple"
 
     logger.info(

@@ -170,6 +170,18 @@ class OrchestratorAgent:
           logger.info("TIMING stage=total_theater_clarify duration_ms=%d session=%s", total_ms, session_id)
           return
 
+        if intent == "search":
+          from agent.orchestrator.search_handler import handle_search
+          async for chunk in handle_search(
+            session_id, message, history, state_ctx,
+          ):
+            yield chunk
+          await self._update_summary_safe(session_id, message)
+          self._learn_from_session_safe(user_id, history)
+          total_ms = int((time.time() - total_start) * 1000)
+          logger.info("TIMING stage=total_theater_search duration_ms=%d session=%s", total_ms, session_id)
+          return
+
         # intent == "plan" — pass thinking flag to theater
         async for chunk in theater_handle(
           session_id, message, history, state_ctx, personalization_ctx,

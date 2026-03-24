@@ -109,19 +109,43 @@ async def heuristic_extract(
   """Fallback keyword extraction for state slots."""
   updates: dict[str, Any] = {}
 
+  # Known city names for route pattern matching
+  _ROUTE_CITIES = (
+    "日本", "东京", "大阪", "京都", "泰国", "曼谷", "韩国", "首尔",
+    "新加坡", "马来西亚", "北京", "上海", "广州", "深圳", "成都",
+    "三亚", "丽江", "西安", "杭州", "重庆", "香港", "澳门", "台北",
+    "越南", "河内", "印尼", "巴厘岛", "菲律宾", "柬埔寨", "昆明",
+    "厦门", "青岛", "南京", "武汉", "长沙", "哈尔滨", "福州",
+    "法国", "巴黎", "英国", "伦敦", "纽约", "洛杉矶", "悉尼",
+    "名古屋", "釜山", "清迈", "胡志明", "吉隆坡", "马尼拉",
+  )
+
+  # "X到Y" / "X飞Y" / "X→Y" pattern: extract both origin and destination
+  route_origin = None
+  route_dest = None
+  cities_re = "|".join(re.escape(c) for c in sorted(_ROUTE_CITIES, key=len, reverse=True))
+  route_re = re.compile(f"({cities_re})(?:到|飞|→)({cities_re})")
+  m = route_re.search(message)
+  if m:
+    route_origin = m.group(1)
+    route_dest = m.group(2)
+    updates["origin"] = route_origin
+    updates["destination"] = route_dest
+
   # Origin patterns: "从X出发", "从X去", "出发城市X"
   origin_patterns = [
     r"从(.{2,6}?)出发",
     r"从(.{2,6}?)去",
     r"出发城市[是为]?(.{2,6})",
   ]
-  origin_found = None
-  for pat in origin_patterns:
-    m = re.search(pat, message)
-    if m:
-      origin_found = m.group(1).strip()
-      updates["origin"] = origin_found
-      break
+  origin_found = route_origin
+  if not origin_found:
+    for pat in origin_patterns:
+      m = re.search(pat, message)
+      if m:
+        origin_found = m.group(1).strip()
+        updates["origin"] = origin_found
+        break
 
   # Destination patterns (Chinese cities / countries)
   destinations = [
@@ -135,17 +159,21 @@ async def heuristic_extract(
     "塞尔维亚", "贝尔格莱德", "希腊", "瑞士", "冰岛", "挪威",
   ]
   has_change_intent = any(kw in message for kw in ["改成", "换成", "不去", "改为"])
-  for dest in destinations:
-    if dest in message:
-      # Skip if this city was already matched as origin
-      if origin_found and dest == origin_found:
-        continue
-      # Don't overwrite existing destination unless user explicitly wants to change
-      if (existing_state and existing_state.destination
-          and not has_change_intent):
-        continue
-      updates["destination"] = dest
-      break
+  # Skip destination matching if route pattern already extracted both
+  if route_dest and "destination" in updates:
+    pass  # Already set by "X到Y" pattern
+  else:
+    for dest in destinations:
+      if dest in message:
+        # Skip if this city was already matched as origin
+        if origin_found and dest == origin_found:
+          continue
+        # Don't overwrite existing destination unless user explicitly wants to change
+        if (existing_state and existing_state.destination
+            and not has_change_intent):
+          continue
+        updates["destination"] = dest
+        break
 
   # Duration
   for i in range(1, 31):
