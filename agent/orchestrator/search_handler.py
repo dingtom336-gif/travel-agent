@@ -156,7 +156,7 @@ async def handle_search(
   try:
     if search_type == "flights":
       if not origin or not dest:
-        result_text = "请提供出发地和目的地，例如"北京到上海的航班"。"
+        result_text = "请提供出发地和目的地，例如「北京到上海的航班」。"
       else:
         from agent.tools.mcp.flight_search import search_flights
         r = await search_flights(
@@ -168,7 +168,7 @@ async def handle_search(
     elif search_type == "hotels":
       city = dest or origin
       if not city:
-        result_text = "请提供目的地城市，例如"杭州酒店推荐"。"
+        result_text = "请提供目的地城市，例如「杭州酒店推荐」。"
       else:
         from agent.tools.mcp.hotel_search import search_hotels
         checkin = start_date or (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
@@ -179,7 +179,7 @@ async def handle_search(
     elif search_type == "pois":
       city = dest or origin
       if not city:
-        result_text = "请提供目的地城市，例如"杭州有什么好玩的"。"
+        result_text = "请提供目的地城市，例如「杭州有什么好玩的」。"
       else:
         from agent.tools.mcp.poi_search import search_pois
         r = await search_pois(city=city, limit=8)
