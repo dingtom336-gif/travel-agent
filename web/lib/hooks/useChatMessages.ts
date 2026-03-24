@@ -39,12 +39,13 @@ export function useChatMessages({ travelDispatch }: UseChatMessagesOptions) {
 
   // Send message via real backend SSE stream
   const sendViaBackend = useCallback(
-    async (text: string, aiMsgId: string, signal: AbortSignal) => {
+    async (text: string, aiMsgId: string, signal: AbortSignal, deepReasoning: boolean = false) => {
       try {
         await chatStream(
           {
             session_id: sessionIdRef.current,
             message: text,
+            deep_reasoning: deepReasoning,
           },
           (event) => handleSSEEvent(event, aiMsgId),
           signal,
@@ -83,7 +84,7 @@ export function useChatMessages({ travelDispatch }: UseChatMessagesOptions) {
 
   // Handle sending a message
   const handleSend = useCallback(
-    async (text: string) => {
+    async (text: string, deepReasoning: boolean = false) => {
       if (isProcessing) return;
 
       const userMsg: ChatMessage = {
@@ -112,7 +113,7 @@ export function useChatMessages({ travelDispatch }: UseChatMessagesOptions) {
       if (USE_MOCK) {
         await sendViaMock(text, aiMsgId, controller.signal);
       } else {
-        await sendViaBackend(text, aiMsgId, controller.signal);
+        await sendViaBackend(text, aiMsgId, controller.signal, deepReasoning);
       }
     },
     [isProcessing, sendViaBackend, sendViaMock, travelDispatch]

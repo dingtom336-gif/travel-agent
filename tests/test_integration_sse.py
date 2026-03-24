@@ -52,6 +52,7 @@ def _parse_sse_events(raw_text: str) -> list[dict[str, Any]]:
 async def _mock_handle_message(
   session_id: str | None = None,
   message: str = "",
+  deep_reasoning: bool = False,
 ) -> AsyncGenerator[dict, None]:
   """Simulate OrchestratorAgent.handle_message yielding proper SSE events."""
   sid = session_id or "test-session-123"

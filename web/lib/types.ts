@@ -65,6 +65,7 @@ export interface ChatRequest {
   session_id?: string;
   message: string;
   attachments?: string[];
+  deep_reasoning?: boolean;
 }
 
 // Chat response metadata

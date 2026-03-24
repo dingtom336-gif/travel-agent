@@ -30,9 +30,9 @@ export default function ChatContainer() {
 
   // Wrap handleSend to force scroll when user sends a message
   const handleSendWithScroll = useCallback(
-    (text: string) => {
+    (text: string, deepReasoning: boolean = false) => {
       forceScrollOnNext();
-      handleSend(text);
+      handleSend(text, deepReasoning);
     },
     [forceScrollOnNext, handleSend]
   );
@@ -41,11 +41,15 @@ export default function ChatContainer() {
   useEffect(() => {
     if (initialPromptHandled.current) return;
     const q = searchParams.get("q");
+    const deep = searchParams.get("deep") === "1";
+    if (deep) {
+      localStorage.setItem("travelmind_deep_reasoning", "true");
+    }
     if (q) {
       initialPromptHandled.current = true;
       const timer = setTimeout(() => {
         forceScrollOnNext();
-        handleSend(q);
+        handleSend(q, deep);
       }, 300);
       return () => clearTimeout(timer);
     }

@@ -50,6 +50,7 @@ class ChatRequest(BaseModel):
   """Chat request from the client."""
   session_id: Optional[str] = None
   message: str = Field(..., min_length=1, max_length=5000)
+  deep_reasoning: bool = False
 
 
 class ChatResponse(BaseModel):

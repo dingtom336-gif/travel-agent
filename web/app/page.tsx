@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Footer from "@/components/ui/Footer";
+import DeepReasoningToggle from "@/components/chat/DeepReasoningToggle";
+import { useDeepReasoning } from "@/lib/hooks/useDeepReasoning";
 
 // Predefined guide card data
 const guideCards = [
@@ -59,15 +61,16 @@ const guideCards = [
 export default function Home() {
   const router = useRouter();
   const [inputValue, setInputValue] = useState("");
+  const [deepReasoning, setDeepReasoning] = useDeepReasoning();
 
   // Navigate to chat page with optional preset prompt
   const handleNavigateToChat = (prompt?: string) => {
     const text = prompt || inputValue.trim();
-    if (text) {
-      router.push(`/chat?q=${encodeURIComponent(text)}`);
-    } else {
-      router.push("/chat");
-    }
+    const params = new URLSearchParams();
+    if (text) params.set("q", text);
+    if (deepReasoning) params.set("deep", "1");
+    const qs = params.toString();
+    router.push(qs ? `/chat?${qs}` : "/chat");
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -110,6 +113,11 @@ export default function Home() {
                 placeholder="想去哪里？比如：春节去日本看雪..."
                 aria-label="输入你的旅行计划"
                 className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none sm:px-4 sm:text-base"
+              />
+              <DeepReasoningToggle
+                enabled={deepReasoning}
+                onChange={setDeepReasoning}
+                compact
               />
               <button
                 onPointerDown={(e) => {

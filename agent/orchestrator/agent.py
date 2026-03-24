@@ -56,6 +56,7 @@ class OrchestratorAgent:
     self,
     session_id: str | None,
     message: str,
+    deep_reasoning: bool = False,
   ) -> AsyncGenerator[dict, None]:
     """Main entry point – yields SSE-formatted dicts.
 
@@ -106,8 +107,9 @@ class OrchestratorAgent:
 
       settings = get_settings()
 
-      # ── Theater Mode path ──
-      if settings.THEATER_MODE:
+      # ── Theater Mode path (skipped when deep_reasoning=True) ──
+      use_theater = settings.THEATER_MODE and not deep_reasoning
+      if use_theater:
         # Parallel: heuristic state extraction + LLM intent classification
         t0 = time.time()
         heuristic_task = asyncio.ensure_future(

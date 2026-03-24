@@ -147,6 +147,7 @@ async def chat_stream(request: ChatRequest):
         async for sse_chunk in orchestrator.handle_message(
           session_id=request.session_id,
           message=request.message,
+          deep_reasoning=request.deep_reasoning,
         ):
           yield sse_chunk
       except Exception as exc:
@@ -177,6 +178,7 @@ async def chat(request: ChatRequest):
     async for sse_chunk in orchestrator.handle_message(
       session_id=session_id,
       message=request.message,
+      deep_reasoning=request.deep_reasoning,
     ):
       chunks.append(sse_chunk)
 
