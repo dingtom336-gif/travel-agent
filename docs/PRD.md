@@ -294,6 +294,34 @@ Orchestrator 拆解：
 - 自动化评测运行器 + 启发式评分引擎
 - 详见 `docs/EVAL_PLAN.md`
 
+### 3.13 v0.9.1 FlyAI 真实数据 + 深度推理双模式
+
+**FlyAI（飞猪）真实数据集成：**
+- 工具层接入飞猪 MCP（航班/酒店/景点），数据源优先级：FlyAI → Amap → Serper → Mock
+- `agent/tools/flyai/`：CLI 封装（subprocess 调 flyai.cjs）+ 格式适配器
+- 体验 key 不返回价格时，按飞行时长/星级估算补充
+- 生产服务器（腾讯云上海）直连 flyai.open.fliggy.com 无需代理
+
+**深度推理双模式切换：**
+- **Theater 模式**（默认）：单次 Mega-LLM 快速响应，search 意图直达工具
+- **ReAct 模式**（深度推理开启）：完整 8-Agent 管线 + Reflector + Synthesizer
+- 前端 `DeepReasoningToggle` 组件：首页搜索栏内 + 聊天页输入框上方
+- `ChatRequest.deep_reasoning` 字段 per-request 控制，localStorage 跨页面持久化
+- 后端 `agent.py` 单行逻辑：`use_theater = THEATER_MODE and not deep_reasoning`
+
+**搜索意图直达（search intent）：**
+- `router.py` 新增第四种意图 `search`（原有 simple/clarify/plan）
+- "查航班/机票/酒店/景点" + "X到Y航班" 模式 → 直接调工具返回表格，跳过 LLM 重写
+- `search_handler.py`：检测搜索类型 → 调对应工具 → Markdown 格式化 → 流式输出
+
+**状态提取增强：**
+- `state_extractor.py` 新增 "X到Y" 路由模式（已知城市列表精确匹配 origin/destination）
+- 解决了"北京到上海"被误解为"目的地=北京"的问题
+
+**部署约束：**
+- uvicorn `--workers 1`（in-memory state_pool/session_memory 不支持多 worker 共享）
+- 未来迁移 Redis 后可恢复多 worker
+
 ---
 
 ## 4. 页面设计
@@ -578,7 +606,8 @@ Request:
 {
   "session_id": "uuid",       // 可选，新对话不传
   "message": "春节带爸妈去日本5天，预算2万",
-  "attachments": []            // 图片/文件附件
+  "attachments": [],           // 图片/文件附件
+  "deep_reasoning": false      // v0.9.1: true=ReAct多Agent模式, false=Theater快速模式
 }
 
 Response: Server-Sent Events (SSE)
