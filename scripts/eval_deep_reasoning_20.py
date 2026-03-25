@@ -79,7 +79,7 @@ def call_sse_api(question, session_id=None):
       chunk = resp.read(4096)
       if not chunk:
         break
-      buffer += chunk.decode("utf-8", errors="replace")
+      buffer += chunk.decode("utf-8", errors="replace").replace("\r\n", "\n")
 
       while "\n\n" in buffer:
         event_block, buffer = buffer.split("\n\n", 1)
