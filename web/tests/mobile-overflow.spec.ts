@@ -1,11 +1,14 @@
 import { test, expect } from "@playwright/test";
 
+type TestArgs = Parameters<Parameters<typeof test>[2]>[0];
+type Page = TestArgs["page"];
+
 // Viewports: narrow (iPhone SE) and standard (iPhone 14 Pro)
 const IPHONE_SE = { width: 320, height: 568 };
 const IPHONE_14_PRO = { width: 393, height: 852 };
 
 // Helper: assert no horizontal overflow
-async function assertNoOverflow(page: import("@playwright/test").Page) {
+async function assertNoOverflow(page: Page) {
   const result = await page.evaluate(() => ({
     scrollWidth: document.documentElement.scrollWidth,
     clientWidth: document.documentElement.clientWidth,
