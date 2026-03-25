@@ -214,8 +214,9 @@ class ReactEngine:
       except Exception as synth_exc:
         logger.warning("Synthesis stream error: %s", synth_exc)
 
-      # Fallback: if synthesis produced nothing, yield agent results directly
-      if not full_response:
+      # Fallback: if synthesis produced nothing or near-empty (<50 chars),
+      # append agent results directly so user gets useful content
+      if len(full_response.strip()) < 50:
         from agent.orchestrator.synthesis import _smart_fallback
         has_agent_content = any(
           r.data.get("response") or r.summary
@@ -227,13 +228,13 @@ class ReactEngine:
             agent_data = r.data.get("response", r.summary)
             if agent_data:
               combined_parts.append(f"**{r.agent.value}**: {agent_data}")
-          fallback = "以下是为你整理的旅行信息：\n\n" + "\n\n".join(combined_parts)
+          extra = "\n\n以下是为你整理的旅行信息：\n\n" + "\n\n".join(combined_parts)
         else:
-          fallback = _smart_fallback(message)
-        full_response = fallback
+          extra = "\n\n" + _smart_fallback(message)
+        full_response += extra
         yield SSEMessage(
           event=SSEEventType.TEXT,
-          data={"content": fallback},
+          data={"content": extra},
         ).format()
 
       logger.info(

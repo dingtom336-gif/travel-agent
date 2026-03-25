@@ -103,6 +103,16 @@ async def classify_intent(
     logger.info("classify_intent: unsafe request detected → simple (for refusal)")
     return {"intent": "simple", "thinking": False, "reason": "unsafe_request"}
 
+  # Booking / after-sales queries → simple (no agent capability for these)
+  _BOOKING_KEYWORDS = (
+    "取消政策", "免费取消", "退款", "退差价", "改签", "退票",
+    "订单查询", "订单号", "已预订", "已下单", "客服电话",
+    "投诉电话", "退酒店", "退房", "退机票", "赔偿标准",
+  )
+  if any(k in msg_lower for k in _BOOKING_KEYWORDS):
+    logger.info("classify_intent: booking/after-sales → simple (no capability)")
+    return {"intent": "simple", "thinking": False, "reason": "booking_aftersales"}
+
   _OBVIOUS_SIMPLE = (
     "你好", "嗨", "hi", "hello", "再见", "拜拜", "晚安", "谢谢", "感谢",
     "你是谁", "你能做什么", "帮我算", "写首诗", "讲个笑话", "推荐一部",
