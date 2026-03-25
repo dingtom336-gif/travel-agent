@@ -38,27 +38,29 @@ class TokenBucketRateLimiter:
     self._last_refill = now
 
   async def acquire(self) -> None:
-    """Wait until a token is available, then consume one."""
-    async with self._lock:
-      self._refill()
-      if self._tokens >= 1.0:
-        self._tokens -= 1.0
-        return
+    """Wait until a token is available, then consume one.
 
-      # Calculate wait time for one token
-      deficit = 1.0 - self._tokens
-      wait_time = deficit / self._refill_rate
-      logger.info(
-        "Rate limit: waiting %.2fs for next token (rpm=%d)",
-        wait_time, self._rpm,
-      )
+    Re-checks availability after each sleep to prevent TOCTOU races
+    where multiple coroutines wake simultaneously and over-issue tokens.
+    """
+    while True:
+      async with self._lock:
+        self._refill()
+        if self._tokens >= 1.0:
+          self._tokens -= 1.0
+          return
 
-    # Sleep outside the lock so other coroutines can proceed
-    await asyncio.sleep(wait_time)
+        # Calculate wait time, release lock before sleeping
+        deficit = 1.0 - self._tokens
+        wait_time = deficit / self._refill_rate
+        logger.info(
+          "Rate limit: waiting %.2fs for next token (rpm=%d)",
+          wait_time, self._rpm,
+        )
 
-    async with self._lock:
-      self._refill()
-      self._tokens = max(0.0, self._tokens - 1.0)
+      # Sleep outside the lock so other coroutines can proceed.
+      # Loop back to re-check after waking.
+      await asyncio.sleep(wait_time)
 
 
 # Singleton instance

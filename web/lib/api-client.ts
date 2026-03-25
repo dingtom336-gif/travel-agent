@@ -357,12 +357,14 @@ export async function getScenarios(): Promise<Scenario[]> {
 export async function runBattle(
   persona: string,
   turns: number,
-  scenario?: string
+  scenario?: string,
+  signal?: AbortSignal,
 ): Promise<BattleResult> {
   const res = await fetch(`${API_BASE_URL}/api/debug/battle`, {
     method: "POST",
     headers: DEBUG_HEADERS,
     body: JSON.stringify({ persona, turns, scenario: scenario || null }),
+    signal: signal ?? AbortSignal.timeout(30_000),
   });
   if (!res.ok) throw new Error(`Battle failed: ${res.status}`);
   return res.json();

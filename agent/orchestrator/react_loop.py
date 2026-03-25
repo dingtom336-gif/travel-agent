@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import time
+from collections import OrderedDict
 from collections.abc import AsyncGenerator
 from typing import Any, Optional
 
@@ -35,10 +36,12 @@ logger = logging.getLogger(__name__)
 class ReactEngine:
   """Runs the ReAct loop: decompose tasks, execute agents, reflect."""
 
+  _MAX_CACHE: int = 200
+
   def __init__(self) -> None:
-    # Per-session caches for incremental planning
-    self._previous_tasks: dict[str, list[AgentTask]] = {}
-    self._previous_results: dict[str, dict[str, AgentResult]] = {}
+    # Per-session caches for incremental planning (bounded)
+    self._previous_tasks: OrderedDict[str, list[AgentTask]] = OrderedDict()
+    self._previous_results: OrderedDict[str, dict[str, AgentResult]] = OrderedDict()
 
   async def run(
     self,
@@ -246,9 +249,13 @@ class ReactEngine:
         session_id, "assistant", full_response,
       )
 
-      # Cache tasks and results for incremental planning on follow-ups
+      # Cache tasks and results for incremental planning (evict oldest if full)
       self._previous_tasks[session_id] = tasks
+      if len(self._previous_tasks) > self._MAX_CACHE:
+        self._previous_tasks.popitem(last=False)
       self._previous_results[session_id] = results
+      if len(self._previous_results) > self._MAX_CACHE:
+        self._previous_results.popitem(last=False)
 
       yield SSEMessage(
         event=SSEEventType.DONE,
@@ -415,12 +422,17 @@ class ReactEngine:
       "conversation_summary": conversation_summary,
     }
 
-    # Launch tasks with slight stagger to avoid API rate-limit bursts
+    # Limit true concurrency via semaphore instead of hardcoded stagger sleep
+    settings = get_settings()
+    sem = asyncio.Semaphore(settings.LLM_MAX_CONCURRENT)
+
+    async def _guarded(t: AgentTask) -> AgentResult:
+      async with sem:
+        return await self._execute_single_task(t, context)
+
     future_to_task: dict[asyncio.Task, AgentTask] = {}
-    for i, t in enumerate(tasks):
-      if i > 0 and i % 3 == 0:
-        await asyncio.sleep(1.0)
-      future = asyncio.create_task(self._execute_single_task(t, context))
+    for t in tasks:
+      future = asyncio.create_task(_guarded(t))
       future_to_task[future] = t
 
     # Yield results as each agent completes (FIRST_COMPLETED)
@@ -499,16 +511,17 @@ class ReactEngine:
         enriched_task = task
 
       settings = get_settings()
+      timeout = settings.LLM_TASK_TIMEOUT
       return await asyncio.wait_for(
         agent.execute(enriched_task, context),
-        timeout=settings.LLM_TASK_TIMEOUT,
+        timeout=timeout,
       )
     except asyncio.TimeoutError:
       return AgentResult(
         task_id=task.task_id,
         agent=task.agent,
         status=TaskStatus.FAILED,
-        error=f"Agent {task.agent.value} timed out after {get_settings().LLM_TASK_TIMEOUT}s",
+        error=f"Agent {task.agent.value} timed out after {timeout}s",
         duration_ms=int((time.time() - start) * 1000),
       )
     except Exception as exc:

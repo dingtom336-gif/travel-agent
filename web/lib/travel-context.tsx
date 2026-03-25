@@ -4,7 +4,7 @@ import {
   createContext,
   useContext,
   useReducer,
-  useCallback,
+  useMemo,
   type ReactNode,
 } from "react";
 import type {
@@ -87,13 +87,17 @@ const TravelPlanContext = createContext<TravelPlanContextValue | null>(null);
 export function TravelPlanProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const hasData =
-    state.flights.length > 0 ||
-    state.hotels.length > 0 ||
-    state.pois.length > 0 ||
-    state.weather.length > 0 ||
-    state.itinerary.length > 0 ||
-    state.budget !== null;
+  // Memoize hasData to avoid recalculating on every render
+  const hasData = useMemo(
+    () =>
+      state.flights.length > 0 ||
+      state.hotels.length > 0 ||
+      state.pois.length > 0 ||
+      state.weather.length > 0 ||
+      state.itinerary.length > 0 ||
+      state.budget !== null,
+    [state.flights, state.hotels, state.pois, state.weather, state.itinerary, state.budget]
+  );
 
   return (
     <TravelPlanContext.Provider value={{ state, dispatch, hasData }}>

@@ -10,6 +10,10 @@ from agent.config.settings import get_settings
 
 logger = logging.getLogger(__name__)
 
+# Minimum interval between eviction sweeps (seconds).
+# Prevents O(N) full-scan on every add_message call.
+_EVICTION_INTERVAL_SECONDS = 60.0
+
 
 class SessionMemory:
   """Per-session short-term memory storing conversation history and agent traces.
@@ -31,6 +35,8 @@ class SessionMemory:
     # Running conversation summary per session (compact, always up-to-date)
     self._summaries: dict[str, str] = {}
     self._lock = asyncio.Lock()
+    # Throttle eviction: track monotonic time of last full sweep
+    self._last_eviction_time: float = 0.0
 
   @property
   def _max_turns(self) -> int:
@@ -57,7 +63,11 @@ class SessionMemory:
       self._store[session_id].append({"role": role, "content": content})
       self._touch(session_id)
       self._truncate(session_id)
-      self._evict_stale_sessions()
+      # Throttled eviction: skip full sweep when last run was recent
+      _now = time.monotonic()
+      if (_now - self._last_eviction_time) >= _EVICTION_INTERVAL_SECONDS:
+        self._last_eviction_time = _now
+        self._evict_stale_sessions()
 
   # --- running summary API ---
 
@@ -129,12 +139,15 @@ class SessionMemory:
   def _evict_stale_sessions(self) -> None:
     """Remove expired sessions and LRU-evict if over max count.
 
-    Called inside the lock from add_message.
+    Called inside the lock from add_message (already throttled by caller).
+    Collects evicted IDs and schedules async StatePool cleanup via
+    deferred import to prevent circular imports.
     """
     settings = get_settings()
     now = time.monotonic()
     ttl = settings.SESSION_TTL_SECONDS
     max_count = settings.SESSION_MAX_COUNT
+    evicted_ids: list[str] = []
 
     # Phase 1: evict sessions older than TTL
     expired = [
@@ -143,6 +156,7 @@ class SessionMemory:
     ]
     for sid in expired:
       self._remove_session(sid)
+      evicted_ids.append(sid)
 
     if expired:
       logger.info("Evicted %d expired sessions (TTL=%ds)", len(expired), ttl)
@@ -155,9 +169,34 @@ class SessionMemory:
       to_evict = len(self._store) - max_count
       for sid, _ in sorted_sessions[:to_evict]:
         self._remove_session(sid)
+        evicted_ids.append(sid)
       logger.info(
         "LRU-evicted %d sessions (max=%d)", to_evict, max_count,
       )
+
+    # Phase 3: schedule StatePool + _mega_cache cleanup for evicted sessions
+    if evicted_ids:
+      try:
+        asyncio.get_running_loop().create_task(
+          self._cleanup_related(evicted_ids),
+        )
+      except RuntimeError:
+        pass  # no running loop (e.g. during shutdown)
+
+  @staticmethod
+  async def _cleanup_related(session_ids: list[str]) -> None:
+    """Clean up StatePool and theater _mega_cache for evicted sessions."""
+    try:
+      from agent.memory.state_pool import state_pool
+      await state_pool.evict_stale(session_ids)
+    except Exception as exc:
+      logger.warning("StatePool cleanup failed: %s", exc)
+    try:
+      from agent.orchestrator.theater import _mega_cache
+      for sid in session_ids:
+        _mega_cache.pop(sid, None)
+    except Exception:
+      pass
 
   def _remove_session(self, session_id: str) -> None:
     """Remove all data for a session (no lock, caller holds lock)."""

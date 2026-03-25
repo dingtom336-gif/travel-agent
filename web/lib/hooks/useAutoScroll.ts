@@ -49,7 +49,7 @@ export function useAutoScroll(deps: unknown[]) {
       return;
     }
     if (!userScrolledUp.current) {
-      scrollToBottom("instant");
+      requestAnimationFrame(() => scrollToBottom("instant"));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);

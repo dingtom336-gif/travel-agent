@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import type {
   ChatMessage as ChatMessageType,
   UIPayload,
@@ -208,12 +208,13 @@ const THINKING_STAGES = [
 function ThinkingPlaceholder() {
   const [stageIdx, setStageIdx] = useState(0);
   const [elapsed, setElapsed] = useState(0);
-  const startTime = useRef(Date.now());
+  const startTime = useRef<number | null>(null);
 
   useEffect(() => {
+    startTime.current = Date.now();
     const timer = setInterval(() => {
       const now = Date.now();
-      const diff = now - startTime.current;
+      const diff = now - (startTime.current ?? now);
       setElapsed(Math.floor(diff / 1000));
       for (let i = THINKING_STAGES.length - 1; i >= 0; i--) {
         if (diff >= THINKING_STAGES[i].delay) {
@@ -314,24 +315,28 @@ export default function InterleavedContent({
   thinkingSteps,
   isStreaming,
 }: InterleavedContentProps) {
-  const segments = parseContentSegments(content);
+  // Memoize parsed segments to avoid re-parsing on every render
+  const segments = useMemo(() => parseContentSegments(content), [content]);
   const payloads = uiPayloads || [];
-  const consumedTypes = new Set<string>();
 
-  const hasMarkers = segments.some((s) => s.kind === "cards");
-  if (hasMarkers) {
-    for (const seg of segments) {
-      if (seg.kind === "cards") {
-        const types = MARKER_TO_TYPES[seg.marker] || [];
-        types.forEach((t) => consumedTypes.add(t));
+  // Memoize payload classification to avoid re-computing on every render
+  const { remainingInline, remainingStandalone } = useMemo(() => {
+    const consumedTypes = new Set<string>();
+    const hasMarkers = segments.some((s) => s.kind === "cards");
+    if (hasMarkers) {
+      for (const seg of segments) {
+        if (seg.kind === "cards") {
+          const types = MARKER_TO_TYPES[seg.marker] || [];
+          types.forEach((t) => consumedTypes.add(t));
+        }
       }
     }
-  }
-
-  const remainingPayloads = payloads.filter((p) => !consumedTypes.has(p.type));
-  // Split remaining into inline vs standalone
-  const remainingInline = remainingPayloads.filter((p) => INLINE_CARD_TYPES.has(p.type));
-  const remainingStandalone = remainingPayloads.filter((p) => !INLINE_CARD_TYPES.has(p.type));
+    const remaining = payloads.filter((p) => !consumedTypes.has(p.type));
+    return {
+      remainingInline: remaining.filter((p) => INLINE_CARD_TYPES.has(p.type)),
+      remainingStandalone: remaining.filter((p) => !INLINE_CARD_TYPES.has(p.type)),
+    };
+  }, [segments, payloads]);
 
   let standaloneIdx = 0;
 

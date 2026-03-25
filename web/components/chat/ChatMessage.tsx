@@ -60,7 +60,9 @@ const ChatMessage = memo(ChatMessageRaw, (prev, next) => {
   return (
     pm.id === nm.id &&
     pm.content.length === nm.content.length &&
-    pm.isStreaming === nm.isStreaming
+    pm.isStreaming === nm.isStreaming &&
+    (pm.uiPayloads?.length ?? 0) === (nm.uiPayloads?.length ?? 0) &&
+    (pm.thinkingSteps?.length ?? 0) === (nm.thinkingSteps?.length ?? 0)
   );
 });
 

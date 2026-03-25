@@ -47,53 +47,53 @@ class UserProfile:
 # When value is None the matched group(1) is used.
 
 _STYLE_SIGNALS: List[tuple] = [
-  (r"(冒险|探险|刺激)", "travel_style", "adventure"),
-  (r"(休闲|放松|度假|躺平)", "travel_style", "relaxation"),
-  (r"(文艺|文化|历史|博物馆)", "travel_style", "culture"),
-  (r"(美食|吃货|觅食|小吃)", "travel_style", "foodie"),
-  (r"(亲子|带[娃孩]|儿童)", "travel_style", "family"),
-  (r"(浪漫|蜜月|情侣)", "travel_style", "romantic"),
-  (r"(购物|买买买|扫货)", "travel_style", "shopping"),
-  (r"(摄影|拍照|网红打卡)", "travel_style", "photography"),
+  (re.compile(r"(冒险|探险|刺激)"), "travel_style", "adventure"),
+  (re.compile(r"(休闲|放松|度假|躺平)"), "travel_style", "relaxation"),
+  (re.compile(r"(文艺|文化|历史|博物馆)"), "travel_style", "culture"),
+  (re.compile(r"(美食|吃货|觅食|小吃)"), "travel_style", "foodie"),
+  (re.compile(r"(亲子|带[娃孩]|儿童)"), "travel_style", "family"),
+  (re.compile(r"(浪漫|蜜月|情侣)"), "travel_style", "romantic"),
+  (re.compile(r"(购物|买买买|扫货)"), "travel_style", "shopping"),
+  (re.compile(r"(摄影|拍照|网红打卡)"), "travel_style", "photography"),
 ]
 
 _BUDGET_SIGNALS: List[tuple] = [
-  (r"(预算有限|省钱|穷游|便宜|经济)", "budget_preference", "budget"),
-  (r"(舒适|中等|适中)", "budget_preference", "moderate"),
-  (r"(奢华|豪华|高端|不差钱|五星)", "budget_preference", "luxury"),
+  (re.compile(r"(预算有限|省钱|穷游|便宜|经济)"), "budget_preference", "budget"),
+  (re.compile(r"(舒适|中等|适中)"), "budget_preference", "moderate"),
+  (re.compile(r"(奢华|豪华|高端|不差钱|五星)"), "budget_preference", "luxury"),
 ]
 
 _ACCOMMODATION_SIGNALS: List[tuple] = [
-  (r"(民宿|airbnb|当地特色)", "accommodation_pref", "minsu"),
-  (r"(酒店|宾馆|星级)", "accommodation_pref", "hotel"),
-  (r"(青旅|背包|hostel)", "accommodation_pref", "hostel"),
-  (r"(度假村|resort|别墅)", "accommodation_pref", "resort"),
+  (re.compile(r"(民宿|airbnb|当地特色)"), "accommodation_pref", "minsu"),
+  (re.compile(r"(酒店|宾馆|星级)"), "accommodation_pref", "hotel"),
+  (re.compile(r"(青旅|背包|hostel)"), "accommodation_pref", "hostel"),
+  (re.compile(r"(度假村|resort|别墅)"), "accommodation_pref", "resort"),
 ]
 
 _TRANSPORT_SIGNALS: List[tuple] = [
-  (r"(直飞|不要转机|不中转)", "transport_pref", "direct_flight"),
-  (r"(经济舱|便宜机票)", "transport_pref", "economy"),
-  (r"(高铁|火车|铁路)", "transport_pref", "train"),
-  (r"(自驾|租车|开车)", "transport_pref", "self_drive"),
+  (re.compile(r"(直飞|不要转机|不中转)"), "transport_pref", "direct_flight"),
+  (re.compile(r"(经济舱|便宜机票)"), "transport_pref", "economy"),
+  (re.compile(r"(高铁|火车|铁路)"), "transport_pref", "train"),
+  (re.compile(r"(自驾|租车|开车)"), "transport_pref", "self_drive"),
 ]
 
 _DIETARY_SIGNALS: List[tuple] = [
-  (r"(素食|吃素|vegetarian)", "dietary_restrictions", "vegetarian"),
-  (r"(清真|halal|穆斯林)", "dietary_restrictions", "halal"),
-  (r"(不吃辣|不能吃辣)", "dietary_restrictions", "no_spicy"),
-  (r"(海鲜过敏|不吃海鲜)", "dietary_restrictions", "no_seafood"),
-  (r"(乳糖不耐|不喝牛奶)", "dietary_restrictions", "lactose_free"),
+  (re.compile(r"(素食|吃素|vegetarian)"), "dietary_restrictions", "vegetarian"),
+  (re.compile(r"(清真|halal|穆斯林)"), "dietary_restrictions", "halal"),
+  (re.compile(r"(不吃辣|不能吃辣)"), "dietary_restrictions", "no_spicy"),
+  (re.compile(r"(海鲜过敏|不吃海鲜)"), "dietary_restrictions", "no_seafood"),
+  (re.compile(r"(乳糖不耐|不喝牛奶)"), "dietary_restrictions", "lactose_free"),
 ]
 
 _BRAND_SIGNALS: List[tuple] = [
-  (r"(希尔顿|Hilton)", "favorite_brands", "希尔顿"),
-  (r"(万豪|Marriott)", "favorite_brands", "万豪"),
-  (r"(全日空|ANA)", "favorite_brands", "全日空"),
-  (r"(国航|Air China)", "favorite_brands", "国航"),
-  (r"(南航|China Southern)", "favorite_brands", "南航"),
-  (r"(东航|China Eastern)", "favorite_brands", "东航"),
-  (r"(亚航|AirAsia)", "favorite_brands", "亚航"),
-  (r"(香格里拉|Shangri-La)", "favorite_brands", "香格里拉"),
+  (re.compile(r"(希尔顿|Hilton)"), "favorite_brands", "希尔顿"),
+  (re.compile(r"(万豪|Marriott)"), "favorite_brands", "万豪"),
+  (re.compile(r"(全日空|ANA)"), "favorite_brands", "全日空"),
+  (re.compile(r"(国航|Air China)"), "favorite_brands", "国航"),
+  (re.compile(r"(南航|China Southern)"), "favorite_brands", "南航"),
+  (re.compile(r"(东航|China Eastern)"), "favorite_brands", "东航"),
+  (re.compile(r"(亚航|AirAsia)"), "favorite_brands", "亚航"),
+  (re.compile(r"(香格里拉|Shangri-La)"), "favorite_brands", "香格里拉"),
 ]
 
 _DESTINATION_KEYWORDS: List[str] = [
@@ -200,7 +200,7 @@ class ProfileManager:
 
       # Detect style signals
       for pattern, field_name, value in _STYLE_SIGNALS:
-        if re.search(pattern, user_text):
+        if pattern.search(user_text):
           updates.setdefault(field_name, [])
           if isinstance(updates[field_name], list):
             if value not in updates[field_name]:
@@ -210,22 +210,22 @@ class ProfileManager:
 
       # Detect budget signals (scalar – last match wins)
       for pattern, field_name, value in _BUDGET_SIGNALS:
-        if re.search(pattern, user_text):
+        if pattern.search(user_text):
           updates[field_name] = value
 
       # Detect accommodation signals
       for pattern, field_name, value in _ACCOMMODATION_SIGNALS:
-        if re.search(pattern, user_text):
+        if pattern.search(user_text):
           updates[field_name] = value
 
       # Detect transport signals
       for pattern, field_name, value in _TRANSPORT_SIGNALS:
-        if re.search(pattern, user_text):
+        if pattern.search(user_text):
           updates[field_name] = value
 
       # Detect dietary restrictions
       for pattern, field_name, value in _DIETARY_SIGNALS:
-        if re.search(pattern, user_text):
+        if pattern.search(user_text):
           updates.setdefault(field_name, [])
           if isinstance(updates[field_name], list):
             if value not in updates[field_name]:
@@ -233,7 +233,7 @@ class ProfileManager:
 
       # Detect brand preferences
       for pattern, field_name, value in _BRAND_SIGNALS:
-        if re.search(pattern, user_text):
+        if pattern.search(user_text):
           updates.setdefault(field_name, [])
           if isinstance(updates[field_name], list):
             if value not in updates[field_name]:

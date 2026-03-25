@@ -44,8 +44,8 @@ class OrchestratorAgent:
     """Update running conversation summary – non-critical, never raises."""
     try:
       existing_summary = await session_memory.get_summary(session_id)
-      updated_hist = await session_memory.get_history(session_id)
-      assistant_msgs = [m["content"] for m in updated_hist if m["role"] == "assistant"]
+      latest_hist = await session_memory.get_history(session_id)
+      assistant_msgs = [m["content"] for m in latest_hist if m["role"] == "assistant"]
       last_assistant = assistant_msgs[-1] if assistant_msgs else ""
       new_summary = update_running_summary(existing_summary, message, last_assistant)
       await session_memory.update_summary(session_id, new_summary)
@@ -112,7 +112,7 @@ class OrchestratorAgent:
       if use_theater:
         # Parallel: heuristic state extraction + LLM intent classification
         t0 = time.time()
-        heuristic_task = asyncio.ensure_future(
+        heuristic_task = asyncio.create_task(
           heuristic_extract(session_id, message, existing_state)
         )
         classify_result = await classify_intent(message, history, has_travel_context)
@@ -144,7 +144,7 @@ class OrchestratorAgent:
           return
 
         # Fire-and-forget LLM state extraction for enrichment
-        asyncio.ensure_future(
+        asyncio.create_task(
           extract_state(session_id, message, history, existing_state)
         )
 
@@ -238,7 +238,7 @@ class OrchestratorAgent:
           int((time.time() - t0) * 1000), session_id,
         )
         conversation_summary = None
-        asyncio.ensure_future(
+        asyncio.create_task(
           extract_state(session_id, message, history, existing_state)
         )
 
@@ -300,7 +300,7 @@ class OrchestratorAgent:
   ) -> None:
     """Learn user preferences from session – never raises."""
     try:
-      asyncio.ensure_future(
+      asyncio.create_task(
         profile_manager.learn_from_session(user_id, history)
       )
     except Exception as exc:

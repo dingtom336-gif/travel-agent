@@ -40,7 +40,7 @@ const agentColors: Record<string, string> = {
  * Expanded: full list of agent steps with spinner/checkmark.
  */
 export default function ThinkingSteps({ steps, isStreaming }: ThinkingStepsProps) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(isStreaming);
   const userToggled = useRef(false);
 
   // Auto-collapse after streaming ends (unless user manually toggled)
@@ -49,14 +49,10 @@ export default function ThinkingSteps({ steps, isStreaming }: ThinkingStepsProps
       const timer = setTimeout(() => setIsOpen(false), 800);
       return () => clearTimeout(timer);
     }
-  }, [isStreaming, steps.length]);
-
-  // Auto-expand when streaming starts
-  useEffect(() => {
     if (isStreaming && !userToggled.current) {
       setIsOpen(true);
     }
-  }, [isStreaming]);
+  }, [isStreaming, steps.length]);
 
   if (steps.length === 0) return null;
 

@@ -120,6 +120,16 @@ export default function ItineraryMap({ days, selectedDay }: ItineraryMapProps) {
     return markers;
   }, [days]);
 
+  // Cache DivIcon instances by (day, color, type) to avoid re-creating DOM nodes
+  const iconCache = useMemo(() => {
+    const cache = new Map<string, L.DivIcon>();
+    allMarkers.forEach((m) => {
+      const key = `${m.day}-${m.color}-${m.type}`;
+      if (!cache.has(key)) cache.set(key, createDayIcon(m.day, m.color, m.type));
+    });
+    return cache;
+  }, [allMarkers]);
+
   // Filter markers by selected day
   const visibleMarkers = useMemo(() => {
     if (activeDay === null) return allMarkers;
@@ -224,7 +234,7 @@ export default function ItineraryMap({ days, selectedDay }: ItineraryMapProps) {
             <Marker
               key={`marker-${marker.day}-${i}`}
               position={marker.position}
-              icon={createDayIcon(marker.day, marker.color, marker.type)}
+              icon={iconCache.get(`${marker.day}-${marker.color}-${marker.type}`) || createDayIcon(marker.day, marker.color, marker.type)}
             >
               <Popup>
                 <div style={{ minWidth: 180, fontFamily: "system-ui, sans-serif" }}>

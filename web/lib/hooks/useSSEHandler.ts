@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type {
   ChatMessage,
@@ -52,16 +52,26 @@ export function useSSEHandler({
     [setMessages]
   );
 
-  // Append text content to a streaming AI message
+  // Append text content to a streaming AI message (RAF-batched)
+  const textBufferRef = useRef<{ msgId: string; buf: string }>({ msgId: "", buf: "" });
+  const rafRef = useRef<number | null>(null);
+
   const appendText = useCallback(
     (msgId: string, chunk: string) => {
-      setMessages((prev) =>
-        prev.map((msg) =>
-          msg.id === msgId
-            ? { ...msg, content: msg.content + chunk }
-            : msg
-        )
-      );
+      textBufferRef.current.msgId = msgId;
+      textBufferRef.current.buf += chunk;
+      if (rafRef.current === null) {
+        rafRef.current = requestAnimationFrame(() => {
+          const { msgId: id, buf } = textBufferRef.current;
+          textBufferRef.current.buf = "";
+          rafRef.current = null;
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === id ? { ...msg, content: msg.content + buf } : msg
+            )
+          );
+        });
+      }
     },
     [setMessages]
   );

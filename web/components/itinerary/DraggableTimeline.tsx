@@ -146,8 +146,8 @@ export default function DraggableTimeline({
                         <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-primary to-transparent" />
                         {day.items.map((item, index) => (
                           <Draggable
-                            key={`${day.day}-${index}`}
-                            draggableId={`${day.day}-${index}`}
+                            key={`${day.day}-${item.title}-${item.time}`}
+                            draggableId={`${day.day}-${item.title}-${item.time}`}
                             index={index}
                           >
                             {(dragProvided, dragSnapshot) => {

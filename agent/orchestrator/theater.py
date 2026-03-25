@@ -7,6 +7,8 @@ import asyncio
 import json
 import logging
 import time
+import httpx
+from collections import OrderedDict
 from collections.abc import AsyncGenerator
 from typing import Any, Optional
 
@@ -32,9 +34,31 @@ from agent.orchestrator.ui_mapper import extract_ui_components
 
 logger = logging.getLogger(__name__)
 
-# Session-level cache: session_id → last mega output text
-# Used to enable incremental follow-up mode
-_mega_cache: dict[str, str] = {}
+# Session-level cache: session_id → last mega output text (bounded LRU)
+_MEGA_CACHE_MAX = 500
+_mega_cache: OrderedDict[str, str] = OrderedDict()
+
+
+def _mega_cache_set(session_id: str, text: str) -> None:
+  """Write to _mega_cache with LRU eviction."""
+  _mega_cache[session_id] = text
+  _mega_cache.move_to_end(session_id)
+  while len(_mega_cache) > _MEGA_CACHE_MAX:
+    _mega_cache.popitem(last=False)
+
+
+# Module-level httpx client singleton for connection reuse
+_reasoning_client: httpx.AsyncClient | None = None
+
+
+def _get_reasoning_client() -> httpx.AsyncClient:
+  """Return a persistent httpx client, creating one if needed."""
+  global _reasoning_client
+  if _reasoning_client is None or _reasoning_client.is_closed:
+    _reasoning_client = httpx.AsyncClient(
+      timeout=httpx.Timeout(60.0, connect=10.0),
+    )
+  return _reasoning_client
 
 # Fields that count toward incremental state-change detection
 _INCREMENTAL_FIELDS = (
@@ -251,7 +275,7 @@ async def theater_handle(
         is_incremental = False  # Fall through to full mode below
 
       if is_incremental and full_text:
-        _mega_cache[session_id] = full_text
+        _mega_cache_set(session_id, full_text)
         await session_memory.add_message(session_id, "assistant", full_text)
         yield _done(session_id)
         return
@@ -339,7 +363,7 @@ async def theater_handle(
       yield _text(full_text)
 
     # Cache output for potential incremental follow-ups
-    _mega_cache[session_id] = full_text
+    _mega_cache_set(session_id, full_text)
 
     # Save assistant response
     await session_memory.add_message(session_id, "assistant", full_text)
@@ -868,8 +892,6 @@ async def _call_reasoning(
 
   Uses httpx directly to pass thinking parameter that OpenAI SDK may not support.
   """
-  import httpx as _httpx
-
   settings = get_settings()
   api_key = settings.SILICONFLOW_API_KEY or settings.DEEPSEEK_API_KEY
   base_url = settings.SILICONFLOW_BASE_URL or settings.DEEPSEEK_BASE_URL
@@ -886,37 +908,36 @@ async def _call_reasoning(
   if not use_thinking:
     payload["thinking"] = {"type": "disabled"}
 
-  # Reduced timeouts: thinking 25s, no-thinking 15s (was 60/30)
-  settings = get_settings()
   stage1_timeout = settings.STAGE1_THINKING_TIMEOUT if use_thinking else settings.STAGE1_NO_THINKING_TIMEOUT
+  client = _get_reasoning_client()
+  headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
   try:
-    async with _httpx.AsyncClient(timeout=_httpx.Timeout(stage1_timeout, connect=10.0)) as client:
-      resp = await client.post(
-        f"{base_url}/chat/completions",
-        json=payload,
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-      )
-      resp.raise_for_status()
-      data = resp.json()
-      content = data["choices"][0]["message"].get("content", "")
-      return content if content else None
-  except _httpx.ReadTimeout:
+    resp = await client.post(
+      f"{base_url}/chat/completions",
+      json=payload,
+      headers=headers,
+      timeout=httpx.Timeout(stage1_timeout, connect=10.0),
+    )
+    resp.raise_for_status()
+    data = resp.json()
+    content = data["choices"][0]["message"].get("content", "")
+    return content if content else None
+  except httpx.ReadTimeout:
     logger.warning("Stage1 reasoning timeout (%ss), will retry without thinking", stage1_timeout)
-    # Retry without thinking on timeout (reduced to 15s)
     if use_thinking:
-      payload["thinking"] = {"type": "disabled"}
+      retry_payload = {**payload, "thinking": {"type": "disabled"}}
       try:
-        async with _httpx.AsyncClient(timeout=_httpx.Timeout(15.0, connect=10.0)) as client:
-          resp = await client.post(
-            f"{base_url}/chat/completions",
-            json=payload,
-            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-          )
-          resp.raise_for_status()
-          data = resp.json()
-          content = data["choices"][0]["message"].get("content", "")
-          logger.info("Stage1 retry without thinking succeeded: %d chars", len(content or ""))
-          return content if content else None
+        resp = await client.post(
+          f"{base_url}/chat/completions",
+          json=retry_payload,
+          headers=headers,
+          timeout=httpx.Timeout(15.0, connect=10.0),
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        content = data["choices"][0]["message"].get("content", "")
+        logger.info("Stage1 retry without thinking succeeded: %d chars", len(content or ""))
+        return content if content else None
       except Exception as retry_exc:
         logger.warning("Stage1 retry also failed: %s", retry_exc)
     return None

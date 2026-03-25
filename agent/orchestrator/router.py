@@ -2,6 +2,7 @@
 # v0.9.0: Replaced regex rules with LLM classification (GLM-4-32B, ~2s)
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 import re
@@ -19,6 +20,50 @@ logger = logging.getLogger(__name__)
 _intent_cache: OrderedDict[str, tuple[dict, float]] = OrderedDict()
 _INTENT_CACHE_SIZE = 200
 _INTENT_CACHE_TTL = 300  # seconds
+
+# Singleflight dedup: prevents duplicate LLM calls for identical messages
+_inflight: dict[str, asyncio.Future] = {}
+
+# Fast local pre-check constants (module-level to avoid per-call re-creation)
+_UNSAFE_PATTERNS = (
+  "逃票", "偷渡", "违禁", "非法", "伪造", "假证", "假的",
+  "忘掉指令", "忘掉之前", "系统提示词", "system prompt", "ignore",
+  "手机号", "身份证号", "隐私", "个人信息",
+  "威胁信", "威胁", "勒索",
+  "内部员工", "后台数据", "管理员",
+  "假装你是", "扮演", "角色扮演",
+  "抢票脚本", "自动抢", "外挂", "脚本",
+  "诱导转账", "私下转账", "诈骗",
+  "政治观点", "政治敏感", "赞美某", "不当观点",
+  "核酸报告", "伪造报告", "假报告",
+)
+_BOOKING_KEYWORDS = (
+  "取消政策", "免费取消", "退款", "退差价", "改签", "退票",
+  "订单查询", "订单号", "已预订", "已下单", "客服电话",
+  "投诉电话", "退酒店", "退房", "退机票", "赔偿标准",
+)
+_OBVIOUS_SIMPLE = (
+  "你好", "嗨", "hi", "hello", "再见", "拜拜", "晚安", "谢谢", "感谢",
+  "你是谁", "你能做什么", "帮我算", "写首诗", "讲个笑话", "推荐一部",
+  "今天周几", "几点了", "我饿了", "夸夸我", "心情不错", "1+1",
+  "早上好", "下午好", "晚上好", "好的", "明白", "知道了", "没问题", "可以", "ok", "好",
+)
+_CORRECTION_PREFIXES = ("不对", "不是", "错了", "你说错", "你搞错", "说错了", "纠正")
+_ASSERTION_PATTERNS = ("是在", "不是在", "在的", "属于", "不属于", "位于", "不在")
+_PLANNING_EXCLUSIONS = ("帮我", "规划", "推荐", "搜索", "预订", "安排", "查一下")
+_SEARCH_KEYWORDS = (
+  "查航班", "查机票", "查酒店", "查景点", "查门票", "查火车", "查高铁",
+  "搜航班", "搜机票", "搜酒店", "搜景点",
+  "找航班", "找机票", "找酒店", "找景点",
+  "航班查", "机票查", "酒店查",
+)
+_SEARCH_ROUTE_PATTERN = re.compile(r".{2,6}(?:到|飞).{2,6}(?:的|最早|最晚|最便宜)?(?:航班|机票|飞机)")
+_OBVIOUS_PLAN_DEST = (
+  "去日本", "去泰国", "去东京", "去三亚", "去北京", "去上海", "去大阪",
+  "去曼谷", "去新加坡", "去巴厘岛", "去马尔代夫", "去杭州", "去成都",
+  "去西安", "去拉萨", "去云南", "去大理", "去丽江", "去厦门", "去青岛",
+  "去桂林", "去张家界",
+)
 
 # System prompt for LLM intent classification
 _CLASSIFY_SYSTEM = """\
@@ -87,38 +132,15 @@ async def classify_intent(
 
   # Fast local pre-check: unsafe/adversarial requests → simple (let LLM refuse)
   msg_lower = message.strip().lower()
-  _UNSAFE_PATTERNS = (
-    "逃票", "偷渡", "违禁", "非法", "伪造", "假证", "假的",
-    "忘掉指令", "忘掉之前", "系统提示词", "system prompt", "ignore",
-    "手机号", "身份证号", "隐私", "个人信息",
-    "威胁信", "威胁", "勒索",
-    "内部员工", "后台数据", "管理员",
-    "假装你是", "扮演", "角色扮演",
-    "抢票脚本", "自动抢", "外挂", "脚本",
-    "诱导转账", "私下转账", "诈骗",
-    "政治观点", "政治敏感", "赞美某", "不当观点",
-    "核酸报告", "伪造报告", "假报告",
-  )
   if any(p in msg_lower for p in _UNSAFE_PATTERNS):
     logger.info("classify_intent: unsafe request detected → simple (for refusal)")
     return {"intent": "simple", "thinking": False, "reason": "unsafe_request"}
 
   # Booking / after-sales queries → simple (no agent capability for these)
-  _BOOKING_KEYWORDS = (
-    "取消政策", "免费取消", "退款", "退差价", "改签", "退票",
-    "订单查询", "订单号", "已预订", "已下单", "客服电话",
-    "投诉电话", "退酒店", "退房", "退机票", "赔偿标准",
-  )
   if any(k in msg_lower for k in _BOOKING_KEYWORDS):
     logger.info("classify_intent: booking/after-sales → simple (no capability)")
     return {"intent": "simple", "thinking": False, "reason": "booking_aftersales"}
 
-  _OBVIOUS_SIMPLE = (
-    "你好", "嗨", "hi", "hello", "再见", "拜拜", "晚安", "谢谢", "感谢",
-    "你是谁", "你能做什么", "帮我算", "写首诗", "讲个笑话", "推荐一部",
-    "今天周几", "几点了", "我饿了", "夸夸我", "心情不错", "1+1",
-    "早上好", "下午好", "晚上好", "好的", "明白", "知道了", "没问题", "可以", "ok", "好",
-  )
   if any(p in msg_lower for p in _OBVIOUS_SIMPLE) and len(message) < 20:
     logger.info("classify_intent: obvious simple (local fast-path)")
     return {"intent": "simple", "thinking": False, "reason": "obvious_simple"}
@@ -126,9 +148,6 @@ async def classify_intent(
   # Fast local pre-check: fact correction/assertion → simple (not a travel request)
   # Pattern: user disagrees or states a (possibly wrong) fact about a place
   # e.g. "不对，故宫是在上海的" / "你说错了，长城在南京" / "故宫不是在北京吗"
-  _CORRECTION_PREFIXES = ("不对", "不是", "错了", "你说错", "你搞错", "说错了", "纠正")
-  _ASSERTION_PATTERNS = ("是在", "不是在", "在的", "属于", "不属于", "位于", "不在")
-  _PLANNING_EXCLUSIONS = ("帮我", "规划", "推荐", "搜索", "预订", "安排", "查一下")
   has_correction = any(p in msg_lower for p in _CORRECTION_PREFIXES)
   has_assertion = any(p in msg_lower for p in _ASSERTION_PATTERNS)
   has_planning = any(kw in msg_lower for kw in _PLANNING_EXCLUSIONS)
@@ -137,27 +156,23 @@ async def classify_intent(
     return {"intent": "simple", "thinking": False, "reason": "fact_correction"}
 
   # Fast local pre-check: specific search queries → search, skip LLM (~0ms)
-  _SEARCH_KEYWORDS = (
-    "查航班", "查机票", "查酒店", "查景点", "查门票", "查火车", "查高铁",
-    "搜航班", "搜机票", "搜酒店", "搜景点",
-    "找航班", "找机票", "找酒店", "找景点",
-    "航班查", "机票查", "酒店查",
-  )
-  _SEARCH_ROUTE_PATTERN = re.compile(r".{2,6}(?:到|飞).{2,6}(?:的|最早|最晚|最便宜)?(?:航班|机票|飞机)")
   if any(k in msg_lower for k in _SEARCH_KEYWORDS) or _SEARCH_ROUTE_PATTERN.search(message):
     logger.info("classify_intent: search query detected (local fast-path)")
     return {"intent": "search", "thinking": False, "reason": "search_query"}
 
   # Fast local pre-check: obvious destination → plan, skip LLM (~0ms)
-  _OBVIOUS_PLAN_DEST = (
-    "去日本", "去泰国", "去东京", "去三亚", "去北京", "去上海", "去大阪",
-    "去曼谷", "去新加坡", "去巴厘岛", "去马尔代夫", "去杭州", "去成都",
-    "去西安", "去拉萨", "去云南", "去大理", "去丽江", "去厦门", "去青岛",
-    "去桂林", "去张家界",
-  )
   if any(d in msg_lower for d in _OBVIOUS_PLAN_DEST):
     logger.info("classify_intent: obvious destination (local fast-path)")
     return {"intent": "plan", "thinking": False, "reason": "obvious_destination"}
+
+  # Singleflight: deduplicate concurrent identical LLM calls
+  if message in _inflight:
+    logger.info("classify_intent: singleflight hit, awaiting inflight future")
+    return await asyncio.shield(_inflight[message])
+
+  loop = asyncio.get_running_loop()
+  fut: asyncio.Future[dict] = loop.create_future()
+  _inflight[message] = fut
 
   settings = get_settings()
   try:
@@ -171,7 +186,9 @@ async def classify_intent(
 
     if not result:
       logger.warning("classify_intent: LLM returned empty, fallback simple")
-      return {"intent": "simple", "thinking": False, "reason": "llm_empty"}
+      result_dict = {"intent": "simple", "thinking": False, "reason": "llm_empty"}
+      fut.set_result(result_dict)
+      return result_dict
 
     # Parse JSON from response (strip markdown fences if present)
     cleaned = result.strip()
@@ -199,11 +216,19 @@ async def classify_intent(
     while len(_intent_cache) > _INTENT_CACHE_SIZE:
       _intent_cache.popitem(last=False)
 
+    fut.set_result(result_dict)
     return result_dict
 
   except json.JSONDecodeError as exc:
     logger.warning("classify_intent: JSON parse failed: %s, raw=%s", exc, result[:100] if result else "")
-    return {"intent": "simple", "thinking": False, "reason": "json_error"}
+    fallback = {"intent": "simple", "thinking": False, "reason": "json_error"}
+    fut.set_result(fallback)
+    return fallback
   except Exception as exc:
     logger.warning("classify_intent: LLM call failed: %s", exc)
-    return {"intent": "simple", "thinking": False, "reason": "llm_error"}
+    fallback = {"intent": "simple", "thinking": False, "reason": "llm_error"}
+    if not fut.done():
+      fut.set_result(fallback)
+    return fallback
+  finally:
+    _inflight.pop(message, None)
