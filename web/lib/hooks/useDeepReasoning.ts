@@ -5,11 +5,12 @@ import { useState, useCallback, useEffect } from "react";
 const STORAGE_KEY = "travelmind_deep_reasoning";
 
 export function useDeepReasoning(): [boolean, (v: boolean) => void] {
-  const [enabled, setEnabled] = useState(false);
+  const [enabled, setEnabled] = useState(true);
 
-  // Hydrate from localStorage after mount to avoid SSR mismatch
+  // Hydrate from localStorage after mount — default to true unless explicitly disabled
   useEffect(() => {
-    setEnabled(localStorage.getItem(STORAGE_KEY) === "true");
+    const stored = localStorage.getItem(STORAGE_KEY);
+    setEnabled(stored === null ? true : stored === "true");
   }, []);
 
   const toggle = useCallback((v: boolean) => {
