@@ -197,7 +197,13 @@ class ReactEngine:
           message, results, state_ctx, history, personalization_ctx,
           context_summary=conversation_summary,
         ):
-          # Safety net: overall synthesis timeout
+          # Process chunk FIRST, then check timeout
+          full_response += chunk
+          yield SSEMessage(
+            event=SSEEventType.TEXT,
+            data={"content": chunk},
+          ).format()
+          # Safety net: stop after timeout to avoid infinite streams
           elapsed = time.time() - t_synth
           if elapsed > synth_timeout:
             logger.warning(
@@ -205,30 +211,39 @@ class ReactEngine:
               elapsed,
             )
             break
-          full_response += chunk
-          yield SSEMessage(
-            event=SSEEventType.TEXT,
-            data={"content": chunk},
-          ).format()
       except Exception as synth_exc:
         logger.warning("Synthesis stream error: %s", synth_exc)
-        if not full_response:
-          fallback = "抱歉，生成旅行方案时超时了。请重新发送消息再试一次。"
-          full_response = fallback
-          yield SSEMessage(
-            event=SSEEventType.TEXT,
-            data={"content": fallback},
-          ).format()
+
+      # Fallback: if synthesis produced nothing, yield agent results directly
+      if not full_response:
+        from agent.orchestrator.synthesis import _smart_fallback
+        has_agent_content = any(
+          r.data.get("response") or r.summary
+          for r in results.values()
+        )
+        if has_agent_content:
+          combined_parts = []
+          for r in results.values():
+            agent_data = r.data.get("response", r.summary)
+            if agent_data:
+              combined_parts.append(f"**{r.agent.value}**: {agent_data}")
+          fallback = "以下是为你整理的旅行信息：\n\n" + "\n\n".join(combined_parts)
+        else:
+          fallback = _smart_fallback(message)
+        full_response = fallback
+        yield SSEMessage(
+          event=SSEEventType.TEXT,
+          data={"content": fallback},
+        ).format()
 
       logger.info(
         "TIMING stage=synthesis duration_ms=%d session=%s",
         int((time.time() - t_synth) * 1000), session_id,
       )
 
-      if full_response:
-        await session_memory.add_message(
-          session_id, "assistant", full_response,
-        )
+      await session_memory.add_message(
+        session_id, "assistant", full_response,
+      )
 
       # Cache tasks and results for incremental planning on follow-ups
       self._previous_tasks[session_id] = tasks
