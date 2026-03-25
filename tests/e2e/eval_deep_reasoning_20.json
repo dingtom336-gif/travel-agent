@@ -1,0 +1,315 @@
+{
+  "version": "v0.9.1",
+  "mode": "deep_reasoning",
+  "timestamp": "2026-03-24T21:50:15",
+  "server": "http://150.158.192.237",
+  "summary": {
+    "total": 20,
+    "passed": 0,
+    "failed": 20,
+    "avg_score": 1.0,
+    "avg_duration_s": 57.0
+  },
+  "results": [
+    {
+      "id": "DR01",
+      "category": "航班查询",
+      "question": "帮我查一下明天北京到三亚的航班",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 0.7,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR02",
+      "category": "航班查询",
+      "question": "上海到成都后天的航班，要直飞的",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 0.7,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR03",
+      "category": "航班查询",
+      "question": "广州飞东京下周五有什么航班？经济舱",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 85.8,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR04",
+      "category": "酒店查询",
+      "question": "三亚亚龙湾附近有什么五星级酒店推荐？",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 2.2,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR05",
+      "category": "酒店查询",
+      "question": "杭州西湖边的酒店，价格300以内的",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 2.3,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR06",
+      "category": "酒店查询",
+      "question": "成都春熙路附近适合带小孩住的酒店",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 2.7,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR07",
+      "category": "景点查询",
+      "question": "北京有哪些适合亲子游的景点？",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 2.8,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR08",
+      "category": "景点查询",
+      "question": "西安必去的5个景点是什么",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 1.9,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR09",
+      "category": "景点查询",
+      "question": "厦门鼓浪屿一日游怎么安排",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 5.8,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR10",
+      "category": "行程规划",
+      "question": "帮我规划一个三亚5天4晚的亲子游行程，预算8000元",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 84.3,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR11",
+      "category": "行程规划",
+      "question": "两个人去云南大理丽江玩7天，想深度游，预算1万",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 76.4,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR12",
+      "category": "行程规划",
+      "question": "国庆想从上海出发去日本东京大阪玩5天",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 67.1,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR13",
+      "category": "行程规划",
+      "question": "清明节3天假期，从深圳出发去哪里合适？预算3000",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 71.4,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR14",
+      "category": "旅行知识",
+      "question": "去泰国需要准备什么？签证怎么办？",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 60.4,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR15",
+      "category": "旅行知识",
+      "question": "冬天去哈尔滨玩需要注意什么？",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 0.7,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR16",
+      "category": "旅行知识",
+      "question": "第一次坐邮轮有什么建议？",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 0.7,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR17",
+      "category": "复杂约束",
+      "question": "我们4个人想五一从北京去海边玩3天，有老人和小孩，预算5000，不想太累",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 76.4,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR18",
+      "category": "复杂约束",
+      "question": "蜜月旅行推荐，7天左右，预算2万，想去海岛但不要马尔代夫",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 86.5,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR19",
+      "category": "复杂约束",
+      "question": "暑假带两个孩子（5岁和10岁）去哪里玩好？要有教育意义的",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 367.8,
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "DR20",
+      "category": "边界场景",
+      "question": "我现在在曼谷，护照丢了怎么办？",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "响应过短(<50字)",
+        "空响应"
+      ],
+      "duration_s": 142.5,
+      "agents_dispatched": [],
+      "ui_components": []
+    }
+  ]
+}

@@ -4,10 +4,10 @@
 ## 最近操作记录
 | # | 时间 | 操作摘要 | 类型 |
 |---|------|---------|------|
-| 1 | 2026-03-24 | 深度推理按钮：前端开关(Aurora风格)+后端per-request模式切换+SSR hydration修复 | 🚀功能 |
-| 2 | 2026-03-24 | 搜索意图修复：router新增search意图+state_extractor新增X到Y路由模式 | 🔧修复 |
-| 3 | 2026-03-24 | FlyAI集成：工具层接入飞猪真实航班/酒店/景点数据，替换mock为最高优先级 | 🚀功能 |
-| 4 | 2026-03-24 | uvicorn workers 2→1修复多轮上下文丢失（in-memory state不跨worker） | 🔧修复 |
+| 1 | 2026-03-25 | search_handler.py 引号语法修复（3处中文引号→书名号）+ 导入路径 session_memory→session | 🔧修复 |
+| 2 | 2026-03-25 | 本地环境恢复（venv2重建+.env从腾讯云恢复+node_modules+web build）+ 三方代码同步验证 | 🔧修复 |
+| 3 | 2026-03-25 | 深度推理20题评测启动中 | 🧪评测 |
+| 4 | 2026-03-24 | 深度推理按钮+搜索意图修复+FlyAI集成+workers修复 | 🚀功能 |
 | 5 | 2026-03-22 | Aurora Ether UI 全量重构：27个文件换肤（暗色+毛玻璃+渐变），已部署生产 | 🎨重构 |
 
 ## 双模式架构 (2026-03-24)
@@ -24,9 +24,14 @@
 
 ## 已知问题
 - [ ] ReAct 模式 Synthesizer 丢失工具细节（航班号等）→ 需优化 prompt 或直通工具数据
-- [ ] 深度推理模式20题评测待跑 → 系统化收集问题
+- [ ] 深度推理模式20题评测进行中（2026-03-25）
 - [ ] FlyAI 正式 key 申请（解锁真实价格）→ [open.fly.ai](https://open.fly.ai/)
 - [ ] SiliconFlow API 余额确认（阻塞200题评测）
+- [ ] 航班搜索结果去重（AQ1002 重复3次）
+- [x] search_handler.py 引号语法错误（已修复 2026-03-25）
+- [x] search_handler.py 导入路径错误 session_memory→session（已修复 2026-03-25）
+- [x] 本地 venv2/.env 被误删（已从腾讯云恢复 2026-03-25）
+- [x] 腾讯云 git 落后2个提交（已 git pull 同步 2026-03-25）
 
 ## 环境备忘
 - **本地**：`~/Desktop/new_start/claude-code/travel-agent/`，前端3001，后端8000
