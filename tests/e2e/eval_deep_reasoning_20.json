@@ -1,148 +1,156 @@
 {
   "version": "v0.9.1",
   "mode": "deep_reasoning",
-  "timestamp": "2026-03-24T21:50:15",
+  "timestamp": "2026-03-25T11:29:54",
   "server": "http://150.158.192.237",
   "summary": {
     "total": 20,
-    "passed": 0,
-    "failed": 20,
-    "avg_score": 1.0,
-    "avg_duration_s": 57.0
+    "passed": 18,
+    "failed": 2,
+    "avg_score": 3.8,
+    "avg_duration_s": 33.0
   },
   "results": [
     {
       "id": "DR01",
       "category": "航班查询",
       "question": "帮我查一下明天北京到三亚的航班",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
+      "response": "### 北京 → 三亚 航班查询结果\n\n| 航班 | 航司 | 出发 | 到达 | 时长 | 价格 |\n|------|------|------|------|------|------|\n| MU6377 | 东航 | 07:25 大兴国际机场 | 11:35 凤凰国际机场 | 4h10m | ¥1666 |\n| JD5577 | 新海航|首都航空 | 20:20 大兴国际机场 | 00:05+1 凤凰国际机场 | 3h45m | ¥1500 |\n| 3U3113 | 川航 | 21:55 首都国际机场 | 01:55+1 凤凰国际机场 | 4h0m | ¥1600 |\n| MF8393 | 厦航 | 07:15 大兴国际机场 | 11:25 凤凰国际机场 | 4h10m | ¥1666 |\n| CZ6716 | 南航 | 19:20 大兴国际机场 | 23:35 凤凰国际机场 | 4h15m | ¥1700 |\n\n> 数据来源：飞猪实时查询",
+      "response_length": 429,
+      "score": 3,
       "issues": [
-        "响应过短(<50字)",
-        "空响应"
+        "未调度任何Agent(可能走了Theater模式)"
       ],
-      "duration_s": 0.7,
-      "agents_dispatched": [],
+      "duration_s": 0.9,
+      "agents_dispatched": [
+        "search"
+      ],
       "ui_components": []
     },
     {
       "id": "DR02",
       "category": "航班查询",
       "question": "上海到成都后天的航班，要直飞的",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
+      "response": "### 上海 → 成都 航班查询结果\n\n| 航班 | 航司 | 出发 | 到达 | 时长 | 价格 |\n|------|------|------|------|------|------|\n| HO1039 | 吉祥 | 07:20 浦东国际机场 | 12:25 天府机场 | 5h4m | ¥2033 |\n| CZ5127 | 南航 | 07:50 浦东国际机场 | 11:25 天府机场 | 3h35m | ¥1433 |\n| 9C8819 | 春秋 | 07:45 虹桥国际机场 | 10:45 天府机场 | 3h0m | ¥1200 |\n| 9C8887 | 春秋 | 08:50 虹桥国际机场 | 12:25 天府机场 | 3h35m | ¥1433 |\n| 9C6101 | 春秋 | 11:55 虹桥国际机场 | 15:20 天府机场 | 3h24m | ¥1366 |\n\n> 数据来源：飞猪实时查询",
+      "response_length": 408,
+      "score": 3,
       "issues": [
-        "响应过短(<50字)",
-        "空响应"
+        "未调度任何Agent(可能走了Theater模式)"
       ],
       "duration_s": 0.7,
-      "agents_dispatched": [],
+      "agents_dispatched": [
+        "search"
+      ],
       "ui_components": []
     },
     {
       "id": "DR03",
       "category": "航班查询",
       "question": "广州飞东京下周五有什么航班？经济舱",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
+      "response": "### 广州 → 东京 航班查询结果\n\n| 航班 | 航司 | 出发 | 到达 | 时长 | 价格 |\n|------|------|------|------|------|------|\n| NH924 | 全日空航空 | 14:15 白云国际机场 | 19:45 羽田机场 | 4h30m | ¥1800 |\n| NH924 | 全日空航空 | 14:15 白云国际机场 | 19:45 羽田机场 | 4h30m | ¥1800 |\n| NH924 | 全日空航空 | 14:15 白云国际机场 | 19:45 羽田机场 | 4h30m | ¥1800 |\n| NH924 | 全日空航空 | 14:15 白云国际机场 | 19:45 羽田机场 | 4h30m | ¥1800 |\n| NH924 | 全日空航空 | 14:15 白云国际机场 | 19:45 羽田机场 | 4h30m | ¥1800 |\n\n> 数据来源：飞猪实时查询",
+      "response_length": 420,
+      "score": 2,
       "issues": [
-        "响应过短(<50字)",
-        "空响应"
+        "未调度任何Agent(可能走了Theater模式)",
+        "缺少具体航班号"
       ],
-      "duration_s": 85.8,
-      "agents_dispatched": [],
+      "duration_s": 1.6,
+      "agents_dispatched": [
+        "search"
+      ],
       "ui_components": []
     },
     {
       "id": "DR04",
       "category": "酒店查询",
       "question": "三亚亚龙湾附近有什么五星级酒店推荐？",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
+      "response": "### 三亚 酒店查询结果\n\n**三亚亚龙湾天域度假酒店** ★★★★★ ¥1800/晚\n  📍 近亚龙湾国家旅游度假区\n  ![](https://img.alicdn.com/imgextra/i3/6000000004294/O1CN01MTjWqd1hahRhoEmay_!!6000000004294-0-hotel.jpg)\n  [查看详情](https://a.feizhu.com/20iz22)\n\n**三亚国光豪生度假酒店** ★★★ ¥350/晚\n  📍 近三亚湾\n  ![](https://img.alicdn.com/imgextra/i1/6000000003743/O1CN01PtUILU1dWL6OFMjXI_!!6000000003743-0-hotel.jpg)\n  [查看详情](https://a.feizhu.com/1vTLxC)\n\n**三亚希尔顿花园酒店** ★★★★★ ¥1800/晚\n  📍 近亿恒购物中心\n  ![](https://img.alicdn.com/imgextra/i1/6000000006303/O1CN01Vx5YOl1wQp21oCR5r_!!6000000006303-0-hotel.jpg)\n  [查看详情](https://a.feizhu.com/3xNyuv)\n\n**三亚海棠湾雅士阁洋房别墅(海昌梦幻不夜城店)** ★★★ ¥350/晚\n  📍 近保利海棠湾\n  ![](https://img.alicdn.com/imgextra/i4/6000000003540/O1CN01hVkjzS1c1Mhahju5r_!!6000000003540-0-hotel.jpg)\n  [查看详情](https://a.feizhu.com/0NoaI4)\n\n**三亚亚龙湾万豪度假酒店** ★★★ ¥350/晚\n",
+      "response_length": 976,
+      "score": 3,
       "issues": [
-        "响应过短(<50字)",
-        "空响应"
+        "未调度任何Agent(可能走了Theater模式)"
       ],
-      "duration_s": 2.2,
-      "agents_dispatched": [],
+      "duration_s": 2.8,
+      "agents_dispatched": [
+        "search"
+      ],
       "ui_components": []
     },
     {
       "id": "DR05",
       "category": "酒店查询",
       "question": "杭州西湖边的酒店，价格300以内的",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
+      "response": "### 杭州 酒店查询结果\n\n**杭州悦胜酒店西湖清泰街店** ★★ ¥200/晚\n  📍 近杭州站\n  ![](https://img.alicdn.com/imgextra/i4/6000000006562/O1CN01EiuIXz1yLS4UifWyw_!!6000000006562-2-hotel.png)\n  [查看详情](https://a.feizhu.com/0SWRcL)\n\n**杭州曼森·轩鹏精选酒店** ★★ ¥200/晚\n  📍 近下沙大学城\n  ![](https://img.alicdn.com/imgextra/i2/6000000004583/O1CN01syFk241jj4GJdKmuX_!!6000000004583-2-hotel.png)\n  [查看详情](https://a.feizhu.com/0f9r8f)\n\n**杭州西米精品酒店(杭州火车站城站店)** ★★ ¥200/晚\n  📍 近杭州站\n  ![](https://img.alicdn.com/imgextra/i2/6000000006610/O1CN01CVpDkM1yhR1jNfKws_!!6000000006610-2-hotel.png)\n  [查看详情](https://a.feizhu.com/1CIVIb)\n\n**锦江之星（杭州西湖文化广场地铁站酒店）** ★★ ¥200/晚\n  📍 近武林广场\n  ![](https://img.alicdn.com/imgextra/i3/6000000005124/O1CN01RZT9Uc1niqTl81HB5_!!6000000005124-0-hotel.jpg)\n  [查看详情](https://a.feizhu.com/3ifseY)\n\n**杭州柠莱快捷酒店（下沙大学城传媒学院店）** ★★ ¥200/晚\n  📍",
+      "response_length": 968,
+      "score": 3,
       "issues": [
-        "响应过短(<50字)",
-        "空响应"
+        "未调度任何Agent(可能走了Theater模式)"
       ],
-      "duration_s": 2.3,
-      "agents_dispatched": [],
+      "duration_s": 2.2,
+      "agents_dispatched": [
+        "search"
+      ],
       "ui_components": []
     },
     {
       "id": "DR06",
       "category": "酒店查询",
       "question": "成都春熙路附近适合带小孩住的酒店",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
+      "response": "### 成都 酒店查询结果\n\n**锦江之星（成都春熙路太古里IFS酒店)** ★★ ¥200/晚\n  📍 近春熙路步行街\n  ![](https://img.alicdn.com/imgextra/i3/6000000005645/O1CN01pNippt1rZSgS3NhlZ_!!6000000005645-0-hotel.jpg)\n  [查看详情](https://a.feizhu.com/0PuPw4)\n\n**7天酒店（成都宽窄巷子文殊院西大街地铁站店）** ★★ ¥200/晚\n  📍 近宽窄巷子景区\n  ![](https://img.alicdn.com/imgextra/i3/6000000005229/O1CN013e4iQ21oUw9mEeASJ_!!6000000005229-0-hotel.jpg)\n  [查看详情](https://a.feizhu.com/0Izbp9)\n\n**IU酒店（成都宽窄巷子草堂北路地铁站店）** ★★ ¥200/晚\n  📍 近杜甫草堂博物馆\n  ![](https://img.alicdn.com/imgextra/i4/6000000004980/O1CN01yqFk3G1metWzI42R4_!!6000000004980-2-hotel.png)\n  [查看详情](https://a.feizhu.com/3Jpf0y)\n\n**成都遇见青年旅社(成都西站店)** ★★ ¥200/晚\n  📍 近成都西站\n  ![](https://img.alicdn.com/imgextra/i3/6000000007793/O1CN01BkUQwa27RFV1laxkU_!!6000000007793-0-hotel.jpg)\n  [查看详情](https://a.feizhu.com/4D0m0p)\n\n**成都春熙路中心希尔顿花园",
+      "response_length": 997,
+      "score": 3,
       "issues": [
-        "响应过短(<50字)",
-        "空响应"
+        "未调度任何Agent(可能走了Theater模式)"
       ],
-      "duration_s": 2.7,
-      "agents_dispatched": [],
+      "duration_s": 3.1,
+      "agents_dispatched": [
+        "search"
+      ],
       "ui_components": []
     },
     {
       "id": "DR07",
       "category": "景点查询",
       "question": "北京有哪些适合亲子游的景点？",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
+      "response": "### 北京 热门景点\n\n**北京环球度假区** — 免费\n  🎫 1日门票 成人票\n  ![](https://img.alicdn.com/imgextra/i1/6000000003734/O1CN01uoZgZz1dSE2EuL1NE_!!6000000003734-0-fliggyimage.jpg)\n  [立即预订](https://a.feizhu.com/2EW52W)\n\n**故宫博物院** — 免费\n  ![](https://img.alicdn.com/tfscom/TB1534jilHH8KJjy0FbSuwqlpXa)\n  [立即预订](https://a.feizhu.com/0sbb2X)\n\n**八达岭长城** — 免费\n  ![](https://img.alicdn.com/imgextra/i4/6000000001526/O1CN01k7Dizz1N8x7dHKTdX_!!6000000001526-0-fliggyimage.jpg)\n  [立即预订](https://a.feizhu.com/1Ix9ph)\n\n**颐和园** — 免费\n  ![](https://img.alicdn.com/imgextra/i2/6000000002657/O1CN01hH3ujE1VUxB0PSAHQ_!!6000000002657-0-fliggyimage.jpg)\n  [立即预订](https://a.feizhu.com/19laVj)\n\n**天坛公园** — 免费\n  ![](https://img.alicdn.com/tfscom/TB1kxhMihPI8KJjSspoSut6MFXa)\n  [立即预订](https://a.feizhu.com/2c0Rr9)\n\n**圆明园** — 免费\n  🎫 大门票 成人票\n  ![](ht",
+      "response_length": 1212,
+      "score": 3,
       "issues": [
-        "响应过短(<50字)",
-        "空响应"
+        "未调度任何Agent(可能走了Theater模式)"
       ],
-      "duration_s": 2.8,
-      "agents_dispatched": [],
+      "duration_s": 2.0,
+      "agents_dispatched": [
+        "search"
+      ],
       "ui_components": []
     },
     {
       "id": "DR08",
       "category": "景点查询",
       "question": "西安必去的5个景点是什么",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
+      "response": "### 西安 热门景点\n\n**秦始皇帝陵博物院（兵马俑）** — 免费\n  ![](https://img.alicdn.com/imgextra/i2/O1CN01ssvIVV1NCc7jHv3I9_!!0-alitrip.jpg)\n  [立即预订](https://a.feizhu.com/0acRux)\n\n**长恨歌** — 免费\n  ![](https://img.alicdn.com/imgextra/i2/6000000001865/O1CN01GIAEPC1PeDMSQpT0N_!!6000000001865-0-fliggyimage.jpg)\n  [立即预订](https://a.feizhu.com/2htnQs)\n\n**陕西历史博物馆** — 免费\n  ![](https://img.alicdn.com/imgextra/i2/6000000002878/O1CN010zjOX91X8AglPCr97_!!6000000002878-0-fliggyimage.jpg)\n  [立即预订](https://a.feizhu.com/1cPPfZ)\n\n**华清宫** — 免费\n  🎫 大门票 成人票\n  ![](https://img.alicdn.com/tfscom/TB1FWh3ilHH8KJjy0FbSuwqlpXa)\n  [立即预订](https://a.feizhu.com/2uc7GP)\n\n**西安城墙** — 免费\n  ![](https://img.alicdn.com/tfscom/TB1lT4XfcnI8KJjSspeSuwwIpXa)\n  [立即预订](https://a.feizhu.com/2yWFsJ)\n\n**西安千古情** — 免费\n  ![](https://img.alicdn.com/imgextra/i3/6000",
+      "response_length": 1221,
+      "score": 3,
       "issues": [
-        "响应过短(<50字)",
-        "空响应"
+        "未调度任何Agent(可能走了Theater模式)"
       ],
-      "duration_s": 1.9,
-      "agents_dispatched": [],
+      "duration_s": 1.6,
+      "agents_dispatched": [
+        "search"
+      ],
       "ui_components": []
     },
     {
       "id": "DR09",
       "category": "景点查询",
       "question": "厦门鼓浪屿一日游怎么安排",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
+      "response": "\n你好！很高兴为你规划厦门鼓浪屿一日游。这里有一个温馨又实用的行程建议：\n\n### 上午（08:30-12:00）  \n1. **乘船登岛**：从厦门轮渡码头乘船前往鼓浪屿（提前购票，避开高峰）  \n2. **龙头路漫步**：品尝特色小吃（花生汤、沙茶面），感受老街氛围  \n3. **菽庄花园**：欣赏藏在礁石下的创意园林，可参观钢琴博物馆  \n\n### 中午（12:00-13:30）  \n在龙头路或美沙路选择一家特色小店午餐（如林记鱼丸或叶氏麻糍），补充体力  \n\n### 下午（13:30-17:00）  \n1. **万国建筑巡礼**：沿途欣赏各国领事馆旧址、番婆楼等（随机停留拍照）  \n2. **日光岩**：登顶俯瞰鼓浪屿全景和厦门岛（建议16:00前下山）  \n3. **港仔后海滨**：海边散步，放松休息  \n\n### 温馨提示：  \n- **交通**：岛上步行为主，可租借自行车  \n- **必备**：防晒、遮阳帽、舒适的鞋  \n- **小众Tips**：傍晚去内厝澳路感受安静小巷  \n\n你对哪部分行程特别感兴趣？或者有偏爱的景点或美食吗？我可以帮你调整细节！",
+      "response_length": 490,
+      "score": 3,
       "issues": [
-        "响应过短(<50字)",
-        "空响应"
+        "未调度任何Agent(可能走了Theater模式)"
       ],
-      "duration_s": 5.8,
+      "duration_s": 6.0,
       "agents_dispatched": [],
       "ui_components": []
     },
@@ -150,89 +158,108 @@
       "id": "DR10",
       "category": "行程规划",
       "question": "帮我规划一个三亚5天4晚的亲子游行程，预算8000元",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
-      "issues": [
-        "响应过短(<50字)",
-        "空响应"
+      "response": "您好！很高兴为您规划三亚亲子之旅！🏝️\n\n我注意到您还没有告诉我**出发城市**，方便告诉我您从哪里出发吗？这样我可以为您查询更精准的交通方案。\n\n---\n\n## 🎒 初步行程规划\n\n**考虑到您是亲子游**，我会安排节奏舒缓、适合孩子的景点，避免行程过于紧凑：\n\n### 🏨 推荐住宿区域\n| 区域 | 优势 | 亲子推荐 |\n|------|------|----------|\n| **亚龙湾** | 沙滩优质、酒店设施好 | 适合泡酒店、玩水 |\n| **海棠湾** | 新开发、近亚特兰蒂斯 | 水族馆、水上乐园 |\n| **三亚湾** | 性价比高、近市区 | 预算友好、交通便利 |\n\n> 💡 亲子游建议选择有儿童泳池、亲子活动的度假酒店，让孩子玩得开心！\n\n---\n\n### 📅 5天4晚亲子行程框架\n\n**🌅 Day 1** 抵达 → 酒店休整 → 三亚湾椰梦长廊看日落\n\n**🏖️ Day 2** 亚龙湾沙滩 → 海底世界 → 酒店泳池玩耍\n\n**🐠 Day 3** 亚特兰蒂斯水族馆 → 失落的空间 → 海豚湾表演\n\n**🌳 Day 4** 亚龙湾热带天堂森林公园（玻璃栈道） → 免税店购物\n\n**🦀 Day 5** 第一市场海鲜 → 返程\n\n---\n\n### 💰 预算分配建议（8000元/家庭）\n\n| 项目 | 预算 | 说明 |\n|------|------|------|\n| 往返交通 | ¥2000-3000 | 视出发地而定 |\n| 住宿（4晚） | ¥2500-3200 | 亲子酒店约600-800/晚 |\n| 门票玩乐 | ¥800-1000 | 水族馆、森林公园等 |\n| 餐饮 | ¥1000-1500 | 含海鲜大餐 |\n| 交通/其他 | ¥500 | 打车、购物预留 |\n\n---\n\n请告诉我您的**出发城市**和**出行日期**，我就可以为您查",
+      "response_length": 814,
+      "score": 5,
+      "issues": [],
+      "duration_s": 68.1,
+      "agents_dispatched": [
+        "transport",
+        "knowledge",
+        "itinerary",
+        "hotel",
+        "poi",
+        "weather"
       ],
-      "duration_s": 84.3,
-      "agents_dispatched": [],
       "ui_components": []
     },
     {
       "id": "DR11",
       "category": "行程规划",
       "question": "两个人去云南大理丽江玩7天，想深度游，预算1万",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
-      "issues": [
-        "响应过短(<50字)",
-        "空响应"
+      "response": "# 🌸 云南大理丽江7天深度游方案\n\n两位的7天深度游，预算1万元，完全可以玩得很舒服！我来为您规划一条**大理进、丽江出**的最顺路线，避免走回头路。\n\n---\n\n## 📍 行程概览\n\n| 城市 | 天数 | 核心体验 |\n|------|------|----------|\n| 大理 | Day 1-3 | 洱海环湖、古城慢生活、喜洲古镇 |\n| 丽江 | Day 4-7 | 玉龙雪山、丽江古城、束河古镇 |\n\n---\n\n## 🏨 住宿推荐\n\n**大理（3晚）**：建议住洱海边，推荐才村或双廊区域\n- 洱海景观民宿：约 **¥300-400/晚**，推窗见海\n\n**丽江（4晚）**：建议住束河古镇，比大研古城更安静\n- 古镇特色客栈：约 **¥250-350/晚**，纳西风情院落\n\n---\n\n## 🗓️ 每日行程\n\n### 🌅 Day 1-3 大理深度游\n\n**Day 1**：抵达大理 → 大理古城逛吃 → 夜宿古城附近\n**Day 2**：洱海环湖一日（租车/骑行）→ 喜洲古镇 → 双廊看日落\n**Day 3**：苍山索道 → 感通寺 → 下午前往丽江\n\n### 🏔️ Day 4-7 丽江深度游\n\n**Day 4**：抵达丽江 → 束河古镇 → 篝火晚会\n**Day 5**：玉龙雪山（蓝月谷+冰川公园）→ 印象丽江演出\n**Day 6**：丽江古城深度逛 → 木府 → 狮子山看全景\n**Day 7**：黑龙潭晨景 → 返程\n\n---\n\n## 💰 预算分配（2人合计）\n\n| 项目 | 预算 |\n|------|------|\n| 住宿7晚 | ¥2,500 |\n| 餐饮 | ¥2,000 |\n| 门票+演出 | ¥1,800 |\n| 当地交通 | ¥800 |\n| 大理→丽江交通 | ¥150 |\n| **预留机动** | ¥2,750 |\n\n> 💡 **省钱小贴士**",
+      "response_length": 902,
+      "score": 5,
+      "issues": [],
+      "duration_s": 75.6,
+      "agents_dispatched": [
+        "transport",
+        "knowledge",
+        "itinerary",
+        "hotel",
+        "poi",
+        "weather"
       ],
-      "duration_s": 76.4,
-      "agents_dispatched": [],
       "ui_components": []
     },
     {
       "id": "DR12",
       "category": "行程规划",
       "question": "国庆想从上海出发去日本东京大阪玩5天",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
-      "issues": [
-        "响应过短(<50字)",
-        "空响应"
+      "response": "你好！国庆从上海去日本，5天玩东京+大阪确实是个紧凑但可行的选择 ✨\n\n---\n\n## 🗾 初步行程建议\n\n考虑到5天时间和地理位置，推荐以下路线：\n\n> **上海 → 东京（2-3天）→ 新干线 → 大阪（2天）→ 上海**\n> 避免走回头路，充分利用时间\n\n| 方案 | 东京 | 大阪 | 适合人群 |\n|-----|------|------|---------|\n| 方案A | 3天 | 2天 | 首次去日本、想打卡地标 |\n| 方案B | 2天 | 3天 | 喜欢美食购物、环球影城 |\n\n---\n\n## 📋 签证与出行提醒\n\n- **签证**：需通过指定旅行社代办，建议提前2-3周申请\n- **机票酒店**：国庆旺季价格较高，越早订越划算\n- **交通**：东京到大阪新干线约2.5小时，单程约¥900\n\n---\n\n## 💡 出发前想确认两点：\n\n1. **同行人数**？是否带孩子或老人同行\n2. **更偏向哪种体验**？购物美食 / 文化古迹 / 主题乐园（如环球影城）\n\n这样我可以帮您细化每天的景点安排和住宿推荐！🏯",
+      "response_length": 471,
+      "score": 5,
+      "issues": [],
+      "duration_s": 75.2,
+      "agents_dispatched": [
+        "transport",
+        "knowledge",
+        "itinerary",
+        "hotel",
+        "poi",
+        "weather"
       ],
-      "duration_s": 67.1,
-      "agents_dispatched": [],
       "ui_components": []
     },
     {
       "id": "DR13",
       "category": "行程规划",
       "question": "清明节3天假期，从深圳出发去哪里合适？预算3000",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
-      "issues": [
-        "响应过短(<50字)",
-        "空响应"
+      "response": "清明节3天从深圳出发、预算3000元，有几个很棒的选择！让我帮你分析一下：\n\n## 🎯 推荐目的地对比\n\n| 目的地 | 交通方式 | 车程/飞行 | 3天预算 | 清明特色 |\n|--------|----------|-----------|---------|----------|\n| **厦门** | 高铁 | 约3.5h | ¥2500-3000 | 春暖花开，鼓浪屿漫步 |\n| **潮汕** | 高铁 | 约2.5h | ¥2000-2500 | 美食之旅，性价比高 |\n| **桂林阳朔** | 高铁 | 约3h | ¥2800-3200 | 烟雨漓江，春景如画 |\n| **广州+佛山** | 高铁 | 约1h | ¥1500-2000 | 轻松休闲，预算友好 |\n\n---\n\n## 💡 我的推荐\n\n> **首选厦门** — 清明时节气候宜人，可以骑行环岛路、漫步鼓浪屿、打卡曾厝垵，节奏舒适，非常适合3天小长假。\n\n**备选潮汕** — 如果你是个吃货，潮汕绝对不亏！牛肉火锅、蚝烙、肠粉...两天吃遍潮州+汕头，预算还能省下一笔。\n\n---\n\n为了给你更详细的行程和住宿推荐，想确认一下：\n\n1. 你更偏好**休闲放松**还是**打卡观光**？\n2. 有没有特别想体验的（比如美食、海景、人文古迹）？",
+      "response_length": 562,
+      "score": 5,
+      "issues": [],
+      "duration_s": 76.3,
+      "agents_dispatched": [
+        "transport",
+        "knowledge",
+        "itinerary",
+        "hotel",
+        "poi",
+        "weather"
       ],
-      "duration_s": 71.4,
-      "agents_dispatched": [],
       "ui_components": []
     },
     {
       "id": "DR14",
       "category": "旅行知识",
       "question": "去泰国需要准备什么？签证怎么办？",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
-      "issues": [
-        "响应过短(<50字)",
-        "空响应"
+      "response": "# 🇹🇭 泰国旅行准备指南\n\n## ✅ 签证好消息！\n\n**中国公民可免签入境泰国**，停留不超过30天，无需提前办理任何手续。只需携带：\n- 有效期6个月以上的护照\n- 往返机票订单（备查）\n- 酒店预订单（建议准备）\n\n> 💡 入境时排队盖章即可，非常方便！\n\n---\n\n## 🧳 行前准备清单\n\n**证件类**：护照、身份证、机票/酒店确认单、旅游保险\n\n**电子设备**：手机、充电器、充电宝（随身携带）\n\n**日用品**：\n- 防晒霜 SPF50+（紫外线很强！）\n- 墨镜、遮阳帽\n- 雨伞/雨衣\n- 常备药品（感冒药、止泻药、创可贴）\n\n**衣物**：夏装为主 + **一件薄外套**（商场/飞机空调很冷）\n\n> ⚠️ **特别提醒**：泰国禁止携带电子烟，违者可能被罚款或监禁！\n\n---\n\n## 💡 好消息\n\n- 🔌 插头与中国通用，无需转换器\n- 💰 建议国内换部分泰铢，当地ATM取现也很方便\n- 📱 可提前买泰国SIM卡或开通漫游包\n\n---\n\n为了给您更具��的建议，想了解一下：\n\n1. **您从哪个城市出发？**（方便查航班）\n2. **计划什么时候去、玩几天？**（不同季节准备略有不同）",
+      "response_length": 510,
+      "score": 5,
+      "issues": [],
+      "duration_s": 58.0,
+      "agents_dispatched": [
+        "transport",
+        "knowledge",
+        "itinerary",
+        "hotel",
+        "poi",
+        "weather"
       ],
-      "duration_s": 60.4,
-      "agents_dispatched": [],
       "ui_components": []
     },
     {
       "id": "DR15",
       "category": "旅行知识",
       "question": "冬天去哈尔滨玩需要注意什么？",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
+      "response": "\n冬天去哈尔滨玩确实很特别！以下是注意事项和建议：\n\n1. **保暖装备**：哈尔滨冬季气温可低至零下20多度，务必穿戴厚实的羽绒服、保暖内衣、防滑防寒靴、手套和围巾。\n2. **防滑措施**：路面可能结冰，建议穿防滑鞋，小心慢行。\n3. **室内外温差**：室内暖气很足，进出室内外时要及时调整衣��，避免感冒。\n4. **行程重点**：\n   - **冰雪大世界**：世界级冰雕艺术，晚上灯光璀璨。\n   - **圣索菲亚教堂**：标志性建筑，可参观教堂内部。\n   - **中央大街**：体验俄式建筑和特色小吃。\n   - **松花江**：看冰封的江面和冬捕活动。\n5. **美食推荐**：锅包肉、红肠、俄式列巴、の凍梨等。\n6. **住宿建议**：选择靠近市中心的酒店，方便出行。\n\n需要我为您推荐具体的酒店或门票信息吗？或者对某个景点有更多疑问？",
+      "response_length": 378,
+      "score": 3,
       "issues": [
-        "响应过短(<50字)",
-        "空响应"
+        "未调度任何Agent(可能走了Theater模式)"
       ],
-      "duration_s": 0.7,
+      "duration_s": 4.5,
       "agents_dispatched": [],
       "ui_components": []
     },
@@ -240,75 +267,95 @@
       "id": "DR16",
       "category": "旅行知识",
       "question": "第一次坐邮轮有什么建议？",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
+      "response": "请提供出发地和目的地，例如「北京到上海的航班」。",
+      "response_length": 24,
+      "score": 2,
       "issues": [
         "响应过短(<50字)",
-        "空响应"
+        "未调度任何Agent(可能走了Theater模式)",
+        "知识类响应信息量不足"
       ],
-      "duration_s": 0.7,
-      "agents_dispatched": [],
+      "duration_s": 0.8,
+      "agents_dispatched": [
+        "search"
+      ],
       "ui_components": []
     },
     {
       "id": "DR17",
       "category": "复杂约束",
       "question": "我们4个人想五一从北京去海边玩3天，有老人和小孩，预算5000，不想太累",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
-      "issues": [
-        "响应过短(<50字)",
-        "空响应"
+      "response": "# 🌊 五一海边亲子游方案\n\n您好！根据您的需求——**4人出行、有老人小孩、预算5000元、不想太累**，我为您推荐**北戴河/秦皇岛**作为目的地：\n\n---\n\n## 📍 为什么推���北戴河？\n\n| 优势 | 说明 |\n|------|------|\n| ⏱️ 交通便捷 | 北京高铁仅**2小时**直达，老人小孩不折腾 |\n| 🏖️ 海滩平缓 | 沙滩细腻、浪小水浅，适合孩子玩耍 |\n| 💰 性价比高 | 住宿餐饮选择多，五一期间相对可控 |\n| 🏥 设施完善 | 医疗、餐饮配套成熟，带老人更安心 |\n\n---\n\n## 🚄 交通建议\n\n**推荐高铁往返：**\n- 去程：北京站 → 北戴河站（约2小时，¥70-90/人）\n- 返程：预留充足时间，避免假期返程拥堵\n\n> 💡 五一高铁票紧张，建议**提前15天**抢票，或考虑错峰出发（4月30日晚/5月1日早）\n\n---\n\n## 🏨 住宿推荐\n\n考虑到有老人小孩，建议选择：\n- **位置**：老虎石海滩或刘庄附近，步行可达海边\n- **房型**：家庭房或两间标间（约¥200-400/晚）\n- **五一预估**：2晚住宿约 **¥600-800**\n\n---\n\n## 📅 轻松3日行程\n\n### 🌅 Day 1：轻松抵达\n- 上午出发，中午抵达北戴河\n- 下午：**老虎石海滩**散步、玩沙（免费）\n- 傍晚：海边看日落，附近用餐\n\n### 🌤️ Day 2：精华游览\n- 上午：**鸽子窝公园**看海景（门票¥25/人）\n- 下午：**碧螺塔酒吧公园**或酒店休息\n- 晚上：刘庄夜市品尝海鲜\n\n### 🌊 Day 3：悠闲返程\n- 上午：酒店附近海滩自由活动\n- 中午：退房、午餐\n- 下午：返程\n\n---\n\n## 💰 预算估算\n\n| 项目 | 预估费用 |\n|------|----------|\n| 高铁往返（4人） | ¥60",
+      "response_length": 1090,
+      "score": 5,
+      "issues": [],
+      "duration_s": 82.6,
+      "agents_dispatched": [
+        "transport",
+        "knowledge",
+        "itinerary",
+        "hotel",
+        "poi",
+        "weather"
       ],
-      "duration_s": 76.4,
-      "agents_dispatched": [],
       "ui_components": []
     },
     {
       "id": "DR18",
       "category": "复杂约束",
       "question": "蜜月旅行推荐，7天左右，预算2万，想去海岛但不要马尔代夫",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
-      "issues": [
-        "响应过短(<50字)",
-        "空响应"
+      "response": "# 🏝️ 蜜月海岛推荐\n\n恭喜您即将开启甜蜜的蜜月之旅！根据您的需求——**7天、预算2万、浪漫海岛**，我为您精选了三个绝佳目的地：\n\n---\n\n## 目的地对比\n\n| 目的地 | 亮点 | 人均预算 | 蜜月适配度 | 签证 |\n|--------|------|----------|------------|------|\n| **巴厘岛** | 浪漫别墅、丛林与海景双体验 | 8000-15000元 | ⭐⭐⭐⭐⭐ | 免签 |\n| **塞班岛** | 玻璃海、私密性强、日落绝美 | 10000-18000元 | ⭐⭐⭐⭐⭐ | 免签 |\n| **普吉岛** | 直飞方便、性价比高 | 6000-12000元 | ⭐⭐⭐⭐ | 落地签 |\n\n---\n\n## 🏨 精选蜜月酒店\n\n**巴厘岛 · Kayon Jungle Resort**\n- 约800-1200元/晚 · 私人泳池别墅 · 网红无边泳池\n- 蜜月礼遇：花瓣布置、浪漫晚餐、SPA折扣\n\n**塞班岛 · Kensington Hotel**\n- 约1200-1800元/晚 · 私人沙滩 · 日落绝佳\n- 蜜月礼遇：升级海景房、双人早餐\n\n---\n\n> **我的建议**：首选 **巴厘岛** —— 预算友好、蜜月氛围满分、可安排\"丛林+海边\"双酒店体验，浪漫又丰富！\n\n---\n\n为了给您更精准的方案，请告诉我：\n\n1. **出发城市**是哪里？（方便查航班）\n2. **计划什么时候出发**？（帮您确认最佳季节和价格）",
+      "response_length": 651,
+      "score": 5,
+      "issues": [],
+      "duration_s": 74.2,
+      "agents_dispatched": [
+        "transport",
+        "knowledge",
+        "itinerary",
+        "hotel",
+        "poi",
+        "weather"
       ],
-      "duration_s": 86.5,
-      "agents_dispatched": [],
       "ui_components": []
     },
     {
       "id": "DR19",
       "category": "复杂约束",
       "question": "暑假带两个孩子（5岁和10岁）去哪里玩好？要有教育意义的",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
-      "issues": [
-        "响应过短(<50字)",
-        "空响应"
+      "response": "暑假带两个孩子出游，而且要寓教于乐，这个需求我很喜欢！😊\n\n根据您有两个孩子（5岁和10岁）的情况，我特别推荐以下三个**教育意义丰富**的目的地：\n\n---\n\n## 🏆 推荐目的地对比\n\n| 城市 | 教育主题 | 适合年龄 | 暑期亮点 |\n|------|----------|----------|----------|\n| **北京** | 历史文化+科技 | 全年龄 | 故宫、科技馆、自然博物馆 |\n| **上海** | 科技互动+自然 | 全年龄 | 科技馆、自然博物馆、海洋馆 |\n| **西安** | 历史文明 | 5岁+ | 兵马俑、历史博物馆 |\n\n---\n\n## 🎯 我的建议\n\n考虑到孩子年龄跨度（5岁和10岁），**北京**是最平衡的选择：\n\n- 🏛️ **故宫** — 10岁孩子能理解历史，5岁孩子看建筑也很震撼\n- 🔬 **中国科技馆** — 有专门的\"儿童科学乐园\"，两个年龄都能玩\n- 🦕 **北京自然博物馆** — 免费！恐龙化石是孩子们的最爱\n\n> 💡 **小贴士**：5岁孩子体力有限，建议每天安排1-2个景点，中间留出休息时间。\n\n---\n\n为了帮您规划更详细的行程，想了解一下：\n\n1. **您从哪个城市出发呢？**（方便安排交通）\n2. 预计玩几天？\n\n告诉我后，我来帮您排一个合理的行程！🗺️",
+      "response_length": 573,
+      "score": 5,
+      "issues": [],
+      "duration_s": 58.0,
+      "agents_dispatched": [
+        "poi",
+        "knowledge"
       ],
-      "duration_s": 367.8,
-      "agents_dispatched": [],
-      "ui_components": []
+      "ui_components": [
+        "poi_card",
+        "poi_card",
+        "poi_card",
+        "poi_card"
+      ]
     },
     {
       "id": "DR20",
       "category": "边界场景",
       "question": "我现在在曼谷，护照丢了怎么办？",
-      "response": "",
-      "response_length": 0,
-      "score": 1,
-      "issues": [
-        "响应过短(<50字)",
-        "空响应"
+      "response": "# 🆘 护照丢失紧急处理指南\n\n别着急，这是一个可以解决的问题。请按以下步骤立即行动：\n\n---\n\n## 📋 三步处理流程\n\n### 第一步：报警备案\n- 拨打**旅游警察热线：1155**（24小时，有中文服务）\n- 或前往最近警察局报案\n- 务必获取**报案证明(Police Report)**，这是补办证件的必要文件\n\n### 第二步：联系中国大使馆\n\n| 项目 | 信息 |\n|------|------|\n| **领事保护电话** | +66-2-2457010 |\n| **紧急协助电话** | +66-854833327 |\n| **大使馆地址** | 57 Ratchadaphisek Rd, Bangkok |\n| **工作时间** | 周一至周五 09:00-12:00, 14:00-17:00 |\n\n### 第三步：办理旅行证\n\n**所需材料：**\n- 报案证明原件\n- 护照复印件/身份证复印件（如有）\n- 2寸白底照片2张\n- 现场填写申请表\n\n> ⏱️ 办理时间通常**1-2个工作日**，费用约500-700泰铢\n\n---\n\n## 📞 24小时紧急热线\n\n> 🇨🇳 **外交部全球领事保护热线：+86-10-12308**\n> 无论何时都可拨打，会有专人协助您\n\n---\n\n## ✈️ 离境提醒\n\n持**旅行证 + 报案证明**可正常离境泰国。建议提前联系航空公司确认登机要求。\n\n---\n\n## 💡 我还能帮您什么？\n\n如果您需要以下帮助，请告诉我：\n1. 🏨 **大使馆附近酒店推荐** - 方便办理证件期间住宿\n2. 🚗 **前往大使馆的交通路线** - 从您当前位置出发\n3. 📷 **大使馆周边照相馆/打印店** - 准备所需材料\n\n祝您顺利解决问题！如有其他需要，我随时在这里。🙏",
+      "response_length": 764,
+      "score": 5,
+      "issues": [],
+      "duration_s": 66.3,
+      "agents_dispatched": [
+        "transport",
+        "knowledge",
+        "itinerary",
+        "hotel",
+        "poi",
+        "weather"
       ],
-      "duration_s": 142.5,
-      "agents_dispatched": [],
       "ui_components": []
     }
   ]
