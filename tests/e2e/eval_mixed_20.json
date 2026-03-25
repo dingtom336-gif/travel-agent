@@ -1,0 +1,393 @@
+{
+  "version": "v0.9.1-dr-priority",
+  "mode": "deep_reasoning_priority",
+  "timestamp": "2026-03-25T12:19:06",
+  "server": "http://150.158.192.237",
+  "summary": {
+    "total": 20,
+    "passed": 18,
+    "failed": 2,
+    "avg_score": 4.1,
+    "avg_duration_s": 64.2
+  },
+  "results": [
+    {
+      "id": "MX01",
+      "category": "闲聊",
+      "difficulty": "S",
+      "question": "你好，你是谁？能帮我做什么？",
+      "response": "\n你好！我是TravelMind，你的旅行规划助手。我可以帮你规划行程、提供建议、推荐景点和活动等。你需要我帮你做什么？",
+      "response_length": 60,
+      "score": 4,
+      "issues": [],
+      "duration_s": 1.5,
+      "mode": "react",
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "MX02",
+      "category": "闲聊",
+      "difficulty": "S",
+      "question": "谢谢你的帮助，再见！",
+      "response": "\n不客气！祝您旅途愉快！如果需要更多旅行规划帮助，随时欢迎回来。再见！",
+      "response_length": 35,
+      "score": 4,
+      "issues": [],
+      "duration_s": 0.6,
+      "mode": "react",
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "MX03",
+      "category": "航班查询",
+      "difficulty": "S",
+      "question": "明天北京到上海的航班",
+      "response": "✈️ **北京 → 上海 航班查询**\n\n{{flight_cards}}\n\n---\n\n> 💡 **小贴士**：北京-上海航线是国内最繁忙的航线之一，航班密集。明天出行建议尽快预订，票价可能随时间上涨。\n\n---\n\n请问您还需要我帮忙查询上海的酒店或其他安排吗？比如：\n- 您是商务出行还是旅游？\n- 对住宿位置有偏好吗（靠近机场/市中心/特定区域）？",
+      "response_length": 176,
+      "score": 4,
+      "issues": [],
+      "duration_s": 68.0,
+      "mode": "react",
+      "agents_dispatched": [
+        "itinerary",
+        "hotel",
+        "transport",
+        "poi",
+        "weather",
+        "knowledge"
+      ],
+      "ui_components": []
+    },
+    {
+      "id": "MX04",
+      "category": "酒店查询",
+      "difficulty": "S",
+      "question": "杭州西湖附近有什么酒店",
+      "response": "🏨 **杭州西湖附近酒店推荐**\n\n西湖周边是杭州最热门的住宿区域，我为您整理了几个不同档次的精选选择：\n\n| 酒店类��� | 推荐酒店 | 位置优势 | 参考价格 |\n|---------|---------|---------|---------|\n| **高端奢华** | 杭州西子湖四季酒店 | 私享西湖一角，园林式设计 | ¥2500+/晚 |\n| **精品设计** | 西湖庐驿 | 南山路，步行至湖边5分钟 | ¥600-900/晚 |\n| **性价比优选** | 如家精选(西湖文化广场店) | 近地铁，出行方便 | ¥300-500/晚 |\n| **青年旅舍** | 明堂国际青年旅舍 | 氛围好，背包客聚集地 | ¥80-200/晚 |\n\n> 💡 **住宿贴士**：想看西湖日出的话，建议选择北山路或南山路沿线的酒店，步行即可到达湖边，清晨人少景美！\n\n---\n\n为了给您更精准的推荐，想了解一下：\n- 📅 您计划什么时候入住？\n- 💰 预算大概在什么范围？\n\n这样我可以帮您筛选最合适的选项，同时也能帮您查一下前往杭州的交通方案～",
+      "response_length": 477,
+      "score": 5,
+      "issues": [],
+      "duration_s": 74.1,
+      "mode": "react",
+      "agents_dispatched": [
+        "itinerary",
+        "hotel",
+        "transport",
+        "poi",
+        "weather",
+        "knowledge"
+      ],
+      "ui_components": []
+    },
+    {
+      "id": "MX05",
+      "category": "景点查询",
+      "difficulty": "S",
+      "question": "成都有什么好玩的地方",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "空响应"
+      ],
+      "duration_s": 104.6,
+      "mode": "react",
+      "agents_dispatched": [
+        "itinerary",
+        "hotel",
+        "transport",
+        "poi",
+        "weather",
+        "knowledge"
+      ],
+      "ui_components": []
+    },
+    {
+      "id": "MX06",
+      "category": "旅行知识",
+      "difficulty": "S",
+      "question": "去日本旅游需要签证吗",
+      "response": "",
+      "response_length": 0,
+      "score": 1,
+      "issues": [
+        "空响应"
+      ],
+      "duration_s": 89.6,
+      "mode": "react",
+      "agents_dispatched": [
+        "itinerary",
+        "hotel",
+        "transport",
+        "poi",
+        "weather",
+        "knowledge"
+      ],
+      "ui_components": []
+    },
+    {
+      "id": "MX07",
+      "category": "旅行知识",
+      "difficulty": "S",
+      "question": "坐飞机能带多少液体",
+      "response": "\n你好！很高兴为你解答关于携带液体的问题。根据中国民航规定，随身携带的液体（如饮料、乳霜、凝胶等）每件容积不得超过100毫升，且所有液体物品总和不超过1升，需放置在透明可封口的塑料袋中。超出部分建议托运。  \n\n*需要我帮你查询具体航司或机场的最新规定吗？*",
+      "response_length": 129,
+      "score": 4,
+      "issues": [],
+      "duration_s": 1.4,
+      "mode": "react",
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "MX08",
+      "category": "旅行知识",
+      "difficulty": "S",
+      "question": "护照和签证有什么区别",
+      "response": "您好！这是个很棒的旅行入门问题，我来帮您���速理清：\n\n---\n\n## 📕 护照 vs 📋 签证\n\n| | 护照 | 签证 |\n|--|------|------|\n| **是什么** | 国际版身份证 | 入境许可证 |\n| **谁发的** | 您的**本国政府** | 您**要去的国家** |\n| **先办哪个** | ✅ 先办护照 | 后办签证 |\n| **有效期** | 通常5-10年 | 视类型而定（几天到几年不等） |\n\n---\n\n> 💡 **简单记忆**：护照是\"我是谁\"，签证是\"让你进\"\n\n---\n\n## 🌏 实际例子\n\n- **泰国**：中国公民持护照可**免签入境**30天，无需签证\n- **日本**：需要提前申请签证，通过旅行社办理\n- **韩国济州岛**：持护照免签30天（仅限济州岛）\n\n---\n\n## 📌 出行小提醒\n\n- 护照有效期最好剩余 **6个月以上**\n- 建议拍照备份护照和签证页到云端\n\n---\n\n有计划去哪个国家吗？告诉我目的地，我可以帮您查具体的签证要求和办签攻略！✈️",
+      "response_length": 463,
+      "score": 5,
+      "issues": [],
+      "duration_s": 58.6,
+      "mode": "react",
+      "agents_dispatched": [
+        "knowledge"
+      ],
+      "ui_components": []
+    },
+    {
+      "id": "MX09",
+      "category": "行程规划",
+      "difficulty": "M",
+      "question": "帮我规划一个厦门3天2晚的行程",
+      "response": "# 🌊 厦门3天2晚经典行程\n\n您好！厦门是一座非常适合慢游的海滨城市，我为您规划了一条地理顺路、精华全览的路线：\n\n---\n\n## 🏨 住宿推荐\n\n| 区域 | 推荐理由 | 参考价格 |\n|------|----------|----------|\n| **中山路/轮渡附近** | 交通便利，Day2上岛方便 | ¥300-600/晚 |\n| **曾厝垵/环岛路** | 文艺氛围，海景民宿多 | ¥200-500/晚 |\n\n> 💡 建议住中山路附近，方便Day2一早去鼓浪屿，Day3退房后去环岛路也顺路。\n\n---\n\n## 🌅 Day 1：老城区漫步\n\n**上午/中午** → 抵达厦门，入住酒店\n\n**下午** → **沙坡尾艺术区** → **猫街** → **演武大桥观景平台**\n- 沙坡尾是网红打卡地，文艺小店和咖啡馆云集\n- 演武大桥看日落绝美，可远眺鼓浪屿\n\n**晚上** → **中山路步行街** 品尝闽南小吃（沙茶面、海蛎煎、花生汤）\n\n---\n\n## 🏝️ Day 2：鼓浪屿一日游\n\n**上午** → 轮渡登岛（建议8:30前出发，避开人流）\n\n**必玩景点**：\n- 日光岩（俯瞰全岛）\n- 菽庄花园（钢琴博物馆）\n- 最美转角、龙头路小吃街\n\n**下午** → 继续逛万国建筑群 → 傍晚返程\n\n**晚上** → 中山路或八市觅食\n\n> ⚠️ 鼓浪屿船票需提前在\"厦门轮渡+\"小程序预约，游客从**邮轮中心厦鼓码头**出发。\n\n---\n\n## 🎓 Day 3：学府与海岸\n\n**上午** → **南普陀寺** → **厦门大学**（需提前预约）\n- 南普陀素饼很有，可当伴手礼\n\n**中午** → **曾厝垵** 午餐 + 闲逛\n\n**下午** → **环岛路骑行**（椰风寨→会展中心段最美）→ 返程\n\n---\n\n## 💰 预算参考（人均）\n\n| 项目 | 费用 |\n|------|------|\n| 住宿（2晚） | ¥300-800 |\n| 餐饮 | ¥200-400 |\n| 门票 | ¥100左右 |\n| 交通 | ¥50-100 |\n| **合计** | **¥650-1400** |\n\n---\n\n请问您从**哪个城市出发**呢？我可以帮您查询最优交通方案～ 🚄✈️",
+      "response_length": 959,
+      "score": 5,
+      "issues": [],
+      "duration_s": 84.2,
+      "mode": "react",
+      "agents_dispatched": [
+        "itinerary",
+        "hotel",
+        "transport",
+        "poi",
+        "weather",
+        "knowledge"
+      ],
+      "ui_components": []
+    },
+    {
+      "id": "MX10",
+      "category": "行程规划",
+      "difficulty": "M",
+      "question": "五一假期从广州出发去桂林玩4天，预算5000",
+      "response": "# 🌄 五一桂林4日游规划\n\n您好！五一假期从广州去桂林是个很棒的选择！**高铁直达仅需2.5-3小时**，5000元预算非常充裕。以下是为您定制的方案：\n\n---\n\n## ✈️ 交通方案\n\n| 方式 | 时长 | 参考价格 | 推荐指数 |\n|------|------|----------|----------|\n| 🚄 高铁 | 约2.5-3小时 | 二等座¥140-180 | ⭐⭐⭐⭐⭐ |\n| ✈️ 飞机 | 约1小时 | ¥300-600 | ⭐⭐⭐ |\n\n> **推荐高铁**：广州南站→桂林北站/西站，班次多、准点率高，性价比最优！\n\n---\n\n## 🗺️ 4日行程建议\n\n考虑到地理位置合理性，建议采用**桂林→阳朔→桂林**的路线：\n\n**🌅 Day 1：抵达桂林**\n- 象鼻山（城市地标，打卡必去）\n- 两江四湖夜景（步行或游船）\n- 住：桂林市区\n\n**🚤 Day 2：漓江精华游**\n- 漓江游船桂林→阳朔（\"百里画廊\"精华段）\n- 阳朔西街夜游\n- 住：阳朔\n\n**🚴 Day 3：阳朔深度��**\n- 十里画廊骑行\n- 遇龙河竹筏漂流\n- 住：阳朔或返回桂林\n\n**🌾 Day 4：龙脊梯田/返程**\n- 龙脊梯田（五一正值灌水期，镜面梯田绝美）\n- 傍晚返程广州\n\n---\n\n## 💰 预算参考（5000元）\n\n| 项目 | 预估费用 |\n|------|----------|\n| 往返交通 | ¥300-400 |\n| 住宿（3晚） | ¥800-1500 |\n| 景点门票 | ¥500-700 |\n| 餐饮 | ¥600-800 |\n| 本地交通 | ¥200-300 |\n| **预留机动** | ¥1300+ |\n\n---\n\n## 💡 五一出行贴士\n\n- 🎫 **漓江船票、酒店务必提前预订**——五一是旺季！\n- 🌧️ 桂林多雨，**备好雨具**；气温约20-28°C，短袖+薄外套即可\n- 🍜 必吃：**桂林米粉**（推荐明桂、崇善老店）、阳朔**啤酒鱼**\n\n---\n\n请问您是**独自出行还是结伴**？我可以进一步帮您细化住宿和景点安排！😊",
+      "response_length": 899,
+      "score": 5,
+      "issues": [],
+      "duration_s": 81.3,
+      "mode": "react",
+      "agents_dispatched": [
+        "itinerary",
+        "hotel",
+        "transport",
+        "poi",
+        "weather",
+        "knowledge"
+      ],
+      "ui_components": []
+    },
+    {
+      "id": "MX11",
+      "category": "行程规划",
+      "difficulty": "M",
+      "question": "两个人从北京去成都重庆玩6天，想吃火锅看熊猫",
+      "response": "# 🐼 成都+重庆6天双人美食之旅\n\n太棒了！成都看熊猫、重庆吃火锅，这条双城路线非常适合吃货情侣/好友出游！\n\n---\n\n## ✈️ 北京→成都 交通建议\n\n根据您6天的行程，我**推荐高铁**：\n\n| 方案 | 时长 | 两人费用 | 推荐指数 |\n|------|------|----------|----------|\n| 🚄 高铁 | 7.5-8小时 | ¥1,156起 | ⭐⭐⭐⭐⭐ |\n| ✈️ 飞机 | 约5-6小时 | ¥1,000-2,400 | ⭐⭐⭐⭐ |\n| 🚂 卧铺 | 12-15小时 | ¥800-1,400 | ⭐⭐⭐ |\n\n> 💡 **建议**：高铁准点舒适，成都东站到市区很方便，性价比最高。如果想多留时间玩，可选早班飞机。\n\n---\n\n## 🗺️ 初步行程框架\n\n考虑到**美食偏好**，建议路线：\n\n**北京 → 成都（3天）→ 重庆（2天）→ 北京**\n\n| 天数 | 城市 | 亮点 |\n|------|------|------|\n| Day 1 | 成都 | 抵达+春熙路+火锅 |\n| Day 2 | 成都 | 🐼熊猫基地+宽窄巷子 |\n| Day 3 | 成都 | 杜甫草堂+锦里+高铁赴渝 |\n| Day 4 | 重庆 | 洪崖洞+解放碑+火锅 |\n| Day 5 | 重庆 | 磁器口+李子坝轻轨穿楼 |\n| Day 6 | 重庆 | 返程北京 |\n\n---\n\n为了给您更精准的建议，想确认一下：\n\n1. **大概什么时候出发？**（淡旺季票价差异较大）\n2. **预算大概多少？**（经济型/舒适型/品质型）\n\n告诉我后，我帮您细化每天的美食推荐和住宿方案！🍲",
+      "response_length": 712,
+      "score": 5,
+      "issues": [],
+      "duration_s": 72.0,
+      "mode": "react",
+      "agents_dispatched": [
+        "itinerary",
+        "hotel",
+        "transport",
+        "poi",
+        "weather",
+        "knowledge"
+      ],
+      "ui_components": []
+    },
+    {
+      "id": "MX12",
+      "category": "行程规划",
+      "difficulty": "M",
+      "question": "春节去三亚5天4晚亲子游，预算1万",
+      "response": "# 🌴 三亚5天4晚亲子游方案\n\n根据您的偏好，春节带娃去三亚避寒是个很棒的选择！但需要坦诚告诉您：**春节旺季+亲子游，1万元预算比较紧张**。让我帮您规划一个高性价比方案。\n\n---\n\n## 💰 预算分析（以2大1小为例）\n\n| 项目 | 预估费用 | 省钱建议 |\n|------|----------|----------|\n| 往返机票 | ¥5000-7000 | 提前30天订，选早/晚班机 |\n| 住宿4晚 | ¥2000-3000 | 选择三亚湾/大东海民宿或经济酒店 |\n| 景点门票 | ¥800-1200 | 选2-3个精华景点，避免贪多 |\n| 餐饮 | ¥800-1000 | 酒店含早+海鲜市场+本地小吃 |\n| 市内交通 | ¥300-500 | 打车为主，部分公交 |\n| **合计** | **¥9000-12700** | 控制得当可在预算内 |\n\n> 💡 **关键建议**：三亚湾住宿性价比最高，离市区近吃饭方便，沙滩虽不如亚龙湾但孩子玩沙足够了！\n\n---\n\n## 🗓️ 5天4晚亲子行程推荐\n\n### 🌅 Day 1：抵达三亚\n- 抵达后入住酒店休整\n- 傍晚**三亚湾椰梦长廊**看日落（免费）\n- 晚餐：第一市场吃海鲜\n\n### 🏖️ Day 2：亚龙湾一日\n- 上午：**亚龙湾沙滩**玩沙玩水（免费）\n- 下午：**亚龙湾热带天堂森林公园**（玻璃栈道，孩子喜欢）\n- 晚餐：亚龙湾百花谷美食街\n\n### 🐠 Day 3：蜈支洲岛/亚特兰蒂斯\n- 方",
+      "response_length": 651,
+      "score": 5,
+      "issues": [],
+      "duration_s": 91.1,
+      "mode": "react",
+      "agents_dispatched": [
+        "itinerary",
+        "hotel",
+        "transport",
+        "poi",
+        "weather",
+        "knowledge"
+      ],
+      "ui_components": []
+    },
+    {
+      "id": "MX13",
+      "category": "复杂约束",
+      "difficulty": "C",
+      "question": "我们6个人想暑假从上海去云南玩7天，有2个老人膝盖不好不能爬山，2个小孩要有趣味性，预算人均3000",
+      "response": "# 🌴 云南7天亲子孝亲之旅\n\n您好！根据您的团队构成——**2位老人（膝盖不便）+2位小朋友+2位成人**，我为您精心设计了一条**无爬山、趣味性强**的云南路线。\n\n---\n\n## ✨ 行程亮点\n\n> 💡 **核心思路**：避开玉龙雪山等高海拔爬山景点，选择大理洱海+西双版纳两大\"平地天堂\"，老人轻松走，小孩玩得嗨！\n\n---\n\n## 📍 推荐路线\n\n**上海 → 昆明(1晚) → 大理(2晚) → 西双版纳(2晚) → 昆明返程(1晚)**\n\n{{timeline}}\n\n---\n\n## ✈️ 交通方案\n\n| 航段 | 建议航班 | 票价参考 | 备注 |\n|------|----------|----------|------|\n| 上海→昆明 | 东航/春秋直飞 | ¥600-900/人 | 暑假提前订票 |\n| 昆明→大理 | 高铁2小时 | ¥145/人 | 老人舒适 |\n| 大理→版纳 | 飞机1小时 | ¥400/人 | 或高铁4小时 |\n| 版纳→昆明 | 高铁3小时 | ¥200/人 | 返程 |\n\n**交通总预算**：约 ¥7,500-9,000（6人）\n\n---\n\n## 🏨 住宿推荐\n\n{{hotel_cards}}\n\n---\n\n## 🎯 每日行程概览\n\n### 🌅 Day 1：上海 ✈️ 昆明\n- 下午抵达，入住滇池温泉酒店\n- 傍晚：**滇池海埂公园**散步喂红嘴鸥（平地，老人小孩都喜欢）\n- 晚餐：过桥米线\n\n### 🌅 Day 2-3：昆明 🚄 大理\n**Day 2**：高铁赴大理 → 入住洱海边 → **洱海游船**（老人坐着观景，小孩兴奋看海）\n**Day 3**：**喜洲古镇**体验扎染 + **洱海骑行**（租电动车，老人可坐后座）\n\n### 🌅 Day 4-5：大理 ✈️ 西双版纳\n**Day 4**：飞版纳 → **告庄夜市**（小孩看表演、吃美食）\n**Day 5**：**中科院植物园**（平地游览，小孩认识奇花异草）+ **野象谷**（看大象！）\n\n### 🌅 Day 6-7：版纳 🚄 昆明 ✈️ 上海\n**Day 6**：**傣族园**泼水节体验 → 返回昆明\n**Day 7**：翠湖公园悠闲散步 → 返程\n\n---\n\n## 💰 预算估算（6人）\n\n| 项目 | 费用 |\n|------|------|\n| ✈️ 往",
+      "response_length": 1363,
+      "score": 5,
+      "issues": [],
+      "duration_s": 89.8,
+      "mode": "react",
+      "agents_dispatched": [
+        "itinerary",
+        "hotel",
+        "transport",
+        "poi",
+        "weather",
+        "knowledge"
+      ],
+      "ui_components": []
+    },
+    {
+      "id": "MX14",
+      "category": "复杂约束",
+      "difficulty": "C",
+      "question": "蜜月旅行10天，预算3万，想去海岛但不要东南亚，要有浮潜和SPA",
+      "response": "恭喜你们即将开启甜蜜的蜜月之旅！🎉\n\n根据您的偏好——**海岛、蜜月、浮潜+SPA、非东南亚**，我为您精选了三个完美契合的目的地：\n\n---\n\n## 🏝️ 目的地推荐\n\n| ���的地 | 浮潜体验 | SPA品质 | 蜜月氛围 | 预算匹配度 |\n|--------|----------|---------|----------|------------|\n| **马尔代夫** | ⭐⭐⭐⭐⭐ 顶级潜点 | ⭐⭐⭐⭐⭐ 水上SPA | ⭐⭐⭐⭐⭐ 私密水屋 | 3万刚好合适 |\n| **帕劳** | ⭐⭐⭐⭐⭐ 世界顶级 | ⭐⭐⭐⭐ 优质 | ⭐⭐⭐⭐ 宁静小众 | 性价比高 |\n| **斐济** | ⭐⭐⭐⭐ 珊瑚礁丰富 | ⭐⭐⭐⭐⭐ 原始奢华 | ⭐⭐⭐⭐⭐ 浪漫天堂 | 3万充裕 |\n\n---\n\n> 💡 **我的推荐**：**马尔代夫**是蜜月首选！一岛一酒店的私密性、玻璃地板的水上别墅、出门就能浮潜的便利，加上顶级SPA体验，完美契合您的需求。3万预算可以选择4-5星的优质岛。\n\n---\n\n## 🌊 马尔代夫蜜月亮点\n\n- 🤿 **浮潜**：房礁浮潜，出门即是海底世界，邂逅海龟、蝠鲼\n- 💆 **SPA**：水上SPA馆，边做护理边看印度洋日落\n- 🌅 **蜜月礼遇**：多数酒店赠送烛光晚餐、蜜月蛋糕、花床布置\n\n---\n\n请问您的**出发城市**是哪里呢？这样我可以为您查询具体的航班方案和更精确的行程安排～ ✈️",
+      "response_length": 625,
+      "score": 5,
+      "issues": [],
+      "duration_s": 75.6,
+      "mode": "react",
+      "agents_dispatched": [
+        "itinerary",
+        "hotel",
+        "transport",
+        "poi",
+        "weather",
+        "knowledge"
+      ],
+      "ui_components": []
+    },
+    {
+      "id": "MX15",
+      "category": "复杂约束",
+      "difficulty": "C",
+      "question": "公司团建15人，从深圳出发2天1晚，要有团队活动和聚餐，预算人均800",
+      "response": "# 🎯 深圳周边团建方案推荐\n\n您好！15人团队从深圳出发，人均800元预算，非常适合安排一次精彩的2天1晚团建！根据您的需求，我为您筛选了以下几个热门目的地：\n\n---\n\n## 📍 热门目的地对比\n\n| 目的地 | 车程 | 特色活动 | 人均预算参考 | 团建适合度 |\n|--------|------|----------|--------------|------------|\n| **惠州巽寮湾/双月湾** | 约2h | 沙滩拓展、篝火晚会、海鲜大餐 | ¥600-800 | ⭐⭐⭐⭐⭐ |\n| **清远古龙峡/黄腾峡** | 约3h | 漂流、玻璃桥、团队拓展 | ¥500-750 | ⭐⭐⭐⭐ |\n| **广州长隆** | 约1.5h | 主题乐园、团队挑战赛 | ¥700-900 | ⭐⭐⭐⭐ |\n| **珠海东澳岛/外伶仃岛** | 约2h+船 | 海岛探险、海鲜烧烤 | ¥650-850 | ⭐⭐⭐⭐ |\n\n---\n\n## 💡 我的推荐\n\n> **首推惠州巽寮湾或双月湾**：距离适中、性价比高、团建活动丰富，沙滩非常适合15人团队开展拓展游戏和篝火晚会，海鲜聚餐选择多且价格实惠。\n\n",
+      "response_length": 510,
+      "score": 5,
+      "issues": [],
+      "duration_s": 92.7,
+      "mode": "react",
+      "agents_dispatched": [
+        "itinerary",
+        "hotel",
+        "transport",
+        "poi",
+        "weather",
+        "knowledge"
+      ],
+      "ui_components": []
+    },
+    {
+      "id": "MX16",
+      "category": "复杂约束",
+      "difficulty": "C",
+      "question": "带父母第一次出国，5天左右，他们不会英语，想去文化底蕴深的地方，预算2万",
+      "response": "带父母第一次出国，真是很有意义的旅行！🥰 根据您提到的**文化底蕴**偏好和**父母语言**情况，我为您精选了几个非常适合的目的地：\n\n---\n\n## 🎯 推荐目的地对比\n\n| 目的地 | 文化亮点 | 语言友好度 | 5天预算(3人) |\n|--------|----------|------------|--------------|\n| **日本·京都/大阪** | 千年古寺、和风文化、世界遗产 | ⭐⭐⭐⭐ 汉字多，易辨认 | 约1.8-2万 |\n| **泰国·清迈** | 古城寺庙、兰纳文化、慢生活 | ⭐⭐⭐ 华人多，中文服务常见 | 约1.2-1.5万 |\n| **新加坡** | 南洋文化、多元融合、博物馆 | ⭐⭐⭐⭐⭐ 华语通行 | 约1.5-1.8万 |\n\n---\n\n> 💡 **我的建议**：**日本关西（京都+大阪）** 最符合您的需求——文化底蕴深厚（17座世界遗产！），街头的汉字让父母有安全感，5天刚好够玩精华，预算也在范围内。\n\n---\n\n为了给您推荐**具体的航班和酒店**，请告诉我：\n\n1. **您从哪个城市出发？**（如上海、北京、广州等）\n\n确认后我就可以帮您规划详细的行程啦！✈️",
+      "response_length": 516,
+      "score": 5,
+      "issues": [],
+      "duration_s": 202.2,
+      "mode": "react",
+      "agents_dispatched": [
+        "knowledge"
+      ],
+      "ui_components": []
+    },
+    {
+      "id": "MX17",
+      "category": "复杂约束",
+      "difficulty": "C",
+      "question": "毕业旅行4个女生从武汉出发，7天穷游，总预算8000，想拍好看的照片",
+      "response": "# 🎓 毕业旅行推荐方案\n\n恭喜毕业！4个女生、7天、8000元预算，人均2000元的穷游完全可以玩得很精彩！\n\n根据您的**拍照需求**和**预算限制**，我精选了两个适合的目的地：\n\n---\n\n## 🌟 推荐一：重庆（首选！）\n\n| 项目 | 详情 |\n|------|------|\n| **交通** | 武汉→重庆高铁约4h，往返人均约**¥350** |\n| **适合拍照** | 洪崖洞夜景、李子坝轻轨穿楼、鹅岭二厂、涂鸦一条街 |\n| **消费水平** | 低！火锅人均60，住宿便宜 |\n| **预算预估** | 人均**¥1800-2000**，完全在预算内 |\n\n> 💡 **女生友好**：重庆是网红城市，出片率超高，民宿选择多且便宜，夜生活丰富但安全。\n\n---\n\n## 🌟 推荐二：贵州（贵阳+西江千户苗寨）\n\n| 项目 | 详情 |\n|------|------|\n| **交通** | 武汉→贵阳高铁约4h |\n| **适合拍照** | 西江千户苗寨夜景绝美、小七孔碧绿湖水 |\n| **消费水平** | 超低！苗寨住宿人均80-100 |\n| **预算预估** | 人均**¥1700-1900**，省钱首选 |\n\n> 💡 **拍照必去**：苗寨的万家灯火夜景，穿苗族服饰拍照，朋友圈点赞收割机！\n\n---\n\n**两个目的地都符合您的穷游预算+拍照需求**。想让我详细规划哪一个的7天行程呢？或者您有其他心仪的城市吗？ ✨",
+      "response_length": 626,
+      "score": 5,
+      "issues": [],
+      "duration_s": 89.7,
+      "mode": "react",
+      "agents_dispatched": [
+        "itinerary",
+        "hotel",
+        "transport",
+        "poi",
+        "weather",
+        "knowledge"
+      ],
+      "ui_components": []
+    },
+    {
+      "id": "MX18",
+      "category": "边界场景",
+      "difficulty": "S",
+      "question": "我在国外手机被偷了怎么办",
+      "response": "\nOh no, that's quite worrying! Here's what I recommend doing immediately:\n\n1. Remote lock/erase: If you have Find My Phone features enabled, use another device to lock or wipe your phone to protect your data.\n2. Contact your carrier: Report the theft to block the SIM card to prevent unauthorized calls/messages.\n3. File a police report: Get an official report which may be needed for insurance.\n4. Notify banks: If you had payment methods on the phone, alert your banks.\n\nWould you like me to help with finding phone recovery services or planning a replacement SIM card purchase in your current location? I can also assist with adjusting your travel plans if needed.",
+      "response_length": 667,
+      "score": 3,
+      "issues": [
+        "未提供紧急情况指导"
+      ],
+      "duration_s": 2.3,
+      "mode": "react",
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "MX19",
+      "category": "边界场景",
+      "difficulty": "M",
+      "question": "航班取消了，航空公司不赔偿怎么投诉",
+      "response": "\nI'm very sorry to hear about your canceled flight and disappointing situation. Here's how you can file a complaint about the lack of compensation:\n\n**Ways to Complaint:**\n\n1. **Airline Customer Service:** Contact the airline's customer service hotline or visit their website to file a formal complaint. Keep all booking details and correspondence handy.\n\n2. **Airport Complain Desk:** Visit the airline's service counter at the airport and speak with a representative directly.\n\n3. **Consumer Protection Agency:** File a complaint with your local consumer protection agency or transportation authority.\n\n4. **Online Review Platforms:** Share your experience on travel review websites or social media platforms to bring attention to the issue.\n\nBefore filing your complaint, gather these documents:\n- Flight booking confirmation\n- Cancellation notification\n- Any communication with the airline\n- Proof of any expenses incurred due to the cancellation\n\nWould you like me to help you draft a complaint ",
+      "response_length": 1187,
+      "score": 3,
+      "issues": [
+        "未提供维权指导"
+      ],
+      "duration_s": 3.5,
+      "mode": "react",
+      "agents_dispatched": [],
+      "ui_components": []
+    },
+    {
+      "id": "MX20",
+      "category": "事实纠正",
+      "difficulty": "S",
+      "question": "听说长城是在明朝才开始建的对吗",
+      "response": "\n是的，您说得对！长城的主要部分确实是在明朝（公元1368-1644年）修建的，尤其是我们今天最熟悉的八达岭、慕田峪等段落。明朝的修筑规模最大，技术也最为成熟。您对长城感兴趣吗？是打算去游览吗？我可以为您推荐一些必去的段落和最佳游览时间哦！",
+      "response_length": 120,
+      "score": 3,
+      "issues": [
+        "未纠正事实错误(长城始建于秦/战国)"
+      ],
+      "duration_s": 1.4,
+      "mode": "react",
+      "agents_dispatched": [],
+      "ui_components": []
+    }
+  ]
+}

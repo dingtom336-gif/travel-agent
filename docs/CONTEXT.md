@@ -1,20 +1,20 @@
 ## 当前状态
-**v0.9.1 已部署生产。** FlyAI（飞猪）真实数据集成 + 深度推理双模式切换上线。
+**v0.9.2 已部署生产。** 深度推理优先模式 + Synthesizer 空响应修复。
 
 ## 最近操作记录
 | # | 时间 | 操作摘要 | 类型 |
 |---|------|---------|------|
-| 1 | 2026-03-25 | search_handler.py 引号语法修复（3处中文引号→书名号）+ 导入路径 session_memory→session | 🔧修复 |
-| 2 | 2026-03-25 | 本地环境恢复（venv2重建+.env从腾讯云恢复+node_modules+web build）+ 三方代码同步验证 | 🔧修复 |
-| 3 | 2026-03-25 | 深度推理20题评测启动中 | 🧪评测 |
+| 1 | 2026-03-25 | 深度推理优先：search 不再截断 + 默认开启 + Synthesizer 空响应修复 | 🚀功能+🔧修复 |
+| 2 | 2026-03-25 | 混合20题评测：90%通过 4.10/5 复杂题全满分 | 🧪评测 |
+| 3 | 2026-03-25 | search_handler.py 引号语法修复 + 导入路径修复 + 本地环境恢复 | 🔧修复 |
 | 4 | 2026-03-24 | 深度推理按钮+搜索意图修复+FlyAI集成+workers修复 | 🚀功能 |
 | 5 | 2026-03-22 | Aurora Ether UI 全量重构：27个文件换肤（暗色+毛玻璃+渐变），已部署生产 | 🎨重构 |
 
-## 双模式架构 (2026-03-24)
-- **Theater 模式**（默认关闭深度推理）：单次 Mega-LLM 快速响应，适合简单对话和规划
-- **ReAct 模式**（开启深度推理）：完整多 Agent 管线（Planner→8Agent→Reflector→Synthesizer）
-- **前端开关**：首页搜索栏+聊天页输入框上方，localStorage 持久化
-- **search 直达**：查航班/酒店/景点 → 直接调工具返回表格，不经 LLM 重写
+## 双模式架构 (2026-03-25 更新)
+- **深度推理优先**（默认开启）：所有查询走完整 ReAct 管线（Planner→6Agent→Reflector→Synthesizer）
+- **Theater 模式**（手动关闭深度推理时）：单次 Mega-LLM 快速响应，search 快速路径可用
+- **前端开关**：首页搜索栏+聊天页输入框上方，localStorage 持久化，默认勾选
+- **search 快速路径**：仅在 Theater 模式（深度推理关闭）时生效
 
 ## FlyAI 集成 (2026-03-24)
 - **数据源优先级**：FlyAI → Amap → Serper → Mock（三个工具统一）
@@ -23,15 +23,14 @@
 - **生产网络**：flyai.open.fliggy.com 从腾讯云直连可达（无需代理）
 
 ## 已知问题
-- [ ] ReAct 模式 Synthesizer 丢失工具细节（航班号等）→ 需优化 prompt 或直通工具数据
-- [ ] 深度推理模式20题评测进行中（2026-03-25）
+- [ ] 简单查询走 ReAct 耗时偏长（40-70s vs Theater 1s）→ 考虑 Planner 对简单查询减少 Agent 数
 - [ ] FlyAI 正式 key 申请（解锁真实价格）→ [open.fly.ai](https://open.fly.ai/)
 - [ ] SiliconFlow API 余额确认（阻塞200题评测）
 - [ ] 航班搜索结果去重（AQ1002 重复3次）
-- [x] search_handler.py 引号语法错误（已修复 2026-03-25）
-- [x] search_handler.py 导入路径错误 session_memory→session（已修复 2026-03-25）
-- [x] 本地 venv2/.env 被误删（已从腾讯云恢复 2026-03-25）
-- [x] 腾讯云 git 落后2个提交（已 git pull 同步 2026-03-25）
+- [ ] 评分器关键词过窄（边界场景/事实纠正类误报）
+- [x] Synthesizer 空响应（timeout 检查后移 + fallback 兜底，已修复 2026-03-25）
+- [x] 深度推理模式 search 截断（已改为深度推理优先 2026-03-25）
+- [x] search_handler.py 引号语法+导入路径（已修复 2026-03-25）
 
 ## 环境备忘
 - **本地**：`~/Desktop/new_start/claude-code/travel-agent/`，前端3001，后端8000
