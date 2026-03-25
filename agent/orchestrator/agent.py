@@ -198,10 +198,22 @@ class OrchestratorAgent:
         logger.info("TIMING stage=total_theater_plan duration_ms=%d session=%s", total_ms, session_id)
         return
 
-      # ── Deep reasoning: skip search fast-path ──
-      # When user enables deep_reasoning, ALL queries go through full ReAct
-      # pipeline (Planner→Agents→Reflector→Synthesizer) for higher quality.
-      # Search fast-path is only used in Theater mode (deep_reasoning=False).
+      # ── Deep reasoning: pre-filter before ReAct ──
+      # Booking/after-sales queries have no agent capability — handle directly
+      _BOOKING_KW = (
+        "取消政策", "免费取消", "退款", "退差价", "改签", "退票",
+        "订单查询", "订单号", "已预订", "已下单", "客服电话",
+        "投诉电话", "退酒店", "退房", "退机票", "赔偿标准",
+      )
+      if any(k in msg_lower for k in _BOOKING_KW):
+        async for chunk in self._synthesizer.handle_simple(
+          session_id, message, history, personalization_ctx,
+        ):
+          yield chunk
+        await self._update_summary_safe(session_id, message)
+        total_ms = int((time.time() - total_start) * 1000)
+        logger.info("TIMING stage=total_dr_booking duration_ms=%d session=%s", total_ms, session_id)
+        return
 
       # ── Legacy ReAct path (THEATER_MODE=false) ──
       if has_travel_context:
