@@ -152,16 +152,23 @@ def _smart_fallback(message: str) -> str:
         "5. **遇到诈骗** — 不要转账，联系当地警方和银行冻结账户\n\n"
         "请告诉我具体情况，我会尽力提供更有针对性的帮助。"
       )
-    if any(w in msg for w in _NEGATIVE_EMOTION_KW):
-      return (
-        "我理解你现在的心情。有时候出去走走，换个环境，确实能让人感觉好一些。\n"
-        "如果你愿意，可以告诉我想去什么样的地方，我来帮你规划一趟旅行。"
-      )
-    if any(w in msg for w in _POSITIVE_EMOTION_KW):
-      return (
-        "恭喜你！这样的时刻值得好好庆祝。\n"
-        "想不想来一趟旅行犒劳自己？告诉我你的想法，我来帮你规划！"
-      )
+    # Emotion matching — skip if message also contains travel intent
+    _TRAVEL_INTENT_KW = (
+      "旅游", "旅行", "出发", "行程", "规划", "攻略", "路线",
+      "去哪", "酒店", "机票", "签证", "景点", "天", "日游",
+    )
+    has_travel_intent = any(w in msg for w in _TRAVEL_INTENT_KW)
+    if not has_travel_intent:
+      if any(w in msg for w in _NEGATIVE_EMOTION_KW):
+        return (
+          "我理解你现在的心情。有时候出去走走，换个环境，确实能让人感觉好一些。\n"
+          "如果你愿意，可以告诉我想去什么样的地方，我来帮你规划一趟旅行。"
+        )
+      if any(w in msg for w in _POSITIVE_EMOTION_KW):
+        return (
+          "恭喜你！这样的时刻值得好好庆祝。\n"
+          "想不想来一趟旅行犒劳自己？告诉我你的想法，我来帮你规划！"
+        )
     return "收到你的消息了！作为旅行助手，我最擅长帮你规划行程和推荐目的地。有什么旅行想法想聊聊吗？"
 
 
@@ -304,19 +311,16 @@ class Synthesizer:
         if chunk:
           got_content = True
           yield chunk
-      if not got_content:
-        if has_agent_content:
-          yield f"以下是根据分析结果整理的旅行方案：\n\n{combined}"
-        else:
-          # All agents returned empty — answer the user directly via fallback
-          fallback = _smart_fallback(user_message)
-          yield fallback
+      if not got_content and has_agent_content:
+        yield f"以下是根据分析结果整理的旅行方案：\n\n{combined}"
+      # Note: when both LLM and agents fail, yield nothing here.
+      # The caller (react_loop) handles the final fallback to avoid
+      # double-fallback where both layers emit _smart_fallback text.
     except Exception as exc:
       logger.warning("Synthesis stream failed: %s", exc)
       if has_agent_content:
         yield f"以下是为你整理的旅行方案：\n\n{combined}"
-      else:
-        yield _smart_fallback(user_message)
+      # Same: let caller handle the ultimate fallback
 
   async def synthesize(
     self,

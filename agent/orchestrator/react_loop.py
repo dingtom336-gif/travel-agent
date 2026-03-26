@@ -255,27 +255,66 @@ class ReactEngine:
         logger.warning("Synthesis stream error: %s", synth_exc)
 
       # Fallback: if synthesis produced nothing or near-empty (<50 chars),
-      # append agent results directly so user gets useful content
+      # retry with faster WRITING_MODEL before giving up
       if len(full_response.strip()) < 50:
+        logger.warning(
+          "Synthesis near-empty (%d chars), retrying with WRITING_MODEL session=%s",
+          len(full_response.strip()), session_id,
+        )
+        from agent.llm import llm_chat_stream
+        from agent.orchestrator.constants import ORCHESTRATOR_SYSTEM_PROMPT
         from agent.orchestrator.synthesis import _smart_fallback
+
+        # Build a direct prompt from agent results for the retry
         has_agent_content = any(
           r.data.get("response") or r.summary
           for r in results.values()
         )
+        retry_ok = False
         if has_agent_content:
           combined_parts = []
           for r in results.values():
             agent_data = r.data.get("response", r.summary)
             if agent_data:
-              combined_parts.append(f"**{r.agent.value}**: {agent_data}")
-          extra = "\n\n以下是为你整理的旅行信息：\n\n" + "\n\n".join(combined_parts)
-        else:
-          extra = "\n\n" + _smart_fallback(message)
-        full_response += extra
-        yield SSEMessage(
-          event=SSEEventType.TEXT,
-          data={"content": extra},
-        ).format()
+              combined_parts.append(f"### {r.agent.value}:\n{agent_data}")
+          retry_prompt = (
+            f"用户问题: {message}\n\n"
+            f"专家分析结果:\n{''.join(combined_parts)}\n\n"
+            "请综合以上信息，用中文给出完整回答。"
+          )
+          try:
+            async for chunk in llm_chat_stream(
+              system=ORCHESTRATOR_SYSTEM_PROMPT,
+              messages=[{"role": "user", "content": retry_prompt}],
+              max_tokens=settings.LLM_MAX_TOKENS,
+              model=settings.WRITING_MODEL,
+            ):
+              if chunk:
+                retry_ok = True
+                full_response += chunk
+                yield SSEMessage(
+                  event=SSEEventType.TEXT,
+                  data={"content": chunk},
+                ).format()
+          except Exception as retry_exc:
+            logger.warning("Synthesis retry also failed: %s", retry_exc)
+
+        # Last resort: static fallback (only if retry didn't produce content)
+        if not retry_ok and len(full_response.strip()) < 50:
+          if has_agent_content:
+            extra_parts = []
+            for r in results.values():
+              agent_data = r.data.get("response", r.summary)
+              if agent_data:
+                extra_parts.append(f"**{r.agent.value}**: {agent_data}")
+            extra = "\n\n以下是为你整理的旅行信息：\n\n" + "\n\n".join(extra_parts)
+          else:
+            extra = "\n\n" + _smart_fallback(message)
+          full_response += extra
+          yield SSEMessage(
+            event=SSEEventType.TEXT,
+            data={"content": extra},
+          ).format()
 
       logger.info(
         "TIMING stage=synthesis duration_ms=%d session=%s",
