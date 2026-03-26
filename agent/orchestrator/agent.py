@@ -263,16 +263,22 @@ class OrchestratorAgent:
       if personalization_ctx:
         state_ctx += f"\n\n--- User Profile ---\n{personalization_ctx}"
 
-      has_tasks = False
+      has_text = False
+      had_error = False
       async for chunk in self._react_engine.run(
         session_id, message, history, state_ctx,
         personalization_ctx, self._synthesizer.synthesize_stream,
         conversation_summary=conversation_summary,
       ):
-        has_tasks = True
+        event_type = chunk.get("event")
+        if event_type == "text":
+          has_text = True
+        elif event_type == "error":
+          had_error = True
         yield chunk
 
-      if not has_tasks:
+      # Safety net: if ReAct produced no text and no error, fallback to direct LLM
+      if not has_text and not had_error:
         async for chunk in self._synthesizer.handle_simple(
           session_id, message, history, personalization_ctx,
         ):

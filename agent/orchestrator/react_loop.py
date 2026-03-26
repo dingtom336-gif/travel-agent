@@ -77,6 +77,43 @@ class ReactEngine:
         int((time.time() - t_planner) * 1000), session_id,
       )
       if not tasks:
+        # No travel tasks — direct LLM fallback for chitchat/off-topic/edge cases
+        from agent.llm import llm_chat_stream
+        from agent.orchestrator.constants import ORCHESTRATOR_SYSTEM_PROMPT
+        from agent.orchestrator.context import build_messages
+        from agent.orchestrator.synthesis import _smart_fallback
+
+        full_response = ""
+        try:
+          msgs = build_messages(history)
+          async for chunk in llm_chat_stream(
+            system=ORCHESTRATOR_SYSTEM_PROMPT,
+            messages=msgs,
+            max_tokens=1024,
+            model=get_settings().WRITING_MODEL,
+          ):
+            if chunk:
+              full_response += chunk
+              yield SSEMessage(
+                event=SSEEventType.TEXT,
+                data={"content": chunk},
+              ).format()
+        except Exception as e:
+          logger.warning("Direct LLM fallback failed: %s", e)
+
+        if not full_response.strip():
+          fb = _smart_fallback(message)
+          full_response = fb
+          yield SSEMessage(
+            event=SSEEventType.TEXT,
+            data={"content": fb},
+          ).format()
+
+        await session_memory.add_message(session_id, "assistant", full_response)
+        yield SSEMessage(
+          event=SSEEventType.DONE,
+          data={"session_id": session_id},
+        ).format()
         return
 
       # Reuse pre-built summary if available
