@@ -43,15 +43,15 @@ def _resolve_model(model: str | None) -> str:
 def _get_client() -> Optional[AsyncOpenAI]:
   """Lazily create and cache an AsyncOpenAI client.
 
-  Prefers SiliconFlow credentials; falls back to legacy DeepSeek if
-  SILICONFLOW_API_KEY is empty.
+  Prefers Volcengine ARK credentials; falls back to legacy DeepSeek if
+  ARK_API_KEY is empty.
   """
   global _client
   if _client is not None:
     return _client
   settings = get_settings()
-  api_key = settings.SILICONFLOW_API_KEY or settings.DEEPSEEK_API_KEY
-  base_url = settings.SILICONFLOW_BASE_URL or settings.DEEPSEEK_BASE_URL
+  api_key = settings.ARK_API_KEY or settings.DEEPSEEK_API_KEY
+  base_url = settings.ARK_BASE_URL or settings.DEEPSEEK_BASE_URL
   if not api_key:
     return None
   _client = AsyncOpenAI(

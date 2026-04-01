@@ -18,9 +18,9 @@ class Settings(BaseSettings):
   APP_VERSION: str = "0.9.0"
   DEBUG: bool = True
 
-  # --- AI (SiliconFlow – OpenAI-compatible, two-stage pipeline) ---
-  SILICONFLOW_API_KEY: str = ""
-  SILICONFLOW_BASE_URL: str = "https://api.siliconflow.cn/v1"
+  # --- AI (Volcengine ARK – OpenAI-compatible, two-stage pipeline) ---
+  ARK_API_KEY: str = ""
+  ARK_BASE_URL: str = "https://ark.cn-beijing.volces.com/api/coding/v3"
   REASONING_MODEL: str = "Pro/zai-org/GLM-5"       # Stage 1: skeleton reasoning
   WRITING_MODEL: str = "THUDM/GLM-4-32B-0414"      # Stage 2: text expansion
   PRIMARY_MODEL: str = "Pro/zai-org/GLM-5"          # Legacy alias

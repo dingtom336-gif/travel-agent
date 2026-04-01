@@ -23,8 +23,8 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_INPUT = PROJECT_ROOT / "tests/e2e/eval_300_perf_results.json"
 DEFAULT_OUTPUT = PROJECT_ROOT / "tests/e2e/eval_300_semantic_results.json"
 
-API_HOST = "api.siliconflow.cn"
-SCORING_MODEL = "THUDM/GLM-4-32B-0414"
+API_HOST = "ark.cn-beijing.volces.com"
+SCORING_MODEL = "doubao-seed-2.0-lite"
 MAX_WORKERS = 8
 
 # ── Infrastructure error detection ──
@@ -100,14 +100,14 @@ def load_all_keys() -> dict[str, list[str]]:
 # ── API key ──
 
 def get_api_key() -> str:
-  key = os.environ.get("SILICONFLOW_API_KEY", "")
+  key = os.environ.get("ARK_API_KEY", "")
   if key:
     return key
   env_path = PROJECT_ROOT / ".env"
   if env_path.exists():
     for line in env_path.read_text(encoding="utf-8").splitlines():
       line = line.strip()
-      if line.startswith("SILICONFLOW_API_KEY="):
+      if line.startswith("ARK_API_KEY="):
         return line.split("=", 1)[1].strip().strip("\"'")
   return ""
 
@@ -162,22 +162,17 @@ def llm_score_single(
     "temperature": 0.05,
   }).encode("utf-8")
 
-  # Use certifi certs if available, otherwise skip verification for eval script
+  import subprocess as _sp
+  url = f"https://{API_HOST}/api/coding/v3/chat/completions"
   try:
-    import certifi
-    ctx = ssl.create_default_context(cafile=certifi.where())
-  except ImportError:
-    ctx = ssl.create_default_context()
-    ctx.check_hostname = False
-    ctx.verify_mode = ssl.CERT_NONE
-  conn = http.client.HTTPSConnection(API_HOST, timeout=30, context=ctx)
-  try:
-    conn.request("POST", "/v1/chat/completions", body=payload, headers={
-      "Content-Type": "application/json",
-      "Authorization": f"Bearer {api_key}",
-    })
-    resp = conn.getresponse()
-    body = json.loads(resp.read().decode("utf-8"))
+    result = _sp.run(
+      ["curl", "-s", "--max-time", "60", "-X", "POST", url,
+       "-H", "Content-Type: application/json",
+       "-H", f"Authorization: Bearer {api_key}",
+       "-d", payload.decode("utf-8")],
+      capture_output=True, text=True, timeout=65,
+    )
+    body = json.loads(result.stdout)
 
     content = body["choices"][0]["message"]["content"].strip()
     # Strip markdown code fences if present
@@ -359,7 +354,7 @@ def main():
 
   api_key = get_api_key()
   if not api_key:
-    print("ERROR: SILICONFLOW_API_KEY not found in env or .env file")
+    print("ERROR: ARK_API_KEY not found in env or .env file")
     sys.exit(1)
 
   # Load existing results

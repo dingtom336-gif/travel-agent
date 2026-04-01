@@ -23,8 +23,8 @@ OUTPUT_PATH = PROJECT_ROOT / "tests/e2e/eval_300_perf_results.json"
 MAX_WORKERS = 3  # parallel requests (reduced for deep_reasoning to avoid API overload)
 
 # --- LLM semantic scoring config ---
-SCORING_API_HOST = "api.siliconflow.cn"
-SCORING_MODEL = "THUDM/GLM-4-32B-0414"
+SCORING_API_HOST = "ark.cn-beijing.volces.com"
+SCORING_MODEL = "doubao-seed-2.0-lite"
 SCORING_WORKERS = 8
 
 _INFRA_PATTERNS = (
@@ -35,14 +35,14 @@ _INFRA_PATTERNS = (
 
 def _get_scoring_api_key():
   """Load SiliconFlow API key for LLM scoring."""
-  key = os.environ.get("SILICONFLOW_API_KEY", "")
+  key = os.environ.get("ARK_API_KEY", "")
   if key:
     return key
   env_path = PROJECT_ROOT / ".env"
   if env_path.exists():
     for line in env_path.read_text(encoding="utf-8").splitlines():
       line = line.strip()
-      if line.startswith("SILICONFLOW_API_KEY="):
+      if line.startswith("ARK_API_KEY="):
         return line.split("=", 1)[1].strip().strip("\"'")
   return ""
 
@@ -403,23 +403,16 @@ def assess_quality_semantic(tc, response_text, api_key):
   }).encode("utf-8")
 
   try:
-    try:
-      import certifi
-      ctx = ssl.create_default_context(cafile=certifi.where())
-    except ImportError:
-      ctx = ssl.create_default_context()
-      ctx.check_hostname = False
-      ctx.verify_mode = ssl.CERT_NONE
-
-    import http.client as hc
-    conn = hc.HTTPSConnection(SCORING_API_HOST, timeout=30, context=ctx)
-    conn.request("POST", "/v1/chat/completions", body=payload, headers={
-      "Content-Type": "application/json",
-      "Authorization": f"Bearer {api_key}",
-    })
-    r = conn.getresponse()
-    body = json.loads(r.read().decode("utf-8"))
-    conn.close()
+    import subprocess
+    url = f"https://{SCORING_API_HOST}/api/coding/v3/chat/completions"
+    result = subprocess.run(
+      ["curl", "-s", "--max-time", "60", "-X", "POST", url,
+       "-H", "Content-Type: application/json",
+       "-H", f"Authorization: Bearer {api_key}",
+       "-d", payload.decode("utf-8")],
+      capture_output=True, text=True, timeout=65,
+    )
+    body = json.loads(result.stdout)
 
     content = body["choices"][0]["message"]["content"].strip()
     if "```" in content:
