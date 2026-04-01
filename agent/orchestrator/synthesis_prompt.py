@@ -289,8 +289,8 @@ async def _call_reasoning(
   Uses httpx directly to pass thinking parameter that OpenAI SDK may not support.
   """
   settings = get_settings()
-  api_key = settings.SILICONFLOW_API_KEY or settings.DEEPSEEK_API_KEY
-  base_url = settings.SILICONFLOW_BASE_URL or settings.DEEPSEEK_BASE_URL
+  api_key = settings.ARK_API_KEY or settings.DEEPSEEK_API_KEY
+  base_url = settings.ARK_BASE_URL or settings.DEEPSEEK_BASE_URL
 
   payload: dict[str, Any] = {
     "model": model,
