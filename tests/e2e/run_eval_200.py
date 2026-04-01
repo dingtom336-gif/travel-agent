@@ -45,14 +45,60 @@ def parse_args() -> dict:
   return opts
 
 
+async def _send_single_message(
+  client: httpx.AsyncClient,
+  server: str,
+  message: str,
+  session_id: str | None = None,
+) -> tuple[str, str | None, str]:
+  """Send a single message to SSE endpoint, return (full_text, session_id, error)."""
+  text_parts: list[str] = []
+  returned_session_id: str | None = session_id
+  error = ""
+
+  try:
+    payload: dict = {"message": message}
+    if session_id:
+      payload["session_id"] = session_id
+    async with client.stream(
+      "POST", f"{server}/api/chat/stream",
+      json=payload,
+      timeout=TIMEOUT,
+    ) as resp:
+      async for line in resp.aiter_lines():
+        if not line.strip():
+          continue
+        if line.startswith("data: "):
+          try:
+            data = json.loads(line[6:].strip())
+          except json.JSONDecodeError:
+            continue
+          if "content" in data:
+            text_parts.append(data["content"])
+          if data.get("session_id"):
+            returned_session_id = data["session_id"]
+  except httpx.ReadTimeout:
+    error = "TIMEOUT"
+  except Exception as exc:
+    error = str(exc)[:200]
+
+  return "".join(text_parts), returned_session_id, error
+
+
 async def run_query(
   client: httpx.AsyncClient,
   question: dict,
   server: str,
 ) -> dict:
-  """Send a question to SSE endpoint, collect full response."""
+  """Send a question to SSE endpoint, collect full response.
+
+  If the question has a 'context' field, send context messages first
+  (using the same session_id) to establish conversation history,
+  then send the actual question for evaluation.
+  """
   qid = question["id"]
   query = question["q"]
+  context_msgs = question.get("context", [])
 
   t0 = time.time()
   ttfb = None
@@ -60,33 +106,51 @@ async def run_query(
   has_done = False
   events_count = 0
   error = ""
+  session_id: str | None = None
+  context_count = len(context_msgs)
 
-  try:
-    async with client.stream(
-      "POST", f"{server}/api/chat/stream",
-      json={"message": query},
-      timeout=TIMEOUT,
-    ) as resp:
-      async for line in resp.aiter_lines():
-        if not line.strip():
-          continue
-        if line.startswith("event: "):
-          events_count += 1
-        elif line.startswith("data: "):
-          try:
-            data = json.loads(line[6:].strip())
-          except json.JSONDecodeError:
+  # Phase 1: Send context messages to build conversation history
+  for ctx_msg in context_msgs:
+    ctx_text, session_id, ctx_error = await _send_single_message(
+      client, server, ctx_msg["content"], session_id,
+    )
+    if ctx_error:
+      error = f"CONTEXT_ERROR: {ctx_error}"
+      break
+    # Brief pause between context messages
+    await asyncio.sleep(0.5)
+
+  # Phase 2: Send the actual evaluation question
+  if not error:
+    try:
+      payload: dict = {"message": query}
+      if session_id:
+        payload["session_id"] = session_id
+      async with client.stream(
+        "POST", f"{server}/api/chat/stream",
+        json=payload,
+        timeout=TIMEOUT,
+      ) as resp:
+        async for line in resp.aiter_lines():
+          if not line.strip():
             continue
-          if "content" in data and ttfb is None:
-            ttfb = time.time() - t0
-          if "content" in data:
-            text_parts.append(data["content"])
-          if data.get("session_id"):
-            has_done = True
-  except httpx.ReadTimeout:
-    error = "TIMEOUT"
-  except Exception as exc:
-    error = str(exc)[:200]
+          if line.startswith("event: "):
+            events_count += 1
+          elif line.startswith("data: "):
+            try:
+              data = json.loads(line[6:].strip())
+            except json.JSONDecodeError:
+              continue
+            if "content" in data and ttfb is None:
+              ttfb = time.time() - t0
+            if "content" in data:
+              text_parts.append(data["content"])
+            if data.get("session_id"):
+              has_done = True
+    except httpx.ReadTimeout:
+      error = "TIMEOUT"
+    except Exception as exc:
+      error = str(exc)[:200]
 
   total_ms = int((time.time() - t0) * 1000)
   ttfb_ms = int(ttfb * 1000) if ttfb else None
@@ -103,6 +167,7 @@ async def run_query(
     "has_done": has_done,
     "events_count": events_count,
     "error": error,
+    "context_turns": context_count,
   }
 
 
@@ -211,7 +276,8 @@ async def main() -> None:
     ]
 
   total = len(questions)
-  print(f"TravelMind V2 Evaluation — {total} questions")
+  multi_turn_count = sum(1 for q in questions if q.get("context"))
+  print(f"TravelMind V2 Evaluation — {total} questions ({multi_turn_count} multi-turn)")
   print(f"Server: {server} | Concurrency: {concurrency}")
   print(f"{'=' * 70}")
 
@@ -257,9 +323,10 @@ async def main() -> None:
       ms = result["total_ms"]
       chars = result["chars"]
       fs = ev["final_score"]
+      ctx_info = f" | ctx:{result.get('context_turns', 0)}" if result.get("context_turns") else ""
       print(
         f"  [{i+1}/{total}] {qid} {status} "
-        f"{ms}ms | {chars}字 | {fs}/5.0"
+        f"{ms}ms | {chars}字 | {fs}/5.0{ctx_info}"
       )
 
       # Show dimension details for failures
