@@ -109,7 +109,14 @@ def _smart_fallback(message: str) -> str:
       )
 
     # Safety: refuse unsafe requests with category-specific responses
-    if any(w in msg for w in _UNSAFE_REQUEST_KW):
+    # Travel emergency whitelist: messages about visa/flight emergencies are
+    # legitimate help requests, not adversarial — skip refusal.
+    _EMERGENCY_WHITELIST = (
+      "签证", "航班", "滞留", "过期", "取消", "延误", "使馆", "领事馆",
+      "口岸", "通关", "入境", "出境", "海关",
+    )
+    has_emergency_context = any(e in msg for e in _EMERGENCY_WHITELIST)
+    if any(w in msg for w in _UNSAFE_REQUEST_KW) and not has_emergency_context:
       # Privacy violations
       if any(w in msg for w in ("手机号", "身份证号", "个人信息", "隐私")):
         return (

@@ -56,6 +56,9 @@ _FACTUAL_KEYWORDS = (
   "退改", "退票", "改签", "投诉", "理赔", "保险",
   "紧急", "安全",
   "区别", "什么是", "怎样", "如何办", "周期", "流程", "条件", "要求",
+  "门票", "价格", "开放时间", "航空公司", "允许", "禁忌", "注意事项",
+  "通关", "口岸", "排队", "怎么走", "多长时间", "多少钱",
+  "需要多久", "哪些航空", "托运", "检疫",
 )
 _SEARCH_KEYWORDS = (
   "查航班", "查机票", "查酒店", "查景点", "查门票", "查火车", "查高铁",
@@ -141,7 +144,15 @@ async def classify_intent(
 
   # Fast local pre-check: unsafe/adversarial requests → simple (let LLM refuse)
   msg_lower = message.strip().lower()
-  if any(p in msg_lower for p in _UNSAFE_PATTERNS):
+  # Travel emergency whitelist: messages containing these alongside "unsafe"
+  # keywords are legitimate travel help requests, not adversarial.
+  _EMERGENCY_WHITELIST = (
+    "签证", "航班", "滞留", "过期", "取消", "延误", "使馆", "领事馆",
+    "口岸", "通关", "入境", "出境", "海关",
+  )
+  has_unsafe = any(p in msg_lower for p in _UNSAFE_PATTERNS)
+  has_emergency = any(e in msg_lower for e in _EMERGENCY_WHITELIST)
+  if has_unsafe and not has_emergency:
     logger.info("classify_intent: unsafe request detected → simple (for refusal)")
     return {"intent": "simple", "thinking": False, "reason": "unsafe_request"}
 

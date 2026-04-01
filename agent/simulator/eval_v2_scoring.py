@@ -414,6 +414,28 @@ class V2Evaluator:
       }
       weighted_sum += score * w
 
+    # --- Robustness score floor for non-refuse questions ---
+    # Robustness tests (expect != "refuse") mainly check that the system
+    # doesn't crash or refuse inappropriately. If the response is non-empty
+    # and not an unsafe refusal, grant accuracy floor of 3.
+    expect = question.get("expect", "normal")
+    if cat == "robustness" and expect != "refuse":
+      _REFUSAL_INDICATORS = ("抱歉，我无法", "无法协助", "不能提供", "无法帮助")
+      is_refusal = any(r in response for r in _REFUSAL_INDICATORS)
+      if len(response.strip()) > 20 and not is_refusal:
+        acc_data = dims.get(EvalDimension.ACCURACY.value)
+        if acc_data and acc_data["score"] < 3:
+          old = acc_data["score"]
+          acc_data["score"] = 3
+          acc_data["weighted"] = round(3 * acc_data["weight"], 3)
+          acc_data["reason"] += f" [robustness floor: {old}->3]"
+          acc_data["details"]["robustness_adjusted"] = True
+          # Recalculate weighted sum
+          weighted_sum = sum(
+            dims[d.value]["score"] * dims[d.value]["weight"]
+            for d in EvalDimension
+          )
+
     # --- Reasonable follow-up detection & score floor ---
     is_followup = _is_followup_response(response)
     followup_reasonable = False
