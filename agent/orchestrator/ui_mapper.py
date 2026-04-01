@@ -321,5 +321,6 @@ def truncate_tool_data_for_synthesis(result_data: Dict[str, Any]) -> str:
       return f"\nStructured data: {raw}"
 
     return "\nKey facts:\n" + "\n".join(lines)
-  except Exception:
+  except Exception as exc:
+    logger.debug("Component extraction failed: %s", exc)
     return ""

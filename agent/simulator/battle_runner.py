@@ -116,8 +116,8 @@ async def run_battle(
       turns_done += 1
 
   # Collect traces and evaluate
-  traces = session_memory.get_traces(session_id)
-  history = session_memory.get_history(session_id)
+  traces = await session_memory.get_traces(session_id)
+  history = await session_memory.get_history(session_id)
   report = evaluator.evaluate_conversation(
     messages=history if history else all_messages,
     agent_traces=traces,
@@ -224,8 +224,8 @@ async def run_battle_stream(
       }
 
   # Evaluate
-  traces = session_memory.get_traces(session_id)
-  history = session_memory.get_history(session_id)
+  traces = await session_memory.get_traces(session_id)
+  history = await session_memory.get_history(session_id)
   report = evaluator.evaluate_conversation(
     messages=history if history else all_messages,
     agent_traces=traces,

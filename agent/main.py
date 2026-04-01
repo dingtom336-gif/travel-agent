@@ -118,7 +118,7 @@ async def health_check():
       "status": "ok",
       "service": "travelmind-agent",
       "version": settings.APP_VERSION,
-      "has_api_key": bool(settings.SILICONFLOW_API_KEY or settings.DEEPSEEK_API_KEY),
+      "has_api_key": bool(settings.ARK_API_KEY or settings.DEEPSEEK_API_KEY),
       "llm_model": settings.PRIMARY_MODEL or settings.DEEPSEEK_MODEL,
     }
   except Exception as exc:
@@ -252,14 +252,14 @@ async def debug_evaluate(request: EvaluateRequest):
   try:
     from agent.memory.session import session_memory
 
-    history = session_memory.get_history(request.session_id)
+    history = await session_memory.get_history(request.session_id)
     if not history:
       return JSONResponse(
         status_code=404,
         content={"error": f"Session '{request.session_id}' not found or empty"},
       )
 
-    traces = session_memory.get_traces(request.session_id)
+    traces = await session_memory.get_traces(request.session_id)
     report = evaluator.evaluate_conversation(
       messages=history, agent_traces=traces,
     )
@@ -340,10 +340,12 @@ async def debug_list_sessions():
     sessions = session_memory.list_sessions()
     result = []
     for sid in sessions:
+      history = await session_memory.get_history(sid)
+      traces = await session_memory.get_traces(sid)
       result.append({
         "session_id": sid,
-        "message_count": len(session_memory.get_history(sid)),
-        "trace_count": len(session_memory.get_traces(sid)),
+        "message_count": len(history),
+        "trace_count": len(traces),
       })
     return {"sessions": result}
   except Exception as exc:
@@ -357,8 +359,8 @@ async def debug_session_detail(session_id: str):
   try:
     from agent.memory.session import session_memory
 
-    history = session_memory.get_history(session_id)
-    traces = session_memory.get_traces(session_id)
+    history = await session_memory.get_history(session_id)
+    traces = await session_memory.get_traces(session_id)
     if not history and not traces:
       return JSONResponse(
         status_code=404,

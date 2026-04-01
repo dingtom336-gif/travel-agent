@@ -579,8 +579,8 @@ async def gather_tool_data(state: Optional[Any]) -> dict[str, Any]:
         start_date=start_date or "2026-04-01",
         days=duration or 5,
       )))
-    except Exception:
-      pass
+    except Exception as exc:
+      logger.debug("Weather tool setup skipped: %s", exc)
 
     # POI data
     try:
@@ -590,8 +590,8 @@ async def gather_tool_data(state: Optional[Any]) -> dict[str, Any]:
         category=None,
         limit=10,
       )))
-    except Exception:
-      pass
+    except Exception as exc:
+      logger.debug("POI tool setup skipped: %s", exc)
 
     # Hotel data – needs checkin/checkout dates
     try:
@@ -602,7 +602,8 @@ async def gather_tool_data(state: Optional[Any]) -> dict[str, Any]:
         from datetime import datetime, timedelta
         ci = datetime.strptime(checkin, "%Y-%m-%d")
         checkout = (ci + timedelta(days=duration or 3)).strftime("%Y-%m-%d")
-      except Exception:
+      except Exception as exc:
+        logger.debug("Checkout date calc fallback: %s", exc)
         checkout = "2026-04-04"
       tasks.append(("hotels", search_hotels(
         city=dest,
@@ -610,8 +611,8 @@ async def gather_tool_data(state: Optional[Any]) -> dict[str, Any]:
         checkout=checkout,
         guests=travelers,
       )))
-    except Exception:
-      pass
+    except Exception as exc:
+      logger.debug("Hotel tool setup skipped: %s", exc)
 
     # Transport data
     if origin:
@@ -623,8 +624,8 @@ async def gather_tool_data(state: Optional[Any]) -> dict[str, Any]:
           date=start_date or "",
           passengers=travelers,
         )))
-      except Exception:
-        pass
+      except Exception as exc:
+        logger.debug("Flight tool setup skipped: %s", exc)
 
   # Run all tool calls in parallel
   if tasks:
@@ -687,8 +688,8 @@ def build_mega_prompt(
       try:
         data_str = json.dumps(data, ensure_ascii=False, default=str)[:2000]
         parts.append(f"--- {tool_name} ---\n{data_str}")
-      except Exception:
-        pass
+      except Exception as exc:
+        logger.debug("Tool data serialization failed for %s: %s", tool_name, exc)
 
   # Personalization
   if personalization_ctx:
@@ -876,8 +877,8 @@ async def _stream_llm_to_buffer(
       try:
         fallback_text = _smart_fallback(user_message)
         await buffer.write(fallback_text)
-      except Exception:
-        pass
+      except Exception as fallback_exc:
+        logger.error("Last-resort fallback also failed: %s", fallback_exc)
   finally:
     logger.info("THEATER pipeline finished, calling buffer.finish()")
     buffer.finish()
@@ -893,8 +894,8 @@ async def _call_reasoning(
   Uses httpx directly to pass thinking parameter that OpenAI SDK may not support.
   """
   settings = get_settings()
-  api_key = settings.SILICONFLOW_API_KEY or settings.DEEPSEEK_API_KEY
-  base_url = settings.SILICONFLOW_BASE_URL or settings.DEEPSEEK_BASE_URL
+  api_key = settings.ARK_API_KEY or settings.DEEPSEEK_API_KEY
+  base_url = settings.ARK_BASE_URL or settings.DEEPSEEK_BASE_URL
 
   payload: dict[str, Any] = {
     "model": model,
