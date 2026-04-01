@@ -11,6 +11,7 @@ from typing import Any, Optional
 
 from agent.config.mega_prompt import (
   CLARIFY_SYSTEM_PROMPT,
+  FACTUAL_SYSTEM_PROMPT,
   INCREMENTAL_PROMPT_TEMPLATE,
   MEGA_SYSTEM_PROMPT,
 )
@@ -364,6 +365,74 @@ async def handle_clarify(
 
   except Exception as exc:
     logger.exception("Clarify handler error")
+    yield _error(str(exc))
+    yield _done(session_id)
+
+
+# ------------------------------------------------------------------ #
+# Factual handler
+# ------------------------------------------------------------------ #
+
+async def handle_factual(
+  session_id: str,
+  message: str,
+  history: list[dict[str, Any]],
+  state_ctx: str = "",
+) -> AsyncGenerator[dict, None]:
+  """Handle factual intent – direct LLM streaming for travel knowledge questions."""
+  try:
+    yield _thinking("正在查询相关知识...")
+
+    # Build messages with context
+    messages: list[dict[str, str]] = []
+    for msg in history[-6:]:
+      role = msg.get("role", "user")
+      content = msg.get("content", "")
+      if role in ("user", "assistant"):
+        messages.append({"role": role, "content": content[:500]})
+
+    context_prefix = ""
+    if state_ctx:
+      context_prefix = f"[当前已知信息]\n{state_ctx}\n\n"
+
+    messages.append({
+      "role": "user",
+      "content": f"{context_prefix}{message}",
+    })
+
+    settings = get_settings()
+    full_response = ""
+    for model_choice in (settings.PRIMARY_MODEL, "fallback"):
+      try:
+        async for chunk in llm_chat_stream(
+          system=FACTUAL_SYSTEM_PROMPT,
+          messages=messages,
+          max_tokens=2048,
+          model=model_choice,
+        ):
+          if chunk:
+            full_response += chunk
+            yield _text(chunk)
+        if full_response.strip():
+          break
+        logger.warning("handle_factual: model=%s returned empty, trying next", model_choice)
+      except Exception as llm_exc:
+        logger.warning("handle_factual: model=%s failed: %s", model_choice, llm_exc)
+        continue
+
+    if not full_response.strip():
+      logger.warning("handle_factual: all models failed, using fallback")
+      fallback = "抱歉，暂时无法获取相关信息，请稍后再试。"
+      full_response = fallback
+      yield _text(fallback)
+
+    if full_response:
+      await session_memory.add_message(session_id, "assistant", full_response)
+
+    yield _done(session_id)
+
+  except Exception as exc:
+    logger.exception("Factual handler error")
     yield _error(str(exc))
     yield _done(session_id)
 

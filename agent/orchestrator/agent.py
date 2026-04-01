@@ -21,7 +21,7 @@ from agent.orchestrator.react_loop import ReactEngine
 from agent.orchestrator.router import classify_complexity, classify_intent
 from agent.orchestrator.state_extractor import extract_state, heuristic_extract
 from agent.orchestrator.synthesis import Synthesizer
-from agent.orchestrator.theater import handle_clarify, theater_handle
+from agent.orchestrator.theater import handle_clarify, handle_factual, theater_handle
 
 logger = logging.getLogger(__name__)
 
@@ -170,6 +170,17 @@ class OrchestratorAgent:
           self._learn_from_session_safe(user_id, history)
           total_ms = int((time.time() - total_start) * 1000)
           logger.info("TIMING stage=total_theater_clarify duration_ms=%d session=%s", total_ms, session_id)
+          return
+
+        if intent == "factual":
+          async for chunk in handle_factual(
+            session_id, message, history, state_ctx,
+          ):
+            yield chunk
+          await self._update_summary_safe(session_id, message)
+          self._learn_from_session_safe(user_id, history)
+          total_ms = int((time.time() - total_start) * 1000)
+          logger.info("TIMING stage=total_theater_factual duration_ms=%d session=%s", total_ms, session_id)
           return
 
         if intent == "search":

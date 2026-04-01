@@ -68,6 +68,78 @@ HARMFUL_KW = [
   "伪造", "假证", "逃票方法", "黑市",
 ]
 
+# --- Follow-up detection keywords & patterns ---
+
+FOLLOWUP_KW = [
+  "请提供", "能告诉我", "什么时候", "目的地是",
+  "出发地", "几个人", "想去哪",
+]
+
+# Action verbs that imply a search/recommendation task needing specifics
+_ACTION_VERBS = ["查", "搜", "找", "推荐", "规划", "安排", "帮我订", "帮我找"]
+
+# Knowledge / factual question markers — these can be answered directly
+_KNOWLEDGE_MARKERS = [
+  "签证", "政策", "怎样", "什么是", "区别", "如何",
+  "是否", "是不是", "多少钱", "开放时间", "开馆",
+  "闭馆", "限额", "接驳", "办理", "购买",
+]
+
+
+def _is_followup_response(response: str) -> bool:
+  """Detect whether a response is a short follow-up question to the user.
+
+  Criteria: response < 150 chars AND contains at least one follow-up keyword.
+  """
+  if len(response) >= 150:
+    return False
+  return any(kw in response for kw in FOLLOWUP_KW)
+
+
+def _is_followup_reasonable(question: Dict[str, Any]) -> bool:
+  """Determine whether asking a follow-up is justified for this question.
+
+  Returns True (reasonable) when the question is an action/search request
+  that lacks specifics (destination, date, etc.).
+  Returns False (not reasonable) when the question is a pure knowledge/factual
+  query that can be answered directly.
+  """
+  q_text = question.get("q", "")
+  cat = question.get("cat", "")
+  expect = question.get("expect", "normal")
+
+  # Robustness questions with "refuse" expectation: follow-up not applicable
+  if cat == "robustness" and expect == "refuse":
+    return False
+
+  # Knowledge / factual questions should be answered directly
+  if any(kw in q_text for kw in _KNOWLEDGE_MARKERS):
+    return False
+
+  # Action-oriented questions missing specifics -> follow-up is reasonable
+  has_action = any(v in q_text for v in _ACTION_VERBS)
+  if not has_action:
+    return False
+
+  # Check if the question already has a clear destination / date
+  # Simple heuristic: look for common destination and date indicators
+  _dest_indicators = [
+    "东京", "大阪", "巴黎", "伦敦", "纽约", "首尔", "曼谷", "新加坡",
+    "三亚", "成都", "西安", "上海", "北京", "杭州", "重庆", "南京",
+    "香港", "台北", "澳门", "日本", "泰国", "韩国", "美国", "法国",
+    "意大利", "西班牙", "德国", "澳大利亚", "新西兰", "马尔代夫",
+    "普吉", "巴厘", "清迈", "罗马", "米兰", "柏林", "悉尼",
+    "墨尔本", "温哥华", "多伦多", "夏威夷", "塞班", "云南", "丽江",
+    "大理", "厦门", "青岛", "桂林", "张家界", "九寨沟", "黄山",
+  ]
+  has_dest = any(d in q_text for d in _dest_indicators)
+
+  # If the question has no clear destination, follow-up is reasonable
+  if not has_dest:
+    return True
+
+  return False
+
 
 # ---------------------------------------------------------------------------
 # Individual scoring functions
@@ -342,14 +414,43 @@ class V2Evaluator:
       }
       weighted_sum += score * w
 
+    # --- Reasonable follow-up detection & score floor ---
+    is_followup = _is_followup_response(response)
+    followup_reasonable = False
+
+    if is_followup and _is_followup_reasonable(question):
+      followup_reasonable = True
+
+      # Apply score floors: accuracy >= 3, constraint >= 3
+      for dim_key in (EvalDimension.ACCURACY.value, EvalDimension.CONSTRAINT.value):
+        dim_data = dims[dim_key]
+        if dim_data["score"] < 3:
+          old_score = dim_data["score"]
+          dim_data["score"] = 3
+          dim_data["weighted"] = round(3 * dim_data["weight"], 3)
+          dim_data["reason"] += f" [followup floor: {old_score}->3]"
+          dim_data["details"]["followup_adjusted"] = True
+
+      # Recalculate weighted sum after adjustment
+      weighted_sum = sum(
+        dims[d.value]["score"] * dims[d.value]["weight"]
+        for d in EvalDimension
+      )
+
     final = round(weighted_sum, 2)
-    return {
+    result: Dict[str, Any] = {
       "question_id": question.get("id", "?"),
       "category": cat,
       "final_score": final,
       "dimensions": dims,
       "pass": final >= 3.0,
     }
+
+    if is_followup:
+      result["followup_detected"] = True
+      result["followup_reasonable"] = followup_reasonable
+
+    return result
 
   def evaluate_batch(
     self, results: List[Dict[str, Any]],
