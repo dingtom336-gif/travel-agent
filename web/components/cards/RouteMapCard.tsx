@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useEffect, useRef } from "react";
+import { memo } from "react";
 import dynamic from "next/dynamic";
 import { GeoLocation } from "@/lib/types";
 

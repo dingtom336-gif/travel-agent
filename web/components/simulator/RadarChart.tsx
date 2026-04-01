@@ -30,15 +30,6 @@ export default function RadarChart({ scores, size = 280 }: RadarChartProps) {
     y: cy - r * Math.cos(index * angleStep),
   });
 
-  // Build polygon path for scores (normalized to 0-5)
-  const scorePath = scores
-    .map((s, i) => {
-      const r = (s.score / 5) * maxR;
-      const p = getPoint(i, r);
-      return `${i === 0 ? "M" : "L"}${p.x},${p.y}`;
-    })
-    .join(" ");
-
   // Grid rings at 1, 2, 3, 4, 5
   const rings = [1, 2, 3, 4, 5];
 

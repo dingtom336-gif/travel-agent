@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from "react-leaflet";
 import L from "leaflet";
-import { TimelineDayData, GeoLocation } from "@/lib/types";
+import { TimelineDayData } from "@/lib/types";
 
 // Fix default marker icon issue with Leaflet + webpack
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

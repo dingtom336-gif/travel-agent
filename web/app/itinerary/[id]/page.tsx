@@ -326,7 +326,7 @@ function ActionBar({
   onToggleSave,
   onShare,
   onBackToChat,
-  itineraryId,
+  itineraryId: _itineraryId,
 }: {
   isSaved: boolean;
   onToggleSave: () => void;

@@ -317,7 +317,7 @@ export default function InterleavedContent({
 }: InterleavedContentProps) {
   // Memoize parsed segments to avoid re-parsing on every render
   const segments = useMemo(() => parseContentSegments(content), [content]);
-  const payloads = uiPayloads || [];
+  const payloads = useMemo(() => uiPayloads || [], [uiPayloads]);
 
   // Memoize payload classification to avoid re-computing on every render
   const { remainingInline, remainingStandalone } = useMemo(() => {
@@ -442,7 +442,7 @@ export default function InterleavedContent({
       {/* Standalone cards outside bubble (timeline, budget, route map) */}
       {allStandalone.length > 0 && (
         <div className="flex flex-col gap-3 min-w-0 overflow-hidden">
-          {allStandalone.map((payload, idx) => {
+          {allStandalone.map((payload) => {
             const si = standaloneIdx++;
             return (
               <div key={`sa-${si}`} className="animate-card-in" style={{ animationDelay: `${si * 0.06}s` }}>

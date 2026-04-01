@@ -43,14 +43,27 @@ export default function ThinkingSteps({ steps, isStreaming }: ThinkingStepsProps
   const [isOpen, setIsOpen] = useState(isStreaming);
   const userToggled = useRef(false);
 
-  // Auto-collapse after streaming ends (unless user manually toggled)
+  // Auto-open when streaming starts, auto-collapse after streaming ends
+  // (unless user manually toggled).
+  // All setState calls are inside setTimeout callbacks to satisfy
+  // react-hooks/set-state-in-effect (effects should trigger via
+  // subscriptions/callbacks, not synchronously).
+  const prevStreamingRef = useRef(isStreaming);
   useEffect(() => {
-    if (!isStreaming && steps.length > 0 && !userToggled.current) {
+    const wasStreaming = prevStreamingRef.current;
+    prevStreamingRef.current = isStreaming;
+
+    if (userToggled.current) return;
+
+    // Streaming just ended -> auto-collapse after delay
+    if (!isStreaming && wasStreaming && steps.length > 0) {
       const timer = setTimeout(() => setIsOpen(false), 800);
       return () => clearTimeout(timer);
     }
-    if (isStreaming && !userToggled.current) {
-      setIsOpen(true);
+    // Streaming just started -> auto-open (via microtask to avoid sync setState in effect)
+    if (isStreaming && !wasStreaming) {
+      const timer = setTimeout(() => setIsOpen(true), 0);
+      return () => clearTimeout(timer);
     }
   }, [isStreaming, steps.length]);
 
