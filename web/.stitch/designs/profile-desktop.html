@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-lowest": "#000000",
+              "on-tertiary": "#5b6063",
+              "on-error": "#490006",
+              "error-container": "#9f0519",
+              "surface-variant": "#23262e",
+              "secondary-fixed-dim": "#ceb9ff",
+              "surface-container-highest": "#23262e",
+              "background": "#0c0e14",
+              "error-dim": "#d7383b",
+              "surface-tint": "#53ddfc",
+              "outline": "#74757d",
+              "surface-bright": "#292c35",
+              "surface": "#0c0e14",
+              "error": "#ff716c",
+              "secondary": "#ac8aff",
+              "surface-container-low": "#11131a",
+              "inverse-on-surface": "#53555c",
+              "on-background": "#e5e4ed",
+              "inverse-primary": "#00687b",
+              "on-primary-fixed": "#003640",
+              "secondary-dim": "#8455ef",
+              "on-tertiary-fixed": "#494e51",
+              "on-surface-variant": "#aaaab3",
+              "on-primary-container": "#00343e",
+              "secondary-fixed": "#dac9ff",
+              "inverse-surface": "#faf8ff",
+              "on-surface": "#e5e4ed",
+              "primary-fixed": "#53ddfc",
+              "surface-container-high": "#1d1f27",
+              "on-secondary-fixed-variant": "#5f28c8",
+              "on-primary-fixed-variant": "#005564",
+              "on-secondary-container": "#d9c8ff",
+              "on-tertiary-fixed-variant": "#656a6e",
+              "on-secondary": "#280067",
+              "on-tertiary-container": "#53575b",
+              "tertiary-dim": "#e7ebef",
+              "secondary-container": "#5516be",
+              "surface-dim": "#0c0e14",
+              "primary": "#53ddfc",
+              "on-secondary-fixed": "#40009b",
+              "tertiary-fixed-dim": "#e7ebef",
+              "surface-container": "#171921",
+              "primary-fixed-dim": "#40ceed",
+              "tertiary-fixed": "#f6fafe",
+              "on-primary": "#004b58",
+              "tertiary-container": "#e7ebef",
+              "tertiary": "#f6fafe",
+              "primary-container": "#21bedc",
+              "primary-dim": "#40ceed",
+              "on-error-container": "#ffa8a3",
+              "outline-variant": "#46484f"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .aurora-glow {
+            background: radial-gradient(circle at 50% 50%, rgba(83, 221, 252, 0.15) 0%, rgba(172, 138, 255, 0.05) 50%, transparent 100%);
+        }
+        .glass-panel {
+            background: rgba(29, 31, 39, 0.4);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30 min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#0c0e14]/80 backdrop-blur-xl no-border shadow-[0_20px_40px_rgba(83,221,252,0.08)]">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent font-headline">TravelMind</span>
+<div class="hidden md:flex gap-6 font-['Plus_Jakarta_Sans'] font-medium tracking-tight">
+<a class="text-slate-400 hover:text-slate-100 transition-colors" href="#">Destinations</a>
+<a class="text-slate-400 hover:text-slate-100 transition-colors" href="#">Itineraries</a>
+<a class="text-slate-400 hover:text-slate-100 transition-colors" href="#">Curator</a>
+<a class="text-slate-400 hover:text-slate-100 transition-colors" href="#">Community</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-4">
+<button class="text-slate-400 hover:bg-white/5 transition-all duration-300 p-2 rounded-full scale-95 active:scale-90">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-400 hover:bg-white/5 transition-all duration-300 p-2 rounded-full scale-95 active:scale-90">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="w-10 h-10 rounded-full p-[2px] bg-gradient-to-tr from-primary to-secondary">
+<img alt="User profile avatar with aurora glow" class="w-full h-full rounded-full object-cover" data-alt="User profile avatar with aurora glow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9WAmk3fyeqgotyqnlzJT5Qs_tuvVXfNlMD77jwGfwrtpem3nDZQTE6rQvd0Ch-BKCKsO2XcJj21ANrdfRBDuiBegIqiGhG_TQLcjzbix6XER7Y-nDGUbTFGhl9aAFUM11UHzVp0h6liWZmcG9p98sHBGZgXrw8i0hAKWdJf2eBRug8Vnrg_qMx_FeOrTGZ7C6dzSW3KSwmj2hvxH0NyPsQPro9rHHoRPYCxFj8R9T36yLyHGQ3ij9YvprU93JKpMbs7nzNMAb4MtZ"/>
+</div>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-20 px-8 max-w-6xl mx-auto relative overflow-hidden">
+<!-- Aurora Background Presence -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] aurora-glow -z-10"></div>
+<!-- Profile Header -->
+<header class="flex flex-col md:flex-row items-center md:items-end gap-8 mb-16">
+<div class="relative group">
+<div class="w-40 h-40 rounded-full p-1 bg-gradient-to-br from-primary via-secondary to-primary-container animate-pulse-slow">
+<div class="w-full h-full rounded-full overflow-hidden border-4 border-surface">
+<img alt="张小明" class="w-full h-full object-cover" data-alt="Professional portrait of Zhang Xiaoming" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfdaF3kl7BYrvicM3JEW1fzxY6T34GQg4NImsy3jtjvizWUBVFMfHfSbQHnt2qCBfZ8d0yyTdMycDEH-JatGhwu6z_KKoIbzKkwBhUylvjTNfRQATTuBnKigL4TVFXzrWX-8rF7oo1J7x5L6LHV_XefntHhbDzCNO0B2hD9dkn6IWNDgaxHjNZlo_nwlGaEgervFzQaxBoK1HplJwaBDMotvKO5Jd7jHHdXlDrQU_prQ3IdSXn2Hn8HrEmOiboiYUeAIEHtqA8EVKg"/>
+</div>
+</div>
+<div class="absolute bottom-2 right-2 bg-primary text-on-primary p-2 rounded-full shadow-lg">
+<span class="material-symbols-outlined text-sm">edit</span>
+</div>
+</div>
+<div class="text-center md:text-left flex-1">
+<div class="flex items-center justify-center md:justify-start gap-4 mb-2">
+<h1 class="text-5xl font-bold font-headline tracking-tight text-on-surface">张小明</h1>
+<span class="px-3 py-1 rounded-full bg-secondary-container/30 text-secondary text-[10px] font-bold tracking-widest uppercase border border-secondary/20">Explorer Elite</span>
+</div>
+<p class="text-on-surface-variant font-medium mb-1">xiaoming.travel@mind.ai</p>
+<div class="flex items-center justify-center md:justify-start gap-2 text-on-tertiary text-xs">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>2024年加入</span>
+</div>
+</div>
+<!-- Stats Row (Integrated into Header visual space) -->
+<div class="flex gap-6 md:gap-12 py-6 px-10 glass-panel rounded-3xl border border-white/5">
+<div class="text-center">
+<p class="text-primary font-headline text-2xl font-bold">12</p>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">次旅行</p>
+</div>
+<div class="w-[1px] h-10 bg-white/5 self-center"></div>
+<div class="text-center">
+<p class="text-secondary font-headline text-2xl font-bold">8</p>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">个城市</p>
+</div>
+<div class="w-[1px] h-10 bg-white/5 self-center"></div>
+<div class="text-center">
+<p class="text-primary-container font-headline text-2xl font-bold">¥45k</p>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">总消费</p>
+</div>
+</div>
+</header>
+<!-- Tabs Navigation -->
+<nav class="flex gap-12 mb-10 border-b border-white/5">
+<button class="pb-4 text-primary border-b-2 border-primary font-bold flex items-center gap-2 transition-all">
+<span class="material-symbols-outlined text-lg">card_travel</span>
+                🧳 我的行程
+            </button>
+<button class="pb-4 text-on-surface-variant hover:text-on-surface font-medium flex items-center gap-2 transition-all">
+<span class="material-symbols-outlined text-lg">tune</span>
+                ⚙️ 偏好设置
+            </button>
+<button class="pb-4 text-on-surface-variant hover:text-on-surface font-medium flex items-center gap-2 transition-all">
+<span class="material-symbols-outlined text-lg" data-weight="fill">favorite</span>
+                ❤️ 收藏
+            </button>
+</nav>
+<!-- Content Grid: Bento Style -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+<!-- Card 1 -->
+<div class="group relative overflow-hidden rounded-[2rem] surface-container-low glass-panel hover:bg-surface-container-high transition-all duration-500 border border-white/5">
+<div class="h-48 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent z-10"></div>
+<img alt="Shanghai" class="w-full h-full object-cover grayscale-[0.2] group-hover:scale-110 transition-transform duration-700" data-alt="Shanghai city skyline with violet sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDp-1JwUoTKSFy4OYfzfz_6jpUti07WUYYw-TVjFjouAtHP0_Vo2wDnLe3yjalz9KKFG0O-364yYHVeP4Kg-qNmpTVq7nhzii1hdxMpMlNo777RkVX4Fy0Dyjyyqt5yzwYpXOAezL2CA_T4KA0eNmXz9GTh8ITsWdhzFem1SmAEQlcaMGJeZ78wXOtkYzIxYynpOw1640M2Hj1nQBg19ZlbJAu6il2vsLemqm0vUW_9rSS-2RMVT8CYbi5lDobozsUBVGr7sIk2US6v"/>
+<div class="absolute top-6 left-6 z-20">
+<span class="bg-surface-container-highest/80 backdrop-blur-md text-on-surface text-[10px] font-bold px-3 py-1 rounded-full border border-white/10 uppercase tracking-tighter">已完成</span>
+</div>
+</div>
+<div class="p-8 -mt-10 relative z-20">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="text-2xl font-bold font-headline mb-1 text-on-surface">上海3日游</h3>
+<p class="text-on-surface-variant text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-xs">date_range</span>
+                                4/5 - 4/7
+                            </p>
+</div>
+<button class="w-12 h-12 rounded-full glass-panel border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group relative overflow-hidden rounded-[2rem] surface-container-low glass-panel hover:bg-surface-container-high transition-all duration-500 border border-white/5">
+<div class="h-48 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent z-10"></div>
+<img alt="Tokyo" class="w-full h-full object-cover grayscale-[0.2] group-hover:scale-110 transition-transform duration-700" data-alt="Tokyo street neon lights at night" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRQNJRNiMSzRUpPh_lKKysXp9j_ToYNafaIFSXYsYjZbGHxxoqQzaYAkU0YqomEPTpM2Xy7oEOsnM_CiW99PwImWj9usjzcG3oTPE0Xh6fPbevc7cqHdGAPqdhLAc_QnacmhgZ-OJMR4uCZTrG1sDhk22EIoyYAPlGSnopO5vvpM7x2p9Oypq_MbyqEN8BqhbipBnWAwua-gcz1j1g3guJhBpeccaWiKenLF1VO95EpRqqeXloIA2uMlYEkcmwlEXDWKMqW8qC6MVm"/>
+<div class="absolute top-6 left-6 z-20">
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold px-3 py-1 rounded-full border border-primary/20 uppercase tracking-tighter">计划中</span>
+</div>
+</div>
+<div class="p-8 -mt-10 relative z-20">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="text-2xl font-bold font-headline mb-1 text-on-surface">东京5日游</h3>
+<p class="text-on-surface-variant text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-xs">date_range</span>
+                                5/1 - 5/5
+                            </p>
+</div>
+<button class="w-12 h-12 rounded-full glass-panel border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group relative overflow-hidden rounded-[2rem] surface-container-low glass-panel hover:bg-surface-container-high transition-all duration-500 border border-white/5">
+<div class="h-48 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent z-10"></div>
+<img alt="Sanya" class="w-full h-full object-cover grayscale-[0.2] group-hover:scale-110 transition-transform duration-700" data-alt="Tropical Sanya beach with clear blue water" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPbo1Qz7azxWXo4ynSOUDtRB80butAlVNNa32KJkOXzxlRGbUHYtZMHjw737eAjBwZlkIw3R1YRZsZ2n0IdnbhRvssrQWYYLQuHtU1g3DigndSf0F0ebQOBuOGYE8zlNNFoQOFo3TjGEPUs_zfxJwcUWyMJR7esGm5DYQywLi9liIRyypF-3FHkZXeqYei4So_3IoBXPShLgAxcVimDac4ncSXH3GaMUINeEQ7OEQduabjeai_rTTMcWjdR72PaoqkMvb7LD_K00RF"/>
+<div class="absolute top-6 left-6 z-20">
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold px-3 py-1 rounded-full border border-primary/20 uppercase tracking-tighter">计划中</span>
+</div>
+</div>
+<div class="p-8 -mt-10 relative z-20">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="text-2xl font-bold font-headline mb-1 text-on-surface">三亚度假</h3>
+<p class="text-on-surface-variant text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-xs">date_range</span>
+                                6/15 - 6/18
+                            </p>
+</div>
+<button class="w-12 h-12 rounded-full glass-panel border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group relative overflow-hidden rounded-[2rem] surface-container-low glass-panel hover:bg-surface-container-high transition-all duration-500 border border-white/5">
+<div class="h-48 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent z-10"></div>
+<img alt="Beijing" class="w-full h-full object-cover grayscale-[0.2] group-hover:scale-110 transition-transform duration-700" data-alt="Beijing Forbidden City aerial view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASWxSQwB_B9SzFi9WODPlLcoGJIkTcsZ7OzBHkplvxsm7Glaca9Zt_YMY89OAi1Fjp7Ay6is2mULwjEFOZuf5ZTh5m9y5ypLdfF7elEwPYB3BJwBY9AClDG3iblGXr2H2TbPq37IxXbEeBWIU6LXbWPIECeQeyxoNpHTCU4JWum-Y4Gsq8_0D3ezXQhGDSgxJq4kptywjiibT1Fu1YWGpMO826OJwCdJmM3rerUMSFWGyNyuCqd_J3g57CkFhmYrFlfIxEN4U5HaaI"/>
+<div class="absolute top-6 left-6 z-20">
+<span class="bg-surface-container-highest/80 backdrop-blur-md text-on-surface text-[10px] font-bold px-3 py-1 rounded-full border border-white/10 uppercase tracking-tighter">已完成</span>
+</div>
+</div>
+<div class="p-8 -mt-10 relative z-20">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="text-2xl font-bold font-headline mb-1 text-on-surface">北京周末</h3>
+<p class="text-on-surface-variant text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-xs">date_range</span>
+                                3/1 - 3/2
+                            </p>
+</div>
+<button class="w-12 h-12 rounded-full glass-panel border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-all duration-300">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Logout Action -->
+<div class="flex justify-center">
+<button class="group flex items-center gap-3 px-8 py-4 rounded-full border border-error/30 hover:bg-error/10 text-error font-bold transition-all duration-300 scale-95 active:scale-90">
+<span class="material-symbols-outlined group-hover:rotate-180 transition-transform duration-500">logout</span>
+                退出登录
+            </button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#11131a] w-full py-12 px-8 border-t border-white/5">
+<div class="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="text-lg font-bold text-slate-200 font-headline">TravelMind</span>
+<p class="font-['Inter'] text-[10px] uppercase tracking-widest text-slate-500">© 2024 TravelMind. Crafted by The Digital Curator.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-slate-500 hover:text-cyan-300 transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-slate-500 hover:text-cyan-300 transition-colors opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-slate-500 hover:text-cyan-300 transition-colors opacity-80 hover:opacity-100" href="#">AI Ethics</a>
+<a class="font-['Inter'] text-xs uppercase tracking-widest text-slate-500 hover:text-cyan-300 transition-colors opacity-80 hover:opacity-100" href="#">Support</a>
+</div>
+</div>
+</footer>
+</body></html>

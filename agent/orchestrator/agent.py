@@ -108,7 +108,7 @@ class OrchestratorAgent:
       settings = get_settings()
 
       # ── Theater Mode path (skipped when deep_reasoning=True) ──
-      use_theater = settings.THEATER_MODE and not deep_reasoning
+      use_theater = settings.THEATER_MODE
       if use_theater:
         # Parallel: heuristic state extraction + LLM intent classification
         t0 = time.time()

@@ -40,8 +40,11 @@ export default memo(function POICard({ data, onSelect }: POICardProps) {
           <img
             src={data.imageUrl}
             alt={data.name}
+            width={400}
+            height={112}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
+            decoding="async"
             onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
           />
         ) : (

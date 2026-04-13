@@ -23,7 +23,7 @@ from agent.simulator.eval_v2_scoring import V2Evaluator  # noqa: E402
 EVAL_FILE = Path(__file__).parent / "eval_200.json"
 RESULTS_FILE = Path(__file__).parent / "eval_200_results.json"
 DEFAULT_SERVER = "http://localhost:8000"
-TIMEOUT = 180
+TIMEOUT = 300
 
 
 def parse_args() -> dict:

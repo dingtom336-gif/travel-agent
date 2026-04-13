@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TravelMind - AI Travel Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#53ddfc",
+                        "error-dim": "#d7383b",
+                        "outline": "#74757d",
+                        "primary-fixed-dim": "#40ceed",
+                        "surface": "#0c0e14",
+                        "on-secondary": "#280067",
+                        "tertiary-dim": "#e7ebef",
+                        "surface-container": "#171921",
+                        "primary-fixed": "#53ddfc",
+                        "on-secondary-fixed": "#40009b",
+                        "surface-variant": "#23262e",
+                        "tertiary-container": "#e7ebef",
+                        "on-tertiary-fixed": "#494e51",
+                        "outline-variant": "#46484f",
+                        "on-secondary-container": "#d9c8ff",
+                        "on-secondary-fixed-variant": "#5f28c8",
+                        "inverse-surface": "#faf8ff",
+                        "on-primary-container": "#00343e",
+                        "secondary-fixed-dim": "#ceb9ff",
+                        "on-error": "#490006",
+                        "secondary-container": "#5516be",
+                        "inverse-primary": "#00687b",
+                        "on-tertiary-fixed-variant": "#656a6e",
+                        "surface-bright": "#292c35",
+                        "tertiary-fixed": "#f6fafe",
+                        "on-tertiary-container": "#53575b",
+                        "error-container": "#9f0519",
+                        "surface-tint": "#53ddfc",
+                        "inverse-on-surface": "#53555c",
+                        "primary-dim": "#40ceed",
+                        "surface-container-lowest": "#000000",
+                        "on-primary": "#004b58",
+                        "on-surface": "#e5e4ed",
+                        "on-primary-fixed": "#003640",
+                        "surface-container-high": "#1d1f27",
+                        "surface-container-highest": "#23262e",
+                        "secondary": "#ac8aff",
+                        "on-primary-fixed-variant": "#005564",
+                        "secondary-fixed": "#dac9ff",
+                        "tertiary": "#f6fafe",
+                        "surface-container-low": "#11131a",
+                        "on-error-container": "#ffa8a3",
+                        "on-tertiary": "#5b6063",
+                        "on-background": "#e5e4ed",
+                        "on-surface-variant": "#aaaab3",
+                        "secondary-dim": "#8455ef",
+                        "surface-dim": "#0c0e14",
+                        "background": "#0c0e14",
+                        "tertiary-fixed-dim": "#e7ebef",
+                        "error": "#ff716c",
+                        "primary-container": "#21bedc"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "3xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(17, 19, 26, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .aurora-glow {
+            background: radial-gradient(circle at 50% 50%, rgba(83, 221, 252, 0.05) 0%, transparent 70%);
+        }
+        .message-gradient {
+            background: linear-gradient(135deg, #53ddfc 0%, #ac8aff 100%);
+        }
+        .ghost-border {
+            border: 1px solid rgba(170, 170, 179, 0.15);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary/30 aurora-glow min-h-screen overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-20 bg-slate-950/50 backdrop-blur-xl shadow-[0_20px_40px_rgba(6,182,212,0.08)]">
+<div class="flex items-center gap-6">
+<span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 font-headline">TravelMind</span>
+<div class="h-6 w-[1px] bg-outline-variant/30"></div>
+<h1 class="text-on-surface font-semibold font-headline">Shanghai Trip Plan</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-800/50 transition-all text-slate-400">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-10 h-10 rounded-full border-2 border-primary/20 overflow-hidden">
+<img alt="User profile avatar" class="w-full h-full object-cover" data-alt="Close up of a professional user avatar profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD55QCxFs1RL6_jhWVIqspZfW9vjiUGB7k4kgu_CkswcllHEahpAxKdKESiKGN2Fdh2XOyhxFp2n7ky8GppE_5SASLpEVJmVoGHihgUCt4l5hmyd-59Y5EUoRLDl5ZU69tWOe_iXpsctcsUpgWq1f9GARaHX6_XqG7E0lKSe6TXmUwdKvswvdeLbeiWOujRSXexsx8WTIduZM79vfLnqvCF6jJXFT7yuNMFuqp6ZnyXxmL5DBXbTZrZhxNlbrrguShfW_aetfJtOA-9"/>
+</div>
+</div>
+<div class="bg-gradient-to-r from-cyan-500/20 to-purple-500/20 h-[1px] w-full absolute bottom-0"></div>
+</header>
+<main class="flex h-screen pt-20">
+<!-- Left Panel: Chat Area (70%) -->
+<section class="w-[70%] flex flex-col relative">
+<!-- Message Display Area -->
+<div class="flex-1 overflow-y-auto px-12 py-8 space-y-8 custom-scrollbar">
+<!-- User Message -->
+<div class="flex flex-col items-end">
+<div class="message-gradient text-on-primary-container px-6 py-4 rounded-3xl rounded-tr-sm max-w-[80%] shadow-lg shadow-primary/10">
+<p class="font-medium">I'm looking for a flight from Beijing to Shanghai and a luxury hotel for my stay.</p>
+</div>
+<span class="text-on-surface-variant text-[10px] mt-2 font-label uppercase tracking-wider">Just Now</span>
+</div>
+<!-- AI Message -->
+<div class="flex flex-col items-start">
+<div class="glass-panel ghost-border p-6 rounded-3xl rounded-tl-sm max-w-[90%] space-y-6">
+<p class="text-on-surface leading-relaxed">Great choice! I've found a few options for you. Here are the top flight and hotel recommendations for your Shanghai trip.</p>
+<!-- AI Generated Content Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Flight Card -->
+<div class="bg-surface-container-highest/50 border border-white/5 p-5 rounded-2xl flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-lg" data-icon="flight">flight</span>
+<span class="text-xs font-label font-bold uppercase tracking-widest">Recommended Flight</span>
+</div>
+<span class="text-primary font-bold">¥680</span>
+</div>
+<div class="flex items-center justify-between text-on-surface">
+<div class="text-center">
+<p class="text-xl font-headline font-bold">PEK</p>
+<p class="text-[10px] text-on-surface-variant">Beijing</p>
+</div>
+<div class="flex-1 flex flex-col items-center px-4">
+<div class="w-full h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent relative">
+<span class="material-symbols-outlined absolute left-1/2 -top-3 -translate-x-1/2 text-sm bg-surface-container-highest px-1 text-primary" data-icon="east">east</span>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-2 uppercase tracking-tighter">2h 15m</p>
+</div>
+<div class="text-center">
+<p class="text-xl font-headline font-bold">SHA</p>
+<p class="text-[10px] text-on-surface-variant">Shanghai</p>
+</div>
+</div>
+</div>
+<!-- Hotel Card -->
+<div class="bg-surface-container-highest/50 border border-white/5 p-5 rounded-2xl flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined text-lg" data-icon="hotel">hotel</span>
+<span class="text-xs font-label font-bold uppercase tracking-widest">Top Pick</span>
+</div>
+<div class="text-right">
+<p class="text-secondary font-bold">¥1,280</p>
+<p class="text-[10px] text-on-surface-variant">/night</p>
+</div>
+</div>
+<div>
+<h3 class="font-headline font-bold text-on-surface">上海外滩华尔道夫</h3>
+<div class="flex gap-1 mt-1 text-primary scale-75 origin-left">
+<span class="material-symbols-outlined fill-1" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill-1" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill-1" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill-1" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined fill-1" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mt-1">
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium border border-primary/20">Gym</span>
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium border border-primary/20">Spa</span>
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium border border-primary/20">River View</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Thinking Indicator -->
+<div class="flex items-center gap-4 text-on-surface-variant">
+<div class="flex gap-1.5 px-3 py-2 rounded-full glass-panel ghost-border">
+<div class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse delay-75"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse delay-150"></div>
+</div>
+<span class="text-xs font-label uppercase tracking-widest">正在搜索航班...</span>
+</div>
+</div>
+<!-- Chat Input Area -->
+<div class="p-8 pb-10">
+<div class="glass-panel ghost-border rounded-3xl p-2 flex items-center gap-4 shadow-2xl shadow-black/50">
+<button class="p-3 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-on-surface placeholder-on-surface-variant/50 font-body" placeholder="Ask TravelMind anything..." type="text"/>
+<button class="message-gradient w-12 h-12 rounded-2xl flex items-center justify-center text-on-primary transition-transform active:scale-90">
+<span class="material-symbols-outlined font-bold" data-icon="arrow_upward">arrow_upward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Right Panel: Itinerary Sidebar (30%) -->
+<aside class="w-[30%] bg-slate-900/40 backdrop-blur-2xl border-l border-white/10 flex flex-col h-full overflow-hidden">
+<div class="p-8 flex-1 overflow-y-auto space-y-8">
+<!-- Header -->
+<div>
+<div class="flex items-center justify-between mb-2">
+<h2 class="text-xl font-headline font-bold text-on-surface italic">行程概览</h2>
+<span class="material-symbols-outlined text-primary/60" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="h-1 w-16 bg-gradient-to-r from-primary to-secondary rounded-full"></div>
+</div>
+<!-- Weather Widget -->
+<div class="glass-panel ghost-border p-5 rounded-2xl flex items-center justify-between">
+<div>
+<p class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Shanghai Weather</p>
+<p class="text-3xl font-headline font-bold mt-1">18°C</p>
+</div>
+<div class="text-right">
+<span class="material-symbols-outlined text-4xl text-primary" data-icon="partly_cloudy_day">partly_cloudy_day</span>
+<p class="text-xs text-on-surface-variant font-medium">Partly Cloudy</p>
+</div>
+</div>
+<!-- Itinerary Cards Stack -->
+<div class="space-y-4">
+<!-- Flights Summary -->
+<div class="glass-panel ghost-border p-4 rounded-2xl hover:bg-white/5 transition-all group">
+<div class="flex items-center gap-3 mb-3">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="flight_takeoff">flight_takeoff</span>
+<span class="text-[11px] font-label font-bold uppercase text-on-surface-variant">Flight</span>
+</div>
+<div class="flex justify-between items-center px-2">
+<span class="font-bold text-sm">PEK</span>
+<span class="material-symbols-outlined text-primary/30 text-sm" data-icon="trending_flat">trending_flat</span>
+<span class="font-bold text-sm">SHA</span>
+</div>
+</div>
+<!-- Hotel Summary -->
+<div class="glass-panel ghost-border p-4 rounded-2xl hover:bg-white/5 transition-all group">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-secondary text-xl" data-icon="apartment">apartment</span>
+<span class="text-[11px] font-label font-bold uppercase text-on-surface-variant">Hotel</span>
+</div>
+<p class="text-sm font-medium px-2">上海外滩华尔道夫</p>
+</div>
+<!-- POI List -->
+<div class="glass-panel ghost-border p-4 rounded-2xl">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="explore">explore</span>
+<span class="text-[11px] font-label font-bold uppercase text-on-surface-variant">Places to visit</span>
+</div>
+<ul class="space-y-4 px-2 relative">
+<!-- Logic Path Gradient -->
+<div class="absolute left-[-6px] top-2 bottom-2 w-[1px] bg-gradient-to-b from-primary via-secondary to-transparent"></div>
+<li class="relative pl-4 flex items-center justify-between group">
+<div class="w-1.5 h-1.5 rounded-full bg-primary absolute left-[-9px]"></div>
+<span class="text-sm font-medium">The Bund</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity" data-icon="chevron_right">chevron_right</span>
+</li>
+<li class="relative pl-4 flex items-center justify-between group">
+<div class="w-1.5 h-1.5 rounded-full bg-primary/70 absolute left-[-9px]"></div>
+<span class="text-sm font-medium">Yu Garden</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity" data-icon="chevron_right">chevron_right</span>
+</li>
+<li class="relative pl-4 flex items-center justify-between group">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary absolute left-[-9px]"></div>
+<span class="text-sm font-medium">Oriental Pearl Tower</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity" data-icon="chevron_right">chevron_right</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Bottom CTA -->
+<div class="p-8 bg-surface-container-low/50 border-t border-white/5">
+<button class="w-full message-gradient py-4 rounded-full text-on-primary font-headline font-bold tracking-tight shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform active:scale-[0.98]">
+                    生成完整行程
+                </button>
+</div>
+</aside>
+</main>
+<!-- Background Aurora Blobs -->
+<div class="fixed top-[-10%] left-[-5%] w-[40%] h-[50%] bg-primary/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+<div class="fixed bottom-[-10%] right-[-5%] w-[40%] h-[50%] bg-secondary/5 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+</body></html>

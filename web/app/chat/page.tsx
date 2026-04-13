@@ -35,13 +35,55 @@ export default function ChatPage() {
  */
 function ChatLoading() {
   return (
-    <div className="flex flex-1 items-center justify-center">
-      <div className="flex flex-col items-center gap-3">
-        <svg className="h-8 w-8 animate-spin text-primary" fill="none" viewBox="0 0 24 24">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-        </svg>
-        <span className="text-sm text-on-surface-variant">加载中...</span>
+    <div className="flex flex-1 flex-col bg-surface">
+      <div className="flex-1 overflow-hidden px-3 py-4 sm:px-6 sm:py-8">
+        <div className="mx-auto max-w-4xl space-y-8 animate-pulse">
+          {/* User message skeleton */}
+          <div className="flex justify-end">
+            <div className="flex max-w-[70%] gap-2 flex-row-reverse">
+              <div className="h-8 w-8 shrink-0 rounded-full bg-surface-container-highest" />
+              <div className="rounded-2xl rounded-tr-sm bg-primary/20 px-4 py-3 w-48 h-10" />
+            </div>
+          </div>
+          {/* AI message skeleton */}
+          <div className="flex justify-start">
+            <div className="flex max-w-[80%] gap-2">
+              <div className="h-8 w-8 shrink-0 rounded-full bg-surface-container-highest" />
+              <div className="flex flex-col gap-2 flex-1">
+                <div className="rounded-2xl rounded-tl-sm bg-surface-container-high px-4 py-3 space-y-2">
+                  <div className="h-3 w-3/4 rounded bg-on-surface/10" />
+                  <div className="h-3 w-full rounded bg-on-surface/10" />
+                  <div className="h-3 w-2/3 rounded bg-on-surface/10" />
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Second user message skeleton */}
+          <div className="flex justify-end">
+            <div className="flex max-w-[70%] gap-2 flex-row-reverse">
+              <div className="h-8 w-8 shrink-0 rounded-full bg-surface-container-highest" />
+              <div className="rounded-2xl rounded-tr-sm bg-primary/20 px-4 py-3 w-32 h-10" />
+            </div>
+          </div>
+          {/* Second AI message skeleton */}
+          <div className="flex justify-start">
+            <div className="flex max-w-[80%] gap-2">
+              <div className="h-8 w-8 shrink-0 rounded-full bg-surface-container-highest" />
+              <div className="flex flex-col gap-2 flex-1">
+                <div className="rounded-2xl rounded-tl-sm bg-surface-container-high px-4 py-3 space-y-2">
+                  <div className="h-3 w-full rounded bg-on-surface/10" />
+                  <div className="h-3 w-5/6 rounded bg-on-surface/10" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Input bar skeleton */}
+      <div className="border-t border-outline-variant/30 px-3 py-3 sm:px-6">
+        <div className="mx-auto max-w-4xl">
+          <div className="h-12 rounded-2xl bg-surface-container-high animate-pulse" />
+        </div>
       </div>
     </div>
   );

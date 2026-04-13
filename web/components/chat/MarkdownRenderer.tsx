@@ -116,8 +116,11 @@ function ImageWithFallback({ src, alt }: { src: string; alt: string }) {
     <img
       src={src}
       alt={alt}
+      width={600}
+      height={300}
       className="my-2 max-w-full rounded-xl shadow-sm"
       loading="lazy"
+      decoding="async"
       onError={handleError}
     />
   );
