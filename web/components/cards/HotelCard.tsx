@@ -15,7 +15,7 @@ export default memo(function HotelCard({ data, onSelect }: HotelCardProps) {
   return (
     <button
       type="button"
-      className="group w-full cursor-pointer overflow-hidden bg-surface-container-high ghost-border rounded-xl text-left transition-all duration-200 hover:shadow-[0_8px_30px_rgba(83,221,252,0.1)] hover:scale-[1.01]"
+      className="group w-full cursor-pointer overflow-hidden bg-surface-container-high ghost-border rounded-xl text-left transition-all duration-200 hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.01]"
       onClick={onSelect}
     >
       {/* Image with gradient overlay */}

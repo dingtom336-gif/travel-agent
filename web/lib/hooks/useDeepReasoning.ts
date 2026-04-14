@@ -13,7 +13,8 @@ export function useDeepReasoning(): [boolean, (v: boolean) => void] {
 
   const toggle = useCallback((v: boolean) => {
     setEnabled(v);
-    localStorage.setItem(STORAGE_KEY, v ? "true" : "false");
+    // F3: move sync I/O out of setState callback path
+    queueMicrotask(() => localStorage.setItem(STORAGE_KEY, v ? "true" : "false"));
   }, []);
 
   return [enabled, toggle];

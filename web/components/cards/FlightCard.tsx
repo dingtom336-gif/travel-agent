@@ -15,7 +15,7 @@ export default memo(function FlightCard({ data, onSelect }: FlightCardProps) {
   return (
     <button
       type="button"
-      className="group w-full cursor-pointer bg-surface-container-high ghost-border rounded-xl p-3 text-left transition-all duration-200 hover:shadow-[0_8px_30px_rgba(83,221,252,0.1)] hover:scale-[1.01] sm:p-4"
+      className="group w-full cursor-pointer bg-surface-container-high ghost-border rounded-xl p-3 text-left transition-all duration-200 hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.01] sm:p-4"
       onClick={onSelect}
     >
       {/* Header: airline + flight number */}

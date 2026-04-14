@@ -107,7 +107,7 @@ function TripCard({
   return (
     <Link
       href={`/itinerary/${trip.id}`}
-      className="group flex gap-4 bg-surface-container-high ghost-border rounded-xl p-4 transition-all hover:shadow-[0_8px_30px_rgba(83,221,252,0.1)]"
+      className="group flex gap-4 bg-surface-container-high ghost-border rounded-xl p-4 transition-all hover:shadow-lg hover:shadow-primary/10"
     >
       {/* Thumbnail placeholder */}
       <div

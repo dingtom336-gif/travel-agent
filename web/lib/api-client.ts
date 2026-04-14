@@ -23,6 +23,9 @@ const MAX_RETRIES = 3;
 // Base delay for exponential backoff (ms)
 const BASE_RETRY_DELAY_MS = 1_000;
 
+// Default timeout for REST API calls (ms)
+const API_TIMEOUT_MS = 15_000;
+
 // Callback for handling SSE events
 export type SSECallback = (event: SSEEvent) => void;
 
@@ -197,13 +200,14 @@ async function chatStreamOnce(
  */
 export async function getItineraries(): Promise<unknown[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/itineraries`);
+    const response = await fetch(`${API_BASE_URL}/api/itineraries`, {
+      signal: AbortSignal.timeout(API_TIMEOUT_MS),
+    });
     if (!response.ok) {
       throw new Error(`HTTP error: ${response.status}`);
     }
     return await response.json();
-  } catch (error) {
-    console.error("Failed to fetch itineraries:", error);
+  } catch {
     return [];
   }
 }
@@ -213,13 +217,14 @@ export async function getItineraries(): Promise<unknown[]> {
  */
 export async function getItinerary(id: string): Promise<unknown | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/itineraries/${id}`);
+    const response = await fetch(`${API_BASE_URL}/api/itineraries/${id}`, {
+      signal: AbortSignal.timeout(API_TIMEOUT_MS),
+    });
     if (!response.ok) {
       throw new Error(`HTTP error: ${response.status}`);
     }
     return await response.json();
-  } catch (error) {
-    console.error("Failed to fetch itinerary:", error);
+  } catch {
     return null;
   }
 }
@@ -235,13 +240,13 @@ export async function createItinerary(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
+      signal: AbortSignal.timeout(API_TIMEOUT_MS),
     });
     if (!response.ok) {
       throw new Error(`HTTP error: ${response.status}`);
     }
     return await response.json();
-  } catch (error) {
-    console.error("Failed to create itinerary:", error);
+  } catch {
     return null;
   }
 }
@@ -258,13 +263,13 @@ export async function updateItinerary(
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
+      signal: AbortSignal.timeout(API_TIMEOUT_MS),
     });
     if (!response.ok) {
       throw new Error(`HTTP error: ${response.status}`);
     }
     return await response.json();
-  } catch (error) {
-    console.error("Failed to update itinerary:", error);
+  } catch {
     return null;
   }
 }
@@ -276,10 +281,10 @@ export async function deleteItinerary(id: string): Promise<boolean> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/itineraries/${id}`, {
       method: "DELETE",
+      signal: AbortSignal.timeout(API_TIMEOUT_MS),
     });
     return response.ok;
-  } catch (error) {
-    console.error("Failed to delete itinerary:", error);
+  } catch {
     return false;
   }
 }
@@ -292,14 +297,14 @@ export async function getProfile(
 ): Promise<unknown | null> {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/api/profile?user_id=${encodeURIComponent(userId)}`
+      `${API_BASE_URL}/api/profile?user_id=${encodeURIComponent(userId)}`,
+      { signal: AbortSignal.timeout(API_TIMEOUT_MS) }
     );
     if (!response.ok) {
       throw new Error(`HTTP error: ${response.status}`);
     }
     return await response.json();
-  } catch (error) {
-    console.error("Failed to fetch profile:", error);
+  } catch {
     return null;
   }
 }
@@ -318,14 +323,14 @@ export async function updateProfile(
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
+        signal: AbortSignal.timeout(API_TIMEOUT_MS),
       }
     );
     if (!response.ok) {
       throw new Error(`HTTP error: ${response.status}`);
     }
     return await response.json();
-  } catch (error) {
-    console.error("Failed to update profile:", error);
+  } catch {
     return null;
   }
 }

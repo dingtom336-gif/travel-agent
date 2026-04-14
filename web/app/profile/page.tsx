@@ -109,6 +109,51 @@ export default function ProfilePage() {
     },
   ];
 
+  // Show skeleton while loading
+  if (isLoading) {
+    return (
+      <div className="min-h-[calc(100vh-4rem)] bg-surface animate-pulse">
+        <header className="border-b border-outline-variant/30 bg-surface-container-high">
+          <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
+            <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
+              <div className="h-20 w-20 shrink-0 rounded-full bg-on-surface/10" />
+              <div className="flex-1 space-y-2 text-center sm:text-left">
+                <div className="h-6 w-32 rounded bg-on-surface/10 mx-auto sm:mx-0" />
+                <div className="h-4 w-48 rounded bg-on-surface/10 mx-auto sm:mx-0" />
+                <div className="mt-3 flex flex-wrap justify-center gap-3 sm:justify-start">
+                  <div className="h-8 w-24 rounded-full bg-on-surface/10" />
+                  <div className="h-8 w-24 rounded-full bg-on-surface/10" />
+                  <div className="h-8 w-28 rounded-full bg-on-surface/10" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mx-auto max-w-4xl px-4 sm:px-6">
+            <div className="flex gap-4 py-3">
+              <div className="h-5 w-20 rounded bg-on-surface/10" />
+              <div className="h-5 w-20 rounded bg-on-surface/10" />
+              <div className="h-5 w-16 rounded bg-on-surface/10" />
+            </div>
+          </div>
+        </header>
+        <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 space-y-4">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="flex gap-4 bg-surface-container-high ghost-border rounded-xl p-4">
+              <div className="hidden h-20 w-28 shrink-0 rounded-lg bg-on-surface/10 sm:block" />
+              <div className="min-w-0 flex-1 space-y-2">
+                <div className="h-5 w-36 rounded bg-on-surface/10" />
+                <div className="flex gap-3">
+                  <div className="h-4 w-32 rounded bg-on-surface/10" />
+                  <div className="h-4 w-16 rounded bg-on-surface/10" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-surface">
       {/* User profile header */}
@@ -173,20 +218,12 @@ export default function ProfilePage() {
 
       {/* Tab content */}
       <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6">
-        {isLoading ? (
-          <div className="flex items-center justify-center py-12">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          </div>
-        ) : (
-          <>
-            {activeTab === "trips" && <TripsTab trips={trips} />}
-            {activeTab === "preferences" && (
-              <PreferencesTab initialPreferences={preferences} />
-            )}
-            {activeTab === "favorites" && (
-              <FavoritesTab favorites={mockFavorites} />
-            )}
-          </>
+        {activeTab === "trips" && <TripsTab trips={trips} />}
+        {activeTab === "preferences" && (
+          <PreferencesTab initialPreferences={preferences} />
+        )}
+        {activeTab === "favorites" && (
+          <FavoritesTab favorites={mockFavorites} />
         )}
       </div>
     </div>

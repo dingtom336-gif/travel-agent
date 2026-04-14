@@ -64,7 +64,7 @@ function FavoriteCard({
   const gradient = placeholderGradients[colorIndex % placeholderGradients.length];
 
   return (
-    <div className="group overflow-hidden bg-surface-container-high ghost-border rounded-xl transition-all hover:shadow-[0_8px_30px_rgba(83,221,252,0.1)]">
+    <div className="group overflow-hidden bg-surface-container-high ghost-border rounded-xl transition-all hover:shadow-lg hover:shadow-primary/10">
       {/* Image placeholder */}
       <div
         className={`flex h-36 items-center justify-center bg-gradient-to-br ${gradient}`}

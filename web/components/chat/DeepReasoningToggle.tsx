@@ -20,8 +20,8 @@ export default function DeepReasoningToggle({
         flex items-center gap-1.5 rounded-full px-3 py-1.5
         text-xs font-medium transition-all duration-200 select-none
         ${enabled
-          ? "border border-[#53ddfc]/50 bg-[#53ddfc]/10 text-[#53ddfc] shadow-[0_0_12px_rgba(83,221,252,0.25)]"
-          : "border border-white/[0.08] bg-white/[0.03] text-white/40 hover:text-white/60 hover:border-white/[0.15]"
+          ? "border border-primary/50 bg-primary/10 text-primary shadow-[0_0_12px_rgba(var(--primary),0.15)]"
+          : "ghost-border text-on-surface-variant/50 hover:text-on-surface-variant hover:border-outline-variant"
         }
         ${compact ? "px-2 py-1" : ""}
       `}

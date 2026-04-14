@@ -60,7 +60,7 @@ export default function ChatInput({
       </div>
 
       <div className="mx-auto flex max-w-4xl items-end gap-3">
-        <div className="glass-panel ghost-border flex flex-1 items-end rounded-3xl px-4 py-2 transition-all focus-within:border-primary/30 focus-within:shadow-[0_0_15px_rgba(83,221,252,0.1)]">
+        <div className="glass-panel ghost-border flex flex-1 items-end rounded-3xl px-4 py-2 transition-all focus-within:border-primary/30 focus-within:shadow-lg focus-within:shadow-primary/10">
           <textarea
             ref={textareaRef}
             value={value}
@@ -79,7 +79,7 @@ export default function ChatInput({
             e.preventDefault();
             handleSubmit();
           }}
-          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl message-gradient text-white transition-all hover:shadow-[0_0_20px_rgba(83,221,252,0.3)] active:scale-90 touch-manipulation ${(disabled || !value.trim()) ? "opacity-40" : ""}`}
+          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl message-gradient text-white transition-all hover:shadow-lg hover:shadow-primary/20 active:scale-90 touch-manipulation ${(disabled || !value.trim()) ? "opacity-40" : ""}`}
           aria-label="Send message"
         >
           {disabled ? (

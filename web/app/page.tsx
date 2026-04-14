@@ -104,7 +104,7 @@ export default function Home() {
 
           {/* Main input area */}
           <div className="relative mx-auto w-full max-w-2xl">
-            <div className="flex items-center gap-2 glass-panel ghost-border rounded-full p-2 transition-shadow focus-within:shadow-[0_0_20px_rgba(83,221,252,0.2)] focus-within:ring-2 focus-within:ring-primary/20">
+            <div className="flex items-center gap-2 glass-panel ghost-border rounded-full p-2 transition-shadow focus-within:shadow-lg focus-within:shadow-primary/10 focus-within:ring-2 focus-within:ring-primary/20">
               <input
                 type="text"
                 value={inputValue}
@@ -150,7 +150,7 @@ export default function Home() {
               <button
                 key={card.title}
                 onClick={() => handleNavigateToChat(card.prompt)}
-                className="group flex flex-col items-start gap-3 bg-surface-container-high ghost-border rounded-xl p-4 text-left transition-all hover:shadow-[0_8px_30px_rgba(83,221,252,0.1)] sm:p-6"
+                className="group flex flex-col items-start gap-3 bg-surface-container-high ghost-border rounded-xl p-4 text-left transition-all hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] sm:p-6"
               >
                 <div className="text-primary">
                   {card.icon}

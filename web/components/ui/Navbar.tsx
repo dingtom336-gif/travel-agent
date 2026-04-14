@@ -3,12 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import ThemeToggle from "./ThemeToggle";
 
 // Navigation links configuration
 const navLinks = [
   { href: "/", label: "首页" },
   { href: "/chat", label: "AI 对话" },
-  { href: "/profile", label: "我的行程" },
   { href: "/profile", label: "个人中心" },
 ];
 
@@ -17,8 +17,8 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 bg-slate-950/50 backdrop-blur-xl shadow-[0_20px_40px_rgba(6,182,212,0.08)]">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <nav className="sticky top-0 z-50 glass-panel shadow-sm">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-2">
           <span className="text-2xl font-bold gradient-text font-headline">
@@ -37,22 +37,27 @@ export default function Navbar() {
                 className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                   isActive
                     ? "bg-primary/10 text-primary"
-                    : "text-on-surface-variant hover:text-on-surface"
+                    : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest/50"
                 }`}
               >
                 {link.label}
               </Link>
             );
           })}
+          <div className="ml-2">
+            <ThemeToggle />
+          </div>
         </div>
 
-        {/* Mobile menu button */}
-        <button
-          type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-slate-800/50 transition-all md:hidden"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
+        {/* Mobile: theme toggle + menu button */}
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
+          <button
+            type="button"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest/50 transition-all"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
           {mobileMenuOpen ? (
             // X icon
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
@@ -64,15 +69,16 @@ export default function Navbar() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
           )}
-        </button>
+          </button>
+        </div>
       </div>
 
       {/* Bottom gradient border line */}
-      <div className="bg-gradient-to-r from-cyan-500/20 to-purple-500/20 h-[1px] w-full" />
+      <div className="h-[1px] w-full bg-gradient-to-r from-primary/20 to-secondary/20" />
 
       {/* Mobile navigation */}
       {mobileMenuOpen && (
-        <div className="bg-slate-950/80 backdrop-blur-xl md:hidden animate-fade-in">
+        <div className="glass-panel md:hidden animate-fade-in">
           <div className="space-y-1 px-4 py-3">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;

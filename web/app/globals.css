@@ -1,8 +1,40 @@
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css";
 
+/* Light mode — Aurora Ether */
 :root {
-  /* Aurora Ether — Dark-first design system */
+  --background: #f8f9fc;
+  --foreground: #1a1c24;
+  --primary: #0891b2;
+  --primary-light: #06b6d4;
+  --primary-dark: #0e7490;
+  --secondary: #7c3aed;
+  --secondary-dark: #6d28d9;
+  --secondary-container: #ede9fe;
+  --accent: #0891b2;
+  --muted: #f1f3f7;
+  --muted-foreground: #64748b;
+  --border: #e2e4ea;
+  --card: #ffffff;
+  --card-foreground: #1a1c24;
+  --bubble-user-from: #0891b2;
+  --bubble-user-to: #7c3aed;
+  --bubble-ai: #f1f3f7;
+  --surface: #f8f9fc;
+  --surface-container: #f1f3f7;
+  --surface-container-low: #f5f6fa;
+  --surface-container-high: #ffffff;
+  --surface-container-highest: #e8eaf0;
+  --surface-bright: #eceef4;
+  --outline: #94a3b8;
+  --outline-variant: #cbd5e1;
+  --on-surface: #1a1c24;
+  --on-surface-variant: #64748b;
+  --error: #ef4444;
+}
+
+/* Dark mode — Aurora Ether */
+.dark {
   --background: #0c0e14;
   --foreground: #e5e4ed;
   --primary: #53ddfc;
@@ -66,6 +98,10 @@
 
 html {
   overflow-x: hidden;
+  color-scheme: light;
+}
+
+html.dark {
   color-scheme: dark;
 }
 
@@ -81,20 +117,28 @@ body {
 
 /* Aurora Ether utility classes */
 .glass-panel {
-  background: rgba(17, 19, 26, 0.6);
+  background: rgba(241, 243, 247, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 
+.dark .glass-panel {
+  background: rgba(17, 19, 26, 0.6);
+}
+
 .aurora-glow {
-  background: radial-gradient(circle at 50% 50%, rgba(83, 221, 252, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--primary) 4%, transparent) 0%, transparent 70%);
 }
 
 .message-gradient {
-  background: linear-gradient(135deg, #53ddfc 0%, #ac8aff 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
 }
 
 .ghost-border {
+  border: 1px solid rgba(100, 116, 139, 0.15);
+}
+
+.dark .ghost-border {
   border: 1px solid rgba(170, 170, 179, 0.15);
 }
 
@@ -107,7 +151,7 @@ body {
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(83, 221, 252, 0.3), rgba(172, 138, 255, 0.3));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 30%, transparent), color-mix(in srgb, var(--secondary) 30%, transparent));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -115,19 +159,19 @@ body {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #53ddfc, #ac8aff);
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-btn {
-  background: linear-gradient(135deg, #53ddfc 0%, #ac8aff 100%);
-  color: #003640;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: #ffffff;
   font-weight: 600;
 }
 .gradient-btn:hover {
-  box-shadow: 0 0 20px rgba(83, 221, 252, 0.3);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--primary) 30%, transparent);
 }
 
 /* Enhanced keyboard focus visibility */
@@ -241,5 +285,5 @@ body {
 
 /* Hero gradient — Aurora style */
 .hero-gradient {
-  background: radial-gradient(ellipse at 50% 30%, rgba(83, 221, 252, 0.08) 0%, rgba(172, 138, 255, 0.04) 40%, transparent 70%);
+  background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--primary) 6%, transparent) 0%, color-mix(in srgb, var(--secondary) 3%, transparent) 40%, transparent 70%);
 }

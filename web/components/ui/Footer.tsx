@@ -8,7 +8,7 @@ export default function Footer() {
           </div>
           <p className="text-sm text-on-surface-variant">
             &copy; {new Date().getFullYear()} TravelMind. 你的 AI 旅行规划助手.
-            <span className="ml-2 text-[10px] opacity-30 select-none">v0.8.0</span>
+            <span className="ml-2 text-[10px] opacity-30 select-none">v0.9.0</span>
           </p>
           <div className="flex gap-4 text-sm text-on-surface-variant">
             <a href="#" className="hover:text-primary transition-colors">关于我们</a>

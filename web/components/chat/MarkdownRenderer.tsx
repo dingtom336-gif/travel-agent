@@ -106,7 +106,7 @@ function ImageWithFallback({ src, alt }: { src: string; alt: string }) {
 
   if (failed) {
     return (
-      <div className="my-2 flex h-40 w-full items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 text-sm text-muted-foreground">
+      <div className="my-2 flex h-40 w-full items-center justify-center rounded-xl bg-surface-container-high text-sm text-muted-foreground">
         {alt || "Image"}
       </div>
     );
